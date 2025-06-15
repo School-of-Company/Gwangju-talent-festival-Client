@@ -4,6 +4,7 @@ import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import React from "react";
 import { formatDate } from "@/shared/utils/formatDate";
+import { useRouter } from "next/navigation";
 
 const SLIDES = [
   "/images/Participation/slide1.jpg",
@@ -41,6 +42,7 @@ const BackgroundImages = () => (
 
 const ParticipationThirdSection = () => {
   const isSubmissionPeriod = new Date() >= SUBMISSION_START && new Date() <= SUBMISSION_END;
+  const router = useRouter();
 
   return (
     <section
@@ -77,6 +79,7 @@ const ParticipationThirdSection = () => {
                 ? "text-main-600 hover:underline cursor-pointer"
                 : "text-gray-600 cursor-not-allowed",
             )}
+            onClick={() => router.push("/apply")}
           >
             {isSubmissionPeriod
               ? `신청하러 가기 (${formatDate(SUBMISSION_START)} ~ ${formatDate(SUBMISSION_END)})`
