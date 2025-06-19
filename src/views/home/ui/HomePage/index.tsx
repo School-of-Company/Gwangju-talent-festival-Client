@@ -6,7 +6,6 @@ import ParticipationThirdSection from "@/widgets/main/ParticipationThirdSection"
 import PreliminaryFourthSection from "@/widgets/main/PreliminaryFourthSection";
 import ReservationFifthSection from "@/widgets/main/ReservationFifthSection";
 import FinalsSixthSection from "@/widgets/main/FinalsSixthSection";
-import PosterModal from "@/widgets/main/PosterModal";
 
 const SECTIONS = [
   { id: "intro", Component: IntroFirstSection },
@@ -23,7 +22,6 @@ const HomePage = () => {
       {SECTIONS.map(({ id, Component }) => (
         <Component key={id} />
       ))}
-      <PosterModal />
     </>
   );
 };
