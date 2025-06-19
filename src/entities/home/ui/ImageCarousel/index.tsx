@@ -41,6 +41,12 @@ const ImageCarousel = ({ wide = false, slides, className }: ImageCarouselProps) 
   //   setCurrent(index);
   //   resetInterval();
   // }, []);
+  const resetInterval = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setCurrent(prev => (prev === slides.length - 1 ? 0 : prev + 1));
+    }, 2000);
+  }, [slides.length]);
 
   const prev = useCallback(() => {
     setCurrent(prev => {
@@ -48,7 +54,7 @@ const ImageCarousel = ({ wide = false, slides, className }: ImageCarouselProps) 
       resetInterval();
       return newIndex;
     });
-  }, [slides.length]);
+  }, [slides.length, resetInterval]);
 
   const next = useCallback(() => {
     setCurrent(prev => {
@@ -56,14 +62,7 @@ const ImageCarousel = ({ wide = false, slides, className }: ImageCarouselProps) 
       resetInterval();
       return newIndex;
     });
-  }, [slides.length]);
-
-  const resetInterval = useCallback(() => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      setCurrent(prev => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 2000);
-  }, [slides.length]);
+  }, [slides.length, resetInterval]);
 
   useEffect(() => {
     resetInterval();
