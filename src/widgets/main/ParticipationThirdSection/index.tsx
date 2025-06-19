@@ -15,7 +15,7 @@ const SLIDES = [
 ];
 
 const SUBMISSION_START = new Date("2025-06-16T00:00:00+09:00");
-const SUBMISSION_END = new Date("2025-06-19T22:00:00+09:00");
+const SUBMISSION_END = new Date("2025-06-20T18:00:00+09:00");
 
 const BackgroundImages = () => (
   <div className={cn("mobile:hidden z-0")}>
