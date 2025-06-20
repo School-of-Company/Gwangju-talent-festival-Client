@@ -3,8 +3,6 @@ import ImageCarousel from "@/entities/home/ui/ImageCarousel";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import React from "react";
-import { formatDate } from "@/shared/utils/formatDate";
-import { useRouter } from "next/navigation";
 
 const SLIDES = [
   "/images/Participation/slide1.jpg",
@@ -13,9 +11,6 @@ const SLIDES = [
   "/images/Participation/slide4.jpg",
   "/images/Participation/slide5.jpg",
 ];
-
-const SUBMISSION_START = new Date("2025-06-16T00:00:00+09:00");
-const SUBMISSION_END = new Date("2025-06-20T18:00:00+09:00");
 
 const BackgroundImages = () => (
   <div className={cn("mobile:hidden z-0")}>
@@ -41,9 +36,6 @@ const BackgroundImages = () => (
 );
 
 const ParticipationThirdSection = () => {
-  const isSubmissionPeriod = new Date() >= SUBMISSION_START && new Date() <= SUBMISSION_END;
-  const router = useRouter();
-
   return (
     <section
       id="ParticipationThirdSection"
@@ -72,19 +64,13 @@ const ParticipationThirdSection = () => {
             }
           />
 
-          <button
+          <span
             className={cn(
-              "inline-flex items-center font-bold text-body2b mobile:text-sm group",
-              isSubmissionPeriod
-                ? "text-main-600 hover:underline cursor-pointer"
-                : "text-gray-600 cursor-not-allowed",
+              "inline-flex items-center font-bold text-body2b mobile:text-sm group text-gray-600 cursor-not-allowed",
             )}
-            onClick={() => router.push("/apply")}
           >
-            {isSubmissionPeriod
-              ? `신청하러 가기 (${formatDate(SUBMISSION_START)} ~ ${formatDate(SUBMISSION_END)})`
-              : `${formatDate(SUBMISSION_START)}부터 신청할 수 있습니다.`}
-          </button>
+            신청마감 &#39;光트로&#39; 예선 진출 팀은 7월 2일(수) 광탈페.kr 홈페이지에 공지됩니다.
+          </span>
         </div>
         <ImageCarousel slides={SLIDES} />
       </div>
