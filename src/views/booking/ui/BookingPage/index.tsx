@@ -1,40 +1,53 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import SelectFloor from "@/widgets/booking/ui/SelectFloor";
+import SelectSection from "@/widgets/booking/ui/SelectSection";
 import Button from "@/shared/ui/Button";
-import { FloorType } from "@/entities/booking/model/types";
+import { SectionType } from "@/entities/booking/model/types";
+import Inform from "@/shared/asset/svg/Inform";
+import { colors } from "@/shared/utils/color";
 
 const BookingPage = () => {
-  const [selectedFloor, setSelectedFloor] = useState<FloorType>(null);
+  const [selectedSection, setSelectedSection] = useState<SectionType>(null);
 
-  const handleFloorSelect = useCallback((floor: FloorType) => {
-    setSelectedFloor(floor);
+  const handleSectionSelect = useCallback((section: SectionType) => {
+    setSelectedSection(section);
   }, []);
 
   const handleBookingClick = useCallback(() => {
-    if (selectedFloor) {
-      console.log(`${selectedFloor} 예매 진행`);
+    if (selectedSection) {
+      console.log(`${selectedSection}구역 예매 진행`);
     }
-  }, [selectedFloor]);
+  }, [selectedSection]);
 
   return (
-    <div>
-      <SelectFloor 
-        onFloorSelect={handleFloorSelect}
-        defaultFloor={selectedFloor}
-      />
+    <main>
+      <div className="flex flex-col items-center gap-16 mt-16"> 
+        <h1 className="text-body2b">ㅁㄴㅇㄹ</h1>
+        <div className="flex items-center gap-4 hover:cursor-pointer" onClick={() => {
+        }}>
+          <Inform width={16} height={16} color={colors.gray[500]} />
+          <p className="text-caption2r text-gray-500">예매 시 주의사항</p>
+        </div>
+      </div>
 
-      <div className="flex justify-center mt-16"> 
+      <div>
+        
+      </div>
+
+      <div className="flex flex-col items-center gap-16 mt-16"> 
+        <SelectSection 
+          onSectionSelect={handleSectionSelect}
+        />
         <Button
           className="w-full h-[50px]"
           onClick={handleBookingClick}
-          isDisabled={!selectedFloor}
+          isDisabled={!selectedSection}
         >
-          {selectedFloor ? `${selectedFloor} 예매하기` : "층을 선택해주세요"} 
+          {selectedSection ? `${selectedSection}구역 예매하기` : "구역을 선택해주세요"} 
         </Button>
       </div>
-    </div>
+    </main>
   );
 };
 
