@@ -22,33 +22,28 @@ const BookingPage = () => {
 
   return (
     <main>
-      <div className="flex flex-col items-center gap-16 mt-16"> 
+      <div className="flex flex-col items-center gap-16 mt-16">
         <h1 className="text-body2b">ㅁㄴㅇㄹ</h1>
-        <div className="flex items-center gap-4 hover:cursor-pointer" onClick={() => {
-        }}>
+        <div className="flex items-center gap-4 hover:cursor-pointer" onClick={() => {}}>
           <Inform width={16} height={16} color={colors.gray[500]} />
           <p className="text-caption2r text-gray-500">예매 시 주의사항</p>
         </div>
       </div>
 
-      <div>
-        
-      </div>
+      <div></div>
 
-      <div className="flex flex-col items-center gap-16 mt-16"> 
-        <SelectSection 
-          onSectionSelect={handleSectionSelect}
-        />
+      <div className="flex flex-col items-center gap-16 mt-16">
+        <SelectSection onSectionSelect={handleSectionSelect} />
         <Button
           className="w-full h-[50px]"
           onClick={handleBookingClick}
           isDisabled={!selectedSection}
         >
-          {selectedSection ? `${selectedSection}구역 예매하기` : "구역을 선택해주세요"} 
+          {selectedSection ? `${selectedSection}구역 예매하기` : "구역을 선택해주세요"}
         </Button>
       </div>
     </main>
   );
 };
 
-export default BookingPage; 
+export default BookingPage;
