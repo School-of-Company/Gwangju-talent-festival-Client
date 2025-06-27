@@ -3,6 +3,7 @@
 import { memo, useState, useCallback } from "react";
 import { cn } from "@/shared/utils/cn";
 import { Section, SectionType } from "../../model/types";
+import { DropdownArrow } from "@/shared/asset/svg/DropdownArrow";
 
 interface SectionDropdownProps {
   selectedSection: SectionType;
@@ -49,22 +50,12 @@ export const SectionDropdown = memo<SectionDropdownProps>(
             )}
           >
             <span className="text-caption2b mx-4 font-bold">{selectedSection || "선택하기"}</span>
-            <svg
-              className={cn(
-                "w-4 h-4 transition-transform duration-200",
-                isOpen ? "rotate-180" : "rotate-0",
-              )}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
+            <div className={cn(
+              "transition-transform duration-200",
+              isOpen ? "rotate-180" : "rotate-0"
+            )}>
+              <DropdownArrow />
+            </div>
           </button>
 
           {isOpen && (
