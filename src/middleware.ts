@@ -24,6 +24,7 @@ export function middleware(request: NextRequest) {
     pathname !== "/home" &&
     pathname !== "/apply" &&
     pathname !== "/result" &&
+    pathname !== "/result/detail" &&
     pathname !== "/slogan" &&
     !accessToken &&
     !refreshToken

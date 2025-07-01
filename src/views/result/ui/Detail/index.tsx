@@ -32,7 +32,7 @@ const INFORM_ITEMS: InformItem[] = [
   "팀 소개 관련 자료 수합 안내(사진, 팀 소개, 연주곡 소개 등)",
 ];
 
-export const ResultPage: FC = () => {
+export const ResultDetailPage: FC = () => {
   const renderMethodItem = (item: MethodItem, index: number): ReactNode => {
     if (index === 0) {
       const [mainText, emailText] = item.split("(");
