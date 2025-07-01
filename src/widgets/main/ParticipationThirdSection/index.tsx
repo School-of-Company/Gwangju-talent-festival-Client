@@ -57,10 +57,9 @@ const ParticipationThirdSection = () => {
             description={
               <>
                 오디션에 선정되신 24개 팀의 대표는 신분증을 지참하여 협의회에 참석해주세요.
+                <br />  
+                각 팀의 대표는 사전 협의회 참석 명단을 이메일로 제출해주세요.
                 <br />
-                <span className={cn("inline-block")}>
-                  (7월 16일(수) 17:00~18:00 광주학생예술누리터 꿈이룸관(2층))
-                </span>
               </>
             }
           />
