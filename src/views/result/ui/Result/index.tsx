@@ -2,16 +2,10 @@
 
 import BackHeader from "@/shared/ui/BackHeader";
 import { FC } from "react";
-import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
+import { FieldSection } from "@/widgets/result/ui/FieldSection";
+import { ParticipantInfo } from "@/entities/result/model/type";
 
-type ParticipantInfo = {
-  순번: number;
-  분야: string;
-  소속: string;
-  팀명?: string;
-  신청자명: string;
-};
 
 const PRELIMINARY_RESULTS: ParticipantInfo[] = [
   { 순번: 1, 분야: "국악", 소속: "일신초등학교", 팀명: "구각와니", 신청자명: "장○환" },
@@ -40,74 +34,6 @@ const PRELIMINARY_RESULTS: ParticipantInfo[] = [
   { 순번: 24, 분야: "보컬", 소속: "학교밖청소년", 신청자명: "정○서" },
 ]
 
-const FIELD_COLORS = {
-  국악: "bg-red-500",
-  연주: "bg-blue-500",
-  댄스: "bg-main-600",
-  밴드: "bg-green-500",
-  보컬: "bg-orange-500",
-};
-
-const ParticipantCard: FC<{ participant: ParticipantInfo }> = ({ participant }) => {
-  const colorClass = FIELD_COLORS[participant.분야 as keyof typeof FIELD_COLORS];
-
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 mobile:p-4">
-      <div className="flex items-center gap-8 mobile:gap-3">
-        <div
-          className={cn(
-            "w-20 h-20 mobile:w-15 mobile:h-15 rounded-full flex items-center justify-center text-white text-caption2b mobile:text-caption1b font-bold",
-            colorClass
-          )}
-        >
-          {participant.순번}
-        </div>
-        <div className="flex-1">
-          <div className="text-body3r mobile:text-caption2r text-gray-600 mb-1">{participant.소속}</div>
-          <div className="text-body3b mobile:text-caption1b text-gray-900">{participant.팀명 ? `${participant.팀명} (${participant.신청자명})` : participant.신청자명}</div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const FieldSection: FC<{ field: string; participants: ParticipantInfo[] }> = ({
-  field,
-  participants,
-}) => {
-  const colorClass = FIELD_COLORS[field as keyof typeof FIELD_COLORS];
-
-  return (
-    <div>
-      <div className="flex items-center gap-3 mb-6 mobile:mb-4">
-        <div className="relative inline-block">
-          <span
-            className={cn(
-              colorClass,
-              "absolute left-0 top-1/2 -translate-y-1/2 w-full opacity-30"
-            )}
-            style={{
-              height: "70%",
-              top: "60%",
-              zIndex: 0,
-            }}
-            aria-hidden="true"
-          />
-          <h3 className="relative z-10 text-body1b mobile:text-body2b text-gray-900 px-1">
-            {field}
-          </h3>
-        </div>
-        <div className="text-body2r mobile:text-caption1r text-gray-500">{participants.length}팀</div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mobile:gap-3">
-        {participants.map((participant) => (
-          <ParticipantCard key={participant.순번} participant={participant} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
 export const ResultPage: FC = () => {
   const groupedResults = PRELIMINARY_RESULTS.reduce((acc, participant) => {
     if (!acc[participant.분야]) {
@@ -125,13 +51,13 @@ export const ResultPage: FC = () => {
         <BackHeader text="예선 결과" />
         
         <div className="bg-white p-8 mobile:p-6 shadow-sm border">
-          <div className="flex flex-col justify-center items-center gap-8 mb-24">
+          <header className="flex flex-col justify-center items-center gap-8 mb-24">
             <div className="text-title4b mobile:text-body1b text-center text-gray-900">2025 광탈페 예선팀 선정 결과</div>
             <p className="text-body2r mobile:text-caption1r text-gray-500">오디션에 선정되신 24개 팀의 대표는 신분증을 지참하여 협의회에 참석해주세요.</p>
             <Link href="/result/detail" className="text-body2b mobile:text-caption1b text-main-600 underline">협의회 참석 안내 &gt;</Link>
-          </div>
+          </header>
 
-          <div className="space-y-28 mt-12">
+          <section className="space-y-28 mt-12">
             {fieldOrder.map((field) => {
               const participants = groupedResults[field] || [];
               if (participants.length === 0) return null;
@@ -144,7 +70,7 @@ export const ResultPage: FC = () => {
                 />
               );
             })}
-          </div>
+          </section>
         </div>
       </div>
     </div>
