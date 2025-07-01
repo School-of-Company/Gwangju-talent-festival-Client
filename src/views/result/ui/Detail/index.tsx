@@ -69,7 +69,7 @@ export const ResultDetailPage: FC = () => {
         </div>
 
         <DownloadButton
-          filePath="/files/광탈페_예선팀_대표_사전_협의회_안내문.pdf"
+          filePath="/files/광탈페_예선팀_대표_사전_협의회_참석_안내.png"
           label="참석 안내문 다운로드"
         />
 
