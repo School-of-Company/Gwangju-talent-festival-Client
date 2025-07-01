@@ -24,14 +24,14 @@ const emailBody = encodeURIComponent(
 const EMAIL_LINKS: readonly EmailLink[] = [
   {
     provider: "naver",
-    url: `https://mail.naver.com/write/popup?to=hcgwangju@gmail.com&subject=${emailSubject}&body=${emailBody}`,
+    url: `https://mail.naver.com/write/popup?to=artist90@korea.kr&subject=${emailSubject}&body=${emailBody}`,
     label: "네이버메일 전송 바로가기",
     bgColor: "#01C13A",
     textColor: colors.white,
   },
   {
     provider: "google",
-    url: `https://mail.google.com/mail/?view=cm&fs=1&to=hcgwangju@gmail.com&su=${emailSubject}&body=${emailBody}`,
+    url: `https://mail.google.com/mail/?view=cm&fs=1&to=artist90@korea.kr&su=${emailSubject}&body=${emailBody}`,
     label: "구글메일 전송 바로가기",
     bgColor: colors.white,
     textColor: colors.black,
@@ -45,7 +45,7 @@ export const EmailButtons: FC<EmailButtonsProps> = ({ className = "" }) => {
 
   return (
     <div className={`flex flex-col gap-4 ${className}`}>
-      <div className="text-sm text-gray-500 mb-2">
+      {/* <div className="text-sm text-gray-500 mb-2">
         참가 신청 시 아래 정보를 메일에 첨부해 주세요:
         <br />
         <strong>메일 제목:</strong> 분야_대표자이름_대표자학교_팀이름_연락처
@@ -54,7 +54,7 @@ export const EmailButtons: FC<EmailButtonsProps> = ({ className = "" }) => {
         <span className="text-gray-400">
           참가 신청서, 개인정보수집이용활용동의서, 공연 영상[3분 내외, MP4 파일]을 첨부하여 주세요.
         </span>
-      </div>
+      </div> */}
 
       {EMAIL_LINKS.map(link => (
         <Button
