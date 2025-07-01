@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import ImageCarousel from "@/entities/home/ui/ImageCarousel";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
@@ -47,30 +48,35 @@ const ParticipationThirdSection = () => {
 
       <div
         className={cn(
-          "w-[70%] h-full flex flex-col justify-center mobile:w-full gap-[60px] mobile:gap-[24px] mx-auto",
+          "w-[65%] h-full flex flex-col justify-center mobile:w-full gap-[60px] mobile:gap-[24px] mx-auto",
         )}
       >
         <div id="apply" className={cn("relative text-center mt-20 mobile:mt-[1.7rem] ")}>
           <SectionTitle
-            title="참여 신청"
+            title="예선 결과"
             description={
               <>
-                댄스, 보컬, 밴드, 연주, 실용음악 분야에 재능있는 분(팀)의 신청을 받습니다.
-                <span className={cn("inline-block")}>
-                  {" "}
-                  (신청서 작성 및 영상제출 → 1차 영상 심사 → 예선(光트로))
-                </span>
+                <p className={cn("text-body2r mobile:text-caption1b text-gray-500")}>오디션에 선정되신 24개 팀의 대표는 신분증을 지참하여 협의회에 참석해주세요.</p>
+                <p className={cn("text-body2r mobile:text-caption1r text-gray-500")}>
+                  (7월 16일(수) 17:00~18:00 광주학생예술누리터 꿈이룸관(2층))
+                </p>
+                <div className={cn("mb-10")} /> 
+                <p className={cn("text-body2r mobile:text-caption1r text-gray-500")}>
+                  * 각 팀의 대표는 사전 협의회 참석 명단을 이메일로 제출해주세요.
+                </p>
               </>
             }
           />
 
-          <span
-            className={cn(
-              "inline-flex items-center font-bold text-body2b mobile:text-sm group text-gray-600 cursor-not-allowed",
-            )}
-          >
-            신청마감 &#39;光트로&#39; 예선 진출 팀은 7월 2일(수) 광탈페.kr 홈페이지에 공지됩니다.
-          </span>
+          <Link href="/result">
+            <span
+              className={cn(
+                "inline-flex items-center font-bold text-body2b mobile:text-sm group cursor-pointer underline text-main-500",
+              )}
+            >
+              자세히 보기 &gt;
+            </span>
+          </Link>
         </div>
         <ImageCarousel slides={SLIDES} />
       </div>
