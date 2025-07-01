@@ -16,9 +16,11 @@ interface EmailButtonsProps {
   className?: string;
 }
 
-const emailSubject = encodeURIComponent("분야_대표자이름_대표자학교_팀이름_연락처");
+const emailSubject = encodeURIComponent(
+  "분야_대표자명(학교명, 핸드폰 번호)_팀명_사전 협의회 참석자명(학교명)"
+);
 const emailBody = encodeURIComponent(
-  "참가 신청서, 개인정보수집이용활용동의서, 공연 영상[3분 내외, MP4 파일]을 첨부하여 주세요.",
+  "제목을 양식에 맞게 수정하여 전송 해 주세요.\n예시) 댄스_김가나(다라교,010-0000-0000)_마바팀_김가나(다라교)"
 );
 
 const EMAIL_LINKS: readonly EmailLink[] = [
