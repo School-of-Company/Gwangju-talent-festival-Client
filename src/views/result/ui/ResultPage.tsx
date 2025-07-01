@@ -6,6 +6,7 @@ import { colors } from "@/shared/utils/color";
 import { FC, ReactNode } from "react";
 import EmailButtons from "@/widgets/apply/ui/EmailButtons";
 import { DownloadButton } from "@/entities/apply/ui/DownloadButton";
+import { Map } from "@/entities/home/ui/Map"
 
 type DocumentItem = string;
 type MethodItem = string;
@@ -52,6 +53,7 @@ export const ResultPage: FC = () => {
           title="예선팀 대표 사전 협의회 참석 안내"
           items={DOCUMENT_ITEMS}
         />
+        <Map latitude={35.150653} longitude={126.918134} className="rounded-md mb-0"/>
         <DescriptionCard
           title="예선팀 대표 사전 협의회 내용"
           items={INFORM_ITEMS}
