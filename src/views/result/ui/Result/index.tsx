@@ -16,7 +16,7 @@ const PRELIMINARY_RESULTS: ParticipantInfo[] = [
   { 순번: 6, 분야: "댄스", 소속: "문산중학교", 팀명: "illusion", 신청자명: "나○인" },
   { 순번: 7, 분야: "댄스", 소속: "국제고등학교 등", 팀명: "ALL", 신청자명: "오○주" },
   { 순번: 8, 분야: "댄스", 소속: "전대사대부설고등학교", 신청자명: "이○은" },
-  { 순번: 9, 분야: "댄스", 소속: "서운중학교", 팀명: "UNIVERSE", 신청자명: "최○서" },
+  { 순번: 9, 분야: "댄스", 소속: "선운중학교", 팀명: "UNIVERSE", 신청자명: "최○서" },
   { 순번: 10, 분야: "밴드", 소속: "광주수일중학교", 팀명: "원미동사람들", 신청자명: "김○영" },
   { 순번: 11, 분야: "밴드", 소속: "문성고등학교", 팀명: "사하라", 신청자명: "김○수" },
   { 순번: 12, 분야: "밴드", 소속: "광주예술고등학교", 팀명: "밴드 야간합주실", 신청자명: "김○우" },
@@ -52,7 +52,7 @@ export const ResultPage: FC = () => {
         
         <div className="bg-white p-8 mobile:p-6 shadow-sm border">
           <header className="flex flex-col justify-center items-center gap-8 mb-24">
-            <div className="text-title4b mobile:text-body1b text-center text-gray-900">2025 광탈페 예선팀 선정 결과</div>
+            <div className="text-title4b mobile:text-body1b text-center text-gray-900">2025 광탈페 예선전 진출팀</div>
             <p className="text-body2r mobile:text-caption1r text-gray-500">오디션에 선정되신 24개 팀의 대표는 신분증을 지참하여 협의회에 참석해주세요.</p>
             <p className="text-body2r mobile:text-caption1r text-gray-500">각 팀의 대표는 사전 협의회 참석 명단을 이메일로 제출해주세요.</p>
             <Link href="/result/detail" className="text-body2b mobile:text-caption1b text-main-600 underline">협의회 참석 관련 안내 &gt;</Link>
