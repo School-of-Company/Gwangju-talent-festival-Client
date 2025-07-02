@@ -53,7 +53,7 @@ const ParticipationThirdSection = () => {
       >
         <div id="apply" className={cn("relative text-center mt-20 mobile:mt-[1.7rem] ")}>
           <SectionTitle
-            title="예선 결과"
+            title="예선전 진출팀"
             description={
               <>
                 <p className={cn("text-body2r mobile:text-caption1b text-gray-500")}>오디션에 선정되신 24개 팀의 대표는 신분증을 지참하여 협의회에 참석해주세요.</p>
