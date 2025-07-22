@@ -52,10 +52,15 @@ const PreliminaryFourthSection = () => {
             >
               광주광역시교육청학생교육문화회관 공연장
             </button>
-            <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-              1차 영상심사를 통과한 참가자들이 직접 무대에서 경연을 펼치게 됩니다. 전문 심사위원의
-              심사를 거쳐 본선 진출자를 확정하게 됩니다.
-            </p>
+            <div className={cn("flex flex-col gap-16")}>
+              <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
+                1차 영상심사를 통과한 참가자들이 직접 무대에서 경연을 펼치게 됩니다. 전문 심사위원의
+                심사를 거쳐 본선 진출자를 확정하게 됩니다.
+              </p>
+              <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
+                2차 예선은 유튜브 생중계를 통해서만 관람하실 수 있습니다
+              </p>
+            </div>
           </div>
           <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
             <Image
