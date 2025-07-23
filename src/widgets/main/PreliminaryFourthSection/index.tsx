@@ -1,29 +1,35 @@
-import ImageCarousel from "@/entities/home/ui/ImageCarousel";
+// import ImageCarousel from "@/entities/home/ui/ImageCarousel";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { formatDate } from "@/shared/utils/formatDate";
+import Image from "next/image";
 
-const SLIDES_1 = [
-  "/images/Preliminary/slide1_1.jpg",
-  "/images/Preliminary/slide1_2.jpg",
-  "/images/Preliminary/slide1_3.jpg",
-];
+// const SLIDES_1 = [
+//   "/images/Preliminary/slide1_1.jpg",
+//   "/images/Preliminary/slide1_2.jpg",
+//   "/images/Preliminary/slide1_3.jpg",
+// ];
 
-const SLIDES_2 = [
-  "/images/Preliminary/slide2_1.jpg",
-  "/images/Preliminary/slide2_2.jpg",
-  "/images/Preliminary/slide2_3.jpg",
-];
+// const SLIDES_2 = [
+//   "/images/Preliminary/slide2_1.jpg",
+//   "/images/Preliminary/slide2_2.jpg",
+//   "/images/Preliminary/slide2_3.jpg",
+// ];
 
 const PRELIMINARY_START_DATE = new Date("2025-07-25T00:00:00+09:00");
 const PRELIMINARY_END_DATE = new Date("2025-07-26T23:59:59+09:00");
 
 const PreliminaryFourthSection = () => {
+
+  const openYoutube = () => {
+    window.open("https://www.youtube.com/@%EA%B4%91%EC%A3%BC%ED%95%99%EC%83%9D%EC%98%88%EC%88%A0%EB%88%84%EB%A6%AC-s3w", "_blank");
+  }
+
   return (
     <section id="PreliminaryFourthSection" className={cn("flex flex-col items-center")}>
       <div className={cn("w-[70%] mobile:w-full")}>
         <SectionTitle
-          title="예선"
+          title="2025 광탈페 예선"
           description=""
           className={cn("mt-[66px] mobile:mt-[1.7rem] mb-[24px]")}
         />
@@ -33,21 +39,60 @@ const PreliminaryFourthSection = () => {
             "flex w-full items-start justify-between mb-[90px] mobile:flex-col mobile:mb-[38px]",
           )}
         >
+          <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
+            <Image
+              src="/images/예선_공연_순서.jpg"
+              alt="예선_공연_순서"
+              width={1000}
+              height={1000}
+              className="w-full"
+            />
+          </div>
           <div className={cn("w-[25%] mobile:w-full mobile:px-16")}>
             <p className={cn("text-title4b mobile:text-body3b place-self-start mb-24 mobile:mb-0")}>
-              1차 영상 심사
+              예선(光트로)
             </p>
-            <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-              신청서 내용과 제출영상을 바탕으로 전문위원 심사를 거쳐 예선전(光트로) 심사출연자를
-              확정합니다.
-            </p>
-          </div>
-          <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
-            <ImageCarousel wide={true} slides={SLIDES_1} />
+            <button
+              className={cn(
+                "inline-flex items-center text-main-600 font-bold text-body2b mb-12 mobile:mb-0 mobile:text-sm hover:underline group",
+              )}
+            >
+              2025. {formatDate(PRELIMINARY_START_DATE)} ~ {formatDate(PRELIMINARY_END_DATE)} 14:00
+            </button>
+            <button
+              className={cn(
+                "inline-flex items-center text-main-600 font-bold text-body2b mb-24 mobile:mb-0 mobile:text-sm hover:underline group",
+              )}
+            >
+              광주광역시교육청학생교육문화회관 공연장
+            </button>
+            <div className={cn("flex flex-col gap-16")}>
+              <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
+                영상심사를 통과한 참가자들이 직접 무대에서 경연을 펼치게 됩니다. 전문 심사위원의
+                심사를 거쳐 본선 진출자를 확정하게 됩니다.
+              </p>
+              <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
+                예선은 광주학생예술누리터 유튜브 생중계를 통해서만 관람하실 수 있습니다
+              </p>
+            </div>
+            <div
+              className={cn("w-[100%] mobile:w-full mobile:px-16 mt-12 flex flex-col items-center")}
+            >
+              <button
+                className={cn(
+                  "inline-flex items-center justify-center text-main-600 font-bold text-body2b mt-12 mobile:mt-0 mobile:text-sm hover:underline group self-center",
+                )}
+                onClick={() => {
+                  openYoutube();
+                }}
+              >
+                예선 보러가기 &gt;
+              </button>
+            </div>
           </div>
         </div>
         <div className={cn("flex w-full items-start justify-between mobile:flex-col-reverse")}>
-          <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
+          {/* <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
             <ImageCarousel wide={true} slides={SLIDES_2} />
           </div>
           <div className={cn("w-[25%] mobile:w-full mobile:px-16")}>
@@ -59,7 +104,7 @@ const PreliminaryFourthSection = () => {
                 "inline-flex items-center text-main-600 font-bold text-body2b mb-24 mobile:mb-0 mobile:text-sm hover:underline group",
               )}
             >
-              2025. {formatDate(PRELIMINARY_START_DATE)} ~ {formatDate(PRELIMINARY_END_DATE)}
+              2025. {formatDate(PRELIMINARY_START_DATE)} ~ {formatDate(PRELIMINARY_END_DATE)} 14:00
               <br />
               광주광역시교육청학생교육문화회관 공연장
             </button>
@@ -67,7 +112,7 @@ const PreliminaryFourthSection = () => {
               1차 영상심사를 통과한 참가자들이 직접 무대에서 경연을 펼치게 됩니다. 전문 심사위원의
               심사를 거쳐 본선 진출자를 확정하게 됩니다.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
