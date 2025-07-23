@@ -56,14 +56,16 @@ const ParticipationThirdSection = () => {
             title="예선전 진출팀"
             description={
               <>
-                <p className={cn("text-body2r mobile:text-caption1b text-gray-500")}>오디션에 선정되신 24개 팀의 대표는 신분증을 지참하여 협의회에 참석해주세요.</p>
-                <p className={cn("text-body2r mobile:text-caption1r text-gray-500")}>
+                <span className={cn("text-body2r mobile:text-caption1b text-gray-500")}>
+                  오디션에 선정되신 24개 팀의 대표는 신분증을 지참하여 협의회에 참석해주세요.
+                </span>
+                <span className={cn("text-body2r mobile:text-caption1r text-gray-500")}>
                   (7월 16일(수) 17:00~18:00 광주학생예술누리터 꿈이룸관(2층))
-                </p>
-                <div className={cn("mb-10")} /> 
-                <p className={cn("text-body2r mobile:text-caption1r text-gray-500")}>
+                </span>
+                <div className={cn("mb-10")} />
+                <span className={cn("text-body2r mobile:text-caption1r text-gray-500")}>
                   * 각 팀의 대표는 사전 협의회 참석 명단을 이메일로 제출해주세요.
-                </p>
+                </span>
               </>
             }
           />
