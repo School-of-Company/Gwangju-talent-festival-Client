@@ -24,7 +24,7 @@ const PreliminaryFourthSection = () => {
     <section id="PreliminaryFourthSection" className={cn("flex flex-col items-center")}>
       <div className={cn("w-[70%] mobile:w-full")}>
         <SectionTitle
-          title="예선"
+          title="2025 광탈페 예선"
           description=""
           className={cn("mt-[66px] mobile:mt-[1.7rem] mb-[24px]")}
         />
@@ -34,9 +34,18 @@ const PreliminaryFourthSection = () => {
             "flex w-full items-start justify-between mb-[90px] mobile:flex-col mobile:mb-[38px]",
           )}
         >
+          <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
+            <Image
+              src="/images/예선_공연_순서.jpg"
+              alt="예선_공연_순서"
+              width={1000}
+              height={1000}
+              className="w-full"
+            />
+          </div>
           <div className={cn("w-[25%] mobile:w-full mobile:px-16")}>
             <p className={cn("text-title4b mobile:text-body3b place-self-start mb-24 mobile:mb-0")}>
-              2차 예선(光트로)
+              예선(光트로)
             </p>
             <button
               className={cn(
@@ -54,22 +63,27 @@ const PreliminaryFourthSection = () => {
             </button>
             <div className={cn("flex flex-col gap-16")}>
               <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-                1차 영상심사를 통과한 참가자들이 직접 무대에서 경연을 펼치게 됩니다. 전문 심사위원의
+                영상심사를 통과한 참가자들이 직접 무대에서 경연을 펼치게 됩니다. 전문 심사위원의
                 심사를 거쳐 본선 진출자를 확정하게 됩니다.
               </p>
               <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-                2차 예선은 유튜브 생중계를 통해서만 관람하실 수 있습니다
+                예선은 광주학생예술누리터 유튜브 생중계를 통해서만 관람하실 수 있습니다
               </p>
             </div>
-          </div>
-          <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
-            <Image
-              src="/images/예선_공연_순서.jpg"
-              alt="예선_공연_순서"
-              width={1000}
-              height={1000}
-              className="w-full"
-            />
+            <div
+              className={cn("w-[100%] mobile:w-full mobile:px-16 mt-12 flex flex-col items-center")}
+            >
+              <button
+                className={cn(
+                  "inline-flex items-center justify-center text-main-600 font-bold text-body2b mt-12 mobile:mt-0 mobile:text-sm hover:underline group self-center",
+                )}
+                onClick={() => {
+                  window.open("https://www.youtube.com/@%EA%B4%91%EC%A3%BC%ED%95%99%EC%83%9D%EC%98%88%EC%88%A0%EB%88%84%EB%A6%AC-s3w", "_blank");
+                }}
+              >
+                예선 보러가기
+              </button>
+            </div>
           </div>
         </div>
         <div className={cn("flex w-full items-start justify-between mobile:flex-col-reverse")}>
