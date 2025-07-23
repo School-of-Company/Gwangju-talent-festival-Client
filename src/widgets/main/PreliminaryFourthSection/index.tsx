@@ -20,6 +20,11 @@ const PRELIMINARY_START_DATE = new Date("2025-07-25T00:00:00+09:00");
 const PRELIMINARY_END_DATE = new Date("2025-07-26T23:59:59+09:00");
 
 const PreliminaryFourthSection = () => {
+
+  const openYoutube = () => {
+    window.open("https://www.youtube.com/@%EA%B4%91%EC%A3%BC%ED%95%99%EC%83%9D%EC%98%88%EC%88%A0%EB%88%84%EB%A6%AC-s3w", "_blank");
+  }
+
   return (
     <section id="PreliminaryFourthSection" className={cn("flex flex-col items-center")}>
       <div className={cn("w-[70%] mobile:w-full")}>
@@ -78,7 +83,7 @@ const PreliminaryFourthSection = () => {
                   "inline-flex items-center justify-center text-main-600 font-bold text-body2b mt-12 mobile:mt-0 mobile:text-sm hover:underline group self-center",
                 )}
                 onClick={() => {
-                  window.open("https://www.youtube.com/@%EA%B4%91%EC%A3%BC%ED%95%99%EC%83%9D%EC%98%88%EC%88%A0%EB%88%84%EB%A6%AC-s3w", "_blank");
+                  openYoutube();
                 }}
               >
                 예선 보러가기 &gt;
