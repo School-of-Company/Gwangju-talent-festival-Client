@@ -81,7 +81,7 @@ const PreliminaryFourthSection = () => {
                   window.open("https://www.youtube.com/@%EA%B4%91%EC%A3%BC%ED%95%99%EC%83%9D%EC%98%88%EC%88%A0%EB%88%84%EB%A6%AC-s3w", "_blank");
                 }}
               >
-                예선 보러가기
+                예선 보러가기 &gt;
               </button>
             </div>
           </div>
