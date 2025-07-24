@@ -2,7 +2,7 @@
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { formatDate } from "@/shared/utils/formatDate";
-import Image from "next/image";
+import ImageCarousel from "@/entities/home/ui/ImageCarousel";
 
 // const SLIDES_1 = [
 //   "/images/Preliminary/slide1_1.jpg",
@@ -16,14 +16,44 @@ import Image from "next/image";
 //   "/images/Preliminary/slide2_3.jpg",
 // ];
 
+const SLIDES_3 = [
+  "/images/예선_공연_순서.jpg",
+  "/images/25일/1.jpg",
+  "/images/25일/2.jpg",
+  "/images/25일/3.jpg",
+  "/images/25일/4.jpg",
+  "/images/25일/5.jpg",
+  "/images/25일/6.jpg",
+  "/images/25일/7.jpg",
+  "/images/25일/8.jpg",
+  "/images/25일/9.jpg",
+  "/images/25일/10.jpg",
+  "/images/25일/11.jpg",
+  "/images/26일/1.jpg",
+  "/images/26일/2.jpg",
+  "/images/26일/3.jpg",
+  "/images/26일/4.jpg",
+  "/images/26일/5.jpg",
+  "/images/26일/6.jpg",
+  "/images/26일/7.jpg",
+  "/images/26일/8.jpg",
+  "/images/26일/9.jpg",
+  "/images/26일/10.jpg",
+  "/images/26일/11.jpg",
+  "/images/26일/12.jpg",
+  "/images/26일/13.jpg",
+];
+
 const PRELIMINARY_START_DATE = new Date("2025-07-25T00:00:00+09:00");
 const PRELIMINARY_END_DATE = new Date("2025-07-26T23:59:59+09:00");
 
 const PreliminaryFourthSection = () => {
-
   const openYoutube = () => {
-    window.open("https://www.youtube.com/@%EA%B4%91%EC%A3%BC%ED%95%99%EC%83%9D%EC%98%88%EC%88%A0%EB%88%84%EB%A6%AC-s3w", "_blank");
-  }
+    window.open(
+      "https://www.youtube.com/@%EA%B4%91%EC%A3%BC%ED%95%99%EC%83%9D%EC%98%88%EC%88%A0%EB%88%84%EB%A6%AC-s3w",
+      "_blank",
+    );
+  };
 
   return (
     <section id="PreliminaryFourthSection" className={cn("flex flex-col items-center")}>
@@ -40,13 +70,7 @@ const PreliminaryFourthSection = () => {
           )}
         >
           <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
-            <Image
-              src="/images/예선_공연_순서.jpg"
-              alt="예선_공연_순서"
-              width={1000}
-              height={1000}
-              className="w-full"
-            />
+            <ImageCarousel wide slides={SLIDES_3} />
           </div>
           <div className={cn("w-[25%] mobile:w-full mobile:px-16")}>
             <p className={cn("text-title4b mobile:text-body3b place-self-start mb-24 mobile:mb-0")}>
