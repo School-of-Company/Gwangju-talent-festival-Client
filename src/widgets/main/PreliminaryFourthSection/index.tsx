@@ -102,6 +102,15 @@ const PreliminaryFourthSection = () => {
             <div
               className={cn("w-[100%] mobile:w-full mobile:px-16 mt-12 flex flex-col items-center")}
             >
+              <video
+                src="https://kr.object.ncloudstorage.com/gwangju-talent-festival-bucket/예선.mp4"
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+              />
               <button
                 className={cn(
                   "inline-flex items-center justify-center text-main-600 font-bold text-body2b mt-12 mobile:mt-0 mobile:text-sm hover:underline group self-center",
