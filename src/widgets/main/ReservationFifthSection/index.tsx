@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 
-const TICKET_OPEN_DATE = new Date("2025-09-25T20:00:00");
+const TICKET_OPEN_DATE = new Date("2025-09-18T20:00:00");
 
 const formatDateLeft = (timeLeft: number) => {
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
