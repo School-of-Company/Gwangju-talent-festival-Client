@@ -49,10 +49,7 @@ const PRELIMINARY_END_DATE = new Date("2025-07-26T23:59:59+09:00");
 
 const PreliminaryFourthSection = () => {
   const openYoutube = () => {
-    window.open(
-      "https://www.youtube.com/@%EA%B4%91%EC%A3%BC%ED%95%99%EC%83%9D%EC%98%88%EC%88%A0%EB%88%84%EB%A6%AC-s3w",
-      "_blank",
-    );
+    window.open("https://youtube.com/live/KbnIFWzWU2Y?feature=share", "_blank");
   };
 
   return (
