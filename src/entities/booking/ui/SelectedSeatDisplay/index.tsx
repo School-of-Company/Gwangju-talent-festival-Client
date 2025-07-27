@@ -14,17 +14,17 @@ export interface SelectedSeatDisplayProps {
 export const SelectedSeatDisplay = memo<SelectedSeatDisplayProps>(
   ({ selectedSeat, selectedSection, className }) => {
     const Legend = () => (
-      <div className="flex gap-8 text-xs">
+      <div className="flex gap-4 text-xs">
         <div className="flex items-center gap-1">
-          <div className="w-20 h-20 bg-white border border-gray-300"></div>
+          <div className="w-3 h-3 bg-white border border-gray-300"></div>
           <span className="text-gray-600 text-caption1r">가능</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-20 h-20 bg-gray-400 border border-gray-400"></div>
+          <div className="w-3 h-3 bg-gray-400 border border-gray-400"></div>
           <span className="text-gray-600 text-caption1r">불가능</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-20 h-20 bg-purple-600 border border-purple-600"></div>
+          <div className="w-3 h-3 bg-purple-600 border border-purple-600"></div>
           <span className="text-gray-600 text-caption1r">선택</span>
         </div>
       </div>
@@ -47,7 +47,7 @@ export const SelectedSeatDisplay = memo<SelectedSeatDisplayProps>(
     }
 
     return (
-      <div className={cn("h-24 m-18 p-4 rounded-lg border border-purple-200", className)}>
+      <div className={cn("h-24 p-4 rounded-lg border border-purple-200", className)}>
         <div className="flex items-center justify-between h-full">
           <div className="flex flex-col justify-center gap-1">
             <div>

@@ -65,7 +65,7 @@ const BookingPage = () => {
         <div className="flex-shrink-0">
           <SelectSection onSectionSelect={handleSectionSelect} />
         </div>
-        <div className="flex-1 min-h-0">
+        <div className="flex-shrink-0 overflow-hidden">
           <SeatSection
             selectedSection={selectedSection}
             selectedSeat={selectedSeat}
