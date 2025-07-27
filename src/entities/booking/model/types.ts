@@ -12,8 +12,6 @@ export const SEAT_STATUS = {
 export type SeatStatus = (typeof SEAT_STATUS)[keyof typeof SEAT_STATUS];
 
 export interface Seat {
-  row: number;
-  col: number;
   seatNumber: string;
   status: SeatStatus;
   section: Section;
@@ -39,14 +37,14 @@ export interface SeatInfo {
 }
 
 export const SEAT_INFO: Record<Section, SeatInfo> = {
-  A: { occupied: 5, total: 77 },
-  B: { occupied: 8, total: 130 },
-  C: { occupied: 12, total: 154 },
-  D: { occupied: 7, total: 130 },
-  E: { occupied: 4, total: 77 },
-  F: { occupied: 3, total: 54 },
-  G: { occupied: 6, total: 100 },
-  H: { occupied: 9, total: 119 },
-  I: { occupied: 5, total: 100 },
-  J: { occupied: 2, total: 54 },
+  A: { occupied: 0, total: 77 },
+  B: { occupied: 0, total: 130 },
+  C: { occupied: 0, total: 154 },
+  D: { occupied: 0, total: 130 },
+  E: { occupied: 0, total: 77 },
+  F: { occupied: 0, total: 54 },
+  G: { occupied: 0, total: 100 },
+  H: { occupied: 0, total: 119 },
+  I: { occupied: 0, total: 100 },
+  J: { occupied: 0, total: 54 },
 } as const;

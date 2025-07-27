@@ -32,28 +32,33 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     });
 
     return pattern.map((row, rowIndex) =>
-      row.map((seatNumber, colIndex) => ({
-        seatNumber,
-        seat: seatNumber ? seatMap.get(seatNumber.toString()) || null : null,
-        position: { row: rowIndex + 1, col: colIndex + 1 },
-      })),
+      row.map((seatNumber, colIndex) => {
+        const seat = seatNumber ? seatMap.get(seatNumber.toString()) || null : null;
+        const key = seat ? `${seat.section}-${seat.seatNumber}` : `${rowIndex}-${colIndex}`;
+        
+        return {
+          seatNumber,
+          seat,
+          key,
+        };
+      }),
     );
   }, [layout?.section, layout?.seats]);
 
   const getGridContainerStyles = () => {
-    return "relative bg-gray-800 rounded-lg p-3 overflow-auto h-full w-full flex items-center justify-center";
+    return "relative bg-gray-800 rounded-lg h-80 w-full flex justify-center";
   };
 
   return (
     <div className={cn(className)}>
-      <div className="h-80 w-full">
-        <div className={getGridContainerStyles()}>
+      <div className={getGridContainerStyles()}>
+        <div className="absolute inset-3 overflow-auto flex justify-center">
           {seatGrid.length ? (
-            <div className="min-w-max">
+            <div className="min-w-max flex flex-col justify-start">
               {seatGrid.map((row, rowIndex) => (
-                <div key={rowIndex} className="flex items-center gap-0.5 mb-1">
-                  {row.map(({ seat }, colIndex) => (
-                    <div key={colIndex} className="w-5 h-5">
+                <div key={rowIndex} className="flex items-center gap-4 mb-4">
+                  {row.map(({ seat, key }) => (
+                    <div key={key} className="w-5 h-5">
                       {seat ? (
                         <SeatItem
                           seat={seat}
@@ -72,6 +77,7 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
               ))}
             </div>
           ) : (
+            /* 좌석이 없을 때 빈 상태 */
             <div className="flex items-center justify-center h-full">
               <p className="text-gray-400 text-sm">구역을 선택해주세요</p>
             </div>

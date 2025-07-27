@@ -19,22 +19,22 @@ export const SeatItem = memo<SeatItemProps>(({ seat, isSelected, onSelect, class
 
   const getSeatStyles = () => {
     const baseStyles =
-      "w-5 h-5 text-xs font-medium rounded border transition-all duration-200 flex items-center justify-center";
+      "w-5 h-5 text-xs font-medium transition-all duration-200 flex items-center justify-center";
 
     if (seat.status === SEAT_STATUS.UNAVAILABLE) {
-      return cn(baseStyles, "bg-gray-400 border-gray-400 text-gray-600 cursor-not-allowed");
+      return cn(baseStyles, "bg-gray-400 text-gray-600 cursor-not-allowed");
     }
 
     if (isSelected) {
       return cn(
         baseStyles,
-        "bg-purple-600 border-purple-600 text-white shadow-lg scale-110 cursor-pointer",
+        "bg-purple-600 text-white shadow-lg scale-110 cursor-pointer",
       );
     }
 
     return cn(
       baseStyles,
-      "bg-white border-gray-300 text-gray-700 hover:border-purple-400 hover:bg-purple-50 cursor-pointer",
+      "bg-white text-gray-700 cursor-pointer",
     );
   };
 

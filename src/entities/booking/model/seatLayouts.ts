@@ -120,26 +120,23 @@ const SECTION_SEAT_PATTERNS: Record<Section, (number | null)[][]> = {
 
 const generateSeatLayout = (section: Section): SeatLayout => {
   const seatInfo = SEAT_INFO[section];
-  // const { occupied, total } = seatInfo;
   const { total } = seatInfo;
   const pattern = SECTION_SEAT_PATTERNS[section];
-
+  
   const seats: Seat[] = [];
   let seatIndex = 0;
 
-  pattern.forEach((row, rowIndex) => {
-    row.forEach((seatNumber, colIndex) => {
+  pattern.forEach((row) => {
+    row.forEach((seatNumber) => {
       if (seatNumber !== null && seatIndex < total) {
         const status = SEAT_STATUS.AVAILABLE;
 
         seats.push({
-          row: rowIndex + 1,
-          col: colIndex + 1,
           seatNumber: seatNumber.toString(),
           status,
           section,
         });
-
+        
         seatIndex++;
       }
     });
