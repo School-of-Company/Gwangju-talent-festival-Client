@@ -10,9 +10,7 @@ export const DescriptionCard = ({ title, items, renderCustomItem }: DescriptionC
       <h2 className="text-body3b font-bold mb-6">{title}</h2>
       <ul className="text-gray-500 list-disc pl-5 space-y-1 text-body3r">
         {items.map((item, index) => (
-          <li key={index}>
-            {renderCustomItem ? renderCustomItem(item, index) : item}
-          </li>
+          <li key={index}>{renderCustomItem ? renderCustomItem(item, index) : item}</li>
         ))}
       </ul>
     </div>

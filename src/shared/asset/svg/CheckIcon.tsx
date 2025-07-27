@@ -1,10 +1,6 @@
 import { SvgProps } from "@/shared/model/SvgProps";
 
-export const CheckIcon = ({
-  height = 24,
-  width = 24,
-  color = "#121212",
-}: SvgProps) => {
+export const CheckIcon = ({ height = 24, width = 24, color = "#121212" }: SvgProps) => {
   return (
     <svg
       width={width}

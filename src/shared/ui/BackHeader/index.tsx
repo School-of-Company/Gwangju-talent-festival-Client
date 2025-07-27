@@ -8,11 +8,11 @@ import React from "react";
 
 const BackHeader = ({ text }: { text: string }) => {
   const router = useRouter();
-  
+
   const handleBack = useCallback(() => {
     router.back();
   }, [router]);
-  
+
   return (
     <div className={cn("flex gap-24 items-center my-28 mobile:my-12")}>
       <div className={cn("cursor-pointer")} onClick={handleBack}>

@@ -4,15 +4,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/files/:path*',
+        source: "/files/:path*",
         headers: [
           {
-            key: 'Content-Disposition',
-            value: 'attachment',
+            key: "Content-Disposition",
+            value: "attachment",
           },
           {
-            key: 'Content-Type',
-            value: 'application/octet-stream',
+            key: "Content-Type",
+            value: "application/octet-stream",
           },
         ],
       },

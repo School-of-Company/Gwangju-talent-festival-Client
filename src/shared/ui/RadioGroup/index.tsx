@@ -26,13 +26,10 @@ export default function RadioGroup({
 }: RadioGroupProps) {
   return (
     <div className={cn("mb-24 ml-24", className)}>
-      {options.map((option) => (
+      {options.map(option => (
         <label
           key={option.value}
-          className={cn(
-            "flex gap-8 mb-6 items-center cursor-pointer last:mb-0",
-            optionClassName
-          )}
+          className={cn("flex gap-8 mb-6 items-center cursor-pointer last:mb-0", optionClassName)}
         >
           <input
             type="radio"
@@ -41,11 +38,9 @@ export default function RadioGroup({
             checked={value === option.value}
             onChange={() => onChange(option.value)}
           />
-          <span className={cn("text-lg", labelClassName)}>
-            {option.label}
-          </span>
+          <span className={cn("text-lg", labelClassName)}>{option.label}</span>
         </label>
       ))}
     </div>
   );
-} 
+}

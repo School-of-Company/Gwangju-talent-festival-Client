@@ -1,45 +1,82 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import SelectSection from "@/widgets/booking/ui/SelectSection";
+import SeatSection from "@/widgets/booking/ui/SeatSection";
 import Button from "@/shared/ui/Button";
-import { SectionType } from "@/entities/booking/model/types";
-import Inform from "@/shared/asset/svg/Inform";
-import { colors } from "@/shared/utils/color";
+import BackHeader from "@/shared/ui/BackHeader";
+import { useSeatSelection } from "@/entities/booking/lib/useSeatSelection";
+import { SectionType, Seat } from "@/entities/booking/model/types";
 
 const BookingPage = () => {
-  const [selectedSection, setSelectedSection] = useState<SectionType>(null);
+  const {
+    selectedSection,
+    selectedSeat,
+    selectedSeatInfo,
+    setSelectedSection,
+    selectSeat,
+    isComplete,
+  } = useSeatSelection();
 
-  const handleSectionSelect = useCallback((section: SectionType) => {
-    setSelectedSection(section);
-  }, []);
+  const handleSectionSelect = useCallback(
+    (section: SectionType) => {
+      setSelectedSection(section);
+    },
+    [setSelectedSection],
+  );
+
+  const handleSeatSelect = useCallback(
+    (seat: Seat | null) => {
+      if (seat) {
+        selectSeat(seat);
+      }
+    },
+    [selectSeat],
+  );
 
   const handleBookingClick = useCallback(() => {
-    if (selectedSection) {
-      console.log(`${selectedSection}구역 예매 진행`);
+    if (isComplete && selectedSeatInfo) {
+      console.log(
+        "section:",
+        selectedSeatInfo.section,
+        "seat:",
+        selectedSeatInfo.seat,
+        "seatPosition:",
+        `${selectedSeatInfo.section}${selectedSeatInfo.seat.seatNumber}`,
+      );
     }
-  }, [selectedSection]);
+  }, [isComplete, selectedSeatInfo]);
+
+  const getButtonText = () => {
+    if (!selectedSection) {
+      return "구역을 선택해주세요";
+    }
+    if (!selectedSeat) {
+      return "좌석을 선택해주세요";
+    }
+    return "예매하기";
+  };
 
   return (
-    <main>
-      <div className="flex flex-col items-center gap-16 mt-16">
-        <h1 className="text-body2b">ㅁㄴㅇㄹ</h1>
-        <div className="flex items-center gap-4 hover:cursor-pointer" onClick={() => {}}>
-          <Inform width={16} height={16} color={colors.gray[500]} />
-          <p className="text-caption2r text-gray-500">예매 시 주의사항</p>
-        </div>
-      </div>
+    <main className="w-[375px] h-screen bg-white flex flex-col">
+      <BackHeader text="예매하기" />
 
-      <div></div>
-
-      <div className="flex flex-col items-center gap-16 mt-16">
+      <div className="flex-1 flex flex-col p-4 gap-8 overflow-hidden">
         <SelectSection onSectionSelect={handleSectionSelect} />
+        <div className="flex-1">
+          <SeatSection
+            selectedSection={selectedSection}
+            selectedSeat={selectedSeat}
+            onSeatSelect={handleSeatSelect}
+            selectedSeatInfo={selectedSeatInfo}
+          />
+        </div>
         <Button
-          className="w-full h-[50px]"
+          className="fixed bottom-[48px] w-[375px] h-[48px]"
           onClick={handleBookingClick}
-          isDisabled={!selectedSection}
+          isDisabled={!isComplete}
         >
-          {selectedSection ? `${selectedSection}구역 예매하기` : "구역을 선택해주세요"}
+          {getButtonText()}
         </Button>
       </div>
     </main>

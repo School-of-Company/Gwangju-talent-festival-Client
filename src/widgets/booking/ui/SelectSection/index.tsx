@@ -3,13 +3,12 @@
 import { useState, useCallback, memo, useMemo } from "react";
 import { cn } from "@/shared/utils/cn";
 import { SectionButtons } from "@/entities/booking/ui/SectionButtons";
-import {
-  SelectSectionProps,
-  SectionType,
-  Section,
-  SECTIONS,
-  SEAT_INFO,
-} from "@/entities/booking/model/types";
+import { SectionType, Section, SECTIONS, SEAT_INFO } from "@/entities/booking/model/types";
+
+interface SelectSectionProps {
+  onSectionSelect?: (section: SectionType) => void;
+  className?: string;
+}
 
 export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, className }) => {
   const [selectedSection, setSelectedSection] = useState<SectionType>(null);

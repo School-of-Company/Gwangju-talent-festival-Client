@@ -10,12 +10,12 @@ export interface SchoolInfoResponse {
             CODE: string;
             MESSAGE: string;
           };
-        }
+        },
       ];
     },
     {
       row: SchoolInfo[];
-    }
+    },
   ];
 }
 

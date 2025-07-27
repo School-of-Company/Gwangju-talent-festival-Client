@@ -16,11 +16,11 @@ export default function ScrollableContent({
     <div
       className={cn(
         "border-gray-100 border border-solid text-caption1r overflow-y-scroll my-24 rounded-lg p-12",
-        className
+        className,
       )}
       style={{ height }}
     >
       {children}
     </div>
   );
-} 
+}

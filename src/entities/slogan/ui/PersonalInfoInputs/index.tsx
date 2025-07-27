@@ -9,8 +9,10 @@ type PersonalInfoInputsProps = {
     classroom: string;
     phone_number: string;
   };
-  onFieldChange: (field: keyof SloganFormValues) => (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+  onFieldChange: (
+    field: keyof SloganFormValues,
+  ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 const PersonalInfoInputs = ({ formValues, onFieldChange }: PersonalInfoInputsProps) => {
   return (
@@ -51,4 +53,4 @@ const PersonalInfoInputs = ({ formValues, onFieldChange }: PersonalInfoInputsPro
   );
 };
 
-export default React.memo(PersonalInfoInputs); 
+export default React.memo(PersonalInfoInputs);

@@ -3,33 +3,50 @@ export const SECTIONS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"] as co
 export type Section = (typeof SECTIONS)[number];
 export type SectionType = Section | null;
 
+export const SEAT_STATUS = {
+  AVAILABLE: "available",
+  UNAVAILABLE: "unavailable",
+  SELECTED: "selected",
+} as const;
+
+export type SeatStatus = (typeof SEAT_STATUS)[keyof typeof SEAT_STATUS];
+
+export interface Seat {
+  row: number;
+  col: number;
+  seatNumber: string;
+  status: SeatStatus;
+  section: Section;
+}
+
+export interface SeatLayout {
+  section: Section;
+  rows: number;
+  cols: number;
+  seats: Seat[];
+  align?: "left" | "right" | "center";
+}
+
+export interface SelectedSeatInfo {
+  seat: Seat;
+  section: Section;
+  price?: number;
+}
+
 export interface SeatInfo {
   occupied: number;
   total: number;
 }
 
-export interface SectionDropdownProps {
-  section: Section;
-  isSelected: boolean;
-  seatInfo: string;
-  onClick: () => void;
-  className?: string;
-}
-
-export interface SelectSectionProps {
-  onSectionSelect?: (section: SectionType) => void;
-  className?: string;
-}
-
 export const SEAT_INFO: Record<Section, SeatInfo> = {
-  A: { occupied: 117, total: 118 },
-  B: { occupied: 115, total: 118 },
-  C: { occupied: 110, total: 118 },
-  D: { occupied: 112, total: 118 },
-  E: { occupied: 108, total: 118 },
-  F: { occupied: 114, total: 118 },
-  G: { occupied: 109, total: 118 },
-  H: { occupied: 113, total: 118 },
-  I: { occupied: 116, total: 118 },
-  J: { occupied: 111, total: 118 },
+  A: { occupied: 5, total: 77 },
+  B: { occupied: 8, total: 130 },
+  C: { occupied: 12, total: 154 },
+  D: { occupied: 7, total: 130 },
+  E: { occupied: 4, total: 77 },
+  F: { occupied: 3, total: 54 },
+  G: { occupied: 6, total: 100 },
+  H: { occupied: 9, total: 119 },
+  I: { occupied: 5, total: 100 },
+  J: { occupied: 2, total: 54 },
 } as const;

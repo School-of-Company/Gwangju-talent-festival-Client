@@ -7,9 +7,7 @@ const instance = axios.create({
 
 if (typeof window !== "undefined") {
   instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-    const isAuthPage = ["/signin", "/signup"].includes(
-      window.location.pathname
-    );
+    const isAuthPage = ["/signin", "/signup"].includes(window.location.pathname);
 
     config.withCredentials = !isAuthPage;
 

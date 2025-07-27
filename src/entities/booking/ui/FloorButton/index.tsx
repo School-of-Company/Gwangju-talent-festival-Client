@@ -1,6 +1,12 @@
 import { memo } from "react";
 import { cn } from "@/shared/utils/cn";
-import { FloorButtonProps } from "../../model/types";
+interface FloorButtonProps {
+  floor: string;
+  isSelected: boolean;
+  seatInfo: string;
+  onClick: () => void;
+  className?: string;
+}
 
 export const FloorButton = memo<FloorButtonProps>(
   ({ floor, isSelected, seatInfo, onClick, className }) => {

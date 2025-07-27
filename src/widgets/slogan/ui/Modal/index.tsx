@@ -41,12 +41,7 @@ export default function Modal({ type, setIsOpen, isOpen }: ModalProps) {
     >
       {type === "agree" ? <Agree /> : <Danger />}
       {type === "agree" && (
-        <RadioGroup
-          name="consent"
-          options={CONSENT_OPTIONS}
-          value={agree}
-          onChange={setAgree}
-        />
+        <RadioGroup name="consent" options={CONSENT_OPTIONS} value={agree} onChange={setAgree} />
       )}
     </BaseModal>
   );

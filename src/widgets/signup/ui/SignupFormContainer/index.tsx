@@ -46,9 +46,18 @@ const SignupFormContainer = () => {
             <label className={cn("text-sm font-medium")}>전화번호</label>
             <div className={cn("flex items-end gap-8")}>
               <div className={cn("w-full")}>
-                <Input type="number" placeholder="전화번호를 입력해주세요." name="phoneNumber" ref={phoneInputRef} />
+                <Input
+                  type="number"
+                  placeholder="전화번호를 입력해주세요."
+                  name="phoneNumber"
+                  ref={phoneInputRef}
+                />
               </div>
-              <Button className={cn("w-32 shrink-0 h-[50px]")} type="button" onClick={handleSendVerificationCode}>
+              <Button
+                className={cn("w-32 shrink-0 h-[50px]")}
+                type="button"
+                onClick={handleSendVerificationCode}
+              >
                 {codeSent ? "재전송" : "인증번호"}
               </Button>
             </div>

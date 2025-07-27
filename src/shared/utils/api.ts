@@ -6,7 +6,7 @@ export async function apiHandler(
   request: NextRequest,
   endpoint: string,
   method: ApiMethod = "POST",
-  successStatus: number = 200
+  successStatus: number = 200,
 ) {
   try {
     const body = method !== "GET" ? await request.json() : null;

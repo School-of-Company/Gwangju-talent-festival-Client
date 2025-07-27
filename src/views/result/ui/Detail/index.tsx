@@ -6,7 +6,7 @@ import { colors } from "@/shared/utils/color";
 import { FC, ReactNode } from "react";
 import EmailButtons from "@/widgets/apply/ui/EmailButtons";
 import { DownloadButton } from "@/entities/apply/ui/DownloadButton";
-import { Map } from "@/entities/home/ui/Map"
+import { Map } from "@/entities/home/ui/Map";
 
 type DocumentItem = string;
 type MethodItem = string;
@@ -49,11 +49,8 @@ export const ResultDetailPage: FC = () => {
   return (
     <div className="w-full min-h-{calc(100vh-20px)}] flex flex-col items-center py-12 px-4">
       <div className="max-w-3xl w-full flex flex-col gap-10">
-        <DescriptionCard
-          title="예선팀 대표 사전 협의회 참석 안내"
-          items={DOCUMENT_ITEMS}
-        />
-        <Map latitude={35.150653} longitude={126.918134} className="rounded-md mb-0"/>
+        <DescriptionCard title="예선팀 대표 사전 협의회 참석 안내" items={DOCUMENT_ITEMS} />
+        <Map latitude={35.150653} longitude={126.918134} className="rounded-md mb-0" />
         <DescriptionCard
           title="예선팀 대표 사전 협의회 내용"
           items={INFORM_ITEMS}
@@ -63,9 +60,7 @@ export const ResultDetailPage: FC = () => {
 
         <div className="flex items-center gap-2 ml-2 py-10">
           <Inform color={colors.gray[500]} />
-          <p className="text-gray-500">
-            제출 기간: 2025.07.08(화) 13:00까지
-          </p>
+          <p className="text-gray-500">제출 기간: 2025.07.08(화) 13:00까지</p>
         </div>
 
         <DownloadButton

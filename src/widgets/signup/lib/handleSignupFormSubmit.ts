@@ -4,7 +4,7 @@ import { SignUpFormValues, signUpSchema } from "@/entities/user/model/schema";
 
 export const handleSignupFormSubmit = async (
   _previousState: authFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<authFormState> => {
   const values: SignUpFormValues = {
     phoneNumber: formData.get("phoneNumber")?.toString() || "",
@@ -16,7 +16,7 @@ export const handleSignupFormSubmit = async (
   const isValid = result.success;
 
   if (!isValid) {
-    result.error.errors.forEach((err) => toast.error(err.message));
+    result.error.errors.forEach(err => toast.error(err.message));
     return {
       values,
       isValid: false,
