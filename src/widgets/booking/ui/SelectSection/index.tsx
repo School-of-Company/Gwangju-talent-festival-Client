@@ -2,7 +2,7 @@
 
 import { useState, useCallback, memo, useMemo } from "react";
 import { cn } from "@/shared/utils/cn";
-import { SectionDropdown } from "@/entities/booking/ui/SectionDropdown";
+import { SectionButtons } from "@/entities/booking/ui/SectionButtons";
 import {
   SelectSectionProps,
   SectionType,
@@ -32,8 +32,8 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
   }, []);
 
   return (
-    <div className={cn("flex justify-center", className)}>
-      <SectionDropdown
+    <div className={cn("w-full", className)}>
+      <SectionButtons
         selectedSection={selectedSection}
         onSectionSelect={handleSectionSelect}
         sections={SECTIONS}
