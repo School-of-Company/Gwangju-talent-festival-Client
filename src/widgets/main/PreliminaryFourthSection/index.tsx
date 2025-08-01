@@ -1,7 +1,6 @@
 // import ImageCarousel from "@/entities/home/ui/ImageCarousel";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
-import { formatDate } from "@/shared/utils/formatDate";
 import ImageCarousel from "@/entities/home/ui/ImageCarousel";
 
 // const SLIDES_1 = [
@@ -44,105 +43,97 @@ const SLIDES_3 = [
   "/images/26일/13.jpg",
 ];
 
-const PRELIMINARY_START_DATE = new Date("2025-07-25T00:00:00+09:00");
-const PRELIMINARY_END_DATE = new Date("2025-07-26T23:59:59+09:00");
+const YOUTUBE_PRELIMINARY_SAT = "https://www.youtube.com/embed/n1o5Q2AVs88";
+const YOUTUBE_PRELIMINARY_FRI = "https://www.youtube.com/embed/KbnIFWzWU2Y";
 
 const PreliminaryFourthSection = () => {
-  const openYoutube = () => {
-    window.open("https://www.youtube.com/live/n1o5Q2AVs88?si=OmdqwSfBfaVXmJpe", "_blank");
-  };
-
   return (
     <section id="PreliminaryFourthSection" className={cn("flex flex-col items-center")}>
       <div className={cn("w-[70%] mobile:w-full")}>
         <SectionTitle
-          title="2025 광탈페 예선"
+          title="2025 광탈페 예선 다시보기"
           description=""
           className={cn("mt-[66px] mobile:mt-[1.7rem] mb-[24px]")}
         />
 
+        <h2
+          className={cn("text-body2b mobile:text-body3b place-self-start mb-18 mobile:mb-0 mobile:ml-12")}
+        >
+          2025 광탈페 예선 참가팀 소개
+        </h2>
+
         <div
           className={cn(
-            "flex w-full items-start justify-between mb-[90px] mobile:flex-col mobile:mb-[38px]",
+            "flex w-full items-start gap-10 justify-between mobile:flex-col mobile:mb-[38px]",
           )}
         >
-          <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
+          <div className={cn("w-[50%] mobile:w-full mobile:mt-16")}>
             <ImageCarousel wide slides={SLIDES_3} />
           </div>
-          <div className={cn("w-[25%] mobile:w-full mobile:px-16")}>
-            <p className={cn("text-title4b mobile:text-body3b place-self-start mb-24 mobile:mb-0")}>
-              예선(光트로)
-            </p>
-            <button
-              className={cn(
-                "inline-flex items-center text-main-600 font-bold text-body2b mb-12 mobile:mb-0 mobile:text-sm hover:underline group",
-              )}
-            >
-              2025. {formatDate(PRELIMINARY_START_DATE)} ~ {formatDate(PRELIMINARY_END_DATE)} 14:00
-            </button>
-            <button
-              className={cn(
-                "inline-flex items-center text-main-600 font-bold text-body2b mb-24 mobile:mb-0 mobile:text-sm hover:underline group",
-              )}
-            >
-              광주광역시교육청학생교육문화회관 공연장
-            </button>
-            <div className={cn("flex flex-col gap-16")}>
-              <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-                영상심사를 통과한 참가자들이 직접 무대에서 경연을 펼치게 됩니다. 전문 심사위원의
-                심사를 거쳐 본선 진출자를 확정하게 됩니다.
-              </p>
-              <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-                예선은 광주학생예술누리터 유튜브 생중계를 통해서만 관람하실 수 있습니다
-              </p>
-            </div>
-            <div
-              className={cn("w-[100%] mobile:w-full mobile:px-16 mt-12 flex flex-col items-center")}
-            >
-              <video
-                src="https://kr.object.ncloudstorage.com/gwangju-talent-festival-bucket/예선.mp4"
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="metadata"
-              />
-              <button
-                className={cn(
-                  "inline-flex items-center justify-center text-main-600 font-bold text-body2b mt-12 mobile:mt-0 mobile:text-sm hover:underline group self-center",
-                )}
-                onClick={() => {
-                  openYoutube();
-                }}
-              >
-                예선 보러가기 &gt;
-              </button>
-            </div>
+          <div className={cn("w-[50%] mobile:w-full mobile:px-16")}>
+            <video
+              src="https://kr.object.ncloudstorage.com/gwangju-talent-festival-bucket/예선.mp4"
+              className="w-full h-full object-cover rounded-xl"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+            />
           </div>
         </div>
-        <div className={cn("flex w-full items-start justify-between mobile:flex-col-reverse")}>
-          {/* <div className={cn("w-[70%] mobile:w-full mobile:mt-16")}>
-            <ImageCarousel wide={true} slides={SLIDES_2} />
-          </div>
-          <div className={cn("w-[25%] mobile:w-full mobile:px-16")}>
-            <p className={cn("text-title4b mobile:text-body3b place-self-start mb-24 mobile:mb-0")}>
-              2차 예선(光트로)
-            </p>
-            <button
+
+        <div className={cn("flex w-full gap-10 mobile:flex-col")}>
+          <div
+            className={cn(
+              "flex w-full flex-col items-start gap-10 justify-between mb-[90px] mobile:mb-[38px]",
+            )}
+          >
+            <h2
               className={cn(
-                "inline-flex items-center text-main-600 font-bold text-body2b mb-24 mobile:mb-0 mobile:text-sm hover:underline group",
+                "text-body2b mobile:text-body3b place-self-start mb-18 mobile:mb-0 mobile:ml-12",
               )}
             >
-              2025. {formatDate(PRELIMINARY_START_DATE)} ~ {formatDate(PRELIMINARY_END_DATE)} 14:00
-              <br />
-              광주광역시교육청학생교육문화회관 공연장
-            </button>
-            <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-              1차 영상심사를 통과한 참가자들이 직접 무대에서 경연을 펼치게 됩니다. 전문 심사위원의
-              심사를 거쳐 본선 진출자를 확정하게 됩니다.
-            </p>
-          </div> */}
+              2025. 7. 25(금) 光트로 예선1 다시보기
+            </h2>
+            <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
+              <div className={cn("relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden")}>
+                <iframe
+                  src={YOUTUBE_PRELIMINARY_FRI}
+                  title="2025 광탈페 예선1 다시보기"
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className={cn(
+              "flex w-full flex-col items-start gap-10 justify-between mb-[90px] mobile:mb-[38px]",
+            )}
+          >
+            <h2
+              className={cn(
+                "text-body2b mobile:text-body3b place-self-start mb-18 mobile:mb-0 mobile:ml-12",
+              )}
+            >
+              2025. 7. 26(토) 光트로 예선2 다시보기
+            </h2>
+            <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
+              <div className={cn("relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden")}>
+                <iframe
+                  src={YOUTUBE_PRELIMINARY_SAT}
+                  title="2025 광탈페 예선2 다시보기"
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

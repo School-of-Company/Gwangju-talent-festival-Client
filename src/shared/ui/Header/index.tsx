@@ -39,7 +39,7 @@ export default function Header() {
   const links = [
     { section: "SloganSecondSection", label: "2025 광탈페 슬로건" },
     // { section: "section3", label: "FaQ" },
-    { section: "PreliminaryFourthSection", label: "예선" },
+    { section: "PreliminaryFourthSection", label: "2025 광탈페 예선 다시보기" },
     { section: "ReservationFifthSection", label: "예매" },
     { section: "FinalsSixthSection", label: "본선" },
   ];
