@@ -12,7 +12,7 @@ type ModalProps = {
   overlayClassName?: string;
   contentClassName?: string;
   showCloseButton?: boolean;
-}
+};
 
 export default function Modal({
   isOpen,
@@ -29,19 +29,16 @@ export default function Modal({
   if (!isOpen) return null;
 
   return (
-    <div 
+    <div
       className={cn(
         "fixed inset-0 z-50 flex items-center justify-center bg-black/50",
-        overlayClassName
+        overlayClassName,
       )}
       onClick={onClose}
     >
       <div
-        className={cn(
-          "p-24 bg-white border border-gray-300 rounded-lg shadow-lg",
-          className
-        )}
-        onClick={(e) => e.stopPropagation()}
+        className={cn("p-24 bg-white border border-gray-300 rounded-lg shadow-lg", className)}
+        onClick={e => e.stopPropagation()}
       >
         {(title || icon || showCloseButton) && (
           <div className="flex items-center justify-between mb-12">
@@ -57,16 +54,10 @@ export default function Modal({
           </div>
         )}
 
-        <div className={cn(contentClassName)}>
-          {children}
-        </div>
+        <div className={cn(contentClassName)}>{children}</div>
 
-        {footer && (
-          <div className="mt-12">
-            {footer}
-          </div>
-        )}
+        {footer && <div className="mt-12">{footer}</div>}
       </div>
     </div>
   );
-} 
+}

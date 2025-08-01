@@ -6,23 +6,23 @@ interface HighlightTextProps {
   highlightClassName?: string;
 }
 
-const HighlightText = ({ 
-  text, 
-  searchTerm, 
-  highlightClassName = "text-main-600 font-semibold" 
+const HighlightText = ({
+  text,
+  searchTerm,
+  highlightClassName = "text-main-600 font-semibold",
 }: HighlightTextProps) => {
   if (!searchTerm.trim()) {
     return <span>{text}</span>;
   }
 
-  const normalizedSearchTerm = searchTerm.replace(/\s+/g, '');
-  
+  const normalizedSearchTerm = searchTerm.replace(/\s+/g, "");
+
   if (!normalizedSearchTerm) {
     return <span>{text}</span>;
   }
 
-  const matchIndex = text.replace(/\s+/g, '').indexOf(normalizedSearchTerm);
-  
+  const matchIndex = text.replace(/\s+/g, "").indexOf(normalizedSearchTerm);
+
   if (matchIndex === -1) {
     return <span>{text}</span>;
   }
@@ -30,7 +30,7 @@ const HighlightText = ({
   let charCount = 0;
   let startIndex = 0;
   let endIndex = 0;
-  
+
   for (let i = 0; i < text.length; i++) {
     if (!/\s/.test(text[i])) {
       if (charCount === matchIndex) {
@@ -40,7 +40,7 @@ const HighlightText = ({
       charCount++;
     }
   }
-  
+
   charCount = 0;
   for (let i = startIndex; i < text.length; i++) {
     if (!/\s/.test(text[i])) {
@@ -63,4 +63,4 @@ const HighlightText = ({
   );
 };
 
-export default React.memo(HighlightText); 
+export default React.memo(HighlightText);

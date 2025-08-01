@@ -7,7 +7,7 @@ import HighlightText from "../HighlightText";
 type School = {
   SD_SCHUL_CODE: string;
   SCHUL_NM: string;
-}
+};
 
 type SchoolSearchInputProps = {
   value: string;
@@ -15,17 +15,17 @@ type SchoolSearchInputProps = {
   filteredSchools: School[];
   isSchoolFetched: boolean;
   onSchoolSelect: (schoolName: string) => void;
-}
+};
 
-const SchoolSearchInput = ({ 
-  value, 
-  onChange, 
-  filteredSchools, 
-  isSchoolFetched, 
-  onSchoolSelect 
+const SchoolSearchInput = ({
+  value,
+  onChange,
+  filteredSchools,
+  isSchoolFetched,
+  onSchoolSelect,
 }: SchoolSearchInputProps) => {
-  const normalizedValue = useMemo(() => value.replace(/\s+/g, ''), [value]);
-  
+  const normalizedValue = useMemo(() => value.replace(/\s+/g, ""), [value]);
+
   return (
     <div className="relative">
       <div className="relative">
@@ -49,10 +49,7 @@ const SchoolSearchInput = ({
                 className="cursor-pointer p-16 hover:bg-gray-100 rounded"
                 onClick={() => onSchoolSelect(school.SCHUL_NM)}
               >
-                <HighlightText 
-                  text={school.SCHUL_NM} 
-                  searchTerm={value}
-                />
+                <HighlightText text={school.SCHUL_NM} searchTerm={value} />
               </div>
             </div>
           ))}
@@ -62,4 +59,4 @@ const SchoolSearchInput = ({
   );
 };
 
-export default React.memo(SchoolSearchInput); 
+export default React.memo(SchoolSearchInput);

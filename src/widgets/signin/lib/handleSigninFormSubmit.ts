@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 export const handleSigninFormSubmit = async (
   _previousState: authFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<authFormState> => {
   const values: SignInFormValues = {
     phoneNumber: formData.get("phoneNumber")?.toString() || "",
@@ -16,7 +16,7 @@ export const handleSigninFormSubmit = async (
   const isValid = result.success;
 
   if (!isValid) {
-    result.error.errors.forEach((err) => toast.error(err.message));
+    result.error.errors.forEach(err => toast.error(err.message));
     return {
       values,
       isValid: false,

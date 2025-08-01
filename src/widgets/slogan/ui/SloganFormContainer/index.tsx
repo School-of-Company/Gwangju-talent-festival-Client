@@ -30,13 +30,13 @@ export default function SloganFormContainer() {
             length={state.sloganLength}
             onChange={handlers.handleSloganChange}
           />
-          
+
           <SloganDescriptionInput
             value={state.formValues.description}
             length={state.descriptionLength}
             onChange={handlers.handleDescriptionChange}
           />
-          
+
           <SchoolSearchInput
             value={state.formValues.school}
             onChange={handlers.handleFieldChange("school")}
@@ -44,7 +44,7 @@ export default function SloganFormContainer() {
             isSchoolFetched={schoolData.isSchoolFetched}
             onSchoolSelect={handlers.handleSchoolSelect}
           />
-          
+
           <PersonalInfoInputs
             formValues={{
               name: state.formValues.name,

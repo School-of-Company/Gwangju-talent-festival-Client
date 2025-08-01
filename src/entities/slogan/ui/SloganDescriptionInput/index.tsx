@@ -6,7 +6,7 @@ type SloganDescriptionInputProps = {
   value: string;
   length: number;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-}
+};
 
 const SloganDescriptionInput = ({ value, length, onChange }: SloganDescriptionInputProps) => {
   return (
@@ -23,4 +23,4 @@ const SloganDescriptionInput = ({ value, length, onChange }: SloganDescriptionIn
   );
 };
 
-export default React.memo(SloganDescriptionInput); 
+export default React.memo(SloganDescriptionInput);

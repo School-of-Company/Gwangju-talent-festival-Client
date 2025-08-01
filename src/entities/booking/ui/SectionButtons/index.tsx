@@ -1,0 +1,82 @@
+"use client";
+
+import { memo, useCallback } from "react";
+import { cn } from "@/shared/utils/cn";
+import { Section, SectionType } from "../../model/types";
+
+interface SectionButtonsProps {
+  selectedSection: SectionType;
+  onSectionSelect: (section: SectionType) => void;
+  sections: readonly Section[];
+  seatInfoMap: Record<Section, string>;
+  className?: string;
+}
+
+export const SectionButtons = memo<SectionButtonsProps>(
+  ({ selectedSection, onSectionSelect, sections, seatInfoMap, className }) => {
+    const handleSectionClick = useCallback(
+      (section: Section) => {
+        const newSection: SectionType = selectedSection === section ? null : section;
+        onSectionSelect(newSection);
+      },
+      [selectedSection, onSectionSelect],
+    );
+
+    return (
+      <div className={cn("w-full", className)}>
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-4">
+            {sections.slice(0, 5).map(section => {
+              const isSelected = selectedSection === section;
+              return (
+                <button
+                  key={section}
+                  onClick={() => handleSectionClick(section)}
+                  className={cn(
+                    "flex-1 min-w-0 flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all duration-200",
+                    "min-h-[40px] hover:scale-105 hover:shadow-md hover:cursor-pointer",
+                    isSelected
+                      ? "border-main-600 bg-main-600 text-white shadow-lg"
+                      : "border-gray-200 bg-white text-gray-700 hover:border-main-300 hover:bg-main-25",
+                  )}
+                >
+                  <span className="text-2xl font-bold mb-1">{section}</span>
+                  <span className={cn("text-xs text-gray-500", isSelected && "text-white")}>
+                    {seatInfoMap[section]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex gap-4">
+            {sections.slice(5, 10).map(section => {
+              const isSelected = selectedSection === section;
+              return (
+                <button
+                  key={section}
+                  onClick={() => handleSectionClick(section)}
+                  className={cn(
+                    "flex-1 min-w-0 flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all duration-200",
+                    "min-h-[40px] hover:scale-105 hover:shadow-md hover:cursor-pointer",
+                    isSelected
+                      ? "border-main-600 bg-main-600 text-white shadow-lg"
+                      : "border-gray-200 bg-white text-gray-700 hover:border-main-300 hover:bg-main-25",
+                  )}
+                >
+                  <span className="text-2xl font-bold mb-1">{section}</span>
+                  <span className={cn("text-xs text-gray-500", isSelected && "text-white")}>
+                    {seatInfoMap[section]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  },
+);
+
+SectionButtons.displayName = "SectionButtons";
+
+export default SectionButtons;

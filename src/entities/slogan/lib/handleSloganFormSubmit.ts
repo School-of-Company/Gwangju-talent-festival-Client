@@ -2,9 +2,7 @@ import { toast } from "sonner";
 import { SloganFormValues } from "../model/schema";
 import { postSlogan } from "../api/postSlogan";
 
-export async function handleSloganFormSubmit(
-  values: SloganFormValues
-): Promise<boolean> {
+export async function handleSloganFormSubmit(values: SloganFormValues): Promise<boolean> {
   const res = await postSlogan(values);
   if (res.status === 201) {
     toast.success("슬로건이 제출되었습니다.");

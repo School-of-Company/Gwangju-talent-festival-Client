@@ -17,10 +17,10 @@ interface EmailButtonsProps {
 }
 
 const emailSubject = encodeURIComponent(
-  "분야_대표자명(학교명, 핸드폰 번호)_팀명_사전 협의회 참석자명(학교명)"
+  "분야_대표자명(학교명, 핸드폰 번호)_팀명_사전 협의회 참석자명(학교명)",
 );
 const emailBody = encodeURIComponent(
-  "제목을 양식에 맞게 수정하여 전송 해 주세요.\n예시) 댄스_김가나(다라교,010-0000-0000)_마바팀_김가나(다라교)"
+  "제목을 양식에 맞게 수정하여 전송 해 주세요.\n예시) 댄스_김가나(다라교,010-0000-0000)_마바팀_김가나(다라교)",
 );
 
 const EMAIL_LINKS: readonly EmailLink[] = [

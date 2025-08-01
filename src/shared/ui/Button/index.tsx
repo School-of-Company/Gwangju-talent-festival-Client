@@ -4,13 +4,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   isDisabled?: boolean;
 };
 
-const Button = ({
-  children,
-  className,
-  onClick,
-  isDisabled = false,
-  ...props
-}: ButtonProps) => {
+const Button = ({ children, className, onClick, isDisabled = false, ...props }: ButtonProps) => {
   return (
     <>
       <button
@@ -18,7 +12,7 @@ const Button = ({
           `px-4 py-2 h-[50px] rounded-md whitespace-nowrap text-body3b font-bold text-white ${
             isDisabled ? "bg-gray-300 cursor-not-allowed" : "bg-main-600"
           }`,
-          className
+          className,
         )}
         onClick={onClick}
         disabled={isDisabled}
