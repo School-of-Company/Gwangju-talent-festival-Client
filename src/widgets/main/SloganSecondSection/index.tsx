@@ -67,15 +67,12 @@ const SloganSecondSection = () => {
       <SloganMarquee />
 
       <div className={cn("flex flex-col items-center p-6 bg-white my-30")}>
-        <div className={cn("flex flex-col items-center gap-[40px]")}>
-          <div className="flex justify-center">
-            <PrizeItem key={PRIZES[1].rank} {...PRIZES[1]} />
-          </div>
-          <div className="flex justify-center gap-[40px]">
-            <PrizeItem key={PRIZES[0].rank} {...PRIZES[0]} />
-            <PrizeItem key={PRIZES[2].rank} {...PRIZES[2]} />
-          </div>
+        <div className={cn("flex justify-center items-center gap-[40px]")}>
+          <PrizeItem key={PRIZES[1].rank} {...PRIZES[1]} />
+          <PrizeItem key={PRIZES[0].rank} {...PRIZES[0]} />
+          <PrizeItem key={PRIZES[2].rank} {...PRIZES[2]} />
         </div>
+      </div>
         {/* 
         <Button
           onClick={() => R.push("/slogan")}
@@ -90,7 +87,6 @@ const SloganSecondSection = () => {
         <div className={cn("text-caption1r mobile:text-caption2r text-gray-400")}>
           {submissionPeriodText}
         </div> */}
-      </div>
     </section>
   );
 };
