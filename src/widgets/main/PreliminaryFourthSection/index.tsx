@@ -55,7 +55,6 @@ const PreliminaryFourthSection = () => {
       <div className={cn("w-[70%] mobile:w-full")}>
         <SectionTitle
           title="2025 광탈페 예선 다시보기"
-          description=""
           className={cn("mt-[66px] mobile:mt-[1.7rem] mb-[24px]")}
         />
 
@@ -148,7 +147,6 @@ const PreliminaryFourthSection = () => {
       <div className={cn("w-[70%] mobile:w-full")}>
         <SectionTitle
           title="2025 광탈페 본선 진출팀"
-          description=""
           className={cn("mt-[66px] mobile:mt-[1.7rem] mb-28")}
         />
         
