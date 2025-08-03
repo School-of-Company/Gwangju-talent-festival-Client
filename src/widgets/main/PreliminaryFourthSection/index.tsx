@@ -2,6 +2,7 @@
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import ImageCarousel from "@/entities/home/ui/ImageCarousel";
+import Image from "next/image";
 
 // const SLIDES_1 = [
 //   "/images/Preliminary/slide1_1.jpg",
@@ -46,6 +47,8 @@ const SLIDES_3 = [
 const YOUTUBE_PRELIMINARY_SAT = "https://www.youtube.com/embed/n1o5Q2AVs88";
 const YOUTUBE_PRELIMINARY_FRI = "https://www.youtube.com/embed/KbnIFWzWU2Y";
 
+const TEAMS_IMAGE = "/images/본선_진출팀.png";
+
 const PreliminaryFourthSection = () => {
   return (
     <section id="PreliminaryFourthSection" className={cn("flex flex-col items-center")}>
@@ -57,7 +60,9 @@ const PreliminaryFourthSection = () => {
         />
 
         <h2
-          className={cn("text-body2b mobile:text-body3b place-self-start mb-18 mobile:mb-0 mobile:ml-12")}
+          className={cn(
+            "text-body2b mobile:text-body3b place-self-start mb-18 mobile:mb-0 mobile:ml-12",
+          )}
         >
           2025 광탈페 예선 참가팀 소개
         </h2>
@@ -97,7 +102,9 @@ const PreliminaryFourthSection = () => {
               2025. 7. 25(금) 光트로 예선1 다시보기
             </h2>
             <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-              <div className={cn("relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden")}>
+              <div
+                className={cn("relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden")}
+              >
                 <iframe
                   src={YOUTUBE_PRELIMINARY_FRI}
                   title="2025 광탈페 예선1 다시보기"
@@ -122,7 +129,9 @@ const PreliminaryFourthSection = () => {
               2025. 7. 26(토) 光트로 예선2 다시보기
             </h2>
             <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-              <div className={cn("relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden")}>
+              <div
+                className={cn("relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden")}
+              >
                 <iframe
                   src={YOUTUBE_PRELIMINARY_SAT}
                   title="2025 광탈페 예선2 다시보기"
@@ -131,6 +140,42 @@ const PreliminaryFourthSection = () => {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className={cn("w-[70%] mobile:w-full")}>
+        <SectionTitle
+          title="2025 광탈페 본선 진출팀"
+          description=""
+          className={cn("mt-[66px] mobile:mt-[1.7rem] mb-28")}
+        />
+        
+        <div
+          className={cn(
+            "flex w-full items-center gap-10 justify-between mobile:flex-col mobile:mb-[38px] mb-32",
+          )}
+        >
+          <div className={cn("w-[50%] mobile:w-full mobile:mt-16 flex justify-center px-8")}>
+            <Image src={TEAMS_IMAGE} alt="본선 진출팀" width={500} height={500} />
+          </div>
+          <div className={cn("w-[50%] mobile:w-full mobile:px-16")}>
+            <div className="space-y-6">
+              <h3 className="text-body2r mobile:text-caption2r font-bold text-gray-800 mb-4">
+                감동과 열정이 예선경연을 거쳐 총 10개 팀이<br />
+                선정되었습니다. 축하드립니다.
+              </h3>
+              <div className="space-y-4 text-body2r mobile:text-caption2r">
+                <p>
+                  이제 2025. 9.27. 토요일<br />
+                  조선대학교 해오름관에서 대망의 본선무대가<br />
+                  펼쳐 집니다. 많은 관심과 응원 바랍니다.
+                </p>
+                <p className="text-body2r mobile:text-caption2r">
+                  상기 순서는 실제 본선 공연순서와 다르며<br />
+                  예선심사점수와 무관합니다.
+                </p>
               </div>
             </div>
           </div>
