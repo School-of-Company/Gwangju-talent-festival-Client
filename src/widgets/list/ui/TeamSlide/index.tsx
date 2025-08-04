@@ -1,5 +1,5 @@
 import { Button } from "@/shared/ui";
-import { handleStatus } from "@/views/list/lib/handleStatus";
+import { handleStatus } from "@/entities/list/lib/handleStatus";
 
 interface TeamSlideProps {
   setItem: (v: number) => void;

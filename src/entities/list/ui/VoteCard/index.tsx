@@ -1,5 +1,5 @@
 import { cn } from "@/shared/utils/cn";
-import { handleStatus } from "@/views/list/lib/handleStatus";
+import { handleStatus } from "@/entities/list/lib/handleStatus";
 
 interface VoteCardProps {
   teamName: string;
