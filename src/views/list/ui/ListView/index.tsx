@@ -36,10 +36,10 @@ export default function ListView() {
           <div className="w-[40%]">
             <Wrapper label="투표 제어">
               <Button onClick={() => openVote(currentId!)}>투표시작</Button>
-              <Button varient="secondary" onClick={() => startCount(currentId!)}>
+              <Button variant="secondary" onClick={() => startCount(currentId!)}>
                 집계 시작
               </Button>
-              <Button varient="third" onClick={() => closeVote(currentId!)}>
+              <Button variant="third" onClick={() => closeVote(currentId!)}>
                 투표 완료
               </Button>
             </Wrapper>
