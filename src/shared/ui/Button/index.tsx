@@ -1,7 +1,7 @@
 import { cn } from "@/shared/utils/cn";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  varient?: keyof typeof variant;
+  variant?: keyof typeof variant;
 };
 
 const variant = {
