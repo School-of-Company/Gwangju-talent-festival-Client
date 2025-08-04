@@ -6,6 +6,7 @@ interface Vote {
   team_id: number;
   teamName: string;
   voteCount: number;
+  status: "PENDING" | "ONGOING" | "FINISHED";
 }
 
 export const useGetVotes = () => {
