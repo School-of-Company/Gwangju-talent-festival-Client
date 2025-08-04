@@ -1,21 +1,32 @@
 import { cn } from "@/shared/utils/cn";
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  isDisabled?: boolean;
+  variant?: keyof typeof variant;
 };
 
-const Button = ({ children, className, onClick, isDisabled = false, ...props }: ButtonProps) => {
+const variant = {
+  default: "bg-main-600 text-white",
+  secondary: "text-white bg-main-300",
+  third: "bg-main-100 text-main-600",
+  disabled: "bg-gray-300 cursor-not-allowed text-white",
+  outline: "border border-solid border-main-600 text-main-600",
+};
+
+const Button = ({
+  children,
+  className,
+  onClick,
+  variant: variantKey = "default",
+  ...props
+}: ButtonProps) => {
   return (
     <>
       <button
         className={cn(
-          `px-4 py-2 h-[50px] rounded-md whitespace-nowrap text-body3b font-bold text-white ${
-            isDisabled ? "bg-gray-300 cursor-not-allowed" : "bg-main-600"
-          }`,
+          `px-4 py-2 h-[50px] rounded-md whitespace-nowrap text-body3b font-bold ${variant[variantKey]}`,
           className,
         )}
         onClick={onClick}
-        disabled={isDisabled}
         {...props}
       >
         {children}

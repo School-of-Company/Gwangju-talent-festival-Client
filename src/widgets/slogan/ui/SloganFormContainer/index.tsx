@@ -56,7 +56,7 @@ export default function SloganFormContainer() {
           />
         </div>
       </div>
-      <Button type="submit" isDisabled={!state.isValid || state.isSubmitting}>
+      <Button type="submit" disabled={!state.isValid || state.isSubmitting}>
         응모하기
       </Button>
     </form>
