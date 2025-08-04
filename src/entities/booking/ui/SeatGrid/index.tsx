@@ -24,19 +24,19 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
   // 단일 섹션의 좌석 그리드 생성
   const seatGrid = useMemo(() => {
     if (!layout?.section) return [];
-    
+
     const pattern = getSeatPattern(layout.section);
     const seatMap = new Map<string, Seat>();
-    
+
     layout.seats.forEach(seat => {
       seatMap.set(seat.seatNumber, seat);
     });
-    
+
     return pattern.map((row, rowIndex) =>
       row.map((seatNumber, colIndex) => {
         const seat = seatNumber ? seatMap.get(seatNumber.toString()) || null : null;
         const key = seat ? `${seat.section}-${seat.seatNumber}` : `${rowIndex}-${colIndex}`;
-        
+
         return {
           seatNumber,
           seat,
@@ -50,7 +50,7 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
   const allSectionsGrid = useMemo(() => {
     const sectionsRow1 = SECTIONS.slice(0, 5); // A~E
     const sectionsRow2 = SECTIONS.slice(5, 10); // F~J
-    
+
     return [sectionsRow1, sectionsRow2];
   }, []);
 
@@ -79,11 +79,11 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     </div>
   );
 
-  const renderSectionMiniGrid = (section: typeof SECTIONS[number]) => {
+  const renderSectionMiniGrid = (section: (typeof SECTIONS)[number]) => {
     const sectionLayout = getSeatLayout(section);
     const pattern = getSeatPattern(section);
     const seatMap = new Map<string, Seat>();
-    
+
     sectionLayout.seats.forEach(seat => {
       seatMap.set(seat.seatNumber, seat);
     });
@@ -118,10 +118,8 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     <div className="flex flex-col gap-8 items-center">
       {allSectionsGrid.map((sectionsRow, rowIndex) => (
         <div key={rowIndex} className="flex gap-8 items-end">
-          {sectionsRow.map((section) => (
-            <div key={section}>
-              {renderSectionMiniGrid(section)}
-            </div>
+          {sectionsRow.map(section => (
+            <div key={section}>{renderSectionMiniGrid(section)}</div>
           ))}
         </div>
       ))}
@@ -136,11 +134,7 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     <div className={cn(className)}>
       <div className={getGridContainerStyles()}>
         <div className="absolute inset-3 overflow-auto flex justify-center">
-          {layout ? (
-            renderSingleSectionGrid()
-          ) : (
-            renderAllSectionsGrid()
-          )}
+          {layout ? renderSingleSectionGrid() : renderAllSectionsGrid()}
         </div>
       </div>
     </div>

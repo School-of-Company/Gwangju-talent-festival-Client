@@ -122,12 +122,12 @@ const generateSeatLayout = (section: Section): SeatLayout => {
   const seatInfo = SEAT_INFO[section];
   const { total } = seatInfo;
   const pattern = SECTION_SEAT_PATTERNS[section];
-  
+
   const seats: Seat[] = [];
   let seatIndex = 0;
 
-  pattern.forEach((row) => {
-    row.forEach((seatNumber) => {
+  pattern.forEach(row => {
+    row.forEach(seatNumber => {
       if (seatNumber !== null && seatIndex < total) {
         const status = SEAT_STATUS.AVAILABLE;
 
@@ -136,7 +136,7 @@ const generateSeatLayout = (section: Section): SeatLayout => {
           status,
           section,
         });
-        
+
         seatIndex++;
       }
     });

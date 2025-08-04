@@ -28,7 +28,6 @@ export interface SeatLayout {
 export interface SelectedSeatInfo {
   seat: Seat;
   section: Section;
-  price?: number;
 }
 
 export interface SeatInfo {

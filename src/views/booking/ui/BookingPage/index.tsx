@@ -7,6 +7,7 @@ import Button from "@/shared/ui/Button";
 import BackHeader from "@/shared/ui/BackHeader";
 import { useSeatSelection } from "@/entities/booking/lib/useSeatSelection";
 import { SectionType, Seat } from "@/entities/booking/model/types";
+import { useSeatBooking } from "@/entities/booking/api/useSeatBooking";
 
 const BookingPage = () => {
   const {
@@ -17,6 +18,8 @@ const BookingPage = () => {
     selectSeat,
     isComplete,
   } = useSeatSelection();
+
+  const seatBookingMutation = useSeatBooking();
 
   const handleSectionSelect = useCallback(
     (section: SectionType) => {
@@ -36,18 +39,17 @@ const BookingPage = () => {
 
   const handleBookingClick = useCallback(() => {
     if (isComplete && selectedSeatInfo) {
-      console.log(
-        "section:",
-        selectedSeatInfo.section,
-        "seat:",
-        selectedSeatInfo.seat,
-        "seatPosition:",
-        `${selectedSeatInfo.section}${selectedSeatInfo.seat.seatNumber}`,
-      );
+      seatBookingMutation.mutate({
+        section: selectedSeatInfo.seat.section,
+        seatNumber: selectedSeatInfo.seat.seatNumber,
+      });
     }
-  }, [isComplete, selectedSeatInfo]);
+  }, [isComplete, selectedSeatInfo, seatBookingMutation]);
 
   const getButtonText = () => {
+    if (seatBookingMutation.isPending) {
+      return "예매 중...";
+    }
     if (!selectedSection) {
       return "구역을 선택해주세요";
     }
@@ -76,7 +78,7 @@ const BookingPage = () => {
         <Button
           className="fixed bottom-[48px] w-[375px] h-[48px]"
           onClick={handleBookingClick}
-          isDisabled={!isComplete}
+          isDisabled={!isComplete || seatBookingMutation.isPending}
         >
           {getButtonText()}
         </Button>

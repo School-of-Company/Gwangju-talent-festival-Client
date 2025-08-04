@@ -27,9 +27,9 @@ export const SeatSection = memo<SeatSectionProps>(
         <div className="h-80">
           <SeatGrid layout={seatLayout} selectedSeat={selectedSeat} onSeatSelect={onSeatSelect} />
         </div>
-        
+
         <div className="h-28"></div>
-        
+
         <div className="h-24">
           <SelectedSeatDisplay selectedSeat={selectedSeatInfo} selectedSection={selectedSection} />
         </div>
