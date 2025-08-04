@@ -8,7 +8,7 @@ export const closeVote = async (id: string) => {
       toast.success("투표가 종료되었습니다");
     }
   } catch (error) {
-    toast.error("투표 종료에 실패하셨습니다");
+    toast.error("투표 종료에 실패했습니다");
     throw error;
   }
 };
