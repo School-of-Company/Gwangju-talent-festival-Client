@@ -1,11 +1,12 @@
 import { Button } from "@/shared/ui";
 import { handleStatus } from "@/entities/list/lib/handleStatus";
+import { StatusType } from "@/entities/list/consts/status";
 
 interface TeamSlideProps {
   setItem: (v: number) => void;
   teamName: string;
   voteCount: number;
-  status: "PENDING" | "ONGOING" | "FINISHED";
+  status: StatusType;
 }
 
 export default function TeamSlide({ teamName, status, voteCount }: TeamSlideProps) {

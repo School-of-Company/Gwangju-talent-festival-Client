@@ -1,10 +1,11 @@
 import { cn } from "@/shared/utils/cn";
 import { handleStatus } from "@/entities/list/lib/handleStatus";
+import { StatusType } from "../../consts/status";
 
 interface TeamCardProps {
   teamName: string;
   teamId: number;
-  status: "PENDING" | "ONGOING" | "FINISHED";
+  status: StatusType;
 }
 
 export default function TeamCard({ status, teamName }: TeamCardProps) {

@@ -1,11 +1,12 @@
 import { cn } from "@/shared/utils/cn";
 import { handleStatus } from "@/entities/list/lib/handleStatus";
+import { StatusType } from "../../consts/status";
 
 interface VoteCardProps {
   teamName: string;
   voteCount: number;
   voteId: number;
-  status: "PENDING" | "ONGOING" | "FINISHED";
+  status: StatusType;
 }
 
 export default function VoteCard({ status, voteCount, teamName }: VoteCardProps) {
