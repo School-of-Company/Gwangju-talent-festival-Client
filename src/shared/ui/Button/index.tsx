@@ -9,6 +9,7 @@ const variant = {
   secondary: "text-white bg-main-300",
   third: "bg-main-100 text-main-600",
   disabled: "bg-gray-300 cursor-not-allowed text-white",
+  outline: "border border-solid border-main-600 text-main-600",
 };
 
 const Button = ({ children, className, onClick, varient = "default", ...props }: ButtonProps) => {
