@@ -161,7 +161,7 @@ const PreliminaryFourthSection = () => {
           <div className={cn("w-[50%] mobile:w-full mobile:px-16")}>
             <div className="space-y-6">
               <h3 className="text-body2r mobile:text-caption2r font-bold text-gray-800 mb-4">
-                감동과 열정이 예선경연을 거쳐 총 10개 팀이<br />
+                감동과 열정의 예선경연을 거쳐 총 10개 팀이<br />
                 선정되었습니다. 축하드립니다.
               </h3>
               <div className="space-y-4 text-body2r mobile:text-caption2r">
