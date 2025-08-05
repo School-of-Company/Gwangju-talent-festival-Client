@@ -2,7 +2,7 @@ import instance from "@/shared/lib/axios";
 
 export const postVote = (teamName: string, team_id: number) => {
   try {
-    instance.post("vote", {
+    return instance.post("vote", {
       select: true,
       teamName,
       team_id,
