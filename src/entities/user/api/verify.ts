@@ -1,26 +1,22 @@
 "use client";
 
 import { PhoneVerificationRequest, PhoneVerificationResponse } from "../model/schema";
-import axios from "axios";
-import axiosInstance from "@/shared/lib/axios";
 
 export const sendVerificationCode = async (data: PhoneVerificationRequest): Promise<PhoneVerificationResponse> => {
-  try {
-    const response = await axiosInstance.post<PhoneVerificationResponse>("/auth/verify", data);
-    
-    if (!response.data || Object.keys(response.data).length === 0) {
-      return { success: true, message: "인증번호가 전송되었습니다." };
-    }
-    
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const errorMessage = error.response.data?.message || "인증번호 전송에 실패했습니다.";
-      throw new Error(errorMessage);
-    }
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error("네트워크 오류가 발생했습니다.");
+  const response = await fetch("/api/verify", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "인증번호 전송에 실패했습니다.");
   }
+
+  if (!result || Object.keys(result).length === 0) {
+    return { success: true, message: "인증번호가 전송되었습니다." };
+  }
+
+  return result;
 }; 

@@ -1,21 +1,18 @@
 "use client";
 
 import { SignInRequest, SignInResponse } from "../model/schema";
-import axios from "axios";
-import axiosInstance from "@/shared/lib/axios";
 
-export const signIn = async (data: SignInRequest): Promise<SignInResponse> => {
-  try {
-    const response = await axiosInstance.post<SignInResponse>("/auth/login", data);
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const errorMessage = error.response.data?.message || "로그인에 실패했습니다.";
-      throw new Error(errorMessage);
-    }
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error("네트워크 오류가 발생했습니다.");
+export const signin = async (data: SignInRequest): Promise<SignInResponse> => {
+  const response = await fetch("/api/signin", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "로그인에 실패했습니다.");
   }
+
+  return result;
 }; 
