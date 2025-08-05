@@ -1,8 +1,8 @@
 import instance from "@/shared/lib/axios";
 
-export const postVote = (teamName: string, team_id: number) => {
+export const postVote = async (teamName: string, team_id: number) => {
   try {
-    return instance.post("vote", {
+    return await instance.post("vote", {
       select: true,
       teamName,
       team_id,
