@@ -1,5 +1,5 @@
 export const STATUS = {
-  PENDING: "PENGDING",
+  PENDING: "PENDING",
   ONGOING: "ONGOING",
   FINISHED: "FINISHED",
 } as const;
