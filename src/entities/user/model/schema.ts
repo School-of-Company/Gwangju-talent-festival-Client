@@ -26,6 +26,47 @@ export const phoneVerificationRequestSchema = z.object({
   phoneNumber: phoneNumberSchema,
 });
 
+export interface SignInRequest {
+  phone_number: string;
+  password: string;
+}
+
+export interface SignInResponse {
+  access_token: string;
+  access_token_expired_at: string;
+  refresh_token: string;
+  refresh_token_expired_at: string;
+}
+
+export interface PhoneVerificationRequest {
+  phone_number: string;
+}
+
+export interface PhoneVerificationResponse {
+  success?: boolean;
+  message?: string;
+}
+
+export interface SignUpRequest {
+  phone_number: string;
+  password: string;
+}
+
+export interface SignUpResponse {
+  success: boolean;
+  message: string;
+  user?: {
+    id: string;
+    phone_number: string;
+  };
+}
+
+export interface ApiError {
+  success: false;
+  message: string;
+  errors?: Record<string, string[]>;
+}
+
 export type SignInFormValues = z.infer<typeof signInSchema>;
 export type SignUpFormValues = z.infer<typeof signUpSchema>;
 export type PhoneVerificationRequestValues = z.infer<typeof phoneVerificationRequestSchema>;
