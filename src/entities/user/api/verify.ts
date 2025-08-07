@@ -7,6 +7,11 @@ import axiosInstance from "@/shared/lib/axios";
 export const sendVerificationCode = async (data: PhoneVerificationRequest): Promise<PhoneVerificationResponse> => {
   try {
     const response = await axiosInstance.post<PhoneVerificationResponse>("/auth/verify", data);
+    
+    if (!response.data || Object.keys(response.data).length === 0) {
+      return { success: true, message: "인증번호가 전송되었습니다." };
+    }
+    
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

@@ -6,7 +6,7 @@ import axiosInstance from "@/shared/lib/axios";
 
 export const signIn = async (data: SignInRequest): Promise<SignInResponse> => {
   try {
-    const response = await axiosInstance.post<SignInResponse>("/auth/signin", data);
+    const response = await axiosInstance.post<SignInResponse>("/auth/login", data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
