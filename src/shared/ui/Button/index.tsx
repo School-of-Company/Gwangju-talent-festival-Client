@@ -17,16 +17,20 @@ const Button = ({
   className,
   onClick,
   variant: variantKey = "default",
+  disabled,
   ...props
 }: ButtonProps) => {
+  const effectiveVariant = disabled ? "disabled" : variantKey;
+  
   return (
     <>
       <button
         className={cn(
-          `px-4 py-2 h-[50px] rounded-md whitespace-nowrap text-body3b font-bold ${variant[variantKey]}`,
+          `px-4 py-2 h-[50px] rounded-md whitespace-nowrap text-body3b font-bold ${variant[effectiveVariant]}`,
           className,
         )}
         onClick={onClick}
+        disabled={disabled}
         {...props}
       >
         {children}
