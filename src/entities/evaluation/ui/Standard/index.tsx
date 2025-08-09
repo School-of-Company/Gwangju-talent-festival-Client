@@ -1,6 +1,6 @@
 export default function Standard() {
   return (
-    <ul className="bg-gray-50 text-body3b flex justify-around text-center py-24">
+    <ul className="bg-gray-50 mt-24 mb-[41px] text-body3b flex justify-around text-center py-24">
       <li>
         연번
         <br /> (심사번호)
