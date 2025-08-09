@@ -4,6 +4,7 @@ import { signin } from "@/entities/user/api/signin";
 import { setTokens } from "@/shared/utils/auth";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
+import { ZodError } from "zod";
 
 export const handleSigninFormSubmit = async (
   _previousState: authFormState,
@@ -17,7 +18,7 @@ export const handleSigninFormSubmit = async (
   const result = signinSchema.safeParse(values);
 
   if (!result.success) {
-    result.error.errors.forEach(err => toast.error(err.message));
+    result.error.errors.forEach((err: ZodError['errors'][0]) => toast.error(err.message));
     return {
       values,
       isValid: false,
@@ -44,6 +45,13 @@ export const handleSigninFormSubmit = async (
     toast.success("로그인 성공");
     
     redirect("/home");
+    
+    return {
+      values,
+      isValid: true,
+      submitted: true,
+      isLoading: false,
+    };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "로그인에 실패했습니다.";
     toast.error(errorMessage);

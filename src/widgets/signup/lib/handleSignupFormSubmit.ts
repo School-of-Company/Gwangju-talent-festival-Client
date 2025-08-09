@@ -3,6 +3,7 @@ import { authFormState } from "@/entities/user/lib/authFormState";
 import { SignUpFormValues, signUpSchema } from "@/entities/user/model/schema";
 import { signUp } from "@/entities/user/api/signup";
 import { redirect } from "next/navigation";
+import { ZodError } from "zod";
 
 export const handleSignupFormSubmit = async (
   _previousState: authFormState,
@@ -17,7 +18,7 @@ export const handleSignupFormSubmit = async (
   const result = signUpSchema.safeParse(values);
 
   if (!result.success) {
-    result.error.errors.forEach(err => toast.error(err.message));
+    result.error.errors.forEach((err: ZodError['errors'][0]) => toast.error(err.message));
     return {
       values,
       isValid: false,
@@ -38,6 +39,13 @@ export const handleSignupFormSubmit = async (
       toast.success("회원가입 성공");
 
       redirect("/signin");
+      
+      return {
+        values,
+        isValid: true,
+        submitted: true,
+        isLoading: false,
+      };
     } else {
       throw new Error(response.message);
     }
