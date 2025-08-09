@@ -44,7 +44,7 @@ export async function apiHandler(
 
     return NextResponse.json(data, { status: successStatus });
   } catch (error) {
-    console.error(BASE_URL,endpoint, error);
+    console.error(error);
     return NextResponse.json({ message: "요청 처리 중 오류가 발생했습니다." }, { status: 500 });
   }
 }
