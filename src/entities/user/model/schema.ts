@@ -11,7 +11,7 @@ export const verificationCodeSchema = z
   .min(1, "인증번호를 입력해주세요.")
   .length(6, "인증번호는 6자리여야 합니다.");
 
-export const signInSchema = z.object({
+export const signinSchema = z.object({
   phoneNumber: phoneNumberSchema,
   password: passwordSchema,
 });
@@ -67,6 +67,6 @@ export interface ApiError {
   errors?: Record<string, string[]>;
 }
 
-export type SignInFormValues = z.infer<typeof signInSchema>;
+export type SignInFormValues = z.infer<typeof signinSchema>;
 export type SignUpFormValues = z.infer<typeof signUpSchema>;
 export type PhoneVerificationRequestValues = z.infer<typeof phoneVerificationRequestSchema>;
