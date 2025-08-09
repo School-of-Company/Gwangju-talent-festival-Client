@@ -4,6 +4,8 @@
 
 # 광주탈렌트페스티벌 공식 웹 서비스 
 
+[**광탈페.kr 바로가기 >**](https://www.xn--hc0b809dz3b.kr/home)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 ![Repo size](https://img.shields.io/github/repo-size/team-incube/Gwangju-talent-festival-Client)
 ![Last commit](https://img.shields.io/github/last-commit/team-incube/Gwangju-talent-festival-Client?color=red)
