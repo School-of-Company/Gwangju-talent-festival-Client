@@ -1,5 +1,3 @@
-"use client";
-
 import SloganSecondSection from "@/widgets/main/SloganSecondSection";
 import IntroFirstSection from "@/widgets/main/IntroFirstSection";
 import PreliminaryFourthSection from "@/widgets/main/PreliminaryFourthSection";
