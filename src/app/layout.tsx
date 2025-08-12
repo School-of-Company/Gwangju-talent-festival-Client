@@ -4,8 +4,6 @@ import "../shared/style/globals.css";
 import Header from "@/shared/ui/Header";
 import TanstackProviders from "@/shared/lib/TanstackProvider";
 import ChannelTalk from "@/shared/ui/ChannelTalk";
-// import { Footer } from "@/shared/ui/Footer";
-import Script from "next/script";
 import GA from "@/shared/lib/ga";
 
 export const metadata: Metadata = {
@@ -158,10 +156,6 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <meta name="naver-site-verification" content="9b809c2b47126fcb57113f690708d63c39eb9681" />
-        <Script
-          strategy="beforeInteractive"
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`}
-        />
       </head>
       <body className="font-['Pretendard-Regular'] antialiased">
         <Header />
