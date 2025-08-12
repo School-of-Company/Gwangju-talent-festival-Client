@@ -1,6 +1,9 @@
 import { toast } from "sonner";
 import { authFormState } from "@/entities/user/lib/authFormState";
 import { SignUpFormValues, signUpSchema } from "@/entities/user/model/schema";
+import { signUp } from "@/entities/user/api/signup";
+import { redirect } from "next/navigation";
+import { ZodError } from "zod";
 
 export const handleSignupFormSubmit = async (
   _previousState: authFormState,
@@ -13,22 +16,49 @@ export const handleSignupFormSubmit = async (
   };
 
   const result = signUpSchema.safeParse(values);
-  const isValid = result.success;
 
-  if (!isValid) {
-    result.error.errors.forEach(err => toast.error(err.message));
+  if (!result.success) {
+    result.error.errors.forEach((err: ZodError['errors'][0]) => toast.error(err.message));
     return {
       values,
       isValid: false,
       submitted: true,
+      error: "입력값이 올바르지 않습니다.",
     };
   }
 
-  toast.success("회원가입 성공");
+  try {
+    const requestData = {
+      phone_number: values.phoneNumber,
+      password: values.password,
+    };
 
-  return {
-    values,
-    isValid: true,
-    submitted: true,
-  };
+    const response = await signUp(requestData);
+    
+    if (response.success) {
+      toast.success("회원가입 성공");
+
+      redirect("/signin");
+      
+      return {
+        values,
+        isValid: true,
+        submitted: true,
+        isLoading: false,
+      };
+    } else {
+      throw new Error(response.message);
+    }
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "회원가입에 실패했습니다.";
+    toast.error(errorMessage);
+    
+    return {
+      values,
+      isValid: false,
+      submitted: true,
+      isLoading: false,
+      error: errorMessage,
+    };
+  }
 };
