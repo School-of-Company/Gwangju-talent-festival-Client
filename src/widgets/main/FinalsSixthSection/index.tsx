@@ -1,6 +1,15 @@
+"use client";
+
 import { cn } from "@/shared/utils/cn";
-import { Map } from "@/entities/home/ui/Map";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(
+  () => import("@/entities/home/ui/Map").then(module => ({ default: module.Map })),
+  {
+    ssr: false
+  }
+);
 
 const FinalsSixthSection = () => {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/shared/utils/cn";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 declare global {
   interface Window {
@@ -68,92 +68,106 @@ export const Map = ({
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<KakaoMap | null>(null);
 
-  useEffect(() => {
-    const initMap = () => {
-      if (!mapRef.current) return;
-
-      const options = {
-        center: new window.kakao.maps.LatLng(latitude, longitude),
-        level: 3,
-      };
-
-      const map = new window.kakao.maps.Map(mapRef.current, options);
-      mapInstance.current = map;
-
-      if (address) {
-        const geocoder = new window.kakao.maps.services.Geocoder();
-
-        geocoder.addressSearch(address, (result, status) => {
-          if (status === "OK") {
-            const lat = parseFloat(result[0].y);
-            const lng = parseFloat(result[0].x);
-            const coords = new window.kakao.maps.LatLng(lat, lng);
-
-            map.setCenter(coords);
-
-            const marker = new window.kakao.maps.Marker({
-              position: coords,
-            });
-            marker.setMap(map);
-          } else {
-            const defaultPosition = new window.kakao.maps.LatLng(latitude, longitude);
-            const marker = new window.kakao.maps.Marker({
-              position: defaultPosition,
-            });
-            marker.setMap(map);
-          }
-        });
-      } else if (markerPosition) {
-        const markerPos = new window.kakao.maps.LatLng(markerPosition.lat, markerPosition.lng);
-        const marker = new window.kakao.maps.Marker({
-          position: markerPos,
-        });
-        marker.setMap(map);
-      } else {
-        const defaultPosition = new window.kakao.maps.LatLng(latitude, longitude);
-        const marker = new window.kakao.maps.Marker({
-          position: defaultPosition,
-        });
-        marker.setMap(map);
-      }
-    };
-
-    const loadKakaoMapScript = () => {
+  const loadKakaoMapsSDK = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
       if (window.kakao && window.kakao.maps) {
-        window.kakao.maps.load(() => {
-          initMap();
-        });
+        resolve();
         return;
       }
 
-      const script = document.querySelector('script[src*="dapi.kakao.com/v2/maps/sdk.js"]');
+      const existingScript = document.querySelector('script[src*="dapi.kakao.com"]');
+      if (existingScript) {
+        existingScript.addEventListener('load', () => resolve());
+        existingScript.addEventListener('error', () => reject(new Error('Kakao Maps SDK 로드 실패')));
+        return;
+      }
 
-      if (script) {
-        const onLoadKakaoAPI = () => {
-          if (window.kakao && window.kakao.maps) {
-            window.kakao.maps.load(() => {
-              initMap();
-            });
-          }
-        };
+      const script = document.createElement('script');
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
+      script.async = true;
+      
+      script.onload = () => {
+        resolve();
+      };
+      
+      script.onerror = () => {
+        reject(new Error('Kakao Maps SDK 로드 실패'));
+      };
 
-        if (document.readyState === "complete") {
-          onLoadKakaoAPI();
+      document.head.appendChild(script);
+    });
+  };
+
+  const initMap = useCallback(() => {
+    if (!mapRef.current || !window.kakao?.maps) return;
+
+    const options = {
+      center: new window.kakao.maps.LatLng(latitude, longitude),
+      level: 3,
+    };
+
+    const map = new window.kakao.maps.Map(mapRef.current, options);
+    mapInstance.current = map;
+
+    if (address) {
+      const geocoder = new window.kakao.maps.services.Geocoder();
+
+      geocoder.addressSearch(address, (result, status) => {
+        if (status === "OK") {
+          const lat = parseFloat(result[0].y);
+          const lng = parseFloat(result[0].x);
+          const coords = new window.kakao.maps.LatLng(lat, lng);
+
+          map.setCenter(coords);
+
+          const marker = new window.kakao.maps.Marker({
+            position: coords,
+          });
+          marker.setMap(map);
         } else {
-          script.addEventListener("load", onLoadKakaoAPI);
-          return () => {
-            script.removeEventListener("load", onLoadKakaoAPI);
-          };
+          const defaultPosition = new window.kakao.maps.LatLng(latitude, longitude);
+          const marker = new window.kakao.maps.Marker({
+            position: defaultPosition,
+          });
+          marker.setMap(map);
         }
+      });
+    } else if (markerPosition) {
+      const markerPos = new window.kakao.maps.LatLng(markerPosition.lat, markerPosition.lng);
+      const marker = new window.kakao.maps.Marker({
+        position: markerPos,
+      });
+      marker.setMap(map);
+    } else {
+      const defaultPosition = new window.kakao.maps.LatLng(latitude, longitude);
+      const marker = new window.kakao.maps.Marker({
+        position: defaultPosition,
+      });
+      marker.setMap(map);
+    }
+  }, [latitude, longitude, address, markerPosition]);
+
+  useEffect(() => {
+    const loadAndInitMap = async () => {
+      try {
+        await loadKakaoMapsSDK();
+        
+        if (window.kakao?.maps) {
+          window.kakao.maps.load(() => {
+            initMap();
+          });
+        }
+      } catch (error) {
+        console.error(error);
       }
     };
 
-    return loadKakaoMapScript();
-  }, [latitude, longitude, markerPosition, address]);
+    loadAndInitMap();
+  }, [initMap]);
 
   return (
-    <>
-      <div ref={mapRef} className={cn("w-full h-[200px] bg-slate-300 mb-[16px]", className)} />
-    </>
+    <div className={cn("relative w-full h-[200px] bg-slate-300 mb-[16px]", className)}>
+      <div ref={mapRef} className="w-full h-full" />
+    </div>
   );
 };
