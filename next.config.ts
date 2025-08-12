@@ -43,6 +43,20 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 31536000,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+        port: '',
+        pathname: '/vi/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'kr.object.ncloudstorage.com',
+        port: '',
+        pathname: '/gwangju-talent-festival-bucket/**',
+      },
+    ],
   },
 
   compress: true,

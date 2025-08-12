@@ -3,6 +3,7 @@ import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import ImageCarousel from "@/entities/home/ui/ImageCarousel";
 import Image from "next/image";
+import YouTubeLazyEmbed from "@/shared/ui/YouTubeLazyEmbed";
 
 // const SLIDES_1 = [
 //   "/images/Preliminary/slide1_1.jpg",
@@ -43,9 +44,6 @@ const SLIDES_3 = [
   "/images/26일/12.jpg",
   "/images/26일/13.jpg",
 ];
-
-const YOUTUBE_PRELIMINARY_SAT = "https://www.youtube.com/embed/n1o5Q2AVs88";
-const YOUTUBE_PRELIMINARY_FRI = "https://www.youtube.com/embed/KbnIFWzWU2Y";
 
 const TEAMS_IMAGE = "/images/본선_진출팀.png";
 
@@ -101,18 +99,10 @@ const PreliminaryFourthSection = () => {
               2025. 7. 25(금) 光트로 예선1 다시보기
             </h2>
             <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-              <div
-                className={cn("relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden")}
-              >
-                <iframe
-                  src={YOUTUBE_PRELIMINARY_FRI}
-                  title="2025 광탈페 예선1 다시보기"
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
+              <YouTubeLazyEmbed
+                videoId="KbnIFWzWU2Y"
+                title="2025 광탈페 예선1 다시보기"
+              />
             </div>
           </div>
           <div
@@ -128,18 +118,10 @@ const PreliminaryFourthSection = () => {
               2025. 7. 26(토) 光트로 예선2 다시보기
             </h2>
             <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-              <div
-                className={cn("relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden")}
-              >
-                <iframe
-                  src={YOUTUBE_PRELIMINARY_SAT}
-                  title="2025 광탈페 예선2 다시보기"
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
+              <YouTubeLazyEmbed
+                videoId="n1o5Q2AVs88"
+                title="2025 광탈페 예선2 다시보기"
+              />
             </div>
           </div>
         </div>
