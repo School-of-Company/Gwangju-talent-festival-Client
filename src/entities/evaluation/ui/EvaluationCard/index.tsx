@@ -6,7 +6,7 @@ const max = [40, 30, 30];
 
 export default function EvaluationCard() {
   return (
-    <ul className="px-16 w-full text-body3b flex py-14 border items-center rounded-md border-gray-100 border-solid justify-around">
+    <ul className="w-full text-body3b flex py-14 border items-center rounded-md border-gray-100 border-solid justify-between px-24 pl-[80px]">
       <li className="text-main-600">1</li>
       {max.map((v, i) => {
         return (
