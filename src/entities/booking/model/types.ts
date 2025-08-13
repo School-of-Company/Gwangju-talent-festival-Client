@@ -47,3 +47,20 @@ export const SEAT_INFO: Record<Section, SeatInfo> = {
   I: { occupied: 0, total: 100 },
   J: { occupied: 0, total: 54 },
 } as const;
+
+export interface AllSeatsApiResponse {
+  section_a: boolean[];
+  section_b: boolean[];
+  section_c: boolean[];
+  section_d: boolean[];
+  section_e: boolean[];
+  section_f: boolean[];
+  section_g: boolean[];
+  section_h: boolean[];
+  section_i: boolean[];
+  section_j: boolean[];
+}
+
+export interface SectionSeatsApiResponse {
+  seats: boolean[];
+}
