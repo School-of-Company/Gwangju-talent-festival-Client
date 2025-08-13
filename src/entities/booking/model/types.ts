@@ -19,10 +19,7 @@ export interface Seat {
 
 export interface SeatLayout {
   section: Section;
-  rows: number;
-  cols: number;
   seats: Seat[];
-  align?: "left" | "right" | "center";
 }
 
 export interface SelectedSeatInfo {
@@ -48,19 +45,22 @@ export const SEAT_INFO: Record<Section, SeatInfo> = {
   J: { occupied: 0, total: 54 },
 } as const;
 
-export interface AllSeatsApiResponse {
-  section_a: boolean[];
-  section_b: boolean[];
-  section_c: boolean[];
-  section_d: boolean[];
-  section_e: boolean[];
-  section_f: boolean[];
-  section_g: boolean[];
-  section_h: boolean[];
-  section_i: boolean[];
-  section_j: boolean[];
-}
+type SectionKey<T extends Section> = `section_${Lowercase<T>}`;
+
+type AllSectionKeys = {
+  [K in Section as SectionKey<K>]: boolean[];
+};
+
+export type AllSeatsApiResponse = AllSectionKeys;
 
 export interface SectionSeatsApiResponse {
   seats: boolean[];
 }
+
+export const getSectionFromKey = (key: keyof AllSeatsApiResponse): Section => {
+  const sectionLetter = key.replace('section_', '').toUpperCase() as Section;
+  if (SECTIONS.includes(sectionLetter)) {
+    return sectionLetter;
+  }
+  throw new Error(`Invalid section key: ${key}`);
+};

@@ -144,10 +144,7 @@ const generateSeatLayout = (section: Section): SeatLayout => {
 
   return {
     section,
-    rows: pattern.length,
-    cols: pattern[0]?.length || 0,
     seats,
-    align: "center",
   };
 };
 
