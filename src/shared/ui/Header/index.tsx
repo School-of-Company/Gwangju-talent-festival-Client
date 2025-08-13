@@ -28,6 +28,7 @@ export default function Header() {
   const hidden =
     pathname.startsWith("/signin") ||
     pathname.startsWith("/signup") ||
+    pathname.startsWith("/vote") ||
     pathname.startsWith("/admin");
   if (hidden) return null;
 
