@@ -95,6 +95,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
     format("woff");
   font-weight: 400;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -103,6 +104,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Cafe24ClassicType-Regular.woff2")
     format("woff2");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -111,6 +113,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.0/BMHANNAPro.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -119,6 +122,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Danjo-bold-Regular.woff2")
     format("woff2");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -127,6 +131,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -135,6 +140,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2412-1@1.0/Ownglyph_corncorn-Rg.woff2")
     format("woff2");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -143,6 +149,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -151,6 +158,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduSaeeum_OTFMediumA.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -159,6 +167,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/Shilla_CultureB-Bold.woff2")
     format("woff2");
   font-weight: 700;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -167,6 +176,7 @@ input {
   src: url("https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/SangSangRockOTF.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -175,6 +185,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Dokrip.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -183,6 +194,7 @@ input {
   src: url("https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2")
     format("woff2");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -191,6 +203,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/OTEnjoystoriesBA.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -199,6 +212,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/행복고흥L.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -207,6 +221,7 @@ input {
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/JSArirang-RegularA1.woff")
     format("woff");
   font-weight: normal;
+  font-display: swap;
   font-style: normal;
 }
 
