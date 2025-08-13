@@ -44,7 +44,7 @@ export default function CustomDropdown({
       </div>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 max-h-48 overflow-y-auto min-w-[80px]">
+        <div className="absolute text-center top-full left-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10 max-h-48 overflow-y-auto min-w-[80px]">
           {Array.from({ length: max }, (_, num) => (
             <div
               key={num + 1}
