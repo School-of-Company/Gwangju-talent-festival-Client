@@ -30,12 +30,13 @@ export default function EvaluationCard({ order }: { order: number }) {
             className="w-[46.53px]"
             key={i}
             max={v.max}
+            min={0}
             type="number"
             value={v.value}
             onChange={e => {
               const val = e.target.value === "" ? "" : Number(e.target.value);
 
-              if (val === "" || val <= v.max) {
+              if (val === "" || (val <= v.max && val >= 0)) {
                 setValues(prev =>
                   prev.map((item, idx) => (idx === i ? { ...item, value: val } : item)),
                 );
