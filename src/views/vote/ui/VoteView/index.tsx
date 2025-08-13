@@ -1,6 +1,5 @@
 "use client";
 
-import { useGetVote } from "../../model/useGetVote";
 import { toast } from "sonner";
 import { postVote } from "../../api/postVote";
 import { useState } from "react";
@@ -8,6 +7,7 @@ import Image from "next/image";
 import success from "@/shared/asset/png/success.png";
 import VoteButton from "@/shared/asset/svg/VoteButton";
 import { Button } from "@/shared/ui";
+import { useGetVote } from "@/shared/model/useGetVote";
 
 export default function VoteView() {
   const { data, isError, error } = useGetVote();
