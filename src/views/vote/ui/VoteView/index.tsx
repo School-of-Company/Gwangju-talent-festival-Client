@@ -16,7 +16,7 @@ export default function VoteView() {
   if (isError) toast.error(error.message ?? "현재 투표를 불러오는데 실패했습니다");
 
   const handleVote = async () => {
-    if (data?.team_id && data.teamName) {
+    if (data?.team_id && data.team_name) {
       const res = await postVote(score.filter(v => v).length, data?.team_id);
       if (res.status === 200) {
         toast.success("투표되었습니다");
@@ -31,7 +31,7 @@ export default function VoteView() {
       <div className="sm:px-[106px] px-16 mt-[23px] flex flex-col items-center">
         <div className="flex flex-col gap-16 w-full items-center bg-gray-50 rounded-lg h-[282px] justify-center py-[40px]">
           <p className="text-body2r text-gray-600">현재 투표 중인 팀</p>
-          <h1 className="sm:text-title2b text-title4b">{data?.teamName ?? "팀 이름"}</h1>
+          <h1 className="sm:text-title2b text-title4b">{data?.team_name ?? "팀 이름"}</h1>
           {isSuccess && (
             <Image alt="성공" className="mt-[46px]" src={success} height={72} width={72} />
           )}
