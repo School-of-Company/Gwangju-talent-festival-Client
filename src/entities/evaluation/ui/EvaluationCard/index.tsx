@@ -5,8 +5,6 @@ import { Button } from "@/shared/ui";
 import { useState } from "react";
 import CustomDropdown from "../Dropdown";
 
-const max = [40, 30, 30];
-
 type Score = {
   value: number | string;
   write: boolean;
@@ -31,7 +29,7 @@ export default function EvaluationCard({ order }: { order: number }) {
           <input
             className="w-[80px]"
             key={i}
-            max={max[i]}
+            max={v.max}
             type="number"
             value={v.value}
             onChange={e => {
