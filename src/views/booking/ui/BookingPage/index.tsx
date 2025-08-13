@@ -7,7 +7,7 @@ import Button from "@/shared/ui/Button";
 import BackHeader from "@/shared/ui/BackHeader";
 import { useSeatSelection } from "@/entities/booking/lib/useSeatSelection";
 import { SectionType, Seat } from "@/entities/booking/model/types";
-import { useSeatBooking } from "@/entities/booking/api/useSeatBooking";
+import { useSeatBooking } from "@/entities/booking/lib/useSeatBooking";
 
 const BookingPage = () => {
   const {
