@@ -8,7 +8,7 @@ export default function EvaluationView() {
   return (
     <div className="flex items-center flex-col">
       <Standard />
-      <div className="justify-center flex flex-col gap-32 w-full">
+      <div className="justify-center flex flex-col gap-24 w-full">
         {Mock.map(v => {
           return <EvaluationCard order={v} key={v} />;
         })}
