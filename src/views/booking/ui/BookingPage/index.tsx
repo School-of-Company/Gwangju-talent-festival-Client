@@ -78,7 +78,7 @@ const BookingPage = () => {
         <Button
           className="fixed bottom-[48px] w-[375px] h-[48px]"
           onClick={handleBookingClick}
-          isDisabled={!isComplete || seatBookingMutation.isPending}
+          disabled={!isComplete}
         >
           {getButtonText()}
         </Button>

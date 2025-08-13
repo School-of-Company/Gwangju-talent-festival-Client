@@ -22,7 +22,7 @@ export default function Modal({ type, setIsOpen, isOpen }: ModalProps) {
 
   const footer = (
     <Button
-      isDisabled={type === "agree" && agree !== "agree"}
+      disabled={type === "agree" && agree !== "agree"}
       onClick={handleClose}
       className="w-full"
     >

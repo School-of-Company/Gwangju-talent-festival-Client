@@ -3,27 +3,30 @@
 import Input from "@/shared/ui/Input";
 import Button from "@/shared/ui/Button";
 import { cn } from "@/shared/utils/cn";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { authFormState } from "@/entities/user/lib/authFormState";
 import SubmitButton from "@/entities/user/ui/SubmitButton";
 import { handleSignupFormSubmit } from "@/widgets/signup/lib/handleSignupFormSubmit";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { phoneNumberSchema } from "@/shared/model/phoneNumberSchema";
+import { sendVerificationCode } from "@/entities/user/api/verify";
 
 const SignupFormContainer = () => {
   const [codeSent, setCodeSent] = useState(false);
+  const [isCodeSending, setIsCodeSending] = useState(false);
   const phoneInputRef = useRef<HTMLInputElement>(null);
 
   const initialState: authFormState = {
     values: { phoneNumber: "", verificationCode: "", password: "" },
     isValid: false,
     submitted: false,
+    isLoading: false,
   };
 
-  const formAction = useFormState(handleSignupFormSubmit, initialState)[1];
+  const [state, formAction] = useActionState(handleSignupFormSubmit, initialState);
 
-  const handleSendVerificationCode = () => {
+  const handleSendVerificationCode = async () => {
     const phoneNumber = phoneInputRef.current?.value || "";
 
     const result = phoneNumberSchema.safeParse(phoneNumber);
@@ -33,8 +36,24 @@ const SignupFormContainer = () => {
       return;
     }
 
-    toast.success("인증번호가 전송되었습니다.");
-    setCodeSent(true);
+    setIsCodeSending(true);
+
+    try {
+      const response = await sendVerificationCode({
+        phone_number: phoneNumber,
+      });
+
+      if (response.success) {
+        toast.success("인증번호가 전송되었습니다.");
+        setCodeSent(true);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "인증번호 전송에 실패했습니다.");
+    } finally {
+      setIsCodeSending(false);
+    }
   };
 
   return (
@@ -47,18 +66,21 @@ const SignupFormContainer = () => {
             <div className={cn("flex items-end gap-8")}>
               <div className={cn("w-full")}>
                 <Input
-                  type="number"
+                  type="text"
                   placeholder="전화번호를 입력해주세요."
                   name="phoneNumber"
                   ref={phoneInputRef}
+                  disabled={state.isLoading || isCodeSending}
+                  defaultValue={state.values.phoneNumber}
                 />
               </div>
               <Button
                 className={cn("w-32 shrink-0 h-[50px]")}
                 type="button"
                 onClick={handleSendVerificationCode}
+                disabled={state.isLoading || isCodeSending}
               >
-                {codeSent ? "재전송" : "인증번호"}
+                {isCodeSending ? "전송중..." : codeSent ? "재전송" : "인증번호"}
               </Button>
             </div>
           </div>
@@ -66,11 +88,13 @@ const SignupFormContainer = () => {
           {codeSent && (
             <div>
               <Input
-                type="number"
+                type="text"
                 placeholder="인증번호를 입력해주세요."
                 label="인증번호 입력"
                 className={cn("mt-2")}
                 name="verificationCode"
+                disabled={state.isLoading}
+                defaultValue={state.values.verificationCode}
               />
             </div>
           )}
@@ -82,12 +106,23 @@ const SignupFormContainer = () => {
               label="비밀번호 입력"
               className={cn("mt-2")}
               name="password"
+              disabled={state.isLoading}
+              defaultValue={state.values.password}
             />
           </div>
         </div>
 
+        {state.error && (
+          <div className={cn("mt-4 p-3 bg-red-50 border border-red-200 rounded-md")}>
+            <p className={cn("text-sm text-red-600")}>{state.error}</p>
+          </div>
+        )}
+
         <div className={cn("flex flex-col gap-2 mt-16")}>
-          <SubmitButton buttonText="회원가입" />
+          <SubmitButton 
+            buttonText={state.isLoading ? "가입 중..." : "회원가입"}
+            disabled={state.isLoading || !codeSent}
+          />
         </div>
       </form>
     </div>
