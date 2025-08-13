@@ -48,7 +48,7 @@ export default function CustomDropdown({
           {Array.from({ length: max }, (_, num) => (
             <div
               key={num + 1}
-              className="px-12 py-8 hover:bg-gray-100 cursor-pointer text-sm"
+              className="px-12 text-body2r text-gray-500 py-8 hover:bg-gray-100 cursor-pointer"
               onClick={() => onSelect(num + 1)}
             >
               {num + 1}
