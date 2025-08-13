@@ -1,6 +1,13 @@
-export default function VoteButton({ isActive }: { isActive: boolean }) {
+export default function VoteButton({
+  isActive,
+  onClick,
+}: {
+  isActive: boolean;
+  onClick: () => void;
+}) {
   return (
     <svg
+      onClick={onClick}
       width="120"
       height="120"
       viewBox="0 0 120 120"
