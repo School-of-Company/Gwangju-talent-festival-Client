@@ -34,9 +34,12 @@ export default function EvaluationCard({ order }: { order: number }) {
             value={v.value}
             onChange={e => {
               const val = e.target.value === "" ? "" : Number(e.target.value);
-              setValues(prev =>
-                prev.map((item, idx) => (idx === i ? { ...item, value: val } : item)),
-              );
+
+              if (val === "" || val <= v.max) {
+                setValues(prev =>
+                  prev.map((item, idx) => (idx === i ? { ...item, value: val } : item)),
+                );
+              }
             }}
             onBlur={() => {
               setValues(prev =>
