@@ -10,7 +10,7 @@ export default function EvaluationView() {
       <Standard />
       <div className="justify-center flex flex-col gap-32 w-full">
         {Mock.map(v => {
-          return <EvaluationCard key={v} />;
+          return <EvaluationCard order={v} key={v} />;
         })}
       </div>
       <Button className="w-[420px] mt-[60px] mb-[70px]">확인</Button>
