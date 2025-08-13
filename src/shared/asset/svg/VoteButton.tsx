@@ -7,6 +7,7 @@ export default function VoteButton({
 }) {
   return (
     <svg
+      className="cursor-pointer"
       onClick={onClick}
       width="120"
       height="120"
