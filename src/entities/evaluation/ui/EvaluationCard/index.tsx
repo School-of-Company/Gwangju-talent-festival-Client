@@ -27,7 +27,7 @@ export default function EvaluationCard({ order }: { order: number }) {
       {values.map((v, i) => {
         return v.write ? (
           <input
-            className="w-[80px]"
+            className="w-[46.53px]"
             key={i}
             max={v.max}
             type="number"
