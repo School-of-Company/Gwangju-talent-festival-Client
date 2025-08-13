@@ -17,7 +17,7 @@ export default function VoteView() {
 
   const handleVote = async () => {
     if (data?.team_id && data.teamName) {
-      const res = await postVote(data?.teamName, data?.team_id);
+      const res = await postVote(score.filter(v => v).length, data?.team_id);
       if (res.status === 200) {
         toast.success("투표되었습니다");
         setIsSuccess(true);
