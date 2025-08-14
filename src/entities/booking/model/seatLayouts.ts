@@ -122,12 +122,12 @@ const generateSeatLayout = (section: Section): SeatLayout => {
   const seatInfo = SEAT_INFO[section];
   const { total } = seatInfo;
   const pattern = SECTION_SEAT_PATTERNS[section];
-  
+
   const seats: Seat[] = [];
   let seatIndex = 0;
 
-  pattern.forEach((row) => {
-    row.forEach((seatNumber) => {
+  pattern.forEach(row => {
+    row.forEach(seatNumber => {
       if (seatNumber !== null && seatIndex < total) {
         const status = SEAT_STATUS.AVAILABLE;
 
@@ -136,7 +136,7 @@ const generateSeatLayout = (section: Section): SeatLayout => {
           status,
           section,
         });
-        
+
         seatIndex++;
       }
     });
@@ -144,37 +144,34 @@ const generateSeatLayout = (section: Section): SeatLayout => {
 
   return {
     section,
-    rows: pattern.length,
-    cols: pattern[0]?.length || 0,
     seats,
-    align: "center",
   };
 };
 
-export const SEAT_LAYOUTS: Record<Section, SeatLayout> = {
-  A: generateSeatLayout("A"),
-  B: generateSeatLayout("B"),
-  C: generateSeatLayout("C"),
-  D: generateSeatLayout("D"),
-  E: generateSeatLayout("E"),
-  F: generateSeatLayout("F"),
-  G: generateSeatLayout("G"),
-  H: generateSeatLayout("H"),
-  I: generateSeatLayout("I"),
-  J: generateSeatLayout("J"),
-};
+export const SEAT_LAYOUTS: Record<Section, SeatLayout> = Object.freeze({
+  A: Object.freeze(generateSeatLayout("A")),
+  B: Object.freeze(generateSeatLayout("B")),
+  C: Object.freeze(generateSeatLayout("C")),
+  D: Object.freeze(generateSeatLayout("D")),
+  E: Object.freeze(generateSeatLayout("E")),
+  F: Object.freeze(generateSeatLayout("F")),
+  G: Object.freeze(generateSeatLayout("G")),
+  H: Object.freeze(generateSeatLayout("H")),
+  I: Object.freeze(generateSeatLayout("I")),
+  J: Object.freeze(generateSeatLayout("J")),
+});
 
 export const getSeatLayout = (section: Section): SeatLayout => {
   return SEAT_LAYOUTS[section];
 };
 
 export const findSeatById = (seatNumber: string, section: Section): Seat | undefined => {
-  const layout = getSeatLayout(section);
+  const layout = SEAT_LAYOUTS[section];
   return layout.seats.find(seat => seat.seatNumber === seatNumber);
 };
 
 export const getAvailableSeatsCount = (section: Section): number => {
-  const layout = getSeatLayout(section);
+  const layout = SEAT_LAYOUTS[section];
   return layout.seats.filter(seat => seat.status === SEAT_STATUS.AVAILABLE).length;
 };
 
