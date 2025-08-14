@@ -25,9 +25,6 @@ export function useSectionSeatState(section: Section) {
         status: response.seats[index] ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.UNAVAILABLE,
       }));
     },
-    staleTime: 30000,
-    refetchInterval: 60000,
-    retry: 3,
     enabled: !!section,
   });
 }
@@ -61,8 +58,5 @@ export function usePrefetchAllSeats() {
         throw error;
       }
     },
-    staleTime: 30000,
-    refetchInterval: 60000,
-    retry: 3,
   });
 }
