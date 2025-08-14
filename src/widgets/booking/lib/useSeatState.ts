@@ -28,6 +28,7 @@ export function useSectionSeatState(section: Section) {
     staleTime: 30000,
     refetchInterval: 60000,
     retry: 3,
+    enabled: !!section,
   });
 }
 
