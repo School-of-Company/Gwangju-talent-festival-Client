@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { seatBooking } from "../api/seatBooking";
-import { Seat } from "../model/types";
+import { seatBooking } from "@/entities/booking/api/seatBooking";
+import { Seat } from "@/entities/booking/model/types";
 
 export function useSeatBooking() {
   return useMutation({

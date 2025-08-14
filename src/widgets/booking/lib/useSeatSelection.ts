@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { Section, Seat, SelectedSeatInfo } from "../model/types";
+import { Section, Seat, SelectedSeatInfo } from "@/entities/booking/model/types";
 
 export const useSeatSelection = () => {
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
