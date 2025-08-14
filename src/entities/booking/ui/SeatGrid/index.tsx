@@ -2,10 +2,11 @@
 
 import { memo, useCallback, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { seatQueryKeys } from "@/entities/booking/lib/useSeatState";
 import { cn } from "@/shared/utils/cn";
-import { Seat, SeatLayout, SECTIONS } from "../../model/types";
+import { Seat, SeatLayout, SECTIONS } from "@/entities/booking/model/types";
 import { SeatItem } from "../SeatItem";
-import { getSeatPattern, getSeatLayout } from "../../model/seatLayouts";
+import { getSeatPattern, getSeatLayout } from "@/entities/booking/model/seatLayouts";
 
 export interface SeatGridProps {
   layout: SeatLayout | null;
@@ -81,7 +82,7 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
   );
 
   const renderSectionMiniGrid = (section: (typeof SECTIONS)[number]) => {
-    const cachedSeats = queryClient.getQueryData<Seat[]>(["seatState", section]);
+    const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(section));
     const sectionLayout = getSeatLayout(section);
     const pattern = getSeatPattern(section);
     

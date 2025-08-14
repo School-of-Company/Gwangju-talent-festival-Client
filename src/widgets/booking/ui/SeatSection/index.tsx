@@ -5,7 +5,7 @@ import { cn } from "@/shared/utils/cn";
 import { Section, Seat, SelectedSeatInfo } from "@/entities/booking/model/types";
 import { SeatGrid } from "@/entities/booking/ui/SeatGrid";
 import { SelectedSeatDisplay } from "@/entities/booking/ui/SelectedSeatDisplay";
-import { useSectionSeatState } from "@/widgets/booking/lib/useSeatState";
+import { useSectionSeatState } from "@/entities/booking/lib/useSeatState";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 import { SEAT_STATUS } from "@/entities/booking/model/types";
 

@@ -4,8 +4,9 @@ import { useState, useCallback, memo, useMemo, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/shared/utils/cn";
 import { SectionButtons } from "@/entities/booking/ui/SectionButtons";
+import { seatQueryKeys } from "@/entities/booking/lib/useSeatState";
 import { SectionType, Section, Seat, SECTIONS, SEAT_INFO, SEAT_STATUS } from "@/entities/booking/model/types";
-import { usePrefetchAllSeats } from "@/widgets/booking/lib/useSeatState";
+import { usePrefetchAllSeats } from "@/entities/booking/lib/useSeatState";
 import { toast } from "sonner";
 
 interface SelectSectionProps {
@@ -48,7 +49,7 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
     SECTIONS.forEach(section => {
       const total = SEAT_INFO[section].total;
       
-      const cachedSeats = queryClient.getQueryData<Seat[]>(["seatState", section]);
+      const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(section));
       
       if (cachedSeats) {
         const occupied = cachedSeats.filter(seat => seat.status === SEAT_STATUS.UNAVAILABLE).length;

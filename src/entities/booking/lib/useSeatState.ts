@@ -8,7 +8,7 @@ import {
 } from "@/entities/booking/model/types";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 
-const seatQueryKeys = {
+export const seatQueryKeys = {
   seatState: (section: Section) => ["seatState", section] as const,
   allSeats: () => ["allSeats"] as const,
 } as const;
