@@ -3,15 +3,29 @@
 import { useState, useEffect } from "react";
 import Star from "@/shared/asset/svg/Star";
 import { useGetVote } from "@/shared/model/useGetVote";
-import Confetti from "react-confetti";
+import dynamic from "next/dynamic";
+
+const ReactConfetti = dynamic(() => import("react-confetti"), { ssr: false });
 
 export default function ScoreView() {
   const { data } = useGetVote();
-  const activeStars = data?.star ?? 300;
+  const activeStars = data?.star ?? 200;
 
   const [stars, setStars] = useState(
     Array.from({ length: 300 }, (_, i) => ({ id: i, active: false })),
   );
+
+  const [mounted, setMounted] = useState(false);
+  const [viewport, setViewport] = useState<{ w: number; h: number }>({ w: 0, h: 0 });
+
+  useEffect(() => {
+    setMounted(true);
+    const update = () => setViewport({ w: window.innerWidth, h: window.innerHeight });
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
   useEffect(() => {
     let index = 0;
     let cancelled = false;
@@ -53,7 +67,9 @@ export default function ScoreView() {
           </div>
         ))}
       </div>
-      <Confetti width={window.innerWidth} height={window.innerHeight} />
+      {mounted && viewport.w > 0 && viewport.h > 0 && (
+        <ReactConfetti width={viewport.w} height={viewport.h} />
+      )}
     </div>
   );
 }
