@@ -8,7 +8,10 @@ export async function getSeatState(section?: Section): Promise<AllSeatsApiRespon
     const res = await instance.get(`/seat${section ? `?section=${section}` : "/all"}`);
     return res.data;
   } catch (error) {
-    console.error(error);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    
     throw error;
   }
 };

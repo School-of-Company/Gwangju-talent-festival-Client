@@ -37,24 +37,28 @@ export function usePrefetchAllSeats() {
   return useQuery({
     queryKey: seatQueryKeys.allSeats(),
     queryFn: async () => {
-      const response = await getSeatState();
-      
-      (Object.keys(response) as Array<keyof typeof response>).forEach(sectionKey => {
-        const section = getSectionFromKey(sectionKey);
-        const sectionSeats = response[sectionKey];
+      try {
+        const response = await getSeatState();
         
-        if (sectionSeats) {
-          const layout = getSeatLayout(section);
-          const transformedSeats: Seat[] = layout.seats.map((seat, index) => ({
-            ...seat,
-            status: (index < sectionSeats.length && sectionSeats[index]) ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.UNAVAILABLE,
-          }));
+        (Object.keys(response) as Array<keyof typeof response>).forEach(sectionKey => {
+          const section = getSectionFromKey(sectionKey);
+          const sectionSeats = response[sectionKey];
           
-          queryClient.setQueryData(seatQueryKeys.seatState(section), transformedSeats);
-        }
-      });
-      
-      return { success: true, timestamp: Date.now() };
+          if (sectionSeats) {
+            const layout = getSeatLayout(section);
+            const transformedSeats: Seat[] = layout.seats.map((seat, index) => ({
+              ...seat,
+              status: (index < sectionSeats.length && sectionSeats[index]) ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.UNAVAILABLE,
+            }));
+            
+            queryClient.setQueryData(seatQueryKeys.seatState(section), transformedSeats);
+          }
+        });
+        
+        return { success: true, timestamp: Date.now() };
+      } catch (error) {
+        throw error;
+      }
     },
     staleTime: 30000,
     refetchInterval: 60000,
