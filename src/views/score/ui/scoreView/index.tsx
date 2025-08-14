@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Star from "@/shared/asset/svg/Star";
 import { useGetVote } from "@/shared/model/useGetVote";
+import Confetti from "react-confetti";
 
 export default function ScoreView() {
   const { data } = useGetVote();
@@ -11,10 +12,8 @@ export default function ScoreView() {
   const [stars, setStars] = useState(
     Array.from({ length: 300 }, (_, i) => ({ id: i, active: false })),
   );
-
   useEffect(() => {
     let index = 0;
-    let delay = 80;
     let cancelled = false;
     const step = () => {
       setStars(prev =>
@@ -23,9 +22,9 @@ export default function ScoreView() {
         ),
       );
       index++;
-      delay = Math.max(5, delay - 1);
       if (index < activeStars && !cancelled) {
-        setTimeout(step, delay);
+        setTimeout(step, 30);
+      } else if (index >= activeStars) {
       }
     };
     step();
@@ -39,11 +38,22 @@ export default function ScoreView() {
       <h1 className="text-title1b mb-[74px] mt-[140px]">{data?.team_name ?? "팀 명"}</h1>
       <div className="flex flex-wrap gap-1">
         {stars.map(star => (
-          <div key={star.id}>
+          <div
+            key={star.id}
+            style={{
+              transition:
+                "transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s cubic-bezier(0.4,0,0.2,1)",
+              transform: star.active ? "scale(1)" : "scale(0.6)",
+              opacity: star.active ? 1 : 0.2,
+              willChange: "transform, opacity",
+              display: "inline-block",
+            }}
+          >
             <Star active={star.active} />
           </div>
         ))}
       </div>
+      <Confetti width={window.innerWidth} height={window.innerHeight} />
     </div>
   );
 }
