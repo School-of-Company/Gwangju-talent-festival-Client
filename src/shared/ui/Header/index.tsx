@@ -25,8 +25,12 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
-  const isAuthPage = pathname.startsWith("/signin") || pathname.startsWith("/signup");
-  if (isAuthPage) return null;
+  const hidden =
+    pathname.startsWith("/signin") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/vote") ||
+    pathname.startsWith("/admin");
+  if (hidden) return null;
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(prevState => !prevState);

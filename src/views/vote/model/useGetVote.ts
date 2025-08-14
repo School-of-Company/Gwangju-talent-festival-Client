@@ -18,6 +18,5 @@ export const useGetVote = () => {
   return useQuery<Response>({
     queryKey: ["vote"],
     queryFn: getVote,
-    refetchInterval: 5000,
   });
 };
