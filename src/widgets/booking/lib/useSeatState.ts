@@ -47,7 +47,7 @@ export function usePrefetchAllSeats() {
           const layout = getSeatLayout(section);
           const transformedSeats: Seat[] = layout.seats.map((seat, index) => ({
             ...seat,
-            status: sectionSeats[index] ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.UNAVAILABLE,
+            status: (index < sectionSeats.length && sectionSeats[index]) ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.UNAVAILABLE,
           }));
           
           queryClient.setQueryData(seatQueryKeys.seatState(section), transformedSeats);
