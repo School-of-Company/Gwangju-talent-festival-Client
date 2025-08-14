@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useCallback, memo, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/shared/utils/cn";
 import { SectionButtons } from "@/entities/booking/ui/SectionButtons";
-import { SectionType, Section, SECTIONS, SEAT_INFO } from "@/entities/booking/model/types";
+import { SectionType, Section, Seat, SECTIONS, SEAT_INFO, SEAT_STATUS } from "@/entities/booking/model/types";
+import { usePrefetchAllSeats } from "@/widgets/booking/lib/useSeatState";
 
 interface SelectSectionProps {
   onSectionSelect?: (section: SectionType) => void;
@@ -12,6 +14,9 @@ interface SelectSectionProps {
 
 export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, className }) => {
   const [selectedSection, setSelectedSection] = useState<SectionType>(null);
+  const queryClient = useQueryClient();
+  
+  const { isLoading: isPrefetching } = usePrefetchAllSeats();
 
   const handleSectionSelect = useCallback(
     (section: SectionType) => {
@@ -23,12 +28,31 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
 
   const seatInfoMap = useMemo(() => {
     const map: Record<Section, string> = {} as Record<Section, string>;
+    
+    if (isPrefetching) {
+      SECTIONS.forEach(section => {
+        const seatInfo = SEAT_INFO[section];
+        map[section] = `${seatInfo.occupied}/${seatInfo.total}`;
+      });
+      return map;
+    }
+
     SECTIONS.forEach(section => {
-      const seatInfo = SEAT_INFO[section];
-      map[section] = `${seatInfo.occupied}/${seatInfo.total}`;
+      const total = SEAT_INFO[section].total;
+      
+      const cachedSeats = queryClient.getQueryData<Seat[]>(["seatState", section]);
+      
+      if (cachedSeats) {
+        const occupied = cachedSeats.filter(seat => seat.status === SEAT_STATUS.UNAVAILABLE).length;
+        map[section] = `${occupied}/${total}`;
+      } else {
+        const seatInfo = SEAT_INFO[section];
+        map[section] = `${seatInfo.occupied}/${seatInfo.total}`;
+      }
     });
+    
     return map;
-  }, []);
+  }, [isPrefetching, queryClient]);
 
   return (
     <div className={cn("w-full", className)}>

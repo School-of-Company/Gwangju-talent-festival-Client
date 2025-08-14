@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useCallback, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/shared/utils/cn";
 import { Seat, SeatLayout, SECTIONS } from "../../model/types";
 import { SeatItem } from "../SeatItem";
@@ -14,6 +15,8 @@ export interface SeatGridProps {
 }
 
 export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, className }) => {
+  const queryClient = useQueryClient();
+  
   const handleSeatSelect = useCallback(
     (seat: Seat) => {
       onSeatSelect(seat);
@@ -21,7 +24,6 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     [onSeatSelect],
   );
 
-  // 단일 섹션의 좌석 그리드 생성
   const seatGrid = useMemo(() => {
     if (!layout?.section) return [];
 
@@ -45,11 +47,10 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
       }),
     );
   }, [layout?.section, layout?.seats]);
-
-  // 전체 섹션 그리드 생성 (2x5)
+  
   const allSectionsGrid = useMemo(() => {
-    const sectionsRow1 = SECTIONS.slice(0, 5); // A~E
-    const sectionsRow2 = SECTIONS.slice(5, 10); // F~J
+    const sectionsRow1 = SECTIONS.slice(0, 5);
+    const sectionsRow2 = SECTIONS.slice(5, 10);
 
     return [sectionsRow1, sectionsRow2];
   }, []);
@@ -80,11 +81,14 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
   );
 
   const renderSectionMiniGrid = (section: (typeof SECTIONS)[number]) => {
+    const cachedSeats = queryClient.getQueryData<Seat[]>(["seatState", section]);
     const sectionLayout = getSeatLayout(section);
     const pattern = getSeatPattern(section);
+    
     const seatMap = new Map<string, Seat>();
-
-    sectionLayout.seats.forEach(seat => {
+    const seatsToUse = cachedSeats || sectionLayout.seats;
+    
+    seatsToUse.forEach(seat => {
       seatMap.set(seat.seatNumber, seat);
     });
 

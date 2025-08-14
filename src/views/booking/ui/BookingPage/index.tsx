@@ -5,9 +5,9 @@ import SelectSection from "@/widgets/booking/ui/SelectSection";
 import SeatSection from "@/widgets/booking/ui/SeatSection";
 import Button from "@/shared/ui/Button";
 import BackHeader from "@/shared/ui/BackHeader";
-import { useSeatSelection } from "@/entities/booking/lib/useSeatSelection";
+import { useSeatSelection } from "@/widgets/booking/lib/useSeatSelection";
 import { SectionType, Seat } from "@/entities/booking/model/types";
-import { useSeatBooking } from "@/entities/booking/lib/useSeatBooking";
+import { useSeatBooking } from "@/widgets/booking/lib/useSeatBooking";
 
 const BookingPage = () => {
   const {
