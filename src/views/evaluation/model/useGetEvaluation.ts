@@ -1,16 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getEvaluation } from "../api/getEvaluation";
-import { EvaluationCategory } from "@/entities/evaluation/model/Category";
+import { getEvaluations } from "../api/getEvaluations";
+import { Score } from "./score";
 
-interface Response {
-  judge_id: number;
-  totalScore: number;
-  score: { category: EvaluationCategory; value: number }[];
-}
-
-export const useGetEvaluation = () => {
-  return useQuery<Response>({
+export const useGetEvaluations = () => {
+  return useQuery<Score[]>({
     queryKey: ["evaluation"],
-    queryFn: getEvaluation,
+    queryFn: getEvaluations,
   });
 };
