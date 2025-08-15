@@ -2,28 +2,55 @@
 
 import { CheckIcon } from "@/shared/asset/svg/CheckIcon";
 import { Button } from "@/shared/ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomDropdown from "../Dropdown";
+import { Score } from "@/views/evaluation/model/score";
 
-type Score = {
+type ValueType = {
   value: number | string;
   write: boolean;
   max: number;
   show: boolean;
 };
 
-const scores: Score[] = [
+const scores: ValueType[] = [
   { value: 0, write: false, max: 40, show: false },
   { value: 0, write: false, max: 30, show: false },
   { value: 0, write: false, max: 30, show: false },
 ];
+export default function EvaluationCard({
+  judge_id,
+  stage_manner_performance,
+  completion_expression,
+  creativity_composition,
+  total_score,
+  team_id,
+  team_name,
+}: Score) {
+  const [values, setValues] = useState<ValueType[]>(scores);
 
-export default function EvaluationCard({ order }: { order: number }) {
-  const [values, setValues] = useState<Score[]>(scores);
+  useEffect(() => {
+    setValues(prev =>
+      prev.map((item, idx) => (idx === 0 ? { ...item, value: stage_manner_performance } : item)),
+    );
+    setValues(prev =>
+      prev.map((item, idx) => (idx === 1 ? { ...item, value: completion_expression } : item)),
+    );
+    setValues(prev =>
+      prev.map((item, idx) => (idx === 1 ? { ...item, value: creativity_composition } : item)),
+    );
+  }, [
+    judge_id,
+    stage_manner_performance,
+    completion_expression,
+    creativity_composition,
+    total_score,
+    team_id,
+  ]);
 
   return (
     <ul className="w-full text-body3b flex py-14 border items-center rounded-md border-gray-100 border-solid justify-between px-24 pl-[80px]">
-      <li className="text-main-600">{order}</li>
+      <li className="text-main-600">{team_id + ". " + team_name}</li>
       {values.map((v, i) => {
         return v.write ? (
           <input
@@ -85,7 +112,8 @@ export default function EvaluationCard({ order }: { order: number }) {
         );
       })}
       <Button className="py-12 px-16 gap-12 w-[126px] justify-center flex items-center">
-        <CheckIcon color="white" />9
+        <CheckIcon color="white" />
+        {total_score}
       </Button>
     </ul>
   );
