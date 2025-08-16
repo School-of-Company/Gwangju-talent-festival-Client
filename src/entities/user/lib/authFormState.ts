@@ -5,7 +5,7 @@ export interface authFormState {
   isValid: boolean;
   submitted: boolean;
   isLoading?: boolean;
-  error?: string;
+  error?: string | string[];
 }
 
 export type authFormValues = SignInFormValues | SignUpFormValues;
