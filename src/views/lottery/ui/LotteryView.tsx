@@ -10,7 +10,7 @@ import { Seat, SECTIONS } from "@/entities/booking/model/types";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 import { cn } from "@/shared/utils/cn";
 
-const ANIM_DURATION = 500;
+const ANIM_DURATION = 50;
 const ANIM_INTERVAL = 100;
 
 function shuffle<T>(arr: T[]): T[] {
@@ -162,11 +162,11 @@ const LotteryView = () => {
 
         {(revealedSeats.length > 0 || currentTarget) && (
           <div className="p-6 mt-6 border bg-gray-800">
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="flex flex-wrap justify-center gap-2 mx-4">
               {revealedSeats.map((s) => (
                 <span
                   key={`${s.section}-${s.seatNumber}`}
-                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-100 px-3 py-1 text-sm font-semibold min-w-[60px] h-8"
+                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-100 px-1 py-1 text-body2b font-semibold min-w-[60px] h-8 my-8"
                 >
                   {s.section}{s.seatNumber}
                 </span>
@@ -174,7 +174,7 @@ const LotteryView = () => {
               {isBatchRunning && currentTarget && !revealedSeats.some(rs => rs.section === currentTarget.section && rs.seatNumber === currentTarget.seatNumber) && (
                 <span
                   key={`target-${currentTarget.section}-${currentTarget.seatNumber}`}
-                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-100 px-3 py-1 text-sm font-semibold min-w-[60px] h-8 animate-pulse"
+                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-100 px-1 py-1 text-body2b font-semibold min-w-[60px] h-8 my-8 animate-pulse"
                 >
                   {isAnimating && slotLabel ? slotLabel : `${currentTarget.section}${currentTarget.seatNumber}`}
                 </span>
