@@ -54,7 +54,12 @@ export default function EvaluationCard({
   ]);
 
   const handleSave = useCallback(async () => {
-    const res = await saveScore(team_id);
+    const res = await saveScore(
+      team_id,
+      Number(values[0].value),
+      Number(values[1].value),
+      Number(values[2].value),
+    );
     if (res.status === 200) {
       toast.success("심사 내용이 저장되었습니다");
       setVariant("submitted");
@@ -62,7 +67,7 @@ export default function EvaluationCard({
       toast.error("심사 내용 저장에 실패하였습니다");
       setVariant("active");
     }
-  }, [team_id]);
+  }, [team_id, values]);
 
   return (
     <ul className="w-full text-body3b flex py-14 border items-center rounded-md border-gray-100 border-solid justify-between px-24 pl-[80px]">
@@ -77,9 +82,9 @@ export default function EvaluationCard({
             type="number"
             value={v.value}
             onChange={e => {
-              const val = e.target.value === "" ? "" : Number(e.target.value);
+              const val = e.target.value === "" ? 0 : Number(e.target.value);
 
-              if (val === "" || (val <= v.max && val >= 0)) {
+              if (val <= v.max && val >= 0) {
                 setValues(prev =>
                   prev.map((item, idx) => (idx === i ? { ...item, value: val } : item)),
                 );

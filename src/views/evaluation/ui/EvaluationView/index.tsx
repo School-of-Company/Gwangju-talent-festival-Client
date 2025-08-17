@@ -22,6 +22,8 @@ export default function EvaluationView() {
                 team_id={v.team_id}
                 team_name={v.team_name}
                 key={v.judge_id}
+                is_judged={v.is_judged}
+                is_performed={v.is_performed}
               />
             );
           })}

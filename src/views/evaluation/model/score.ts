@@ -6,4 +6,6 @@ export interface Score {
   total_score: number;
   team_id: number;
   team_name: string;
+  is_judged: boolean;
+  is_performed: boolean;
 }
