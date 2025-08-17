@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getEvaluations } from "../api/getEvaluations";
+import { getEvaluation } from "../api/getEvaluation";
 import { Score } from "./score";
 
-export const useGetEvaluations = () => {
-  return useQuery<Score[]>({
-    queryKey: ["evaluation"],
-    queryFn: getEvaluations,
+export const useGetEvaluation = (team_id: string, isOne: boolean) => {
+  return useQuery<Score>({
+    queryKey: ["team", team_id, isOne],
+    queryFn: () => getEvaluation(team_id),
+    enabled: isOne && Boolean(team_id),
   });
 };
