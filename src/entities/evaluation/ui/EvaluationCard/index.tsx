@@ -30,6 +30,8 @@ export default function EvaluationCard({
   total_score,
   team_id,
   team_name,
+  is_judged,
+  is_performed,
 }: Score) {
   const [values, setValues] = useState<ValueType[]>(scores);
   const [variant, setVariant] = useState<"submitted" | "active" | "disabled">("active");
@@ -44,6 +46,12 @@ export default function EvaluationCard({
     setValues(prev =>
       prev.map((item, idx) => (idx === 1 ? { ...item, value: creativity_composition } : item)),
     );
+    if (is_judged) {
+      setVariant("submitted");
+      return;
+    } else if (!is_performed) {
+      setVariant("disabled");
+    }
   }, [
     judge_id,
     stage_manner_performance,
@@ -51,6 +59,8 @@ export default function EvaluationCard({
     creativity_composition,
     total_score,
     team_id,
+    is_judged,
+    is_performed,
   ]);
 
   const handleSave = useCallback(async () => {
@@ -70,7 +80,12 @@ export default function EvaluationCard({
   }, [team_id, values]);
 
   return (
-    <ul className="w-full text-body3b flex py-14 border items-center rounded-md border-gray-100 border-solid justify-between px-24 pl-[80px]">
+    <ul
+      className={cn(
+        "w-full text-body3b flex py-14 border items-center rounded-md border-gray-100 border-solid justify-between px-24 pl-[80px]",
+        !is_performed && "bg-#E9E9E9",
+      )}
+    >
       <li className="text-main-600">{team_id + ". " + team_name}</li>
       {values.map((v, i) => {
         return v.write ? (
@@ -138,7 +153,7 @@ export default function EvaluationCard({
         className={cn("py-12 px-16 gap-12 w-[126px] justify-center flex items-center")}
       >
         <CheckIcon color={variant === "active" ? "white" : colors.main[600]} />
-        {total_score}
+        {is_performed && total_score}
       </Button>
     </ul>
   );
