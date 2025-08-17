@@ -2,9 +2,13 @@
 
 import { CheckIcon } from "@/shared/asset/svg/CheckIcon";
 import { Button } from "@/shared/ui";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CustomDropdown from "../Dropdown";
 import { Score } from "@/views/evaluation/model/score";
+import { saveScore } from "../../api/saveScore";
+import { toast } from "sonner";
+import { colors } from "@/shared/utils/color";
+import { cn } from "@/shared/utils/cn";
 
 type ValueType = {
   value: number | string;
@@ -28,6 +32,7 @@ export default function EvaluationCard({
   team_name,
 }: Score) {
   const [values, setValues] = useState<ValueType[]>(scores);
+  const [variant, setVariant] = useState<"submitted" | "active" | "disabled">("active");
 
   useEffect(() => {
     setValues(prev =>
@@ -47,6 +52,17 @@ export default function EvaluationCard({
     total_score,
     team_id,
   ]);
+
+  const handleSave = useCallback(async () => {
+    const res = await saveScore(team_id);
+    if (res.status === 200) {
+      toast.success("심사 내용이 저장되었습니다");
+      setVariant("submitted");
+    } else {
+      toast.error("심사 내용 저장에 실패하였습니다");
+      setVariant("active");
+    }
+  }, [team_id]);
 
   return (
     <ul className="w-full text-body3b flex py-14 border items-center rounded-md border-gray-100 border-solid justify-between px-24 pl-[80px]">
@@ -111,8 +127,12 @@ export default function EvaluationCard({
           />
         );
       })}
-      <Button className="py-12 px-16 gap-12 w-[126px] justify-center flex items-center">
-        <CheckIcon color="white" />
+      <Button
+        onClick={handleSave}
+        variant={variant === "submitted" ? "secondary" : "default"}
+        className={cn("py-12 px-16 gap-12 w-[126px] justify-center flex items-center")}
+      >
+        <CheckIcon color={variant === "active" ? "white" : colors.main[600]} />
         {total_score}
       </Button>
     </ul>
