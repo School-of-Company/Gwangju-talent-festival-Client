@@ -2,7 +2,6 @@
 
 import EvaluationCard from "@/entities/evaluation/ui/EvaluationCard";
 import Standard from "@/entities/evaluation/ui/Standard";
-import { Button } from "@/shared/ui";
 import { useGetEvaluations } from "../../model/useGetEvaluation";
 
 export default function EvaluationView() {
@@ -27,7 +26,6 @@ export default function EvaluationView() {
             );
           })}
       </div>
-      <Button className="w-[420px] mt-[60px] mb-[70px]">확인</Button>
     </div>
   );
 }
