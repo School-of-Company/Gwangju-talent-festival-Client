@@ -39,9 +39,9 @@ export default function EvaluationView() {
   }, [isOne]);
   return (
     <div className="flex items-center flex-col">
-      <header className="flex justify-between px-24">
-        <h1>공연 팀</h1>
-        <div>
+      <header className="flex w-full pt-24 justify-between px-24">
+        <h1 className="text-body1b">공연 팀</h1>
+        <div className="text-caption2b py-8">
           <Button onClick={toggle} variant={isOne ? "secondary" : "default"}>
             전체보기
           </Button>
