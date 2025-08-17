@@ -1,3 +1,5 @@
+"use client";
+
 import EvaluationCard from "@/entities/evaluation/ui/EvaluationCard";
 import Standard from "@/entities/evaluation/ui/Standard";
 import { Button } from "@/shared/ui";
