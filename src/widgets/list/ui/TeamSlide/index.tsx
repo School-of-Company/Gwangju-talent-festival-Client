@@ -28,7 +28,7 @@ export default function TeamSlide({ teamName, status, voteCount, setItem, item }
     }
   }, [item, setItem]);
   return (
-    <div className="w-full flex items-center justify-between h-full py-4">
+    <div className="w-full py-12 flex items-center justify-between h-full">
       <div className="flex items-center">
         {item > 0 && (
           <LeftArrow
