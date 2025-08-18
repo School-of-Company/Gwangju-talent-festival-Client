@@ -10,7 +10,7 @@ interface TeamCardProps {
 }
 
 export default function TeamCard({ status, teamName, voteCount }: TeamCardProps) {
-  const handledStatus = handleStatus(status, "performance");
+  const handledStatus = handleStatus(status);
   return (
     <article
       className={cn(

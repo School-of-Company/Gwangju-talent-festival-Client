@@ -19,7 +19,7 @@ export default function TeamSlide({ teamName, status, voteCount }: TeamSlideProp
       <div className="flex items-center gap-[32px]">
         <span className="text-gray-500 text-body2r">투표상태</span>
         <Button className="w-[80px]" variant="outline">
-          {handleStatus(status, "vote").label}
+          {handleStatus(status).label}
         </Button>
       </div>
       <div className="flex items-center gap-[37px]">
