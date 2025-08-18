@@ -3,7 +3,8 @@
 import Input from "@/shared/ui/Input";
 import Button from "@/shared/ui/Button";
 import { cn } from "@/shared/utils/cn";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { authFormState } from "@/entities/user/lib/authFormState";
 import SubmitButton from "@/entities/user/ui/SubmitButton";
 import { handleSignupFormSubmit } from "@/widgets/signup/lib/handleSignupFormSubmit";
@@ -13,6 +14,7 @@ import { phoneNumberSchema } from "@/shared/model/phoneNumberSchema";
 import { sendVerificationCode } from "@/entities/user/api/verify";
 
 const SignupFormContainer = () => {
+  const router = useRouter();
   const [codeSent, setCodeSent] = useState(false);
   const [isCodeSending, setIsCodeSending] = useState(false);
   const phoneInputRef = useRef<HTMLInputElement>(null);
@@ -25,6 +27,12 @@ const SignupFormContainer = () => {
   };
 
   const [state, formAction] = useActionState(handleSignupFormSubmit, initialState);
+
+  useEffect(() => {
+    if (state.shouldRedirect && state.redirectTo) {
+      router.replace(state.redirectTo);
+    }
+  }, [state.shouldRedirect, state.redirectTo, router]);
 
   const handleSendVerificationCode = async () => {
     const phoneNumber = phoneInputRef.current?.value || "";
