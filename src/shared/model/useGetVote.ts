@@ -7,9 +7,10 @@ interface Response {
   star: number;
 }
 
-export const useGetVote = () => {
+export const useGetVote = (team: string) => {
   return useQuery<Response>({
-    queryKey: ["vote"],
-    queryFn: getVote,
+    queryKey: ["vote", team],
+    queryFn: () => getVote(team),
+    enabled: team !== "",
   });
 };
