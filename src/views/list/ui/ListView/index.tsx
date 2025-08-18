@@ -43,6 +43,7 @@ export default function ListView() {
             {data?.map(v => {
               return (
                 <TeamCard
+                  voteCount={v.star}
                   status={v.status}
                   teamId={v.team_id}
                   teamName={v.teamName}
