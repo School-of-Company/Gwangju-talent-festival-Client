@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Button } from "@/shared/ui";
 import { closeVote } from "@/entities/list/api/closeVote";
 import { openVote } from "@/entities/list/api/openVote";
-import { TeamCard, VoteCard, Wrapper } from "@/entities/list/ui";
+import { TeamCard, Wrapper } from "@/entities/list/ui";
 import { toast } from "sonner";
 import TeamSlide from "@/widgets/list/ui/TeamSlide";
 import { startCount } from "@/entities/list/api/startCount";
@@ -54,21 +54,6 @@ export default function ListView() {
                   teamId={v.team_id}
                   teamName={v.teamName}
                   key={v.team_id}
-                />
-              );
-            })}
-          </div>
-        </Wrapper>
-        <Wrapper label="전체 투표 결과">
-          <div className="flex gap-28 flex-wrap">
-            {votes?.map(v => {
-              return (
-                <VoteCard
-                  voteCount={v.voteCount}
-                  teamName={v.teamName}
-                  voteId={v.vote_id}
-                  key={v.team_id}
-                  status={v.status}
                 />
               );
             })}
