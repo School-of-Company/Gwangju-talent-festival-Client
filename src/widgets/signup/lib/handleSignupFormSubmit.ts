@@ -2,7 +2,6 @@ import { toast } from "sonner";
 import { authFormState } from "@/entities/user/lib/authFormState";
 import { SignUpFormValues, signUpSchema } from "@/entities/user/model/schema";
 import { signUp } from "@/entities/user/api/signup";
-import { redirect } from "next/navigation";
 import { ZodError } from "zod";
 
 export const handleSignupFormSubmit = async (
@@ -38,13 +37,13 @@ export const handleSignupFormSubmit = async (
     if (response.success) {
       toast.success("회원가입 성공");
 
-      redirect("/signin");
-      
       return {
         values,
         isValid: true,
         submitted: true,
         isLoading: false,
+        shouldRedirect: true,
+        redirectTo: "/signin",
       };
     } else {
       throw new Error(response.message);

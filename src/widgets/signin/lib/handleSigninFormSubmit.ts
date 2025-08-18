@@ -1,10 +1,7 @@
-"use server";
-
 import { signinSchema, SignInFormValues } from "@/entities/user/model/schema";
 import { authFormState } from "@/entities/user/lib/authFormState";
 import { signin } from "@/entities/user/api/signin";
 import { setTokens } from "@/shared/utils/auth";
-import { redirect } from "next/navigation";
 
 export const handleSigninFormSubmit = async (
   _previousState: authFormState,
@@ -16,13 +13,13 @@ export const handleSigninFormSubmit = async (
   };
 
   const result = signinSchema.safeParse(values);
-
   if (!result.success) {
     return {
       values,
       isValid: false,
       submitted: true,
-      error: result.error.errors.map((err) => err.message), 
+      isLoading: false,
+      error: result.error.errors.map((e) => e.message),
     };
   }
 
@@ -33,7 +30,7 @@ export const handleSigninFormSubmit = async (
     };
 
     const response = await signin(requestData);
-    
+
     setTokens(
       response.access_token,
       response.access_token_expired_at,
@@ -41,25 +38,23 @@ export const handleSigninFormSubmit = async (
       response.refresh_token_expired_at
     );
     
-    redirect("/home");
-    
     return {
       values,
       isValid: true,
       submitted: true,
       isLoading: false,
+      shouldRedirect: true,
+      redirectTo: "/home",
     };
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "로그인에 실패했습니다.";
-    
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "로그인에 실패했습니다.";
     return {
       values,
       isValid: false,
       submitted: true,
       isLoading: false,
-      error: errorMessage,
+      error: [message],
     };
-  } finally {
-    redirect("/home");
   }
 };
