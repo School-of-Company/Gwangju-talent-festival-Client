@@ -24,9 +24,10 @@ export default function ListView() {
           <Wrapper label="현재 상태">
             <TeamSlide
               voteCount={data?.[item].star ?? 0}
-              setItem={setItem}
               status={data?.[item].status ?? "PENDING"}
               teamName={data?.[item].team_name ?? "팀"}
+              setItem={setItem}
+              item={item}
             />
           </Wrapper>
           <div className="w-[40%]">
