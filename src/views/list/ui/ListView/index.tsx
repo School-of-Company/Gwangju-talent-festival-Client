@@ -26,11 +26,13 @@ export default function ListView() {
               voteCount={data?.[item].star ?? 0}
               setItem={setItem}
               status={data?.[item].status ?? "PENDING"}
-              teamName={data?.[item].teamName ?? "팀"}
+              teamName={data?.[item].team_name ?? "팀"}
             />
           </Wrapper>
           <div className="w-[40%]">
             <Wrapper label="투표 제어">
+              <small className="text-caption2r text-center text-gray-500">현재 투표 팀</small>
+              <h3 className="text-body2b text-center">{data?.[item].team_name}</h3>
               <Button onClick={() => currentId && openVote(currentId)}>투표 시작</Button>
               <Button variant="third" onClick={() => currentId && closeVote(currentId)}>
                 투표 마감
@@ -46,7 +48,7 @@ export default function ListView() {
                   voteCount={v.star}
                   status={v.status}
                   teamId={v.team_id}
-                  teamName={v.teamName}
+                  teamName={v.team_name}
                   key={v.team_id}
                 />
               );
