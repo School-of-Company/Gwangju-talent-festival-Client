@@ -23,7 +23,7 @@ export default function TeamCard({ status, teamName, voteCount }: TeamCardProps)
         <div className={cn("size-10 rounded-full", handledStatus.bg)} />
         <p className={cn("text-caption2r", handledStatus.color)}>{handledStatus.label}</p>
       </div>
-      <h2 className={cn(status === "ONGOING" ? "text-black" : "text-#A7A7A7", "text-body1b")}>
+      <h2 className={cn(status === "ONGOING" ? "text-black" : "text-[#A7A7A7]", "text-body1b")}>
         {voteCount}
       </h2>
       <h3 className="text-body2b">{teamName}</h3>
