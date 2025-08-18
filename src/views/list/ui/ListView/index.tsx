@@ -33,7 +33,7 @@ export default function ListView() {
           <div className="w-[40%]">
             <Wrapper label="투표 제어">
               <small className="text-caption2r text-center text-gray-500">현재 투표 팀</small>
-              <h3 className="text-body2b text-center">{data?.[item].team_name}</h3>
+              <h3 className="text-body2b text-center">{data?.[item].team_name ?? "팀 이름"}</h3>
               <Button onClick={() => currentId && openVote(currentId)}>투표 시작</Button>
               <Button variant="third" onClick={() => currentId && closeVote(currentId)}>
                 투표 마감
