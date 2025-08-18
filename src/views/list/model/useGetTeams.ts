@@ -6,6 +6,7 @@ interface Teams {
   team_id: number;
   teamName: string;
   status: StatusType;
+  star: number;
 }
 
 export const useGetTeams = () => {
