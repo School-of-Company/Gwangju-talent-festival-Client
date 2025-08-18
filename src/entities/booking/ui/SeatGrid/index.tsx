@@ -1,10 +1,12 @@
 "use client";
 
 import { memo, useCallback, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { seatQueryKeys } from "@/entities/booking/lib/useSeatState";
 import { cn } from "@/shared/utils/cn";
-import { Seat, SeatLayout, SECTIONS } from "../../model/types";
+import { Seat, SeatLayout, SECTIONS } from "@/entities/booking/model/types";
 import { SeatItem } from "../SeatItem";
-import { getSeatPattern, getSeatLayout } from "../../model/seatLayouts";
+import { getSeatPattern, getSeatLayout } from "@/entities/booking/model/seatLayouts";
 
 export interface SeatGridProps {
   layout: SeatLayout | null;
@@ -14,6 +16,8 @@ export interface SeatGridProps {
 }
 
 export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, className }) => {
+  const queryClient = useQueryClient();
+  
   const handleSeatSelect = useCallback(
     (seat: Seat) => {
       onSeatSelect(seat);
@@ -21,22 +25,21 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     [onSeatSelect],
   );
 
-  // 단일 섹션의 좌석 그리드 생성
   const seatGrid = useMemo(() => {
     if (!layout?.section) return [];
-    
+
     const pattern = getSeatPattern(layout.section);
     const seatMap = new Map<string, Seat>();
-    
+
     layout.seats.forEach(seat => {
       seatMap.set(seat.seatNumber, seat);
     });
-    
+
     return pattern.map((row, rowIndex) =>
       row.map((seatNumber, colIndex) => {
         const seat = seatNumber ? seatMap.get(seatNumber.toString()) || null : null;
         const key = seat ? `${seat.section}-${seat.seatNumber}` : `${rowIndex}-${colIndex}`;
-        
+
         return {
           seatNumber,
           seat,
@@ -45,12 +48,11 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
       }),
     );
   }, [layout?.section, layout?.seats]);
-
-  // 전체 섹션 그리드 생성 (2x5)
+  
   const allSectionsGrid = useMemo(() => {
-    const sectionsRow1 = SECTIONS.slice(0, 5); // A~E
-    const sectionsRow2 = SECTIONS.slice(5, 10); // F~J
-    
+    const sectionsRow1 = SECTIONS.slice(0, 5);
+    const sectionsRow2 = SECTIONS.slice(5, 10);
+
     return [sectionsRow1, sectionsRow2];
   }, []);
 
@@ -79,12 +81,15 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     </div>
   );
 
-  const renderSectionMiniGrid = (section: typeof SECTIONS[number]) => {
+  const renderSectionMiniGrid = (section: (typeof SECTIONS)[number]) => {
+    const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(section));
     const sectionLayout = getSeatLayout(section);
     const pattern = getSeatPattern(section);
-    const seatMap = new Map<string, Seat>();
     
-    sectionLayout.seats.forEach(seat => {
+    const seatMap = new Map<string, Seat>();
+    const seatsToUse = cachedSeats || sectionLayout.seats;
+    
+    seatsToUse.forEach(seat => {
       seatMap.set(seat.seatNumber, seat);
     });
 
@@ -118,10 +123,8 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     <div className="flex flex-col gap-8 items-center">
       {allSectionsGrid.map((sectionsRow, rowIndex) => (
         <div key={rowIndex} className="flex gap-8 items-end">
-          {sectionsRow.map((section) => (
-            <div key={section}>
-              {renderSectionMiniGrid(section)}
-            </div>
+          {sectionsRow.map(section => (
+            <div key={section}>{renderSectionMiniGrid(section)}</div>
           ))}
         </div>
       ))}
@@ -136,11 +139,7 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     <div className={cn(className)}>
       <div className={getGridContainerStyles()}>
         <div className="absolute inset-3 overflow-auto flex justify-center">
-          {layout ? (
-            renderSingleSectionGrid()
-          ) : (
-            renderAllSectionsGrid()
-          )}
+          {layout ? renderSingleSectionGrid() : renderAllSectionsGrid()}
         </div>
       </div>
     </div>
