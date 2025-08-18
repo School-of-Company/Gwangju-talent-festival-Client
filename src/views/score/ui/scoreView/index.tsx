@@ -17,18 +17,24 @@ export default function ScoreView() {
     Array.from({ length: TOTAL_STARS }, (_, i) => ({ id: i, active: false })),
   );
 
-  const cellFx = useMemo(
-    () =>
-      Array.from({ length: TOTAL_STARS }, () => ({
-        delay: Math.random() * 120,
-        rot: (Math.random() - 0.5) * 12,
-        glow: 0.6 + Math.random() * 0.8,
-      })),
-    [],
-  );
-
   const rafRef = useRef<number | null>(null);
   const progressRef = useRef(0);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const cellFx = useMemo(
+    () =>
+      Array.from({ length: TOTAL_STARS }, () =>
+        mounted
+          ? {
+              delay: Math.random() * 120,
+              rot: (Math.random() - 0.5) * 12,
+              glow: 0.6 + Math.random() * 0.8,
+            }
+          : { delay: 0, rot: 0, glow: 0.6 },
+      ),
+    [mounted],
+  );
 
   useEffect(() => {
     setStars(prev => prev.map(s => ({ ...s, active: false })));
