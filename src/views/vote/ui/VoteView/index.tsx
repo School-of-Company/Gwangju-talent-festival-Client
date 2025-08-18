@@ -8,9 +8,11 @@ import success from "@/shared/asset/png/success.png";
 import VoteButton from "@/shared/asset/svg/VoteButton";
 import { Button } from "@/shared/ui";
 import { useGetVote } from "@/shared/model/useGetVote";
+import { useParams } from "next/navigation";
 
 export default function VoteView() {
-  const { data, isError, error } = useGetVote();
+  const { id } = useParams<{ id: string }>();
+  const { data, isError, error } = useGetVote(id ?? "");
   const [score, setScore] = useState([false, false, false]);
   const [isSuccess, setIsSuccess] = useState(false);
   if (isError) toast.error(error.message ?? "현재 투표를 불러오는데 실패했습니다");
