@@ -1,11 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api|images|video|files).*)", "/signin"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api|images|video|files).*)", "/signin", "/robots.txt"],
 };
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname === '/robots.txt') {
+    const host = request.headers.get('host');
+    const targetDomain = 'www.광탈페.com';
+    
+    if (host && host !== targetDomain) {
+      const url = new URL('/robots.txt', `https://${targetDomain}`);
+      return NextResponse.redirect(url);
+    }
+    
+    return NextResponse.next();
+  }
 
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;

@@ -6,7 +6,15 @@ import { colors } from "@/shared/utils/color";
 import { FC, ReactNode } from "react";
 import EmailButtons from "@/widgets/apply/ui/EmailButtons";
 import { DownloadButton } from "@/entities/apply/ui/DownloadButton";
-import { Map } from "@/entities/home/ui/Map";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(
+  () => import("@/entities/home/ui/Map").then(module => ({ default: module.Map })),
+  {
+    loading: () => <MapLoader />,
+    ssr: false
+  }
+);
 
 type DocumentItem = string;
 type MethodItem = string;
@@ -31,6 +39,10 @@ const INFORM_ITEMS: InformItem[] = [
   "팀 당 1곡 6분 이내로 제한(6분 초과 시 중단시킬 수 있음, 6분을 2곡 2팀으로 나누는 것 불가)",
   "팀 소개 관련 자료 수합 안내(사진, 팀 소개, 연주곡 소개 등)",
 ];
+
+const MapLoader = () => (
+  <div className="w-full h-[200px] bg-gray-200 rounded-md flex items-center justify-center mb-0" />
+);
 
 export const ResultDetailPage: FC = () => {
   const renderMethodItem = (item: MethodItem, index: number): ReactNode => {
