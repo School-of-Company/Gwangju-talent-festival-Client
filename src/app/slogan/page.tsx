@@ -1,10 +1,5 @@
-import { cn } from "@/shared/utils/cn";
-import SloganPage from "@/views/slogan/ui/SloganPage";
+import { redirect } from "next/navigation";
 
 export default function Slogan() {
-  return (
-    <div className={cn("flex justify-center")}>
-      <SloganPage />
-    </div>
-  );
+  redirect("/home");
 }
