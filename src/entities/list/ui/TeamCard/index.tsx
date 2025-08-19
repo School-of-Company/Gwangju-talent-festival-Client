@@ -6,10 +6,11 @@ interface TeamCardProps {
   teamName: string;
   teamId: number;
   status: StatusType;
+  voteCount: number;
 }
 
-export default function TeamCard({ status, teamName }: TeamCardProps) {
-  const handledStatus = handleStatus(status, "performance");
+export default function TeamCard({ status, teamName, voteCount }: TeamCardProps) {
+  const handledStatus = handleStatus(status);
   return (
     <article
       className={cn(
@@ -22,6 +23,9 @@ export default function TeamCard({ status, teamName }: TeamCardProps) {
         <div className={cn("size-10 rounded-full", handledStatus.bg)} />
         <p className={cn("text-caption2r", handledStatus.color)}>{handledStatus.label}</p>
       </div>
+      <h2 className={cn(status === "ONGOING" ? "text-black" : "text-[#A7A7A7]", "text-body1b")}>
+        {voteCount}
+      </h2>
       <h3 className="text-body2b">{teamName}</h3>
     </article>
   );

@@ -1,8 +1,8 @@
 import instance from "@/shared/lib/axios";
 
-export const getVotes = async () => {
+export const getEvaluations = async () => {
   try {
-    const res = await instance.get("/admin/vote");
+    const res = await instance.get("/judge");
     return res.data;
   } catch (error) {
     throw error;

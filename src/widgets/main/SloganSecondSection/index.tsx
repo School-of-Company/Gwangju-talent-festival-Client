@@ -73,7 +73,7 @@ const SloganSecondSection = () => {
           <PrizeItem key={PRIZES[2].rank} {...PRIZES[2]} />
         </div>
       </div>
-        {/* 
+      {/* 
         <Button
           onClick={() => R.push("/slogan")}
           className={cn("my-[24px] mobile:mb-[12px] px-28")}

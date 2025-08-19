@@ -1,5 +1,5 @@
-import { ResultPage } from "@/views/result/ui/Result";
+import { redirect } from "next/navigation";
 
 export default function Result() {
-  return <ResultPage />;
+  redirect("/home");
 }

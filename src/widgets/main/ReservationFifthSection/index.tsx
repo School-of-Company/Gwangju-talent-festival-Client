@@ -59,7 +59,7 @@ const ReservationFifthSection = () => {
       </div>
 
       <div className={cn("relative w-full text-center mt-[66px] mobile:mt-[2rem]")}>
-        <SectionTitle title="본선 좌석예매" className="mb-28"/>
+        <SectionTitle title="본선 좌석예매" className="mb-28" />
         <div
           className={cn(
             "flex flex-col gap-[40px] mb-[60px] bg-white rounded-[12px] py-[72px] px-[60px] text-center w-[376px] mobile:p-[24px] mobile:w-fit justify-self-center mx-auto mobile:mb-[15px] mobile:gap-[24px]",

@@ -3,7 +3,7 @@ import { toast } from "sonner";
 
 export const closeVote = async (id: string) => {
   try {
-    const res = await instance.patch(`/admin/vote/${id}/close`);
+    const res = await instance.delete(`/vote/${id}`);
     if (res.status === 200) {
       toast.success("투표가 종료되었습니다");
     }

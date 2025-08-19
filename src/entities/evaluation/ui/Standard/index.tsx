@@ -1,10 +1,11 @@
 export default function Standard() {
   return (
-    <ul className="bg-gray-50 px-[40px] w-full mt-24 mb-[41px] text-body3b flex justify-around text-center py-24">
-      <li>
-        연번
-        <br /> (심사번호)
-      </li>
+    <ul
+      className="bg-gray-50 px-[40px
+
+    ] w-full mt-24 mb-[41px] text-body3b items-center flex justify-around text-center py-24"
+    >
+      <li>팀명</li>
       <li>
         완성도 및 표현력
         <br /> (40)

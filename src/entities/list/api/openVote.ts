@@ -3,7 +3,7 @@ import { toast } from "sonner";
 
 export const openVote = async (id: string) => {
   try {
-    const res = await instance.patch(`/admin/vote/${id}/start`);
+    const res = await instance.post(`/vote/${id}`);
     if (res.status === 200) {
       toast.success("투표가 시작되었습니다");
     }

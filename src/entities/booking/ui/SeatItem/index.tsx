@@ -26,16 +26,10 @@ export const SeatItem = memo<SeatItemProps>(({ seat, isSelected, onSelect, class
     }
 
     if (isSelected) {
-      return cn(
-        baseStyles,
-        "bg-purple-600 text-white shadow-lg scale-110 cursor-pointer",
-      );
+      return cn(baseStyles, "bg-purple-600 text-white shadow-lg scale-110 cursor-pointer");
     }
 
-    return cn(
-      baseStyles,
-      "bg-white text-gray-700 cursor-pointer",
-    );
+    return cn(baseStyles, "bg-white text-gray-700 cursor-pointer");
   };
 
   const getSeatNumber = () => {

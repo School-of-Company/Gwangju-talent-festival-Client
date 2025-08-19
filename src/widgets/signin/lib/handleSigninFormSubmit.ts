@@ -2,9 +2,6 @@ import { signinSchema, SignInFormValues } from "@/entities/user/model/schema";
 import { authFormState } from "@/entities/user/lib/authFormState";
 import { signin } from "@/entities/user/api/signin";
 import { setTokens } from "@/shared/utils/auth";
-import { toast } from "sonner";
-import { redirect } from "next/navigation";
-import { ZodError } from "zod";
 
 export const handleSigninFormSubmit = async (
   _previousState: authFormState,
@@ -16,14 +13,13 @@ export const handleSigninFormSubmit = async (
   };
 
   const result = signinSchema.safeParse(values);
-
   if (!result.success) {
-    result.error.errors.forEach((err: ZodError['errors'][0]) => toast.error(err.message));
     return {
       values,
       isValid: false,
       submitted: true,
-      error: "입력값이 올바르지 않습니다.",
+      isLoading: false,
+      error: result.error.errors.map((e) => e.message),
     };
   }
 
@@ -34,7 +30,7 @@ export const handleSigninFormSubmit = async (
     };
 
     const response = await signin(requestData);
-    
+
     setTokens(
       response.access_token,
       response.access_token_expired_at,
@@ -42,26 +38,23 @@ export const handleSigninFormSubmit = async (
       response.refresh_token_expired_at
     );
     
-    toast.success("로그인 성공");
-    
-    redirect("/home");
-    
     return {
       values,
       isValid: true,
       submitted: true,
       isLoading: false,
+      shouldRedirect: true,
+      redirectTo: "/home",
     };
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "로그인에 실패했습니다.";
-    toast.error(errorMessage);
-    
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "로그인에 실패했습니다.";
     return {
       values,
       isValid: false,
       submitted: true,
       isLoading: false,
-      error: errorMessage,
+      error: [message],
     };
   }
 };

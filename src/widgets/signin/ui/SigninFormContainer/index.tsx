@@ -2,12 +2,15 @@
 
 import Input from "@/shared/ui/Input";
 import { cn } from "@/shared/utils/cn";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import SubmitButton from "@/entities/user/ui/SubmitButton";
 import { authFormState } from "@/entities/user/lib/authFormState";
 import { handleSigninFormSubmit } from "@/widgets/signin/lib/handleSigninFormSubmit";
+import { toast } from "sonner";
 
 const SigninFormContainer = () => {
+  const router = useRouter();
   const initialState: authFormState = {
     values: { phoneNumber: "", password: "" },
     isValid: false,
@@ -16,6 +19,21 @@ const SigninFormContainer = () => {
   };
 
   const [state, formAction] = useActionState(handleSigninFormSubmit, initialState);
+
+  useEffect(() => {    
+    if (state.error) {
+      const errors = Array.isArray(state.error) ? state.error : [state.error];
+      errors.forEach((error) => toast.error(error));
+    } else if (state.isValid) {
+      toast.success("로그인 성공");
+    }
+  }, [state.submitted, state.error, state.isValid]);
+
+  useEffect(() => {
+    if (state.shouldRedirect && state.redirectTo) {
+      router.replace(state.redirectTo);
+    }
+  }, [state.shouldRedirect, state.redirectTo, router]);
 
   return (
     <div className={cn("w-full mb-4")}>
