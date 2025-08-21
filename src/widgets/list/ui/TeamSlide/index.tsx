@@ -31,13 +31,9 @@ export default function TeamSlide({ teamName, status, voteCount, setItem, item }
     <div className="w-full py-12 flex items-center justify-between h-full">
       <div className="flex items-center">
         {item > 0 && (
-          <LeftArrow
-            className="cursor-pointer"
-            width={28}
-            height={28}
-            color="#909090"
-            onClick={prev}
-          />
+          <div onClick={prev}>
+            <LeftArrow className="cursor-pointer" width={28} height={28} color="#909090" />
+          </div>
         )}
         <div className="flex ml-[53px] gap-[40px] flex-col">
           <div className="flex gap-28 items-center">
@@ -56,12 +52,14 @@ export default function TeamSlide({ teamName, status, voteCount, setItem, item }
           </div>
         </div>
       </div>
-      <div
-        className="flex items-center cursor-pointer gap-24 text-body1b text-gray-500"
-        onClick={next}
-      >
-        다음 팀<RightArrow height={28} color="#909090" width={28} />
-      </div>
+      {item < 9 && (
+        <div
+          className="flex items-center cursor-pointer gap-24 text-body1b text-gray-500"
+          onClick={next}
+        >
+          다음 팀<RightArrow height={28} color="#909090" width={28} />
+        </div>
+      )}
     </div>
   );
 }
