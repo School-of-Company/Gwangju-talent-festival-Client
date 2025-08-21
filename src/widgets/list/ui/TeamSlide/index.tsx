@@ -52,12 +52,14 @@ export default function TeamSlide({ teamName, status, voteCount, setItem, item }
           </div>
         </div>
       </div>
-      <div
-        className="flex items-center cursor-pointer gap-24 text-body1b text-gray-500"
-        onClick={next}
-      >
-        다음 팀<RightArrow height={28} color="#909090" width={28} />
-      </div>
+      {item < 9 && (
+        <div
+          className="flex items-center cursor-pointer gap-24 text-body1b text-gray-500"
+          onClick={next}
+        >
+          다음 팀<RightArrow height={28} color="#909090" width={28} />
+        </div>
+      )}
     </div>
   );
 }
