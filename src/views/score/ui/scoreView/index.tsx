@@ -5,19 +5,15 @@ import Star from "@/shared/asset/svg/Star";
 import { useGetVote } from "@/shared/model/useGetVote";
 import { rgbs } from "@/shared/utils/color";
 import { ease } from "@/entities/score/lib/ease";
-import { changePerformOrder } from "@/shared/api/changePerformOrder";
+import { useParams } from "next/navigation";
 
 const TOTAL_STARS = 200;
 
 type StarCell = { id: number; active: boolean };
 
 export default function ScoreView() {
-  const [team, setTeam] = useState("");
-  const { data } = useGetVote(team);
-  useEffect(() => {
-    const res = changePerformOrder();
-    setTeam(String(res));
-  }, []);
+  const { id } = useParams<{ id: string }>();
+  const { data } = useGetVote(id);
   const activeStars = Math.min(data?.star ?? TOTAL_STARS, TOTAL_STARS);
   const [stars, setStars] = useState<StarCell[]>(() =>
     Array.from({ length: TOTAL_STARS }, (_, i) => ({ id: i, active: false })),
