@@ -1,14 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRank } from "../api/getRank";
-
-interface Response {
-  ranking: number;
-  team_name: string;
-  popularity_award: boolean;
-}
+import { Rank } from "./rankType";
 
 export const useGetRank = () => {
-  return useQuery<Response[]>({
+  return useQuery<Rank[]>({
     queryKey: ["rank"],
     queryFn: getRank,
   });
