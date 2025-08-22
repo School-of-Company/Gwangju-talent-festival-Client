@@ -31,11 +31,14 @@ export interface SignInRequest {
   password: string;
 }
 
+export type Role = "ROLE_USER" | "ROLE_ADMIN";
+
 export interface SignInResponse {
   access_token: string;
   access_token_expired_at: string;
   refresh_token: string;
   refresh_token_expired_at: string;
+  role: Role;
 }
 
 export interface PhoneVerificationRequest {
