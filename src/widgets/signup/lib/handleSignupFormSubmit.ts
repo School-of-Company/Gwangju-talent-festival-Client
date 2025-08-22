@@ -17,7 +17,7 @@ export const handleSignupFormSubmit = async (
   const result = signUpSchema.safeParse(values);
 
   if (!result.success) {
-    result.error.errors.forEach((err: ZodError['errors'][0]) => toast.error(err.message));
+    result.error.errors.forEach((err: ZodError["errors"][0]) => toast.error(err.message));
     return {
       values,
       isValid: false,
@@ -29,29 +29,24 @@ export const handleSignupFormSubmit = async (
   try {
     const requestData = {
       phone_number: values.phoneNumber,
+      code: values.verificationCode,
       password: values.password,
     };
 
-    const response = await signUp(requestData);
-    
-    if (response.success) {
-      toast.success("회원가입 성공");
+    await signUp(requestData);
 
-      return {
-        values,
-        isValid: true,
-        submitted: true,
-        isLoading: false,
-        shouldRedirect: true,
-        redirectTo: "/signin",
-      };
-    } else {
-      throw new Error(response.message);
-    }
+    return {
+      values,
+      isValid: true,
+      submitted: true,
+      isLoading: false,
+      shouldRedirect: true,
+      redirectTo: "/signin",
+    };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "회원가입에 실패했습니다.";
     toast.error(errorMessage);
-    
+
     return {
       values,
       isValid: false,
