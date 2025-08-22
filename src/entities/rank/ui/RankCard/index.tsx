@@ -18,7 +18,9 @@ export default function RankCard({ popularity_award, ranking, team_name }: Rank)
           <h4 className="text-title2b text-main-600">인기상</h4>
         </div>
       )}
-      <strong className="text-title4b text-gray-400">{ranking}등</strong>
+      <strong className={cn("text-gray-400", popularity_award ? "text-title4b" : "text-title2b")}>
+        {ranking}등
+      </strong>
       <strong className="text-title4b">{team_name}</strong>
     </article>
   );
