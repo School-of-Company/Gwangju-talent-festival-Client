@@ -20,10 +20,10 @@ const SigninFormContainer = () => {
 
   const [state, formAction] = useActionState(handleSigninFormSubmit, initialState);
 
-  useEffect(() => {    
+  useEffect(() => {
     if (state.error) {
       const errors = Array.isArray(state.error) ? state.error : [state.error];
-      errors.forEach((error) => toast.error(error));
+      errors.forEach(error => toast.error(error));
     } else if (state.isValid) {
       toast.success("로그인 성공");
     }
@@ -66,7 +66,7 @@ const SigninFormContainer = () => {
         </div>
 
         <div className={cn("flex flex-col gap-2 mt-16")}>
-          <SubmitButton 
+          <SubmitButton
             buttonText={state.isLoading ? "로그인 중..." : "로그인"}
             disabled={state.isLoading}
           />
