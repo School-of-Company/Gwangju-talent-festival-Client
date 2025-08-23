@@ -11,7 +11,7 @@ export const config = {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const role = localStorage.getItem("role");
+  const role = request.cookies.get("role")?.value;
 
   if (role !== "ROLE_ADMIN" && pathname.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/home", request.url));
