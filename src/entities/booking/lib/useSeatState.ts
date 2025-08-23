@@ -20,6 +20,8 @@ export function useSectionSeatState(section: Section) {
       }));
     },
     enabled: !!section,
+    staleTime: 0,
+    refetchOnMount: true,
   });
 }
 
@@ -74,8 +76,7 @@ export function useAllSectionsSeatState() {
           
           allSeats.push(...sectionSeats);
         } catch (error) {
-          console.error(`Failed to fetch seats for section ${section}:`, error);
-          // 에러가 발생한 섹션은 건너뛰고 계속 진행
+          console.error(`${section}:`, error);
         }
       }
       
