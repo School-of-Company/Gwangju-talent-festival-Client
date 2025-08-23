@@ -7,7 +7,7 @@ export async function getSeatState(
   section?: Section,
 ): Promise<AllSeatsApiResponse | SectionSeatsApiResponse> {
   try {
-    const res = await instance.get(`/api/seat${section ? `?seat_section=${section}` : ""}`);
+    const res = await instance.get(`/api/seat${section ? `?seat_section=${section}` : "/all"}`);
     return res.data;
   } catch (error) {
     if (error instanceof Error) {
