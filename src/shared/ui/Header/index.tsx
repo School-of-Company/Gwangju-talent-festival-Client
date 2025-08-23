@@ -15,7 +15,6 @@ export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const R = useRouter();
-  const isLogIn = isLoggedIn();
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -30,12 +29,12 @@ export default function Header() {
   }, [isMobileMenuOpen]);
 
   const handleClick = useCallback(() => {
-    if (isLogIn) {
-      R.push("/signin");
-    } else {
+    if (isLoggedIn()) {
       handleLogout();
+    } else {
+      R.push("/signin");
     }
-  }, [isLogIn, R]);
+  }, [R]);
 
   const hidden =
     pathname.startsWith("/signin") ||
@@ -84,11 +83,11 @@ export default function Header() {
         </div>
         <div
           className={cn(
-            "border-gray-100 text-center hidden sm:block border border-solid rounded-lg px-12 py-8",
+            "border-gray-100 cursor-pointer text-center hidden sm:block border border-solid rounded-lg px-12 py-8",
           )}
           onClick={handleClick}
         >
-          {isLogIn ? "로그아웃" : "로그인"}
+          <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
         </div>
         <div className={cn("hidden mobile:block")}>
           <div className={cn("flex text-caption2r gap-16")}>
@@ -119,11 +118,11 @@ export default function Header() {
                 ))}
                 <div
                   className={cn(
-                    "border-gray-100 border border-solid text-center rounded-lg px-12 py-8",
+                    "border-gray-100 cursor-pointer border border-solid text-center rounded-lg px-12 py-8",
                   )}
                   onClick={handleClick}
                 >
-                  {isLogIn ? "로그아웃" : "로그인"}
+                  <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
                 </div>
               </div>
             </div>
