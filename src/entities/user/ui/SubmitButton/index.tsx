@@ -3,11 +3,12 @@ import { cn } from "@/shared/utils/cn";
 
 type SubmitButtonProps = {
   buttonText?: string;
+  disabled?: boolean;
 };
 
-const SubmitButton = ({ buttonText }: SubmitButtonProps) => {
+const SubmitButton = ({ buttonText, disabled }: SubmitButtonProps) => {
   return (
-    <Button className={cn("w-full mt-32")} type="submit">
+    <Button className={cn("w-full mt-32")} type="submit" disabled={disabled}>
       {buttonText}
     </Button>
   );

@@ -19,7 +19,7 @@ const TanstackProviders = ({ children }: { children: React.ReactNode }) => {
             console.error(`쿼리 실패: ${query.queryKey}`, error);
           },
         }),
-      })
+      }),
   );
 
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;

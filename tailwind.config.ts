@@ -87,6 +87,16 @@ export default {
         "3xl": "2rem", // 32px
         full: "9999px",
       },
+      borderWidth: {
+        "0": "0px",
+        "1": "1px",
+        "1.5": "1.5px",
+        "2": "2px",
+        "3": "3px",
+        "4": "4px",
+        "8": "8px",
+        DEFAULT: "1px",
+      },
       fontWeight: {
         medium: "500",
         semibold: "600",

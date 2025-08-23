@@ -1,54 +1,55 @@
 "use client";
-import { useEffect, useState } from "react";
-import SloganSecondSection from "@/widgets/main/SloganSecondSection";
+
+import dynamic from "next/dynamic";
 import IntroFirstSection from "@/widgets/main/IntroFirstSection";
-import ParticipationThirdSection from "@/widgets/main/ParticipationThirdSection";
-import PreliminaryFourthSection from "@/widgets/main/PreliminaryFourthSection";
-import ReservationFifthSection from "@/widgets/main/ReservationFifthSection";
-import FinalsSixthSection from "@/widgets/main/FinalsSixthSection";
-import { isShow } from "@/shared/lib/show";
-import ComingSoon from "@/shared/ui/ComingSoon";
+import SloganSecondSection from "@/widgets/main/SloganSecondSection";
+import LazySection from "@/shared/ui/LazySection";
 
-const SECTIONS = [
-  { id: "intro", Component: IntroFirstSection },
-  { id: "slogan", Component: SloganSecondSection },
-  { id: "participation", Component: ParticipationThirdSection },
-  { id: "preliminary", Component: PreliminaryFourthSection },
-  { id: "reservation", Component: ReservationFifthSection },
-  { id: "finals", Component: FinalsSixthSection },
-];
-interface HomePageProps {
-  test?: boolean;
-}
-interface ShowStatus {
-  isComingSoon: boolean;
-  isMounted: boolean;
-}
+const PreliminaryFourthSection = dynamic(() => import("@/widgets/main/PreliminaryFourthSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
 
-const HomePage = ({ test = false }: HomePageProps) => {
-  const [showStatus, setShowStatus] = useState<ShowStatus>({
-    isComingSoon: false,
-    isMounted: false,
-  });
+const ReservationFifthSection = dynamic(() => import("@/widgets/main/ReservationFifthSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
 
-  useEffect(() => {
-    const shouldShowComingSoon = isShow("introduce");
+const FinalsSixthSection = dynamic(() => import("@/widgets/main/FinalsSixthSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
 
-    setShowStatus({
-      isComingSoon: shouldShowComingSoon && !test,
-      isMounted: true,
-    });
-  }, []);
+const SectionPlaceholder = ({ height = "400px" }: { height?: string }) => (
+  <div
+    className="w-full bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center"
+    style={{ height }}
+  >
+    <div className="text-center text-gray-400">
+      <div className="w-16 h-16 border-2 border-gray-300 rounded-full flex items-center justify-center mx-auto mb-3">
+        <div className="w-8 h-8 border-t-2 border-gray-400 rounded-full animate-pulse" />
+      </div>
+    </div>
+  </div>
+);
 
-  if (!showStatus.isMounted) return null;
-
-  if (showStatus.isComingSoon) return <ComingSoon />;
-
+const HomePage = () => {
   return (
     <>
-      {SECTIONS.map(({ id, Component }) => (
-        <Component key={id} />
-      ))}
+      <IntroFirstSection />
+      <SloganSecondSection />
+
+      <LazySection fallback={<SectionPlaceholder height="600px" />} rootMargin="100px">
+        <PreliminaryFourthSection />
+      </LazySection>
+
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="150px">
+        <ReservationFifthSection />
+      </LazySection>
+
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
+        <FinalsSixthSection />
+      </LazySection>
     </>
   );
 };

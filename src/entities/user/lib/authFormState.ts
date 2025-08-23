@@ -1,9 +1,13 @@
 import { SignInFormValues, SignUpFormValues } from "../model/schema";
 
 export interface authFormState {
-  values: authFormValues;
+  values: Record<string, string>;
   isValid: boolean;
   submitted: boolean;
+  isLoading?: boolean;
+  error?: string | string[];
+  shouldRedirect?: boolean;
+  redirectTo?: string;
 }
 
 export type authFormValues = SignInFormValues | SignUpFormValues;

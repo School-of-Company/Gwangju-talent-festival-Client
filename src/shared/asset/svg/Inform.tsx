@@ -1,10 +1,6 @@
 import { SvgProps } from "@/shared/model/SvgProps";
 
-export default function Inform({
-  width = 24,
-  height = 24,
-  color = "#121212",
-}: SvgProps) {
+export default function Inform({ width = 24, height = 24, color = "#121212" }: SvgProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

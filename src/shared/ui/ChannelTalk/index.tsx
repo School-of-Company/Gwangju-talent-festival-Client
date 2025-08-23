@@ -1,9 +1,47 @@
+"use client";
+
 import Script from "next/script";
+import { useEffect, useState } from "react";
 
 const ChannelTalk = () => {
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const handleUserInteraction = () => {
+      if (!shouldLoad) {
+        setShouldLoad(true);
+      }
+    };
+
+    const timer = setTimeout(() => {
+      setShouldLoad(true);
+    }, 5000);
+
+    const events = ["mousedown", "mousemove", "keypress", "scroll", "touchstart", "click"];
+
+    events.forEach(event => {
+      document.addEventListener(event, handleUserInteraction, {
+        once: true,
+        passive: true,
+      });
+    });
+
+    return () => {
+      clearTimeout(timer);
+      events.forEach(event => {
+        document.removeEventListener(event, handleUserInteraction);
+      });
+    };
+  }, [shouldLoad]);
+
+  if (!shouldLoad) {
+    return null;
+  }
+
   return (
     <Script
       id="channelTalk"
+      strategy="lazyOnload"
       dangerouslySetInnerHTML={{
         __html: `(function() {
           var w = window;

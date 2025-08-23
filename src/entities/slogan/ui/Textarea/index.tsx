@@ -1,5 +1,6 @@
 import { cn } from "@/shared/utils/cn";
 import { forwardRef } from "react";
+import React from "react";
 
 type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string;
@@ -13,7 +14,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <textarea
           className={cn(
             "w-full outline-none rounded-md p-12 text-body3r placeholder:text-gray-400 overflow-y-scroll focus:ring-0 transition-all h-[150px] border border-gray-100 resize-none",
-            className
+            className,
           )}
           placeholder={placeholder}
           ref={ref}
@@ -21,9 +22,9 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         />
       </div>
     );
-  }
+  },
 );
 
 Textarea.displayName = "Textarea";
 
-export default Textarea;
+export default React.memo(Textarea);

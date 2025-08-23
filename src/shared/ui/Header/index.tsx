@@ -25,8 +25,12 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
-  const isAuthPage = pathname.startsWith("/signin") || pathname.startsWith("/signup");
-  if (isAuthPage) return null;
+  const hidden =
+    pathname.startsWith("/signin") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/vote") ||
+    pathname.startsWith("/admin");
+  if (hidden) return null;
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(prevState => !prevState);
@@ -37,11 +41,10 @@ export default function Header() {
   };
 
   const links = [
-    { section: "SloganSecondSection", label: "슬로건 공모" },
-    { section: "ParticipationThirdSection", label: "참여신청" },
+    { section: "SloganSecondSection", label: "2025 광탈페 슬로건" },
     // { section: "section3", label: "FaQ" },
-    { section: "PreliminaryFourthSection", label: "예선" },
-    { section: "ReservationFifthSection", label: "예매" },
+    { section: "PreliminaryFourthSection", label: "2025 광탈페 예선 다시보기" },
+    { section: "ReservationFifthSection", label: "본선 좌석예매" },
     { section: "FinalsSixthSection", label: "본선" },
   ];
 
@@ -67,20 +70,16 @@ export default function Header() {
             </button>
           ))}
         </div>
+        <Link
+          className={cn(
+            "border-gray-100 hidden sm:block border border-solid rounded-lg px-12 py-8",
+          )}
+          href="/signin"
+        >
+          로그인
+        </Link>
         <div className={cn("hidden mobile:block")}>
           <div className={cn("flex text-caption2r gap-16")}>
-            {/* <Link
-              className={cn("border-gray-100 border border-solid rounded-lg px-12 py-8")}
-              href="/signin"
-            >
-              로그인
-            </Link>
-            <Link
-              className={cn("border-gray-100 border border-solid rounded-lg px-12 py-8")}
-              href="/signup"
-            >
-              회원가입
-            </Link> */}
             <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
               {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}
             </div>
@@ -106,6 +105,12 @@ export default function Header() {
                     {link.label}
                   </button>
                 ))}
+                <Link
+                  className={cn("border-gray-100 border border-solid rounded-lg px-12 py-8")}
+                  href="/signin"
+                >
+                  로그인
+                </Link>
               </div>
             </div>
           </div>

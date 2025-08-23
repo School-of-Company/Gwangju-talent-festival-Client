@@ -13,7 +13,7 @@ export const FONTS = Object.freeze([
   "GangwonEduSaeeum_OTFMediumA",
   "Shilla_CultureB-Bold",
   "SangSangRock",
-  "Dokrip"
+  "Dokrip",
 ]) as ReadonlyArray<string> & {
   readonly [index: number]: string;
 };

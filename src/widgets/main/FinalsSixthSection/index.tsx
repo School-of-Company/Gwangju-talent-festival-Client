@@ -1,6 +1,15 @@
+"use client";
+
 import { cn } from "@/shared/utils/cn";
-import { Map } from "@/entities/home/ui/Map";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(
+  () => import("@/entities/home/ui/Map").then(module => ({ default: module.Map })),
+  {
+    ssr: false,
+  },
+);
 
 const FinalsSixthSection = () => {
   return (
@@ -14,7 +23,9 @@ const FinalsSixthSection = () => {
         />
 
         <div className={cn("mt-[5rem] mobile:mt-20")}>
-          <p className={cn("text-title4b mobile:text-body3b place-self-start mb-24 mobile:mb-0")}>오시는 길</p>
+          <p className={cn("text-title4b mobile:text-body3b place-self-start mb-24 mobile:mb-0")}>
+            오시는 길
+          </p>
           <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
             대상: 光트로(예선) 합격팀
             <br />∙ 2025.9.27.(토) 조선대학교 해오름관

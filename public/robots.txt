@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# Host
+Host: https://www.광탈페.com
+
+# Sitemaps
+Sitemap: https://www.광탈페.com/sitemap.xml

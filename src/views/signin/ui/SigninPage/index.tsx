@@ -2,15 +2,22 @@ import { Logo } from "@/shared/asset/svg/Logo";
 import { colors } from "@/shared/utils/color";
 import SigninFormContainer from "@/widgets/signin/ui/SigninFormContainer";
 import { cn } from "@/shared/utils/cn";
+import Link from "next/link";
 
 const SigninPage = () => {
   return (
-    <div className={cn("flex flex-col items-center mt-52 h-screen w-full px-4")}>
+    <div className={cn("flex flex-col items-center mt-52 h-screen w-full px-12")}>
       <div className={cn("w-full max-w-md flex flex-col items-center")}>
         <div className={cn("mb-20")}>
           <Logo color={colors.main[600]} width={200} height={200} />
         </div>
         <SigninFormContainer />
+        <p className="text-body2r mt-28 text-gray-500">
+          저희 사이트에 처음 방문하셨나요?{" "}
+          <Link href="/signup" className="text-main-600 hover:underline">
+            회원가입 하러가기
+          </Link>
+        </p>
       </div>
     </div>
   );

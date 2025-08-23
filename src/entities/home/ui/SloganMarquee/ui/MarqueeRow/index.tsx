@@ -20,11 +20,11 @@ export const MarqueeRow = memo(
     const rendered = useMemo(
       () =>
         slogans.map((slogan, index) => (
-          <SloganItem 
-            key={`${slogan}-${index}`} 
-            slogan={slogan} 
-            index={index} 
-            font={fonts[index % fonts.length]} 
+          <SloganItem
+            key={`${slogan}-${index}`}
+            slogan={slogan}
+            index={index}
+            font={fonts[index % fonts.length]}
           />
         )),
       [slogans, fonts],

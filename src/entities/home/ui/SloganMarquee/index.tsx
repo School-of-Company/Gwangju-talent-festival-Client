@@ -20,16 +20,16 @@ const SloganMarquee = (): React.ReactElement => {
   const initializeSlogans = useCallback(() => {
     try {
       const [selectedSlogans1, selectedSlogans2] = getRandomSubset(slogansMock, 8);
-      
+
       setSlogans1(selectedSlogans1);
       setSlogans2(selectedSlogans2);
-      
+
       const randomFonts1 = getRandomFonts(selectedSlogans1.length);
       const remainingFonts = FONTS.filter(font => !randomFonts1.includes(font));
       const randomFonts2 = [...remainingFonts]
         .sort(() => Math.random() - 0.5)
         .slice(0, selectedSlogans2.length);
-      
+
       setFonts1(randomFonts1);
       setFonts2(randomFonts2);
     } catch {
@@ -37,13 +37,13 @@ const SloganMarquee = (): React.ReactElement => {
       const defaultSlogans2 = slogansMock.slice(4, 8);
       setSlogans1(defaultSlogans1);
       setSlogans2(defaultSlogans2);
-      
+
       const fallbackFonts1 = getRandomFonts(defaultSlogans1.length);
       const fallbackRemainingFonts = FONTS.filter(font => !fallbackFonts1.includes(font));
       const fallbackFonts2 = [...fallbackRemainingFonts]
         .sort(() => Math.random() - 0.5)
         .slice(0, defaultSlogans2.length);
-      
+
       setFonts1(fallbackFonts1);
       setFonts2(fallbackFonts2);
     }
