@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { publicIn18, publicPages, ticketOpenDate } from "@/shared/config/authConfig";
+import { publicIn18, publicPages, ticketOpenDate, festivalDate, publicIn27 } from "@/shared/config/authConfig";
 
 export const config = {
   matcher: [
@@ -39,6 +39,10 @@ export function middleware(request: NextRequest) {
   }
 
   if (publicIn18.includes(pathname) && new Date() < ticketOpenDate) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
+
+  if (publicIn27.includes(pathname) && new Date() < festivalDate) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
