@@ -11,6 +11,11 @@ export const config = {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const role = localStorage.getItem("role");
+
+  if (role !== "ROLE_ADMIN" && pathname.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
 
   if (pathname === "/robots.txt") {
     const host = request.headers.get("host");
