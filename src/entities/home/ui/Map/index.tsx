@@ -77,21 +77,23 @@ export const Map = ({
 
       const existingScript = document.querySelector('script[src*="dapi.kakao.com"]');
       if (existingScript) {
-        existingScript.addEventListener('load', () => resolve());
-        existingScript.addEventListener('error', () => reject(new Error('Kakao Maps SDK 로드 실패')));
+        existingScript.addEventListener("load", () => resolve());
+        existingScript.addEventListener("error", () =>
+          reject(new Error("Kakao Maps SDK 로드 실패")),
+        );
         return;
       }
 
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services&autoload=false`;
       script.async = true;
-      
+
       script.onload = () => {
         resolve();
       };
-      
+
       script.onerror = () => {
-        reject(new Error('Kakao Maps SDK 로드 실패'));
+        reject(new Error("Kakao Maps SDK 로드 실패"));
       };
 
       document.head.appendChild(script);
@@ -151,7 +153,7 @@ export const Map = ({
     const loadAndInitMap = async () => {
       try {
         await loadKakaoMapsSDK();
-        
+
         if (window.kakao?.maps) {
           window.kakao.maps.load(() => {
             initMap();

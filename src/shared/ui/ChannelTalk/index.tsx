@@ -17,19 +17,12 @@ const ChannelTalk = () => {
       setShouldLoad(true);
     }, 5000);
 
-    const events = [
-      'mousedown',
-      'mousemove', 
-      'keypress',
-      'scroll',
-      'touchstart',
-      'click'
-    ];
+    const events = ["mousedown", "mousemove", "keypress", "scroll", "touchstart", "click"];
 
     events.forEach(event => {
-      document.addEventListener(event, handleUserInteraction, { 
+      document.addEventListener(event, handleUserInteraction, {
         once: true,
-        passive: true 
+        passive: true,
       });
     });
 
@@ -49,7 +42,6 @@ const ChannelTalk = () => {
     <Script
       id="channelTalk"
       strategy="lazyOnload"
-
       dangerouslySetInnerHTML={{
         __html: `(function() {
           var w = window;

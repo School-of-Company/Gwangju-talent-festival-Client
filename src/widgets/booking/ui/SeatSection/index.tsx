@@ -30,13 +30,13 @@ export const SeatSection = memo<SeatSectionProps>(
             status: SEAT_STATUS.UNAVAILABLE,
           }));
         };
-        
-        return { 
-          section: selectedSection, 
-          seats: sectionSeats || getFallbackSeats() 
+
+        return {
+          section: selectedSection,
+          seats: sectionSeats || getFallbackSeats(),
         };
       }
-      
+
       return null;
     };
 
@@ -45,10 +45,10 @@ export const SeatSection = memo<SeatSectionProps>(
     return (
       <div className={cn("pb-20", className)}>
         <div className="h-80">
-          <SeatGrid 
-            layout={layout} 
-            selectedSeat={selectedSeat} 
-            onSeatSelect={(isLoading || !!error) ? () => {} : onSeatSelect}
+          <SeatGrid
+            layout={layout}
+            selectedSeat={selectedSeat}
+            onSeatSelect={isLoading || !!error ? () => {} : onSeatSelect}
           />
         </div>
 

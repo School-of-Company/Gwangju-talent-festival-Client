@@ -21,7 +21,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const effectiveVariant = disabled ? "disabled" : variantKey;
-  
+
   return (
     <>
       <button

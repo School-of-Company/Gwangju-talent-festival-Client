@@ -3,7 +3,9 @@ import { Section, AllSeatsApiResponse, SectionSeatsApiResponse } from "../model/
 
 export async function getSeatState(): Promise<AllSeatsApiResponse>;
 export async function getSeatState(section: Section): Promise<SectionSeatsApiResponse>;
-export async function getSeatState(section?: Section): Promise<AllSeatsApiResponse | SectionSeatsApiResponse> {
+export async function getSeatState(
+  section?: Section,
+): Promise<AllSeatsApiResponse | SectionSeatsApiResponse> {
   try {
     const res = await instance.get(`/seat${section ? `?section=${section}` : "/all"}`);
     return res.data;
@@ -11,7 +13,7 @@ export async function getSeatState(section?: Section): Promise<AllSeatsApiRespon
     if (error instanceof Error) {
       throw new Error(error.message);
     }
-    
+
     throw error;
   }
-};
+}
