@@ -59,7 +59,7 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
       const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(section));
 
       if (cachedSeats) {
-        const occupied = cachedSeats.filter(seat => seat.status === SEAT_STATUS.UNAVAILABLE).length;
+        const occupied = cachedSeats.filter(seat => seat.status === SEAT_STATUS.OCCUPIED).length;
         map[section] = `${occupied}/${total}`;
       } else {
         const seatInfo = SEAT_INFO[section];

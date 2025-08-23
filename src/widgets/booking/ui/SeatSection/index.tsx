@@ -27,7 +27,7 @@ export const SeatSection = memo<SeatSectionProps>(
           const layout = getSeatLayout(selectedSection);
           return layout.seats.map(seat => ({
             ...seat,
-            status: SEAT_STATUS.UNAVAILABLE,
+            status: SEAT_STATUS.OCCUPIED,
           }));
         };
 
