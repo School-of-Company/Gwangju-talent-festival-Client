@@ -72,7 +72,7 @@ export default function Header() {
         </div>
         <Link
           className={cn(
-            "border-gray-100 hidden sm:block border border-solid rounded-lg px-12 py-8",
+            "border-gray-100 text-center hidden sm:block border border-solid rounded-lg px-12 py-8",
           )}
           href="/signin"
         >
@@ -106,7 +106,9 @@ export default function Header() {
                   </button>
                 ))}
                 <Link
-                  className={cn("border-gray-100 border border-solid rounded-lg px-12 py-8")}
+                  className={cn(
+                    "border-gray-100 border border-solid text-center rounded-lg px-12 py-8",
+                  )}
                   href="/signin"
                 >
                   로그인
