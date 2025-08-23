@@ -15,11 +15,7 @@ export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const R = useRouter();
-  const [isLogIn, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    setIsLogin(isLoggedIn);
-  }, []);
+  const isLogIn = isLoggedIn();
 
   useEffect(() => {
     if (isMobileMenuOpen) {
