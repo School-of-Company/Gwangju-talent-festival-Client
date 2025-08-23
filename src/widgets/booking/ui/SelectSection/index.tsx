@@ -13,7 +13,7 @@ import {
   SEAT_INFO,
   SEAT_STATUS,
 } from "@/entities/booking/model/types";
-import { usePrefetchAllSeats } from "@/entities/booking/lib/useSeatState";
+import { usePrefetchSeatCaches } from "@/entities/booking/lib/useSeatState";
 import { toast } from "sonner";
 
 interface SelectSectionProps {
@@ -25,7 +25,7 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
   const [selectedSection, setSelectedSection] = useState<SectionType>(null);
   const queryClient = useQueryClient();
 
-  const { isLoading: isPrefetching, error: prefetchError } = usePrefetchAllSeats();
+  const { isLoading: isPrefetching, error: prefetchError } = usePrefetchSeatCaches();
 
   useEffect(() => {
     if (prefetchError) {

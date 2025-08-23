@@ -13,7 +13,6 @@ export function useSeatBooking() {
     onSuccess: (_result, vars) => {
       toast.success("좌석 예매가 완료되었습니다.");
       queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(vars.section) });
-      queryClient.invalidateQueries({ queryKey: seatQueryKeys.allSeats() });
     },
     onError: error => {
       console.error(error);
