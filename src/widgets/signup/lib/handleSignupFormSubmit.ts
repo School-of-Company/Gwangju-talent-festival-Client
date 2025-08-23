@@ -6,12 +6,13 @@ import { ZodError } from "zod";
 
 export const handleSignupFormSubmit = async (
   _previousState: authFormState,
-  formData: FormData,
+  formData: FormData
 ): Promise<authFormState> => {
   const values: SignUpFormValues = {
     phoneNumber: formData.get("phoneNumber")?.toString() || "",
     verificationCode: formData.get("verificationCode")?.toString() || "",
     password: formData.get("password")?.toString() || "",
+    passwordConfirm: formData.get("passwordConfirm")?.toString() || "",
   };
 
   const result = signUpSchema.safeParse(values);
@@ -23,6 +24,16 @@ export const handleSignupFormSubmit = async (
       isValid: false,
       submitted: true,
       error: "입력값이 올바르지 않습니다.",
+    };
+  }
+
+  if (values.password !== values.passwordConfirm) {
+    toast.error("비밀번호가 일치하지 않습니다.");
+    return {
+      values,
+      isValid: false,
+      submitted: true,
+      error: "비밀번호가 일치하지 않습니다.",
     };
   }
 
