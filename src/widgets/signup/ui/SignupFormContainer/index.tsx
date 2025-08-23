@@ -127,6 +127,18 @@ const SignupFormContainer = () => {
               defaultValue={state.values.password}
             />
           </div>
+
+          <div>
+            <Input
+              type="password"
+              placeholder="비밀번호를 입력해주세요."
+              label="비밀번호 확인"
+              className={cn("mt-2")}
+              name="passwordConfirm"
+              disabled={state.isLoading}
+              defaultValue={state.values.password}
+            />
+          </div>
         </div>
 
         <div className={cn("flex flex-col gap-2 mt-16")}>
