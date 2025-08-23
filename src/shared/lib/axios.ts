@@ -109,8 +109,7 @@ instance.interceptors.response.use(
       clearTokens();
 
       const currentPath = window.location.pathname;
-      const isProtected = publicPages.some((p: string) => currentPath.startsWith(p));
-      if (isProtected) {
+      if (!publicPages.some((p: string) => currentPath.startsWith(p))) {
         window.location.href = "/signin";
       }
 
