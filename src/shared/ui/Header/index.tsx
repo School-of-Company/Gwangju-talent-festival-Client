@@ -82,14 +82,14 @@ export default function Header() {
             </button>
           ))}
         </div>
-        <Link
+        <div
           className={cn(
             "border-gray-100 text-center hidden sm:block border border-solid rounded-lg px-12 py-8",
           )}
-          href="/signin"
+          onClick={handleClick}
         >
           {isLogIn ? "로그아웃" : "로그인"}
-        </Link>
+        </div>
         <div className={cn("hidden mobile:block")}>
           <div className={cn("flex text-caption2r gap-16")}>
             <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
