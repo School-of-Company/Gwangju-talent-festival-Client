@@ -4,8 +4,8 @@ export type Section = (typeof SECTIONS)[number];
 export type SectionType = Section | null;
 
 export const SEAT_STATUS = {
+  OCCUPIED: "occupied",
   AVAILABLE: "available",
-  UNAVAILABLE: "unavailable",
   SELECTED: "selected",
 } as const;
 
