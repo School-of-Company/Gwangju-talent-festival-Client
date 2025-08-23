@@ -3,7 +3,7 @@ import { getTokenFromCookie, setTokens, clearTokens } from "@/shared/utils/auth"
 import { refresh } from "@/shared/api/refresh";
 import { publicPages } from "@/shared/config/authConfig";
 
-export const baseURL = "http://localhost:3000";
+export const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 const instance = axios.create({
   baseURL: baseURL,
