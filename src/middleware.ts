@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { publicPages } from "@/shared/config/authConfig";
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico|api|images|video|files).*)", "/signin", "/robots.txt"],
@@ -31,13 +32,7 @@ export function middleware(request: NextRequest) {
   if (
     !pathname.startsWith("/api") &&
     !pathname.startsWith("/test") &&
-    pathname !== "/signin" &&
-    pathname !== "/signup" &&
-    pathname !== "/home" &&
-    pathname !== "/apply" &&
-    pathname !== "/result" &&
-    pathname !== "/result/detail" &&
-    pathname !== "/slogan" &&
+    !publicPages.includes(pathname) &&
     !accessToken &&
     !refreshToken
   ) {
