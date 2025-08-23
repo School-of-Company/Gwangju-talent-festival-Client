@@ -21,3 +21,5 @@ if (typeof window !== "undefined") {
     return config;
   });
 }
+
+export default instance;
