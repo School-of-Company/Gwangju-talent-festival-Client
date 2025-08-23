@@ -32,6 +32,12 @@ export interface SeatInfo {
   total: number;
 }
 
+export interface SeatChangeEvent {
+  seat_section: Section;
+  seat_number: number;
+  is_available: boolean;
+}
+
 export const SEAT_INFO: Record<Section, SeatInfo> = {
   A: { occupied: 0, total: 77 },
   B: { occupied: 0, total: 130 },

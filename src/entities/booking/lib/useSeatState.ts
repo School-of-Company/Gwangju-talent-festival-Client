@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSeatState } from "@/entities/booking/api/getSeatState";
-import { Section, Seat, SEAT_STATUS, getSectionFromKey, SECTIONS } from "@/entities/booking/model/types";
+import { Section, Seat, SEAT_STATUS, getSectionFromKey, SECTIONS, SeatChangeEvent } from "@/entities/booking/model/types";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 
 export const seatQueryKeys = {
@@ -83,4 +83,28 @@ export function useAllSectionsSeatState() {
       return allSeats;
     },
   });
+}
+
+export function updateSeatInCache(
+  queryClient: ReturnType<typeof useQueryClient>,
+  seatChangeEvent: SeatChangeEvent
+): void {
+  const { seat_section: section, seat_number: seatNumber, is_available: isAvailable } = seatChangeEvent;
+  
+  queryClient.setQueryData<Seat[]>(
+    seatQueryKeys.seatState(section),
+    (oldData) => {
+      if (!oldData) return oldData;
+      
+      return oldData.map((seat) => {
+        if (seat.seatNumber === seatNumber.toString()) {
+          return {
+            ...seat,
+            status: isAvailable ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED,
+          };
+        }
+        return seat;
+      });
+    }
+  );
 }
