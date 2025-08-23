@@ -32,12 +32,13 @@ const YouTubeLazyEmbed = ({ videoId, title, className }: YouTubeLazyEmbedProps) 
 
   const thumbnailUrl = useMemo(
     () => `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
-    [videoId]
+    [videoId],
   );
 
   const blurDataURL = useMemo(
-    () => `data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=`,
-    []
+    () =>
+      `data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=`,
+    [],
   );
   const handlePlay = useCallback(() => {
     setIsLoaded(true);
@@ -48,14 +49,11 @@ const YouTubeLazyEmbed = ({ videoId, title, className }: YouTubeLazyEmbedProps) 
       ref={ref}
       className={cn(
         "relative w-full aspect-[16/9] bg-black rounded-lg overflow-hidden cursor-pointer",
-        className
+        className,
       )}
     >
       {!isLoaded ? (
-        <div 
-          className="relative w-full h-full group"
-          onClick={handlePlay}
-        >
+        <div className="relative w-full h-full group" onClick={handlePlay}>
           {inView && (
             <div className="relative w-full h-full">
               <Image
@@ -71,13 +69,13 @@ const YouTubeLazyEmbed = ({ videoId, title, className }: YouTubeLazyEmbedProps) 
               />
             </div>
           )}
-          
+
           <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/10 transition-colors">
             <div className="w-28 h-28 flex items-center justify-center group-hover:scale-110 transition-transform">
               <Youtube />
             </div>
           </div>
-          
+
           {!inView && (
             <div className="w-full h-full bg-gray-800 flex items-center justify-center">
               <div className="text-white text-center">
@@ -102,4 +100,4 @@ const YouTubeLazyEmbed = ({ videoId, title, className }: YouTubeLazyEmbedProps) 
   );
 };
 
-export default YouTubeLazyEmbed; 
+export default YouTubeLazyEmbed;

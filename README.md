@@ -1,12 +1,10 @@
-
 <img width="5792" height="4676" alt="Frame 19364" src="https://github.com/user-attachments/assets/f836d3c7-8809-433f-b210-48952725838d" />
 
-
-# 광주탈렌트페스티벌 공식 웹 서비스 
+# 광주탈렌트페스티벌 공식 웹 서비스
 
 [**광탈페.kr 바로가기 >**](https://www.xn--hc0b809dz3b.kr/home)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![Repo size](https://img.shields.io/github/repo-size/team-incube/Gwangju-talent-festival-Client)
 ![Last commit](https://img.shields.io/github/last-commit/team-incube/Gwangju-talent-festival-Client?color=red)
 
@@ -27,6 +25,7 @@ This is the official web service for the Gwangju Student Talent Festival (광주
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)
 
 ## Teams
+
 <table>
   <tr>
     <td align="center">

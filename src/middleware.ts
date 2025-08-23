@@ -2,21 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { publicPages } from "@/shared/config/authConfig";
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api|images|video|files).*)", "/signin", "/robots.txt"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|api|images|video|files).*)",
+    "/signin",
+    "/robots.txt",
+  ],
 };
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname === '/robots.txt') {
-    const host = request.headers.get('host');
-    const targetDomain = 'www.광탈페.com';
-    
+  if (pathname === "/robots.txt") {
+    const host = request.headers.get("host");
+    const targetDomain = "www.광탈페.com";
+
     if (host && host !== targetDomain) {
-      const url = new URL('/robots.txt', `https://${targetDomain}`);
+      const url = new URL("/robots.txt", `https://${targetDomain}`);
       return NextResponse.redirect(url);
     }
-    
+
     return NextResponse.next();
   }
 

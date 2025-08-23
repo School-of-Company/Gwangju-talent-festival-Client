@@ -15,9 +15,9 @@ export function useSeatBooking() {
       queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(vars.section) });
       queryClient.invalidateQueries({ queryKey: seatQueryKeys.allSeats() });
     },
-    onError: (error) => {
+    onError: error => {
       console.error(error);
       toast.error("좌석 예매에 실패했습니다.");
     },
   });
-} 
+}

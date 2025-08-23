@@ -39,7 +39,7 @@ export async function apiHandler(
 
     let data = {};
     const responseText = await response.text();
-    
+
     if (responseText.trim()) {
       try {
         data = JSON.parse(responseText);

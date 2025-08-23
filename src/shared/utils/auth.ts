@@ -4,7 +4,7 @@ export const setTokens = (
   accessToken: string,
   accessTokenExpiredAt: string,
   refreshToken: string,
-  refreshTokenExpiredAt: string
+  refreshTokenExpiredAt: string,
 ) => {
   // const accessExpiry = new Date(accessTokenExpiredAt);
   const refreshExpiry = new Date(refreshTokenExpiredAt);
@@ -20,10 +20,10 @@ export const clearTokens = () => {
 
 export const getTokenFromCookie = (name: string): string | null => {
   if (typeof window === "undefined") return null;
-  
+
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
   return null;
 };
 

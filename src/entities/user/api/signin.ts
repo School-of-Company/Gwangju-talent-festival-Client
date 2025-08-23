@@ -15,4 +15,4 @@ export const signin = async (data: SignInRequest): Promise<SignInResponse> => {
   }
 
   return result;
-}; 
+};
