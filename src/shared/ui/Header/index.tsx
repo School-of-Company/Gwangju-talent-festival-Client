@@ -3,15 +3,23 @@
 import { CloseIcon } from "@/shared/asset/svg/CloseIcon";
 import { Logo } from "@/shared/asset/svg/Logo";
 import { MobileMenuIcon } from "@/shared/asset/svg/MobileMenuIcon";
+import { isLoggedIn } from "@/shared/utils/auth";
 import { cn } from "@/shared/utils/cn";
 import { scrollToElement } from "@/shared/utils/scroll";
+import { handleLogout } from "@/widgets/signin/lib/handleLogout";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const R = useRouter();
+  const [isLogIn, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    setIsLogin(isLoggedIn);
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -24,6 +32,14 @@ export default function Header() {
       document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
+
+  const handleClick = useCallback(() => {
+    if (isLogIn) {
+      R.push("/signin");
+    } else {
+      handleLogout();
+    }
+  }, [isLogIn, R]);
 
   const hidden =
     pathname.startsWith("/signin") ||
@@ -76,7 +92,7 @@ export default function Header() {
           )}
           href="/signin"
         >
-          로그인
+          {isLogIn ? "로그아웃" : "로그인"}
         </Link>
         <div className={cn("hidden mobile:block")}>
           <div className={cn("flex text-caption2r gap-16")}>
@@ -105,14 +121,14 @@ export default function Header() {
                     {link.label}
                   </button>
                 ))}
-                <Link
+                <div
                   className={cn(
                     "border-gray-100 border border-solid text-center rounded-lg px-12 py-8",
                   )}
-                  href="/signin"
+                  onClick={handleClick}
                 >
-                  로그인
-                </Link>
+                  {isLogIn ? "로그아웃" : "로그인"}
+                </div>
               </div>
             </div>
           </div>
