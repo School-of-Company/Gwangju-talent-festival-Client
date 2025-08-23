@@ -7,7 +7,9 @@ export const handleLogout = async () => {
   if (res.status === 200) {
     toast.success("로그아웃 되었습니다");
     clearTokens();
-    window.location.href = "/signin";
+    if (typeof window !== "undefined") {
+      window.location.href = "/signin";
+    }
   } else {
     toast.error("로그아웃 실패하셨습니다");
   }
