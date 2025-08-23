@@ -45,8 +45,12 @@ export default function VoteView() {
           <VoteButton onClick={() => [setScore([true, true, false])]} isActive={score[1]} />
           <VoteButton onClick={() => [setScore([true, true, true])]} isActive={score[2]} />
         </div>
-        <Button onClick={handleVote} className="w-full">
-          확인
+        <Button
+          onClick={handleVote}
+          variant={isSuccess ? "disabled" : "default"}
+          className="w-full"
+        >
+          {isSuccess ? "투표 됨" : "확인"}
         </Button>
       </div>
     </div>
