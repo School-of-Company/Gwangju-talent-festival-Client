@@ -3,9 +3,9 @@ import axios from "axios";
 
 export const logout = async () => {
   try {
-    const res = await axios.delete("/auth/logout", {
+    const res = await axios.delete(process.env.NEXT_PUBLIC_API_URL + "/auth/logout", {
       headers: {
-        "Refresh-Token": getTokenFromCookie("refreshToken"),
+        "Refresh-Token": "Bearer " + getTokenFromCookie("refreshToken"),
       },
     });
     return res;
