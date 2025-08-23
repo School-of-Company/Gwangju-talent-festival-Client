@@ -37,15 +37,15 @@ export function usePrefetchSeatCaches() {
         const section = getSectionFromKey(sectionKey);
         const sectionSeats = response[sectionKey];
 
-          if (sectionSeats) {
-            const layout = getSeatLayout(section);
-            const transformedSeats: Seat[] = layout.seats.map((seat, index) => ({
-              ...seat,
-              status:
-                index < sectionSeats.length && sectionSeats[index]
-                  ? SEAT_STATUS.AVAILABLE
-                  : SEAT_STATUS.OCCUPIED,
-            }));
+        if (sectionSeats) {
+          const layout = getSeatLayout(section);
+          const transformedSeats: Seat[] = layout.seats.map((seat, index) => ({
+            ...seat,
+            status:
+              index < sectionSeats.length && sectionSeats[index]
+                ? SEAT_STATUS.AVAILABLE
+                : SEAT_STATUS.OCCUPIED,
+          }));
 
           queryClient.setQueryData(seatQueryKeys.seatState(section), transformedSeats);
         }
