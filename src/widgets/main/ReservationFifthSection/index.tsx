@@ -4,11 +4,25 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
-
-const TICKET_OPEN_DATE = new Date("2025-09-18T20:00:00");
+import Button from "@/shared/ui/Button";
+import { redirect } from "next/navigation";
+import { ticketOpenDate } from "@/shared/config/authConfig";
 
 const formatDateLeft = (timeLeft: number) => {
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+
+  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+  if (0 < days && days <= 1) {
+    return `${hours.toString().padStart(2)}시간 후`;
+  }
+  if (0 < hours && hours <= 1) {
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    return `${minutes.toString().padStart(2, "0")}분 ${seconds.toString().padStart(2, "0")}초 후`;
+  }
+
   return `D-${days}`;
 };
 
@@ -18,7 +32,7 @@ const ReservationFifthSection = () => {
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      const difference = TICKET_OPEN_DATE.getTime() - now.getTime();
+      const difference = ticketOpenDate.getTime() - now.getTime();
       setTimeLeft(difference > 0 ? difference : 0);
     };
 
@@ -67,16 +81,24 @@ const ReservationFifthSection = () => {
         >
           <p className={cn("text-body1b mobile:text-caption1b")}>티켓오픈안내</p>
           <p className={cn("text-title1b text-main-600 mobile:text-body1b")}>
-            {timeLeft > 0 ? formatDateLeft(timeLeft) : "D-Day"}
+            {timeLeft > 0 ? (
+              formatDateLeft(timeLeft)
+            ) : (
+              <Button
+                className="w-full"
+                onClick={() => {
+                  redirect("/booking");
+                }}
+              >
+                예매하기
+              </Button>
+            )}
           </p>
+
           <div className={cn("flex justify-center gap-4 items-center")}>
-            <span className={cn("text-body2r mobile:text-caption2r")}>
-              티켓오픈
-              <br />
-              (예정)
-            </span>
+            <span className={cn("text-body2r mobile:text-caption2r")}>티켓오픈</span>
             <span className={cn("text-body2r text-gray-500 mobile:text-caption2r")}>
-              {TICKET_OPEN_DATE.toLocaleString("ko-KR", {
+              {ticketOpenDate.toLocaleString("ko-KR", {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit",
