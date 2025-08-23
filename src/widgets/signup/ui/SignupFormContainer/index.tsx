@@ -136,7 +136,7 @@ const SignupFormContainer = () => {
               className={cn("mt-2")}
               name="passwordConfirm"
               disabled={state.isLoading}
-              defaultValue={state.values.password}
+              defaultValue={state.values.passwordConfirm}
             />
           </div>
         </div>
