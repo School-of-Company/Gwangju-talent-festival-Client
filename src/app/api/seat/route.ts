@@ -5,11 +5,9 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const section = searchParams.get("section");
   
-  const endpoint = section ? `/seat?seat_section=${section}` : "/seat/all";
-  
   return apiHandler(
     request,
-    endpoint,
+    `/seat?section=${section}`,
     "GET",
     200
   );

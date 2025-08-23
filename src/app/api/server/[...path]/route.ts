@@ -18,6 +18,7 @@ async function handleRequest(request: NextRequest): Promise<NextResponse> {
     const options: RequestInit = {
       method,
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
     };
 
     if (isBodyRequired) {
