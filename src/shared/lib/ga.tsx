@@ -13,22 +13,25 @@ export default function GA() {
     const loadGA = () => setShouldLoad(true);
     const timer = setTimeout(loadGA, 5000);
 
-    const interactionEvents = ["mousedown", "mousemove", "keypress", "scroll", "touchstart", "click"];
+    const interactionEvents = [
+      "mousedown",
+      "mousemove",
+      "keypress",
+      "scroll",
+      "touchstart",
+      "click",
+    ];
     interactionEvents.forEach(evt =>
-      document.addEventListener(evt, loadGA, { once: true, passive: true })
+      document.addEventListener(evt, loadGA, { once: true, passive: true }),
     );
 
     return () => {
       clearTimeout(timer);
-      interactionEvents.forEach(evt =>
-        document.removeEventListener(evt, loadGA)
-      );
+      interactionEvents.forEach(evt => document.removeEventListener(evt, loadGA));
     };
   }, [GA_ID, shouldLoad]);
 
   if (!GA_ID || !shouldLoad) return null;
 
-  return (
-    <GoogleAnalytics trackPageViews gaMeasurementId={GA_ID} />
-  );
+  return <GoogleAnalytics trackPageViews gaMeasurementId={GA_ID} />;
 }

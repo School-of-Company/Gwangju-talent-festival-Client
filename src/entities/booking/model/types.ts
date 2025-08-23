@@ -58,7 +58,7 @@ export interface SectionSeatsApiResponse {
 }
 
 export const getSectionFromKey = (key: keyof AllSeatsApiResponse): Section => {
-  const sectionLetter = key.replace('section_', '').toUpperCase() as Section;
+  const sectionLetter = key.replace("section_", "").toUpperCase() as Section;
   if (SECTIONS.includes(sectionLetter)) {
     return sectionLetter;
   }

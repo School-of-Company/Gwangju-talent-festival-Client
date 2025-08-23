@@ -2,7 +2,9 @@
 
 import { PhoneVerificationRequest, PhoneVerificationResponse } from "../model/schema";
 
-export const sendVerificationCode = async (data: PhoneVerificationRequest): Promise<PhoneVerificationResponse> => {
+export const sendVerificationCode = async (
+  data: PhoneVerificationRequest,
+): Promise<PhoneVerificationResponse> => {
   const response = await fetch("/api/verify", {
     method: "POST",
     body: JSON.stringify(data),
@@ -19,4 +21,4 @@ export const sendVerificationCode = async (data: PhoneVerificationRequest): Prom
   }
 
   return result;
-}; 
+};

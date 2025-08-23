@@ -5,32 +5,23 @@ import IntroFirstSection from "@/widgets/main/IntroFirstSection";
 import SloganSecondSection from "@/widgets/main/SloganSecondSection";
 import LazySection from "@/shared/ui/LazySection";
 
-const PreliminaryFourthSection = dynamic(
-  () => import("@/widgets/main/PreliminaryFourthSection"),
-  {
-    loading: () => <SectionPlaceholder />,
-    ssr: false
-  }
-);
+const PreliminaryFourthSection = dynamic(() => import("@/widgets/main/PreliminaryFourthSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
 
-const ReservationFifthSection = dynamic(
-  () => import("@/widgets/main/ReservationFifthSection"),
-  {
-    loading: () => <SectionPlaceholder />,
-    ssr: false
-  }
-);
+const ReservationFifthSection = dynamic(() => import("@/widgets/main/ReservationFifthSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
 
-const FinalsSixthSection = dynamic(
-  () => import("@/widgets/main/FinalsSixthSection"),
-  {
-    loading: () => <SectionPlaceholder />,
-    ssr: false
-  }
-);
+const FinalsSixthSection = dynamic(() => import("@/widgets/main/FinalsSixthSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
 
 const SectionPlaceholder = ({ height = "400px" }: { height?: string }) => (
-  <div 
+  <div
     className="w-full bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center"
     style={{ height }}
   >
@@ -47,25 +38,16 @@ const HomePage = () => {
     <>
       <IntroFirstSection />
       <SloganSecondSection />
-      
-      <LazySection 
-        fallback={<SectionPlaceholder height="600px" />}
-        rootMargin="100px"
-      >
+
+      <LazySection fallback={<SectionPlaceholder height="600px" />} rootMargin="100px">
         <PreliminaryFourthSection />
       </LazySection>
-      
-      <LazySection 
-        fallback={<SectionPlaceholder height="500px" />}
-        rootMargin="150px"
-      >
+
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="150px">
         <ReservationFifthSection />
       </LazySection>
-      
-      <LazySection 
-        fallback={<SectionPlaceholder height="500px" />}
-        rootMargin="200px"
-      >
+
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
         <FinalsSixthSection />
       </LazySection>
     </>
