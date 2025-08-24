@@ -50,7 +50,7 @@ export default function EvaluationView() {
           />
         ) : (
           data &&
-          data.map(v => {
+          data.map((v, i) => {
             return (
               <EvaluationCard
                 completion_expression={v.completion_expression}
@@ -60,7 +60,7 @@ export default function EvaluationView() {
                 stage_manner_performance={v.stage_manner_performance}
                 team_id={v.team_id}
                 team_name={v.team_name}
-                key={v.judge_id}
+                key={i}
                 is_judged={v.is_judged}
                 is_performed={v.is_performed}
               />
