@@ -149,7 +149,7 @@ export default function EvaluationCard({
       })}
       <Button
         onClick={handleSave}
-        variant={variant === "submitted" ? "secondary" : "default"}
+        variant={variant === "submitted" ? "third" : "default"}
         className={cn("py-12 px-16 gap-12 w-[126px] justify-center flex items-center")}
       >
         <CheckIcon color={variant === "active" ? "white" : colors.main[600]} />
