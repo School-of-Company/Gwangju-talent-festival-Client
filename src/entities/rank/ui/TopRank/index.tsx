@@ -16,7 +16,7 @@ export default function TopRank({ rank }: { rank: Rank[] }) {
           <h3 className="text-white text-title4b">{rank[2].team_name}</h3>
         </div>
       </div>
-      <ul className="text-title1b rounded-[40px] bg-white flex py-[36px] justify-around items-center">
+      <ul className="text-title1b rounded-[40px] bg-white border-2 border-solid border-gray-100 flex py-[36px] justify-around items-center">
         <li>2등</li>
         <li>1등</li>
         <li>3등</li>
