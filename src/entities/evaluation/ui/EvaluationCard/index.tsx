@@ -15,13 +15,15 @@ type ValueType = {
   write: boolean;
   max: number;
   show: boolean;
+  label: "completion_expression" | "creativity_composition" | "stage_manner_performance";
 };
 
 const scores: ValueType[] = [
-  { value: 0, write: false, max: 40, show: false },
-  { value: 0, write: false, max: 30, show: false },
-  { value: 0, write: false, max: 30, show: false },
+  { value: 0, write: false, max: 40, show: false, label: "completion_expression" },
+  { value: 0, write: false, max: 30, show: false, label: "creativity_composition" },
+  { value: 0, write: false, max: 30, show: false, label: "stage_manner_performance" },
 ];
+
 export default function EvaluationCard({
   judge_id,
   stage_manner_performance,
@@ -38,13 +40,15 @@ export default function EvaluationCard({
 
   useEffect(() => {
     setValues(prev =>
-      prev.map((item, idx) => (idx === 0 ? { ...item, value: stage_manner_performance } : item)),
-    );
-    setValues(prev =>
-      prev.map((item, idx) => (idx === 1 ? { ...item, value: completion_expression } : item)),
-    );
-    setValues(prev =>
-      prev.map((item, idx) => (idx === 1 ? { ...item, value: creativity_composition } : item)),
+      prev.map(item => {
+        if (item.label === "completion_expression")
+          return { ...item, value: completion_expression };
+        if (item.label === "creativity_composition")
+          return { ...item, value: creativity_composition };
+        if (item.label === "stage_manner_performance")
+          return { ...item, value: stage_manner_performance };
+        return item;
+      }),
     );
     if (is_judged) {
       setVariant("submitted");
@@ -64,12 +68,11 @@ export default function EvaluationCard({
   ]);
 
   const handleSave = useCallback(async () => {
-    const res = await saveScore(
-      team_id,
-      Number(values[0].value),
-      Number(values[1].value),
-      Number(values[2].value),
-    );
+    const completion = Number(values.find(v => v.label === "completion_expression")?.value ?? 0);
+    const creativity = Number(values.find(v => v.label === "creativity_composition")?.value ?? 0);
+    const stage = Number(values.find(v => v.label === "stage_manner_performance")?.value ?? 0);
+
+    const res = await saveScore(team_id, completion, creativity, stage);
     if (res.status === 200) {
       toast.success("심사 내용이 저장되었습니다");
       setVariant("submitted");
@@ -91,7 +94,7 @@ export default function EvaluationCard({
         return v.write ? (
           <input
             className="w-[46.53px]"
-            key={i}
+            key={v.label}
             max={v.max}
             min={0}
             type="number"
@@ -99,7 +102,7 @@ export default function EvaluationCard({
             onChange={e => {
               const val = e.target.value === "" ? 0 : Number(e.target.value);
 
-              if (val <= v.max && val >= 0) {
+              if (!Number.isNaN(val) && val <= v.max && val >= 0) {
                 setValues(prev =>
                   prev.map((item, idx) => (idx === i ? { ...item, value: val } : item)),
                 );
@@ -123,7 +126,7 @@ export default function EvaluationCard({
           />
         ) : (
           <CustomDropdown
-            key={i}
+            key={v.label}
             value={v.value}
             max={v.max}
             isOpen={v.show}
@@ -135,7 +138,9 @@ export default function EvaluationCard({
             onSelect={selectedValue => {
               setValues(prev =>
                 prev.map((item, idx) =>
-                  idx === i ? { ...item, value: selectedValue, write: false, show: false } : item,
+                  idx === i
+                    ? { ...item, value: Number(selectedValue), write: false, show: false }
+                    : item,
                 ),
               );
             }}
@@ -153,7 +158,7 @@ export default function EvaluationCard({
         className={cn("py-12 px-16 gap-12 w-[126px] justify-center flex items-center")}
       >
         <CheckIcon color={variant === "active" ? "white" : colors.main[600]} />
-        {is_performed && total_score}
+        {is_performed && values.reduce((sum, v) => sum + Number(v.value), 0)}
       </Button>
     </ul>
   );
