@@ -24,7 +24,7 @@ export default function ListView() {
           <Wrapper label="현재 상태">
             <TeamSlide
               voteCount={data ? (data[item]?.star ?? 0) : 0}
-              status={data ? (data[item]?.status ?? "PENDING") : "PENDING"}
+              status={data ? (data[item]?.vote_status ?? "PENDING") : "PENDING"}
               teamName={data ? (data[item]?.team_name ?? "팀") : "팀"}
               setItem={setItem}
               item={item}
@@ -49,7 +49,7 @@ export default function ListView() {
               data.map(v => (
                 <TeamCard
                   voteCount={v.star ?? 0}
-                  status={v.status ?? "PENDING"}
+                  vote_status={v.vote_status ?? "PENDING"}
                   teamId={v.team_id ?? "0"}
                   teamName={v.team_name ?? "팀"}
                   key={v.team_id}

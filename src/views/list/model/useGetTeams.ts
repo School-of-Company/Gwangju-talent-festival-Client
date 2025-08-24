@@ -5,7 +5,7 @@ import { StatusType } from "@/entities/list/consts/status";
 interface Teams {
   team_id: number;
   team_name: string;
-  status: StatusType;
+  vote_status: StatusType;
   star: number;
 }
 

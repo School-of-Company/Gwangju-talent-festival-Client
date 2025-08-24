@@ -20,6 +20,7 @@ export const signUpSchema = z.object({
   phoneNumber: phoneNumberSchema,
   verificationCode: verificationCodeSchema,
   password: passwordSchema,
+  passwordConfirm: passwordSchema,
 });
 
 export const phoneVerificationRequestSchema = z.object({
