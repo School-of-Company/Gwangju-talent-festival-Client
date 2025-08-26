@@ -1,18 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const accessToken = request.cookies.get('accessToken')?.value;
-
     const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/seat/change`;
     
     const response = await fetch(backendUrl, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
         'Accept': 'text/event-stream',
       },
+      credentials: 'include',
     });
 
     if (!response.ok) {
