@@ -38,7 +38,7 @@ export const handleSigninFormSubmit = async (
       response.refresh_token_expired_at,
     );
 
-    localStorage.setItem("role", response.role as Role);
+    document.cookie = `role=${response.role as Role}; path=/;`;
 
     return {
       values,

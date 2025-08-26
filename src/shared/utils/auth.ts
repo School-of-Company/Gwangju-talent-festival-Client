@@ -6,11 +6,11 @@ export const setTokens = (
   refreshToken: string,
   refreshTokenExpiredAt: string,
 ) => {
-  const accessExpiry = new Date(accessTokenExpiredAt);
+  // const accessExpiry = new Date(accessTokenExpiredAt);
   const refreshExpiry = new Date(refreshTokenExpiredAt);
 
-  document.cookie = `accessToken=${accessToken}; expires=${accessExpiry.toUTCString()}; path=/; secure; samesite=strict`;
-  document.cookie = `refreshToken=${refreshToken}; expires=${refreshExpiry.toUTCString()}; path=/; secure; samesite=strict`;
+  document.cookie = `accessToken=${accessToken}; path=/;`;
+  document.cookie = `refreshToken=${refreshToken}; expires=${refreshExpiry.toUTCString()}; path=/;`;
 };
 
 export const clearTokens = () => {

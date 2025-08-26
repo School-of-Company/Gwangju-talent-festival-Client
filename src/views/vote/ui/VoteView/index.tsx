@@ -20,11 +20,12 @@ export default function VoteView() {
   const handleVote = async () => {
     if (data?.team_id && data.team_name) {
       const res = await postVote(score.filter(v => v).length, data?.team_id);
-      if (res.status === 200) {
+
+      if ("status" in res && res.status === 200) {
         toast.success("투표되었습니다");
         setIsSuccess(true);
       } else {
-        toast.error("투표되지 않았습니다 다시 시도해주세요");
+        toast.error(res.data.message ?? "투표되지 않았습니다 다시 시도해주세요");
       }
     }
   };
@@ -44,8 +45,12 @@ export default function VoteView() {
           <VoteButton onClick={() => [setScore([true, true, false])]} isActive={score[1]} />
           <VoteButton onClick={() => [setScore([true, true, true])]} isActive={score[2]} />
         </div>
-        <Button onClick={handleVote} className="w-full">
-          확인
+        <Button
+          onClick={handleVote}
+          variant={isSuccess ? "disabled" : "default"}
+          className="w-full"
+        >
+          {isSuccess ? "투표 됨" : "확인"}
         </Button>
       </div>
     </div>

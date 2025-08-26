@@ -3,15 +3,18 @@
 import { CloseIcon } from "@/shared/asset/svg/CloseIcon";
 import { Logo } from "@/shared/asset/svg/Logo";
 import { MobileMenuIcon } from "@/shared/asset/svg/MobileMenuIcon";
+import { isLoggedIn } from "@/shared/utils/auth";
 import { cn } from "@/shared/utils/cn";
 import { scrollToElement } from "@/shared/utils/scroll";
+import { handleLogout } from "@/widgets/signin/lib/handleLogout";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const R = useRouter();
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -24,6 +27,14 @@ export default function Header() {
       document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
+
+  const handleClick = useCallback(() => {
+    if (isLoggedIn()) {
+      handleLogout();
+    } else {
+      R.push("/signin");
+    }
+  }, [R]);
 
   const hidden =
     pathname.startsWith("/signin") ||
@@ -70,14 +81,14 @@ export default function Header() {
             </button>
           ))}
         </div>
-        <Link
+        <div
           className={cn(
-            "border-gray-100 hidden sm:block border border-solid rounded-lg px-12 py-8",
+            "border-gray-100 cursor-pointer text-center hidden sm:block border border-solid rounded-lg px-12 py-8",
           )}
-          href="/signin"
+          onClick={handleClick}
         >
-          로그인
-        </Link>
+          <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
+        </div>
         <div className={cn("hidden mobile:block")}>
           <div className={cn("flex text-caption2r gap-16")}>
             <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
@@ -105,12 +116,14 @@ export default function Header() {
                     {link.label}
                   </button>
                 ))}
-                <Link
-                  className={cn("border-gray-100 border border-solid rounded-lg px-12 py-8")}
-                  href="/signin"
+                <div
+                  className={cn(
+                    "border-gray-100 cursor-pointer border border-solid text-center rounded-lg px-12 py-8",
+                  )}
+                  onClick={handleClick}
                 >
-                  로그인
-                </Link>
+                  <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
+                </div>
               </div>
             </div>
           </div>

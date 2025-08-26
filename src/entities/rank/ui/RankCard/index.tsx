@@ -6,14 +6,14 @@ export default function RankCard({ popularity_award, ranking, team_name }: Rank)
   return (
     <article
       className={cn(
-        "flex justify-center gap-[40px]",
+        "flex justify-center items-center py-[40px] rounded-[40px] gap-[40px]",
         popularity_award
           ? "bg-main-100 border-main-600 border border-solid"
-          : "shadow-[0_8px_28px_0_rgba(0,0,0,0.12)]",
+          : "shadow-[0_0_28px_4px_rgba(0,0,0,0.16)]",
       )}
     >
       {popularity_award && (
-        <div className="flex gap-12">
+        <div className="flex gap-12 items-center justify-center">
           <Fire />
           <h4 className="text-title2b text-main-600">인기상</h4>
         </div>

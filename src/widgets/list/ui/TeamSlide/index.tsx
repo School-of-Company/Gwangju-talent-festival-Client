@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/shared/ui";
-import { handleStatus } from "@/entities/list/lib/handleStatus";
-import { StatusType } from "@/entities/list/consts/status";
+import { STATUS, StatusType } from "@/entities/list/consts/status";
 import { useCallback } from "react";
 import { RightArrow } from "@/shared/asset/svg/RightArrow";
 import { LeftArrow } from "@/shared/asset/svg/LeftArrow";
@@ -43,7 +42,7 @@ export default function TeamSlide({ teamName, status, voteCount, setItem, item }
           <div className="flex items-center gap-[32px]">
             <span className="text-gray-500 text-body2r">투표상태</span>
             <Button className="w-[80px]" variant="outline">
-              {handleStatus(status).label}
+              {STATUS[status]}
             </Button>
           </div>
           <div className="flex items-center gap-[37px]">
