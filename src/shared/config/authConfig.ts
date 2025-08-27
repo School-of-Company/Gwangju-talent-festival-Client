@@ -2,14 +2,17 @@ export const publicPages = [
   "/home", 
   "/signin",
   "/signup",
+  "/admin",
+  "/booking",
+  "/vote",
 ]
 
 export const publicIn18 = [
-  "/booking"
+  "/bookingg"
 ]
 
 export const publicIn27 = [
-  "/vote",
+  "/votee",
 ]
 
 export const ticketOpenDate = new Date("2025-09-18T20:00:00");
