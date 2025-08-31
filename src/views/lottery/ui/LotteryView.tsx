@@ -148,9 +148,9 @@ const LotteryView = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-gray-800 p-4">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-white p-6 mb-6">
+        <div className="bg-gray-800 p-6 mb-6">
           <LotterySeatGrid
             layout={null}
             lotterySeats={allSeats}
@@ -160,8 +160,29 @@ const LotteryView = () => {
           />
         </div>
 
-        
-        <div className="bg-white p-6">
+        {(revealedSeats.length > 0 || currentTarget) && (
+          <div className="p-6 mt-6 border bg-gray-800">
+            <div className="flex flex-wrap justify-center gap-2">
+              {revealedSeats.map((s) => (
+                <span
+                  key={`${s.section}-${s.seatNumber}`}
+                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-100 px-3 py-1 text-sm font-semibold min-w-[60px] h-8"
+                >
+                  {s.section}{s.seatNumber}
+                </span>
+              ))}
+              {isBatchRunning && currentTarget && !revealedSeats.some(rs => rs.section === currentTarget.section && rs.seatNumber === currentTarget.seatNumber) && (
+                <span
+                  key={`target-${currentTarget.section}-${currentTarget.seatNumber}`}
+                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-100 px-3 py-1 text-sm font-semibold min-w-[60px] h-8 animate-pulse"
+                >
+                  {isAnimating && slotLabel ? slotLabel : `${currentTarget.section}${currentTarget.seatNumber}`}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+        <div className="bg-gray-800 p-6">
           <div className="flex gap-4 justify-center">
             <Button
               onClick={handleStartLottery}
@@ -178,28 +199,7 @@ const LotteryView = () => {
           </div>
         </div>
 
-        {(revealedSeats.length > 0 || currentTarget) && (
-          <div className="p-6 mt-6 border bg-white">
-            <div className="flex flex-wrap justify-center gap-2">
-              {revealedSeats.map((s) => (
-                <span
-                  key={`${s.section}-${s.seatNumber}`}
-                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-800 px-3 py-1 text-sm font-semibold min-w-[60px] h-8"
-                >
-                  {s.section}{s.seatNumber}
-                </span>
-              ))}
-              {isBatchRunning && currentTarget && !revealedSeats.some(rs => rs.section === currentTarget.section && rs.seatNumber === currentTarget.seatNumber) && (
-                <span
-                  key={`target-${currentTarget.section}-${currentTarget.seatNumber}`}
-                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-800 px-3 py-1 text-sm font-semibold min-w-[60px] h-8 animate-pulse"
-                >
-                  {isAnimating && slotLabel ? slotLabel : `${currentTarget.section}${currentTarget.seatNumber}`}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
+
       </div>
     </div>
   );

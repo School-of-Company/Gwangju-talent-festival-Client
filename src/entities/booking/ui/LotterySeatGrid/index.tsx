@@ -169,7 +169,7 @@ export const LotterySeatGrid = memo<LotterySeatGridProps>(({
                   isSelected={isSeatSelected(seat)}
                   onSelect={() => {}}
                   className={cn(
-                    "w-5 h-5 border-2 border-gray-300",
+                    "w-5 h-5 border-2 bg-gray-500",
                     disabledSet.has(keyOf(seat)) && "pointer-events-none opacity-40"
                   )}
                 />
@@ -223,7 +223,7 @@ export const LotterySeatGrid = memo<LotterySeatGridProps>(({
                       isSelected={isRevealedSeat || isAnimatingSeat}
                       onSelect={() => {}}
                       className={cn(
-                        "w-20 h-20 text-sm border-1",
+                        "w-20 h-20 text-sm",
                         disabled && "pointer-events-none opacity-40"
                       )}
                     />
