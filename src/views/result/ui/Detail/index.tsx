@@ -12,8 +12,8 @@ const Map = dynamic(
   () => import("@/entities/home/ui/Map").then(module => ({ default: module.Map })),
   {
     loading: () => <MapLoader />,
-    ssr: false
-  }
+    ssr: false,
+  },
 );
 
 type DocumentItem = string;

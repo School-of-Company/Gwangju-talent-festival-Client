@@ -99,10 +99,7 @@ const PreliminaryFourthSection = () => {
               2025. 7. 25(금) 光트로 예선1 다시보기
             </h2>
             <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-              <YouTubeLazyEmbed
-                videoId="KbnIFWzWU2Y"
-                title="2025 광탈페 예선1 다시보기"
-              />
+              <YouTubeLazyEmbed videoId="KbnIFWzWU2Y" title="2025 광탈페 예선1 다시보기" />
             </div>
           </div>
           <div
@@ -118,10 +115,7 @@ const PreliminaryFourthSection = () => {
               2025. 7. 26(토) 光트로 예선2 다시보기
             </h2>
             <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-              <YouTubeLazyEmbed
-                videoId="n1o5Q2AVs88"
-                title="2025 광탈페 예선2 다시보기"
-              />
+              <YouTubeLazyEmbed videoId="n1o5Q2AVs88" title="2025 광탈페 예선2 다시보기" />
             </div>
           </div>
         </div>

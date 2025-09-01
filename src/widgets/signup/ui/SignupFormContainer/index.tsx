@@ -29,6 +29,15 @@ const SignupFormContainer = () => {
   const [state, formAction] = useActionState(handleSignupFormSubmit, initialState);
 
   useEffect(() => {
+    if (state.error) {
+      const errors = Array.isArray(state.error) ? state.error : [state.error];
+      errors.forEach(error => toast.error(error));
+    } else if (state.isValid) {
+      toast.success("회원가입 성공");
+    }
+  }, [state.submitted, state.error, state.isValid]);
+
+  useEffect(() => {
     if (state.shouldRedirect && state.redirectTo) {
       router.replace(state.redirectTo);
     }
@@ -118,16 +127,22 @@ const SignupFormContainer = () => {
               defaultValue={state.values.password}
             />
           </div>
+
+          <div>
+            <Input
+              type="password"
+              placeholder="비밀번호를 입력해주세요."
+              label="비밀번호 확인"
+              className={cn("mt-2")}
+              name="passwordConfirm"
+              disabled={state.isLoading}
+              defaultValue={state.values.passwordConfirm}
+            />
+          </div>
         </div>
 
-        {state.error && (
-          <div className={cn("mt-4 p-3 bg-red-50 border border-red-200 rounded-md")}>
-            <p className={cn("text-sm text-red-600")}>{state.error}</p>
-          </div>
-        )}
-
         <div className={cn("flex flex-col gap-2 mt-16")}>
-          <SubmitButton 
+          <SubmitButton
             buttonText={state.isLoading ? "가입 중..." : "회원가입"}
             disabled={state.isLoading || !codeSent}
           />

@@ -5,7 +5,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { cn } from "@/shared/utils/cn";
 import { SectionButtons } from "@/entities/booking/ui/SectionButtons";
 import { seatQueryKeys } from "@/entities/booking/lib/useSeatState";
-import { SectionType, Section, Seat, SECTIONS, SEAT_INFO, SEAT_STATUS } from "@/entities/booking/model/types";
+import {
+  SectionType,
+  Section,
+  Seat,
+  SECTIONS,
+  SEAT_INFO,
+  SEAT_STATUS,
+} from "@/entities/booking/model/types";
 import { usePrefetchAllSeats } from "@/entities/booking/lib/useSeatState";
 import { toast } from "sonner";
 
@@ -17,7 +24,7 @@ interface SelectSectionProps {
 export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, className }) => {
   const [selectedSection, setSelectedSection] = useState<SectionType>(null);
   const queryClient = useQueryClient();
-  
+
   const { isLoading: isPrefetching, error: prefetchError } = usePrefetchAllSeats();
 
   useEffect(() => {
@@ -37,7 +44,7 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
 
   const seatInfoMap = useMemo(() => {
     const map: Record<Section, string> = {} as Record<Section, string>;
-    
+
     if (isPrefetching) {
       SECTIONS.forEach(section => {
         const seatInfo = SEAT_INFO[section];
@@ -48,9 +55,9 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
 
     SECTIONS.forEach(section => {
       const total = SEAT_INFO[section].total;
-      
+
       const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(section));
-      
+
       if (cachedSeats) {
         const occupied = cachedSeats.filter(seat => seat.status === SEAT_STATUS.UNAVAILABLE).length;
         map[section] = `${occupied}/${total}`;
@@ -59,7 +66,7 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
         map[section] = `${seatInfo.occupied}/${seatInfo.total}`;
       }
     });
-    
+
     return map;
   }, [isPrefetching, queryClient]);
 

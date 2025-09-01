@@ -15,4 +15,4 @@ export const signUp = async (data: SignUpRequest): Promise<SignUpResponse> => {
   }
 
   return result;
-}; 
+};

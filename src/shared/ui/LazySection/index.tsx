@@ -10,12 +10,12 @@ interface LazySectionProps {
   className?: string;
 }
 
-const LazySection = ({ 
-  children, 
-  fallback = null, 
-  rootMargin = "200px", 
+const LazySection = ({
+  children,
+  fallback = null,
+  rootMargin = "200px",
   threshold = 0.1,
-  className = ""
+  className = "",
 }: LazySectionProps) => {
   const [isInView, setIsInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -31,7 +31,7 @@ const LazySection = ({
       {
         rootMargin,
         threshold,
-      }
+      },
     );
 
     if (ref.current) {
@@ -48,4 +48,4 @@ const LazySection = ({
   );
 };
 
-export default LazySection; 
+export default LazySection;

@@ -1,4 +1,4 @@
-import { signinSchema, SignInFormValues } from "@/entities/user/model/schema";
+import { signinSchema, SignInFormValues, Role } from "@/entities/user/model/schema";
 import { authFormState } from "@/entities/user/lib/authFormState";
 import { signin } from "@/entities/user/api/signin";
 import { setTokens } from "@/shared/utils/auth";
@@ -19,7 +19,7 @@ export const handleSigninFormSubmit = async (
       isValid: false,
       submitted: true,
       isLoading: false,
-      error: result.error.errors.map((e) => e.message),
+      error: result.error.errors.map(e => e.message),
     };
   }
 
@@ -35,9 +35,11 @@ export const handleSigninFormSubmit = async (
       response.access_token,
       response.access_token_expired_at,
       response.refresh_token,
-      response.refresh_token_expired_at
+      response.refresh_token_expired_at,
     );
-    
+
+    document.cookie = `role=${response.role as Role}; path=/;`;
+
     return {
       values,
       isValid: true,
@@ -47,8 +49,7 @@ export const handleSigninFormSubmit = async (
       redirectTo: "/home",
     };
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "로그인에 실패했습니다.";
+    const message = err instanceof Error ? err.message : "로그인에 실패했습니다.";
     return {
       values,
       isValid: false,

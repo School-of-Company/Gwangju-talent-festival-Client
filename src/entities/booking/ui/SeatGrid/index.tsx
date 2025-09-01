@@ -17,7 +17,7 @@ export interface SeatGridProps {
 
 export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, className }) => {
   const queryClient = useQueryClient();
-  
+
   const handleSeatSelect = useCallback(
     (seat: Seat) => {
       onSeatSelect(seat);
@@ -48,7 +48,7 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
       }),
     );
   }, [layout?.section, layout?.seats]);
-  
+
   const allSectionsGrid = useMemo(() => {
     const sectionsRow1 = SECTIONS.slice(0, 5);
     const sectionsRow2 = SECTIONS.slice(5, 10);
@@ -85,10 +85,10 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
     const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(section));
     const sectionLayout = getSeatLayout(section);
     const pattern = getSeatPattern(section);
-    
+
     const seatMap = new Map<string, Seat>();
     const seatsToUse = cachedSeats || sectionLayout.seats;
-    
+
     seatsToUse.forEach(seat => {
       seatMap.set(seat.seatNumber, seat);
     });

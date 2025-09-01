@@ -7,8 +7,8 @@ import dynamic from "next/dynamic";
 const Map = dynamic(
   () => import("@/entities/home/ui/Map").then(module => ({ default: module.Map })),
   {
-    ssr: false
-  }
+    ssr: false,
+  },
 );
 
 const FinalsSixthSection = () => {
