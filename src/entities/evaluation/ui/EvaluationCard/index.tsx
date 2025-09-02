@@ -84,6 +84,10 @@ export default function EvaluationCard({
     }
   }, [team_id, scoreValues]);
 
+  const changeActive = useCallback(() => {
+    setVariant("active");
+  }, []);
+
   return (
     <ul
       className={cn(
@@ -151,7 +155,7 @@ export default function EvaluationCard({
         );
       })}
       <Button
-        onClick={handleSave}
+        onClick={variant === "submitted" ? changeActive : handleSave}
         variant={variant === "submitted" ? "third" : "default"}
         className={cn("py-12 px-16 gap-12 w-[126px] justify-center flex items-center")}
       >
