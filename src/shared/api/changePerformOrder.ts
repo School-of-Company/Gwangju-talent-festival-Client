@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 
 export const changePerformOrder = () => {
-  const es = new EventSource(process.env.NEXT_PUBLIC_API_URL + "/judge/changes", {
+  const es = new EventSource("/api/judge/changes", {
     withCredentials: true,
   });
 
@@ -12,6 +12,10 @@ export const changePerformOrder = () => {
     } catch (error) {
       throw error;
     }
+  };
+
+  es.onopen = () => {
+    console.log("연결 됨");
   };
 
   es.onerror = e => {
