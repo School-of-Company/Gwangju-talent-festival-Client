@@ -1,11 +1,18 @@
 import instance from "@/shared/lib/axios";
-import { Seat } from "../model/types";
+import { Seat, Section } from "../model/types";
 
-export const getMySeat = async (data: Omit<Seat, "status">) => {
-  return await instance.get("/seat/myself", {
-    params: {
-      seat_section: data.section,
-      seat_number: data.seatNumber,
-    },
-  });
+interface MySeatApiResponse {
+  seat_section: string;
+  seat_number: number;
+}
+
+export const getMySeat = async (): Promise<Seat> => {
+  const response = await instance.get<MySeatApiResponse>("/seat/myself");
+  const { seat_section, seat_number } = response.data;
+  
+  return {
+    section: seat_section as Section,
+    seatNumber: seat_number.toString(),
+    status: "selected" as const,
+  };
 };
