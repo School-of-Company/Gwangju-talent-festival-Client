@@ -1,7 +1,9 @@
 import { toast } from "sonner";
 
 export const changePerformOrder = () => {
-  const es = new EventSource("/judge/changes", { withCredentials: true });
+  const es = new EventSource(process.env.NEXT_PUBLIC_API_URL + "/judge/changes", {
+    withCredentials: true,
+  });
 
   es.onmessage = event => {
     try {
