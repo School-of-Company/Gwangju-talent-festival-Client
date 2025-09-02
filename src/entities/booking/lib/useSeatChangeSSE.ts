@@ -14,7 +14,9 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
   useEffect(() => {
     if (!enabled) return;
 
-    const eventSource = new EventSource("/api/seat/change");
+    const eventSource = new EventSource("/api/seat/changes", { 
+      withCredentials: true 
+    });
     eventSourceRef.current = eventSource;
 
     eventSource.onmessage = (event) => {
