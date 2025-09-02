@@ -9,8 +9,8 @@ import { useGetEvaluation } from "../../model/useGetEvaluation";
 import { changePerformOrder } from "@/shared/api/changePerformOrder";
 
 export default function EvaluationView() {
-  const { data } = useGetEvaluations();
   const [isOne, setIsOne] = useState(false);
+  const { data } = useGetEvaluations(isOne);
   const [team, setTeam] = useState("");
   const { data: teamData } = useGetEvaluation(team, isOne);
 
