@@ -12,10 +12,11 @@ export interface SeatGridProps {
   layout: SeatLayout | null;
   selectedSeat: Seat | null;
   onSeatSelect: (seat: Seat | null) => void;
+  mySeat?: Seat | null;
   className?: string;
 }
 
-export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, className }) => {
+export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, mySeat, className }) => {
   const queryClient = useQueryClient();
 
   const handleSeatSelect = useCallback(
@@ -66,10 +67,11 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
                 <SeatItem
                   seat={seat}
                   isSelected={
-                    selectedSeat?.seatNumber === seat.seatNumber &&
-                    selectedSeat?.section === seat.section
+                    mySeat 
+                      ? mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
+                      : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
                   }
-                  onSelect={handleSeatSelect}
+                  onSelect={mySeat ? () => {} : handleSeatSelect}
                 />
               ) : (
                 <div className="w-5 h-5" />
@@ -105,7 +107,16 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
                 return (
                   <div key={key} className="w-6 h-6">
                     {seat ? (
-                      <div className="w-6 h-6 bg-white cursor-pointer"></div>
+                      <SeatItem
+                        seat={seat}
+                        isSelected={
+                          mySeat 
+                            ? mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
+                            : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
+                        }
+                        onSelect={mySeat ? () => {} : handleSeatSelect}
+                        className="w-6 h-6 text-transparent"
+                      />
                     ) : (
                       <div className="w-6 h-6"></div>
                     )}
