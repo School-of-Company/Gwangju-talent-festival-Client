@@ -41,10 +41,6 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
       toast.error("실시간 좌석 정보 연결에 실패했습니다.");
     };
 
-    eventSource.onopen = () => {
-      console.log("SSE 연결이 열렸습니다.");
-    }; 
-
     return () => {
       if (eventSourceRef.current) {
         eventSourceRef.current.close();
