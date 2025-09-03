@@ -1,42 +1,44 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { redis } from "@/shared/lib/redis";
+import { NextRequest, NextResponse } from "next/server";
 
+const KEY = (id: string) => `gh:user:${id}`;
+const TTL_SECONDS = 60 * 60 * 24;
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(_request: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
+
+  let cached: string | null = null;
   try {
-    const { id } = await params;
-  
-    const githubResponse = await fetch(`https://api.github.com/users/${encodeURIComponent(id)}`, {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'Gwangju-talent-festival-Client',
-      },
+    cached = await redis.get(KEY(id));
+  } catch {}
+  if (cached) {
+    return new NextResponse(cached, {
+      status: 200,
+      headers: { "Content-Type": "application/json", "X-Cache": "HIT" },
     });
-
-    if (!githubResponse.ok) {
-      if (githubResponse.status === 404) {
-        return NextResponse.json(
-          { error: 'not found' },
-          { status: 404 }
-        );
-      }
-      
-      return NextResponse.json(
-        { error: 'failed to fetch' },
-        { status: githubResponse.status }
-      );
-    }
-
-    const githubData = await githubResponse.json();
-    
-    return NextResponse.json(githubData);
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      { error: 'internal server error' },
-      { status: 500 }
-    );
   }
+
+  const gh = await fetch(`https://api.github.com/users/${encodeURIComponent(id)}`, {
+    headers: {
+      Accept: "application/vnd.github.v3+json",
+      "User-Agent": "gwangtalpe-client",
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN ?? ""}`,
+    },
+    cache: "no-store",
+  });
+
+  if (!gh.ok) {
+    if (gh.status === 404) {
+      return NextResponse.json({ error: "not found" }, { status: 404 });
+    }
+    return NextResponse.json({ error: "failed to fetch" }, { status: gh.status });
+  }
+
+  const data = await gh.json();
+
+  try {
+    await redis.set(KEY(id), JSON.stringify(data), "EX", TTL_SECONDS);
+  } catch {}
+
+  return NextResponse.json(data, { status: 200, headers: { "X-Cache": "MISS" } });
 }
