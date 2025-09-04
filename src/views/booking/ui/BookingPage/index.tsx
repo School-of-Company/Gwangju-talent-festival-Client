@@ -8,6 +8,8 @@ import BackHeader from "@/shared/ui/BackHeader";
 import { useSeatSelection } from "@/widgets/booking/lib/useSeatSelection";
 import { SectionType, Seat } from "@/entities/booking/model/types";
 import { useSeatBooking } from "@/widgets/booking/lib/useSeatBooking";
+import { toast } from "sonner";
+import router from "next/router";
 
 const BookingPage = () => {
   const {
@@ -43,6 +45,8 @@ const BookingPage = () => {
         section: selectedSeatInfo.seat.section,
         seatNumber: selectedSeatInfo.seat.seatNumber,
       });
+      toast.success("예매가 완료되었습니다.");
+      router.push("/home");
     }
   }, [isComplete, selectedSeatInfo, seatBookingMutation]);
 
