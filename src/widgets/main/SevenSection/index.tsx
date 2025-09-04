@@ -14,17 +14,7 @@ export default function SeventhSection() {
 "
           className={cn("mt-[66px] mobile:mt-[1.7rem]")}
         />
-        <div
-          className={cn(
-            "flex",
-            "flex-col",
-            "overflow-hidden",
-            "w-full",
-            "bg-white",
-            "py-[4rem]",
-            "items-center",
-          )}
-        >
+        <div className={cn("flex flex-col overflow-hidden w-full bg-white py-[4rem] items-center")}>
           <h3
             className={cn(
               "xs:text-[2.75rem]/[3.85rem]",
@@ -33,7 +23,7 @@ export default function SeventhSection() {
               "text-center",
             )}
           ></h3>
-          <div className={cn("flex", "flex-col", "relative", "w-full", "overflow-hidden", "gap-6")}>
+          <div className={cn("flex flex-col relative w-full overflow-hidden gap-6")}>
             <div
               className={cn("flex space-x-4 gap-[100px] whitespace-nowrap")}
               style={{
@@ -45,7 +35,7 @@ export default function SeventhSection() {
               ))}
             </div>
             <div
-              className={cn("flex", "space-x-4", "whitespace-nowrap")}
+              className={cn("flex space-x-4 whitespace-nowrap")}
               style={{
                 animation: "scrollLeft 25s linear infinite",
               }}
