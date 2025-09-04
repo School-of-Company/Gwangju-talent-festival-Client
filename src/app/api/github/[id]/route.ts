@@ -1,16 +1,18 @@
 import { redis } from "@/shared/lib/redis";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 const KEY = (id: string) => `gh:user:${id}`;
 const TTL_SECONDS = 60 * 60 * 24;
 
-export async function GET(_request: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
 
   let cached: string | null = null;
   try {
     cached = await redis.get(KEY(id));
-  } catch {}
+  } catch (e) {
+    throw e;
+  }
   if (cached) {
     return new NextResponse(cached, {
       status: 200,
@@ -38,7 +40,9 @@ export async function GET(_request: NextRequest, { params }: { params: { id: str
 
   try {
     await redis.set(KEY(id), JSON.stringify(data), "EX", TTL_SECONDS);
-  } catch {}
+  } catch (error) {
+    throw error;
+  }
 
   return NextResponse.json(data, { status: 200, headers: { "X-Cache": "MISS" } });
 }
