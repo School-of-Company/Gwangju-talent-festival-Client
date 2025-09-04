@@ -14,21 +14,20 @@ export const MemberCard = ({ githubID }: MemberCardProps) => {
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "flex items-center w-[18.4375rem] h-[7rem] rounded-xl border border-[#B2B2B2] bg-white p-5 gap-1 space-x-4 flex-shrink-0 cursor-pointer",
+        "flex flex-col flex-none items-center px-[36px] w-[18rem] py-24 h-[20rem] rounded-xl bg-white cursor-pointer shadow-[4px_4px_4px_0_rgba(0,0,0,0.25)] gap-24",
       )}
     >
       {data?.avatar_url ? (
         <Image
           src={data.avatar_url}
-          width={72}
-          height={72}
+          width={100}
+          height={100}
           alt={data?.name ?? ""}
-          className={cn("rounded-full")}
+          className={cn("rounded-full shrink-0")}
         />
       ) : null}
       <div>
-        <p className={cn("text-[1.5rem]/[2rem] font-medium")}>{data?.name ?? "조수민"}</p>
-        <p className={cn("text-[1.375rem]/[1.75rem] font-normal")}>{data?.email}</p>
+        <p className={cn("text-body1b")}>{data?.name ?? "조수민"}</p>
       </div>
     </a>
   );
