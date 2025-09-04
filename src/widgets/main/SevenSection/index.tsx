@@ -21,9 +21,8 @@ export default function SeventhSection() {
             "overflow-hidden",
             "w-full",
             "bg-white",
-            "py-[15rem]",
+            "py-[4rem]",
             "items-center",
-            "gap-[6.25rem]",
           )}
         >
           <h3
@@ -36,7 +35,7 @@ export default function SeventhSection() {
           ></h3>
           <div className={cn("flex", "flex-col", "relative", "w-full", "overflow-hidden", "gap-6")}>
             <div
-              className={cn("flex", "space-x-4", "whitespace-nowrap")}
+              className={cn("flex space-x-4 gap-[100px] whitespace-nowrap")}
               style={{
                 animation: "scrollRight 25s linear infinite",
               }}
