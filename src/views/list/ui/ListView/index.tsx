@@ -2,13 +2,14 @@
 
 import MiniHeader from "@/shared/ui/MiniHeader";
 import { useGetTeams } from "../../model/useGetTeams";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/shared/ui";
 import { closeVote } from "@/entities/list/api/closeVote";
 import { openVote } from "@/entities/list/api/openVote";
 import { TeamCard, Wrapper } from "@/entities/list/ui";
 import { toast } from "sonner";
 import TeamSlide from "@/widgets/list/ui/TeamSlide";
+import { goNextTeam } from "@/entities/list/api/goNextTeam";
 
 export default function ListView() {
   const [item, setItem] = useState(0);
@@ -16,6 +17,13 @@ export default function ListView() {
 
   if (isError) toast.error(error.message ?? "팀을 불러오는데 실패했습니다");
   const currentId = data ? String(data[item]?.team_id ?? "0") : "0";
+
+  const handleStartVote = useCallback(() => {
+    if (currentId) {
+      openVote(currentId);
+      goNextTeam(currentId);
+    }
+  }, [currentId]);
   return (
     <div className="px-80 w-full">
       <MiniHeader label="관리자" />
@@ -36,7 +44,7 @@ export default function ListView() {
               <h3 className="text-body2b text-center">
                 {data ? (data[item]?.team_name ?? "팀 이름") : "팀 이름"}
               </h3>
-              <Button onClick={() => currentId && openVote(currentId)}>투표 시작</Button>
+              <Button onClick={handleStartVote}>투표 시작</Button>
               <Button variant="third" onClick={() => currentId && closeVote(currentId)}>
                 투표 마감
               </Button>
