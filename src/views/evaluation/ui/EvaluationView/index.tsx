@@ -15,8 +15,9 @@ export default function EvaluationView() {
   const { data: teamData } = useGetEvaluation(team, isOne);
 
   useEffect(() => {
-    const res = changePerformOrder();
-    setTeam(String(res));
+    changePerformOrder((teamId: number) => {
+      setTeam(String(teamId));
+    });
   }, []);
   const toggle = useCallback(() => {
     setIsOne(!isOne);
