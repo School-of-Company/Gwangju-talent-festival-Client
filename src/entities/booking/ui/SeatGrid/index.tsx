@@ -13,10 +13,11 @@ export interface SeatGridProps {
   selectedSeat: Seat | null;
   onSeatSelect: (seat: Seat | null) => void;
   mySeat?: Seat | null;
+  allSeats?: Seat[] | null;
   className?: string;
 }
 
-export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, mySeat, className }) => {
+export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, mySeat, allSeats, className }) => {
   const queryClient = useQueryClient();
 
   const handleSeatSelect = useCallback(
@@ -85,11 +86,12 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
 
   const renderSectionMiniGrid = (section: (typeof SECTIONS)[number]) => {
     const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(section));
+    const allSectionSeats = allSeats?.filter(seat => seat.section === section);
     const sectionLayout = getSeatLayout(section);
     const pattern = getSeatPattern(section);
 
     const seatMap = new Map<string, Seat>();
-    const seatsToUse = cachedSeats || sectionLayout.seats;
+    const seatsToUse = allSectionSeats && allSectionSeats.length > 0 ? allSectionSeats : cachedSeats || sectionLayout.seats;
 
     seatsToUse.forEach(seat => {
       seatMap.set(seat.seatNumber, seat);
