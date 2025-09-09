@@ -9,7 +9,7 @@ import { useSeatSelection } from "@/widgets/booking/lib/useSeatSelection";
 import { SectionType, Seat } from "@/entities/booking/model/types";
 import { useSeatBooking } from "@/widgets/booking/lib/useSeatBooking";
 import { toast } from "sonner";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 const BookingPage = () => {
   const {
@@ -22,7 +22,7 @@ const BookingPage = () => {
   } = useSeatSelection();
 
   const seatBookingMutation = useSeatBooking();
-
+  const router = useRouter();
   const handleSectionSelect = useCallback(
     (section: SectionType) => {
       setSelectedSection(section);
@@ -48,7 +48,7 @@ const BookingPage = () => {
       toast.success("예매가 완료되었습니다.");
       router.push("/home");
     }
-  }, [isComplete, selectedSeatInfo, seatBookingMutation]);
+  }, [isComplete, selectedSeatInfo, seatBookingMutation, router]);
 
   const getButtonText = () => {
     if (seatBookingMutation.isPending) {

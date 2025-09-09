@@ -11,10 +11,11 @@ import Button from "@/shared/ui/Button";
 import { useCallback } from "react";
 import { Seat } from "@/entities/booking/model/types";
 import { cancelSeatBooking } from "@/entities/booking/api/cancelSeatBooking";
+import { useRouter } from "next/navigation";
 
 const MyBookingPage = () => {
   const { data: mySeat, isLoading, error } = useMySeat();
-  
+  const router = useRouter();
   const layout = null;
 
   if (error) { 
@@ -28,7 +29,8 @@ const MyBookingPage = () => {
   const handleCancelClick = useCallback(() => {
     cancelSeatBooking(mySeat as Seat);
     toast.success("예매가 취소되었습니다.");
-  }, [mySeat]);
+    router.push("/home");
+  }, [mySeat, router]);
 
   return (
     <div className={cn("w-full max-w-4xl mx-auto p-4 space-y-6")}>
