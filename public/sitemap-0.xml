@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://www.광탈페.com</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/signup</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/slogan</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/result/detail</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/home</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/signin</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/booking</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/vote</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/result</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://www.광탈페.com/apply</loc><lastmod>2025-08-11T07:41:45.691Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/robots.txt</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/apply</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/home</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/signin</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/signup</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/result/detail</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/result</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/booking</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://www.광탈페.com/slogan</loc><lastmod>2025-09-04T02:45:20.254Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
