@@ -54,7 +54,9 @@ export const SEAT_INFO: Record<Section, SeatInfo> = {
 type SectionKey<T extends Section> = `section_${Lowercase<T>}`;
 
 type AllSectionKeys = {
-  [K in Section as SectionKey<K>]: boolean[];
+  [K in Section as SectionKey<K>]: {
+    seats: boolean[];
+  };
 };
 
 export type AllSeatsApiResponse = AllSectionKeys;
