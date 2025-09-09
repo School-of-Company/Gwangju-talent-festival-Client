@@ -6,7 +6,7 @@ import { useGetEvaluations } from "../../model/useGetEvaluations";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/shared/ui";
 import { useGetEvaluation } from "../../model/useGetEvaluation";
-import { changePerformOrder } from "@/shared/api/changePerformOrder";
+import { changePerformOrder } from "@/views/evaluation/api/changePerformOrder";
 
 export default function EvaluationView() {
   const [isOne, setIsOne] = useState(false);
