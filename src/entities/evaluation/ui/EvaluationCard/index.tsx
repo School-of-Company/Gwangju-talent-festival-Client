@@ -10,18 +10,21 @@ import { toast } from "sonner";
 import { colors } from "@/shared/utils/color";
 import { cn } from "@/shared/utils/cn";
 
+type Label = "completion_expression" | "creativity_composition" | "stage_manner_performance";
+
 type ValueType = {
-  value: number | string;
   write: boolean;
   max: number;
   show: boolean;
+  label: Label;
 };
 
 const scores: ValueType[] = [
-  { value: 0, write: false, max: 40, show: false },
-  { value: 0, write: false, max: 30, show: false },
-  { value: 0, write: false, max: 30, show: false },
+  { write: false, max: 40, show: false, label: "completion_expression" },
+  { write: false, max: 30, show: false, label: "creativity_composition" },
+  { write: false, max: 30, show: false, label: "stage_manner_performance" },
 ];
+
 export default function EvaluationCard({
   judge_id,
   stage_manner_performance,
@@ -34,18 +37,19 @@ export default function EvaluationCard({
   is_performed,
 }: Score) {
   const [values, setValues] = useState<ValueType[]>(scores);
+  const [scoreValues, setScoreValues] = useState<Record<Label, number>>({
+    completion_expression: 0,
+    creativity_composition: 0,
+    stage_manner_performance: 0,
+  });
   const [variant, setVariant] = useState<"submitted" | "active" | "disabled">("active");
 
   useEffect(() => {
-    setValues(prev =>
-      prev.map((item, idx) => (idx === 0 ? { ...item, value: stage_manner_performance } : item)),
-    );
-    setValues(prev =>
-      prev.map((item, idx) => (idx === 1 ? { ...item, value: completion_expression } : item)),
-    );
-    setValues(prev =>
-      prev.map((item, idx) => (idx === 1 ? { ...item, value: creativity_composition } : item)),
-    );
+    setScoreValues({
+      completion_expression: Number(completion_expression) || 0,
+      creativity_composition: Number(creativity_composition) || 0,
+      stage_manner_performance: Number(stage_manner_performance) || 0,
+    });
     if (is_judged) {
       setVariant("submitted");
       return;
@@ -64,11 +68,12 @@ export default function EvaluationCard({
   ]);
 
   const handleSave = useCallback(async () => {
+    const { completion_expression, creativity_composition, stage_manner_performance } = scoreValues;
     const res = await saveScore(
       team_id,
-      Number(values[0].value),
-      Number(values[1].value),
-      Number(values[2].value),
+      Number(stage_manner_performance) || 0,
+      Number(completion_expression) || 0,
+      Number(creativity_composition) || 0,
     );
     if (res.status === 200) {
       toast.success("심사 내용이 저장되었습니다");
@@ -77,7 +82,11 @@ export default function EvaluationCard({
       toast.error("심사 내용 저장에 실패하였습니다");
       setVariant("active");
     }
-  }, [team_id, values]);
+  }, [team_id, scoreValues]);
+
+  const changeActive = useCallback(() => {
+    setVariant("active");
+  }, []);
 
   return (
     <ul
@@ -91,18 +100,16 @@ export default function EvaluationCard({
         return v.write ? (
           <input
             className="w-[46.53px]"
-            key={i}
+            key={v.label}
             max={v.max}
             min={0}
             type="number"
-            value={v.value}
+            value={scoreValues[v.label]}
             onChange={e => {
               const val = e.target.value === "" ? 0 : Number(e.target.value);
 
-              if (val <= v.max && val >= 0) {
-                setValues(prev =>
-                  prev.map((item, idx) => (idx === i ? { ...item, value: val } : item)),
-                );
+              if (!Number.isNaN(val) && val <= v.max && val >= 0) {
+                setScoreValues(prev => ({ ...prev, [v.label]: val }));
               }
             }}
             onBlur={() => {
@@ -111,7 +118,6 @@ export default function EvaluationCard({
                   idx === i
                     ? {
                         ...item,
-                        value: item.value === 0 || Number.isNaN(item.value) ? 0 : item.value,
                         write: false,
                         show: false,
                       }
@@ -123,8 +129,8 @@ export default function EvaluationCard({
           />
         ) : (
           <CustomDropdown
-            key={i}
-            value={v.value}
+            key={v.label}
+            value={scoreValues[v.label]}
             max={v.max}
             isOpen={v.show}
             onToggle={() => {
@@ -133,9 +139,10 @@ export default function EvaluationCard({
               );
             }}
             onSelect={selectedValue => {
+              setScoreValues(prev => ({ ...prev, [v.label]: Number(selectedValue) }));
               setValues(prev =>
                 prev.map((item, idx) =>
-                  idx === i ? { ...item, value: selectedValue, write: false, show: false } : item,
+                  idx === i ? { ...item, write: false, show: false } : item,
                 ),
               );
             }}
@@ -148,12 +155,12 @@ export default function EvaluationCard({
         );
       })}
       <Button
-        onClick={handleSave}
-        variant={variant === "submitted" ? "secondary" : "default"}
+        onClick={variant === "submitted" ? changeActive : handleSave}
+        variant={variant === "submitted" ? "third" : "default"}
         className={cn("py-12 px-16 gap-12 w-[126px] justify-center flex items-center")}
       >
-        <CheckIcon color={variant === "active" ? "white" : colors.main[600]} />
-        {is_performed && total_score}
+        <CheckIcon color={variant === "submitted" ? colors.main[600] : "white"} />
+        {Object.values(scoreValues).reduce((sum, n) => sum + Number(n || 0), 0)}
       </Button>
     </ul>
   );
