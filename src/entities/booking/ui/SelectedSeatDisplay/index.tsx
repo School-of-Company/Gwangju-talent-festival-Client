@@ -2,8 +2,8 @@
 
 import { memo } from "react";
 import { cn } from "@/shared/utils/cn";
-import { SEAT_INFO, SECTIONS, SelectedSeatInfo, Section } from "../../model/types";
-import { getAvailableSeatsCount } from "../../model/seatLayouts";
+import { SEAT_INFO, SECTIONS, SelectedSeatInfo, Section, SEAT_STATUS } from "../../model/types";
+import { useAllSectionsSeatState } from "../../lib/useSeatState";
 
 export interface SelectedSeatDisplayProps {
   selectedSeat: SelectedSeatInfo | null;
@@ -13,6 +13,8 @@ export interface SelectedSeatDisplayProps {
 
 export const SelectedSeatDisplay = memo<SelectedSeatDisplayProps>(
   ({ selectedSeat, selectedSection, className }) => {
+    const { data: allSeats } = useAllSectionsSeatState();
+    
     const Legend = () => (
       <div className="flex gap-4 text-xs">
         <div className="flex items-center gap-1">
@@ -38,12 +40,23 @@ export const SelectedSeatDisplay = memo<SelectedSeatDisplayProps>(
     let availableSeatsCount = 0;
     let totalSeats = 0;
 
-    if (section) {
-      availableSeatsCount = getAvailableSeatsCount(section);
-      totalSeats = SEAT_INFO[section].total;
+    if (allSeats && allSeats.length > 0) {
+      if (section) {
+        const sectionSeats = allSeats.filter(seat => seat.section === section);
+        availableSeatsCount = sectionSeats.filter(seat => seat.status === SEAT_STATUS.AVAILABLE).length;
+        totalSeats = SEAT_INFO[section].total;
+      } else {
+        availableSeatsCount = allSeats.filter(seat => seat.status === SEAT_STATUS.AVAILABLE).length;
+        totalSeats = SECTIONS.reduce((total, sec) => total + SEAT_INFO[sec].total, 0);
+      }
     } else {
-      availableSeatsCount = SECTIONS.reduce((total, sec) => total + getAvailableSeatsCount(sec), 0);
-      totalSeats = SECTIONS.reduce((total, sec) => total + SEAT_INFO[sec].total, 0);
+      if (section) {
+        totalSeats = SEAT_INFO[section].total;
+        availableSeatsCount = totalSeats;
+      } else {
+        totalSeats = SECTIONS.reduce((total, sec) => total + SEAT_INFO[sec].total, 0);
+        availableSeatsCount = 0; 
+      }
     }
 
     return (
