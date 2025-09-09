@@ -29,6 +29,7 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
   const { isLoading: isPrefetching, error: prefetchError } = usePrefetchSeatCaches();
   const { data: allSeats, isLoading: isAllSeatsLoading, error: allSeatsError } = useAllSectionsSeatState();
 
+
   const handleSeatChange = useCallback((event: { seat_section: Section; seat_number: number; is_available: boolean }) => {
     const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(event.seat_section));
     if (cachedSeats) {
@@ -93,6 +94,16 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
     }))
   });
 
+  const sectionQueriesData = useMemo(() => 
+    sectionQueries.map(q => q.data), 
+    [sectionQueries]
+  );
+  
+  const sectionQueriesUpdatedTimes = useMemo(() => 
+    sectionQueries.map(q => q.dataUpdatedAt), 
+    [sectionQueries]
+  );
+
   const seatInfoMap = useMemo(() => {
     const map: Record<Section, string> = {} as Record<Section, string>;
     const isLoading = isPrefetching || isAllSeatsLoading;
@@ -109,8 +120,7 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
     } else {
       SECTIONS.forEach((section, index) => {
         const total = SEAT_INFO[section].total;
-        const sectionQuery = sectionQueries[index];
-        const cachedSeats = sectionQuery.data as Seat[] | undefined;
+        const cachedSeats = sectionQueriesData[index] as Seat[] | undefined;
         
         if (cachedSeats) {
           const occupied = cachedSeats.filter(seat => seat.status === SEAT_STATUS.OCCUPIED).length;
@@ -120,13 +130,19 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
         }
       });
     }
-
     return map;
-  }, [allSeats, sectionQueries, isPrefetching, isAllSeatsLoading]);
+  }, [
+    allSeats, 
+    sectionQueriesData,
+    sectionQueriesUpdatedTimes,
+    isPrefetching, 
+    isAllSeatsLoading
+  ]);
 
   return (
     <div className={cn("w-full", className)}>
       <SectionButtons
+        key={`section-buttons-${JSON.stringify(seatInfoMap)}`}
         selectedSection={selectedSection}
         onSectionSelect={handleSectionSelect}
         sections={SECTIONS}
