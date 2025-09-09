@@ -99,10 +99,6 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
     [sectionQueries]
   );
   
-  const sectionQueriesUpdatedTimes = useMemo(() => 
-    sectionQueries.map(q => q.dataUpdatedAt), 
-    [sectionQueries]
-  );
 
   const seatInfoMap = useMemo(() => {
     const map: Record<Section, string> = {} as Record<Section, string>;
@@ -132,10 +128,9 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
     }
     return map;
   }, [
-    allSeats, 
+    allSeats,
     sectionQueriesData,
-    sectionQueriesUpdatedTimes,
-    isPrefetching, 
+    isPrefetching,
     isAllSeatsLoading
   ]);
 
