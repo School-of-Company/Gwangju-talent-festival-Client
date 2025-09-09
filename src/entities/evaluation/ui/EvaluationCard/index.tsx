@@ -159,8 +159,8 @@ export default function EvaluationCard({
         variant={variant === "submitted" ? "third" : "default"}
         className={cn("py-12 px-16 gap-12 w-[126px] justify-center flex items-center")}
       >
-        <CheckIcon color={variant === "active" ? "white" : colors.main[600]} />
-        {is_performed && Object.values(scoreValues).reduce((sum, n) => sum + Number(n || 0), 0)}
+        <CheckIcon color={variant === "submitted" ? colors.main[600] : "white"} />
+        {Object.values(scoreValues).reduce((sum, n) => sum + Number(n || 0), 0)}
       </Button>
     </ul>
   );
