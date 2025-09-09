@@ -11,7 +11,6 @@ export function useSeatBooking() {
   return useMutation({
     mutationFn: (data: Omit<Seat, "status">) => seatBooking(data),
     onSuccess: (_result, vars) => {
-      toast.success("좌석 예매가 완료되었습니다.");
       queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(vars.section) });
     },
     onError: error => {
