@@ -49,7 +49,7 @@ export const SeatSection = memo<SeatSectionProps>(
       if (sectionSeats) {
         setRealTimeSeats(sectionSeats);
       }
-    }, [sectionSeats]);
+    }, [sectionSeats, selectedSection]);
 
     const getLayout = () => {
       if (selectedSection) {
