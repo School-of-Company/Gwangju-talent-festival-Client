@@ -75,6 +75,15 @@ export const SectionButtons = memo<SectionButtonsProps>(
       </div>
     );
   },
+  (prevProps: SectionButtonsProps, nextProps: SectionButtonsProps) => {
+    const seatInfoChanged = JSON.stringify(prevProps.seatInfoMap) !== JSON.stringify(nextProps.seatInfoMap);
+    
+    return !seatInfoChanged && 
+           prevProps.selectedSection === nextProps.selectedSection &&
+           prevProps.onSectionSelect === nextProps.onSectionSelect &&
+           prevProps.sections === nextProps.sections &&
+           prevProps.className === nextProps.className;
+  }
 );
 
 SectionButtons.displayName = "SectionButtons";
