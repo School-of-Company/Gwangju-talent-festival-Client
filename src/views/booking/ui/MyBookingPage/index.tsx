@@ -24,6 +24,7 @@ const MyBookingPage = () => {
 
   if (!mySeat) {
     toast.error("예약된 좌석이 없습니다.");
+    router.push("/booking");
   }
 
   const handleCancelClick = useCallback(() => {
