@@ -7,7 +7,7 @@ export const saveScore = async (
   creativity_composition: number,
 ) => {
   try {
-    const res = await instance.post("/judge/" + team_id, {
+    const res = await instance.patch("/judge/" + team_id, {
       stage_manner_performance,
       completion_expression,
       creativity_composition,
