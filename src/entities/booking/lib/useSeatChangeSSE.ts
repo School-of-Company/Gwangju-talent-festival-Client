@@ -10,6 +10,11 @@ interface UseSeatChangeSSEOptions {
 export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
   const { onSeatChange, enabled = true } = options;
   const eventSourceRef = useRef<EventSource | null>(null);
+  const onSeatChangeRef = useRef(onSeatChange);
+  
+  useEffect(() => {
+    onSeatChangeRef.current = onSeatChange;
+  }, [onSeatChange]);
 
   useEffect(() => {
     if (!enabled) return;
@@ -19,22 +24,27 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
     });
     eventSourceRef.current = eventSource;
 
-    eventSource.onmessage = (event) => {
+    eventSource.addEventListener('SEAT_CHANGE', (event) => {
       try {
         const data = JSON.parse(event.data);
-       if (data.event === "SEAT_CHANGE" && data.body) {
-          const seatChangeEvent: SeatChangeEvent = {
-            seat_section: data.body.seat_section,
-            seat_number: data.body.seat_number,
-            is_available: data.body.is_available,
-          };
-          
-          onSeatChange?.(seatChangeEvent);
+        
+        const seatChangeEvent: SeatChangeEvent = {
+          seat_section: data.seat_section,
+          seat_number: data.seat_number,
+          is_available: data.is_available,
+        };
+        
+        if (onSeatChangeRef.current) {
+          try {
+            onSeatChangeRef.current(seatChangeEvent);
+          } catch (callbackError) {
+            console.error(callbackError);
+          }
         }
       } catch (error) {
         console.error(error);
       }
-    };
+    });
 
     eventSource.onerror = (error) => {
       console.error(error);
@@ -47,7 +57,7 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
         eventSourceRef.current = null;
       }
     };
-  }, [enabled, onSeatChange]);
+  }, [enabled]);
 
   const closeConnection = () => {
     if (eventSourceRef.current) {
