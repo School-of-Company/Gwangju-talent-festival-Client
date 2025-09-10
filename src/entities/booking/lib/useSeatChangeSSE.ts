@@ -38,16 +38,16 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
           try {
             onSeatChangeRef.current(seatChangeEvent);
           } catch (callbackError) {
-            console.error(callbackError);
+            throw callbackError;
           }
         }
       } catch (error) {
-        console.error(error);
+        throw error;
       }
     });
 
     eventSource.onerror = (error) => {
-      console.error(error);
+      throw error;
       toast.error("실시간 좌석 정보 연결에 실패했습니다.");
     };
 
