@@ -15,7 +15,7 @@ export function useSeatBooking() {
     },
     onError: error => {
       console.error(error);
-      toast.error(error.message);
+      toast.error(error.message ?? "알 수 없는 오류가 발생했습니다.");
     },
   });
 }
