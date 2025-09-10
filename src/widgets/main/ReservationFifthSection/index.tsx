@@ -8,6 +8,8 @@ import Button from "@/shared/ui/Button";
 import { redirect } from "next/navigation";
 import { ticketOpenDate } from "@/shared/config/authConfig";
 import { useMySeat } from "@/entities/booking/lib/useMySeat";
+import { toast } from "sonner";
+import { stringifyError } from "next/dist/shared/lib/utils";
 
 const formatDateLeft = (timeLeft: number) => {
 
@@ -30,7 +32,11 @@ const formatDateLeft = (timeLeft: number) => {
 
 const ReservationFifthSection = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
-  const { data: mySeat } = useMySeat();
+  const { data: mySeat, error } = useMySeat();
+
+  if (error) {
+    toast.error(stringifyError(error));
+  }
 
   useEffect(() => {
     const calculateTimeLeft = () => {
