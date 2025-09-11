@@ -7,8 +7,12 @@ import { SectionTitle } from "@/shared/ui/SectionTitle";
 import Button from "@/shared/ui/Button";
 import { redirect } from "next/navigation";
 import { ticketOpenDate } from "@/shared/config/authConfig";
+import { useMySeat } from "@/entities/booking/lib/useMySeat";
+import { toast } from "sonner";
+import { stringifyError } from "next/dist/shared/lib/utils";
 
 const formatDateLeft = (timeLeft: number) => {
+
   const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
 
   const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -28,6 +32,11 @@ const formatDateLeft = (timeLeft: number) => {
 
 const ReservationFifthSection = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const { data: mySeat, error } = useMySeat();
+
+  if (error) {
+    toast.error(stringifyError(error));
+  }
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -87,10 +96,10 @@ const ReservationFifthSection = () => {
               <Button
                 className="w-full"
                 onClick={() => {
-                  redirect("/booking");
+                  redirect(mySeat ? "/booking/my" : "/booking");
                 }}
               >
-                예매하기
+                {mySeat ? "내 좌석 보러가기" : "예매하기"}
               </Button>
             )}
           </p>

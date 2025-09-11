@@ -12,10 +12,12 @@ export interface SeatGridProps {
   layout: SeatLayout | null;
   selectedSeat: Seat | null;
   onSeatSelect: (seat: Seat | null) => void;
+  mySeat?: Seat | null;
+  allSeats?: Seat[] | null;
   className?: string;
 }
 
-export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, className }) => {
+export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, mySeat, allSeats, className }) => {
   const queryClient = useQueryClient();
 
   const handleSeatSelect = useCallback(
@@ -66,10 +68,11 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
                 <SeatItem
                   seat={seat}
                   isSelected={
-                    selectedSeat?.seatNumber === seat.seatNumber &&
-                    selectedSeat?.section === seat.section
+                    mySeat 
+                      ? mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
+                      : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
                   }
-                  onSelect={handleSeatSelect}
+                  onSelect={mySeat ? () => {} : handleSeatSelect}
                 />
               ) : (
                 <div className="w-5 h-5" />
@@ -83,11 +86,12 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
 
   const renderSectionMiniGrid = (section: (typeof SECTIONS)[number]) => {
     const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(section));
+    const allSectionSeats = allSeats?.filter(seat => seat.section === section);
     const sectionLayout = getSeatLayout(section);
     const pattern = getSeatPattern(section);
 
     const seatMap = new Map<string, Seat>();
-    const seatsToUse = cachedSeats || sectionLayout.seats;
+    const seatsToUse = allSectionSeats && allSectionSeats.length > 0 ? allSectionSeats : cachedSeats || sectionLayout.seats;
 
     seatsToUse.forEach(seat => {
       seatMap.set(seat.seatNumber, seat);
@@ -105,7 +109,16 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
                 return (
                   <div key={key} className="w-6 h-6">
                     {seat ? (
-                      <div className="w-6 h-6 bg-white cursor-pointer"></div>
+                      <SeatItem
+                        seat={seat}
+                        isSelected={
+                          mySeat 
+                            ? mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
+                            : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
+                        }
+                        onSelect={mySeat ? () => {} : handleSeatSelect}
+                        className="w-6 h-6 text-transparent"
+                      />
                     ) : (
                       <div className="w-6 h-6"></div>
                     )}

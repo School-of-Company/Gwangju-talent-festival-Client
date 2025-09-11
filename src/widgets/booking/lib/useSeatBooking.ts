@@ -11,13 +11,11 @@ export function useSeatBooking() {
   return useMutation({
     mutationFn: (data: Omit<Seat, "status">) => seatBooking(data),
     onSuccess: (_result, vars) => {
-      toast.success("좌석 예매가 완료되었습니다.");
       queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(vars.section) });
-      queryClient.invalidateQueries({ queryKey: seatQueryKeys.allSeats() });
     },
     onError: error => {
       console.error(error);
-      toast.error("좌석 예매에 실패했습니다.");
+      toast.error(error.message ?? "알 수 없는 오류가 발생했습니다.");
     },
   });
 }
