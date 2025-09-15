@@ -5,15 +5,15 @@ import Standard from "@/entities/evaluation/ui/Standard";
 import { useGetEvaluations } from "../../model/useGetEvaluations";
 
 export default function EvaluationView() {
-  const { data } = useGetEvaluations();
+  const { data: teams } = useGetEvaluations();
   return (
     <div className="flex items-center flex-col justify-center ">
-      <header className="flex w-full pt-24 justify-between px-24">
+      <header className="flex w-full pt-24 justify-center px-24">
         <h1 className="text-body1b">공연 팀 심사</h1>
       </header>
       <Standard />
       <div className="justify-center flex flex-col gap-24 w-full">
-        {data?.map(v => {
+        {teams?.map(v => {
           return (
             <EvaluationCard
               key={v.judge_id}
