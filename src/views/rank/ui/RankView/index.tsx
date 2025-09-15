@@ -6,7 +6,6 @@ import RankCard from "@/entities/rank/ui/RankCard";
 
 export default function RankView() {
   const { data } = useGetRank();
-  console.log(data);
   return (
     <div>
       <header className="pt-[69px] text-center text-title3m pb-[32px]">순위</header>
