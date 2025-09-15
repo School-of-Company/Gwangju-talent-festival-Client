@@ -10,11 +10,11 @@ export default function RankView() {
   return (
     <div>
       <header className="pt-[69px] text-center text-title3m pb-[32px]">순위</header>
-      {data && <TopRank rank={[data[0], data[1], data[2]]} />}
+      {data && <TopRank rank={[data[0], data[1], data[2], data[3]]} />}
       <div className="flex flex-col gap-[52px] px-[41px] my-28">
         {data &&
           data?.map((v, i) => {
-            if (i < 3) return null;
+            if (i < 4) return null;
             return (
               <RankCard
                 popularity_award={v.popularity_award}
