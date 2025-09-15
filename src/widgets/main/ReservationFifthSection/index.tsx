@@ -16,14 +16,14 @@ const formatDateLeft = (timeLeft: number) => {
   const HOUR = 1000 * 60 * 60;
   const MIN = 1000 * 60;
   const SEC = 1000;
-  if (timeLeft < DAY) { 
-    if (timeLeft < HOUR) { 
-        return `${String(Math.floor(timeLeft / MIN)).padStart(2, "0")}분 ${String( Math.floor((timeLeft % MIN) / SEC)).padStart(2, "0")}초 후`;
+  if (timeLeft < DAY) {
+    if (timeLeft < HOUR) {
+      return `${String(Math.floor(timeLeft / MIN)).padStart(2, "0")}분 ${String(Math.floor((timeLeft % MIN) / SEC)).padStart(2, "0")}초 후`;
     } else {
-    return `${String(Math.floor(timeLeft / HOUR)).padStart(2, "0")}시간 후`; 
+      return `${String(Math.floor(timeLeft / HOUR)).padStart(2, "0")}시간 후`;
     }
-  } else { 
-  return `D-${Math.floor(timeLeft / DAY)}`;
+  } else {
+    return `D-${Math.floor(timeLeft / DAY)}`;
   }
 };
 
@@ -114,6 +114,9 @@ const ReservationFifthSection = () => {
               })}
             </span>
           </div>
+          <span className={cn("text-body2b text-main-600 mobile:text-caption2b")}>
+            현장에서 실물티켓으로 교환 후 입장 가능합니다.
+          </span>
         </div>
       </div>
     </section>
