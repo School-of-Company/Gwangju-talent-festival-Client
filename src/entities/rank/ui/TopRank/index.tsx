@@ -12,9 +12,18 @@ export default function TopRank({ rank }: { rank: Rank[] }) {
           <Medal />
           <h3 className="text-white text-title4b">{rank[0].team_name}</h3>
         </div>
-        <div className="bg-main-400 w-[20vw] gap-20 py-30 flex rounded-t-[40px] justify-around items-center">
+        <div className="bg-main-400 w-[20vw] gap-24 py-30 flex rounded-t-[40px] justify-center items-center">
           <h3 className="text-white text-title4b">{rank[2].team_name}</h3>
-          <div className="w-1 bg-white h-full" />
+          <svg
+            width="2"
+            height="40"
+            viewBox="0 0 2 40"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line x1="1.16602" y1="2.18557e-08" x2="1.16601" y2="40" stroke="#D6A1E6" />
+          </svg>
+
           <h3 className="text-white text-title4b">{rank[3].team_name}</h3>
         </div>
       </div>
