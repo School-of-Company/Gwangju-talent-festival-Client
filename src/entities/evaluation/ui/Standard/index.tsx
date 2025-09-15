@@ -3,9 +3,13 @@ export default function Standard() {
     <ul
       className="bg-gray-50 px-[40px
 
-    ] w-full mt-24 mb-[41px] text-body3b items-center flex justify-around text-center py-24"
+    ] w-full mt-24 mb-20 text-body2b items-center flex justify-around text-center py-24"
     >
-      <li>팀명</li>
+      <li>
+        연번
+        <br />
+        (심사번호)
+      </li>
       <li>
         완성도 및 표현력
         <br /> (40)
@@ -23,6 +27,8 @@ export default function Standard() {
         계<br />
         (100)
       </li>
+      <li>저장</li>
+      <li>수정</li>
     </ul>
   );
 }
