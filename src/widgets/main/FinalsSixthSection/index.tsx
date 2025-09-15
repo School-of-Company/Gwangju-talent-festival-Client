@@ -11,6 +11,13 @@ const Map = dynamic(
   },
 );
 
+const Video = dynamic(
+  () => import("@/entities/home/ui/Video"),
+  {
+    ssr: false,
+  },
+);
+
 const FinalsSixthSection = () => {
   return (
     <section id="FinalsSixthSection" className={cn("flex flex-col items-center my-20")}>
@@ -30,10 +37,21 @@ const FinalsSixthSection = () => {
             대상: 光트로(예선) 합격팀
             <br />∙ 2025.9.27.(토) 조선대학교 해오름관
           </p>
-          <Map
-            address="광주광역시 동구 필문대로 309 조선대학교 해오름관"
-            className={cn("h-[300px] mobile:h-[30rem]")}
-          />
+          
+          <div className={cn("flex gap-6 mobile:flex-col mobile:gap-4")}>
+            <div className={cn("flex-1")}>
+              <Map
+                address="광주광역시 동구 필문대로 309 조선대학교 해오름관"
+                className={cn("h-[300px] mobile:h-[250px]")}
+              />
+            </div>
+            
+            <div className={cn("flex-1")}>
+              <div className={cn("h-[300px] mobile:h-[250px] rounded-lg overflow-hidden")}>
+                <Video visibleCaption={false} link="https://kr.object.ncloudstorage.com/gwangju-talent-festival-bucket/KakaoTalk_Video_2025-09-05-07-56-53.mp4" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
