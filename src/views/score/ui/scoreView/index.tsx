@@ -3,11 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Star from "@/shared/asset/svg/Star";
 import { useGetVote } from "@/shared/model/useGetVote";
-import { rgbs } from "@/shared/utils/color";
 import { ease } from "@/entities/score/lib/ease";
 import { useParams } from "next/navigation";
 
-const TOTAL_STARS = 200;
+const COLUMNS = 15;
+const ROWS = 20;
+const GAP = "1px";
+const TOTAL_STARS = COLUMNS * ROWS;
+const STAR_SIZE = 70;
 
 type StarCell = { id: number; active: boolean };
 
@@ -42,7 +45,7 @@ export default function ScoreView() {
     setStars(prev => prev.map(s => ({ ...s, active: false })));
     progressRef.current = 0;
     const total = activeStars;
-    const duration = Math.max(900, total * 16);
+    const duration = Math.max(500, total * 16);
     const start = performance.now();
 
     const loop = (t: number) => {
@@ -70,14 +73,14 @@ export default function ScoreView() {
       <div
         className="grid"
         style={{
-          gridTemplateColumns: "repeat(20, minmax(0, 1fr))",
-          gap: "6px",
+          gridTemplateColumns: `repeat(${COLUMNS}, minmax(0, 1fr))`,
+          gap: GAP,
           width: "min(1200px, 92vw)",
         }}
       >
         {stars.map((star, i) => {
           const fx = cellFx[i];
-          const glow = `rgba(${rgbs.main[400]}, ${fx.glow})`;
+          const glow = `rgba(255, 205, 5, ${fx.glow})`;
 
           return (
             <div
@@ -103,7 +106,7 @@ export default function ScoreView() {
                     : "none",
                 }}
               >
-                <Star active={star.active} />
+                <Star active={star.active} size={STAR_SIZE} />
               </div>
             </div>
           );
