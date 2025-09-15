@@ -96,8 +96,16 @@ export default function Header() {
         >
           <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
         </div>
-        <div className={cn("hidden mobile:block")}>
+        <div className={cn("hidden mobile:block ")}>
           <div className={cn("flex text-caption2r gap-16")}>
+            <div
+              className={cn(
+                "border-gray-100 cursor-pointer border border-solid text-center rounded-lg px-12 py-8",
+              )}
+              onClick={handleClick}
+            >
+              <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
+            </div>
             <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
               {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}
             </div>
