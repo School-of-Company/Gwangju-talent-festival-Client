@@ -14,7 +14,14 @@ import { useCallback, useEffect, useState } from "react";
 export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const R = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+    setIsUserLoggedIn(isLoggedIn());
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -29,12 +36,12 @@ export default function Header() {
   }, [isMobileMenuOpen]);
 
   const handleClick = useCallback(() => {
-    if (isLoggedIn()) {
+    if (isUserLoggedIn) {
       handleLogout();
     } else {
       R.push("/signin");
     }
-  }, [R]);
+  }, [R, isUserLoggedIn]);
 
   const hidden =
     pathname.startsWith("/signin") ||
@@ -87,7 +94,7 @@ export default function Header() {
           )}
           onClick={handleClick}
         >
-          <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
+          <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
         </div>
         <div className={cn("hidden mobile:block")}>
           <div className={cn("flex text-caption2r gap-16")}>
@@ -122,7 +129,7 @@ export default function Header() {
                   )}
                   onClick={handleClick}
                 >
-                  <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
+                  <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
                 </div>
               </div>
             </div>
