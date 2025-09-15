@@ -6,8 +6,8 @@ import { useGetVote } from "@/shared/model/useGetVote";
 import { ease } from "@/entities/score/lib/ease";
 import { useParams } from "next/navigation";
 
-const COLUMNS = 15;
-const ROWS = 20;
+const COLUMNS = 16;
+const ROWS = 19;
 const GAP = "1px";
 const TOTAL_STARS = COLUMNS * ROWS;
 const STAR_SIZE = 70;
