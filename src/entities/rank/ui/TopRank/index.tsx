@@ -17,9 +17,9 @@ export default function TopRank({ rank }: { rank: Rank[] }) {
         </div>
       </div>
       <ul className="text-title1b rounded-[40px] bg-white border-2 border-solid border-gray-100 flex py-[36px] justify-around items-center">
-        <li>2등</li>
-        <li>1등</li>
-        <li>3등</li>
+        <li>꿈이룸상</li>
+        <li>광탈페상</li>
+        <li>꿈피움상</li>
       </ul>
     </div>
   );
