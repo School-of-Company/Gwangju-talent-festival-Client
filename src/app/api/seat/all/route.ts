@@ -6,7 +6,6 @@ export async function GET(request: NextRequest) {
     request,
     "/seat/all",
     "GET",
-    200,
-    { credentials: "include" }
+    200
   );
 } 
