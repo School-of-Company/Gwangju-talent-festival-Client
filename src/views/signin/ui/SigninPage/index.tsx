@@ -9,10 +9,15 @@ const SigninPage = () => {
     <div className={cn("flex flex-col items-center justify-center h-screen w-full px-12")}>
       <div className={cn("w-full max-w-md flex flex-col items-center")}>
         <div className={cn("mb-20 mobile:mb-0")}>
-          <Logo color={colors.main[600]} width={200} height={200} />
+          <Logo
+            color={colors.main[600]}
+            width={200}
+            height={200}
+            className="mobile:w-[150px] mobile:h-[100px]"
+          />
         </div>
         <SigninFormContainer />
-        <p className="text-body2r mt-28 text-gray-500 mobile:text-caption1r mobile:mt-10 mobile:self-start">
+        <p className="text-body2r mt-28 text-gray-500 mobile:text-caption1r mobile:mt-10 ">
           저희 사이트에 처음 방문하셨나요?{" "}
           <Link href="/signup" className="text-main-600 hover:underline">
             회원가입 하러가기

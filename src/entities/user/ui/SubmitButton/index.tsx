@@ -8,7 +8,7 @@ type SubmitButtonProps = {
 
 const SubmitButton = ({ buttonText, disabled }: SubmitButtonProps) => {
   return (
-    <Button className={cn("w-full")} type="submit" disabled={disabled}>
+    <Button className={cn("w-full mt-1.25rem")} type="submit" disabled={disabled}>
       {buttonText}
     </Button>
   );
