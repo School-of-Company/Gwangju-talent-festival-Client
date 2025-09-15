@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import { Section, Seat, SelectedSeatInfo } from "@/entities/booking/model/types";
+import { Section, Seat, SelectedSeatInfo, SEAT_STATUS } from "@/entities/booking/model/types";
 
 export const useSeatSelection = () => {
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
@@ -12,7 +12,7 @@ export const useSeatSelection = () => {
 
   const selectSeat = useCallback(
     (seat: Seat) => {
-      if (seat.status === "unavailable") return;
+      if (seat.status === SEAT_STATUS.OCCUPIED) return;
 
       if (selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section) {
         setSelectedSeat(null);
@@ -24,7 +24,7 @@ export const useSeatSelection = () => {
   );
 
   const canSelectSeat = useCallback((seat: Seat) => {
-    return seat.status === "available";
+    return seat.status === SEAT_STATUS.AVAILABLE;
   }, []);
 
   const selectedSeatInfo = useMemo((): SelectedSeatInfo | null => {

@@ -4,8 +4,8 @@ export type Section = (typeof SECTIONS)[number];
 export type SectionType = Section | null;
 
 export const SEAT_STATUS = {
+  OCCUPIED: "occupied",
   AVAILABLE: "available",
-  UNAVAILABLE: "unavailable",
   SELECTED: "selected",
 } as const;
 
@@ -32,6 +32,12 @@ export interface SeatInfo {
   total: number;
 }
 
+export interface SeatChangeEvent {
+  seat_section: Section;
+  seat_number: number;
+  is_available: boolean;
+}
+
 export const SEAT_INFO: Record<Section, SeatInfo> = {
   A: { occupied: 0, total: 77 },
   B: { occupied: 0, total: 130 },
@@ -48,7 +54,9 @@ export const SEAT_INFO: Record<Section, SeatInfo> = {
 type SectionKey<T extends Section> = `section_${Lowercase<T>}`;
 
 type AllSectionKeys = {
-  [K in Section as SectionKey<K>]: boolean[];
+  [K in Section as SectionKey<K>]: {
+    seats: boolean[];
+  };
 };
 
 export type AllSeatsApiResponse = AllSectionKeys;

@@ -8,11 +8,11 @@ export const publicPages = [
 ]
 
 export const publicIn18 = [
-  "/bookingg"
+  "/booking"
 ]
 
 export const publicIn27 = [
-  "/votee",
+  "/vote",
 ]
 
 export const ticketOpenDate = new Date("2025-09-18T20:00:00");

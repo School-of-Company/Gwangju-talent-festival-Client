@@ -32,7 +32,7 @@ const FinalsSixthSection = () => {
           </p>
           <Map
             address="광주광역시 동구 필문대로 309 조선대학교 해오름관"
-            className={cn("h-[300px]")}
+            className={cn("h-[300px] mobile:h-[30rem]")}
           />
         </div>
       </div>

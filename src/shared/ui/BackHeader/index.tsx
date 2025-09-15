@@ -6,12 +6,21 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import React from "react";
 
-const BackHeader = ({ text }: { text: string }) => {
+export interface BackHeaderProps {
+  text: string;
+  goto?: string;
+}
+
+const BackHeader = ({ text, goto }: BackHeaderProps) => {
   const router = useRouter();
 
   const handleBack = useCallback(() => {
-    router.back();
-  }, [router]);
+    if (goto) {
+      router.push(goto);
+    } else {
+      router.back();
+    }
+  }, [router, goto]);
 
   return (
     <div className={cn("flex gap-24 items-center my-28 mobile:my-12")}>

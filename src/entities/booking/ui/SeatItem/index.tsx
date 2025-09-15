@@ -13,7 +13,7 @@ export interface SeatItemProps {
 
 export const SeatItem = memo<SeatItemProps>(({ seat, isSelected, onSelect, className }) => {
   const handleClick = useCallback(() => {
-    if (seat.status === SEAT_STATUS.UNAVAILABLE) return;
+    if (seat.status === SEAT_STATUS.OCCUPIED) return;
     onSelect(seat);
   }, [seat, onSelect]);
 
@@ -21,7 +21,7 @@ export const SeatItem = memo<SeatItemProps>(({ seat, isSelected, onSelect, class
     const baseStyles =
       "w-5 h-5 text-xs font-medium transition-all duration-200 flex items-center justify-center";
 
-    if (seat.status === SEAT_STATUS.UNAVAILABLE) {
+    if (seat.status === SEAT_STATUS.OCCUPIED) {
       return cn(baseStyles, "bg-gray-400 text-gray-600 cursor-not-allowed");
     }
 
@@ -40,8 +40,8 @@ export const SeatItem = memo<SeatItemProps>(({ seat, isSelected, onSelect, class
     <button
       className={cn(getSeatStyles(), className)}
       onClick={handleClick}
-      disabled={seat.status === SEAT_STATUS.UNAVAILABLE}
-      title={`좌석 ${seat.seatNumber} - ${seat.status === SEAT_STATUS.UNAVAILABLE ? "선택불가" : "선택가능"}`}
+      disabled={seat.status === SEAT_STATUS.OCCUPIED}
+      title={`좌석 ${seat.seatNumber} - ${seat.status === SEAT_STATUS.OCCUPIED ? "선택불가" : "선택가능"}`}
       aria-label={`좌석 ${seat.seatNumber}`}
     >
       {getSeatNumber()}
