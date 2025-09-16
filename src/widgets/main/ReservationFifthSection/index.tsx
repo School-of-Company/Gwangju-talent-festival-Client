@@ -6,10 +6,11 @@ import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import Button from "@/shared/ui/Button";
 import { redirect } from "next/navigation";
-import { ticketOpenDate } from "@/shared/config/authConfig";
+import { ticketOpenDate, performerTicketOpenDate } from "@/shared/config/authConfig";
 import { useMySeat } from "@/entities/booking/lib/useMySeat";
 import { toast } from "sonner";
 import { stringifyError } from "next/dist/shared/lib/utils";
+import { getTokenFromCookie } from "@/shared/utils/auth";
 
 const formatDateLeft = (timeLeft: number) => {
   const DAY = 1000 * 60 * 60 * 24;
@@ -29,6 +30,7 @@ const formatDateLeft = (timeLeft: number) => {
 
 const ReservationFifthSection = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const { data: mySeat, error } = useMySeat();
 
   if (error) {
@@ -36,9 +38,17 @@ const ReservationFifthSection = () => {
   }
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const role = getTokenFromCookie("role");
+      setUserRole(role);
+    }
+  }, []);
+
+  useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      const difference = ticketOpenDate.getTime() - now.getTime();
+      const relevantTicketOpenDate = userRole === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate;
+      const difference = relevantTicketOpenDate.getTime() - now.getTime();
       setTimeLeft(difference > 0 ? difference : 0);
     };
 
@@ -46,7 +56,7 @@ const ReservationFifthSection = () => {
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [userRole]);
 
   return (
     <section
@@ -104,7 +114,7 @@ const ReservationFifthSection = () => {
           <div className={cn("flex justify-center gap-4 items-center")}>
             <span className={cn("text-body2r mobile:text-caption2r")}>티켓오픈</span>
             <span className={cn("text-body2r text-gray-500 mobile:text-caption2r")}>
-              {ticketOpenDate.toLocaleString("ko-KR", {
+              {(userRole === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate).toLocaleString("ko-KR", {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit",
