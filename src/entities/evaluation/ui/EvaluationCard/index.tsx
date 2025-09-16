@@ -24,7 +24,7 @@ export default function EvaluationCard({
         !is_performed && "bg-#E9E9E9",
       )}
     >
-      <div className="text-main-500 text-center">{team_id + ". " + team_name}</div>
+      <div className="text-main-600 text-center">{team_id + ". " + team_name}</div>
       <div className="flex items-center justify-center gap-8">
         <span className="ml-12">{completion_expression}</span>
         <DownArrow height={36} width={37} />
@@ -40,7 +40,7 @@ export default function EvaluationCard({
         <DownArrow height={36} width={37} />
         <UpArrow />
       </div>
-      <div>{total_score}</div>
+      <div className="text-main-600 text-center">{total_score}</div>
       <div className="w-full flex justify-center px-24 gap-24">
         <Button className="text-body2b w-1/2">저장</Button>
         <Button className="text-body2b w-1/2">수정</Button>
