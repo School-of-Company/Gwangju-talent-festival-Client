@@ -123,7 +123,7 @@ const BookingPage = () => {
 
   return (
     <main className="w-[375px] h-screen bg-white flex flex-col fixed  overflow-hidden">
-      <BackHeader text="예매하기" />
+      <BackHeader goto="/home" text="예매하기" />
 
       <div className="flex-1 flex flex-col p-4 gap-8 min-h-0">
         <div className="flex-shrink-0">

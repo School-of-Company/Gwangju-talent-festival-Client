@@ -29,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               className,
             )}
             placeholder={placeholder}
-            type={showPassword ? "text" : "password"}
+            type={(type === "password") ? (showPassword ? "text" : "password") : type}
             ref={ref}
             {...props}
           />
