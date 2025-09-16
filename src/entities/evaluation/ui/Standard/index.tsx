@@ -23,7 +23,7 @@ export default function Standard() {
         계<br />
         (100)
       </div>
-      <div>저장 및 수정 버튼</div>
+      <div>저장</div>
     </div>
   );
 }
