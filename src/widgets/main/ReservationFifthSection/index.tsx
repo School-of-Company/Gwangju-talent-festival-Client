@@ -8,8 +8,6 @@ import Button from "@/shared/ui/Button";
 import { redirect } from "next/navigation";
 import { ticketOpenDate, performerTicketOpenDate } from "@/shared/config/authConfig";
 import { useMySeat } from "@/entities/booking/lib/useMySeat";
-import { toast } from "sonner";
-import { stringifyError } from "next/dist/shared/lib/utils";
 import { getTokenFromCookie } from "@/shared/utils/auth";
 
 const formatDateLeft = (timeLeft: number) => {
@@ -31,11 +29,7 @@ const formatDateLeft = (timeLeft: number) => {
 const ReservationFifthSection = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [userRole, setUserRole] = useState<string | null>(null);
-  const { data: mySeat, error } = useMySeat();
-
-  if (error && !error.message.includes("예매된 좌석이 없습니다")) {
-    toast.error(stringifyError(error));
-  }
+  const { data: mySeat } = useMySeat();
 
   useEffect(() => {
     if (typeof window !== "undefined") {

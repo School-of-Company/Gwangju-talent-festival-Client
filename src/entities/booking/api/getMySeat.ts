@@ -40,29 +40,35 @@ export const getMySeats = async (): Promise<Seat[]> => {
 };
 
 export const getMySeat = async (): Promise<Seat | null> => {
-  const accessToken = getTokenFromCookie("accessToken");
-  const role = getTokenFromCookie("role");
-  
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-  };
-  
-  if (accessToken) {
-    headers["Authorization"] = `Bearer ${accessToken}`;
-  }
-  
-  const endpoint = role === "ROLE_PERFORMER" ? "/api/seat/myself/performer" : "/api/seat/myself";
-  
-  const response = await fetch(endpoint, {
-    method: "GET",
-    credentials: "include",
-    headers,
-  });
+  try {
+    const accessToken = getTokenFromCookie("accessToken");
+    const role = getTokenFromCookie("role");
+    
+    if (!accessToken) {
+      return null;
+    }
+    
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+    };
+    
+    if (accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    
+    const endpoint = role === "ROLE_PERFORMER" ? "/api/seat/myself/performer" : "/api/seat/myself";
+    
+    const response = await fetch(endpoint, {
+      method: "GET",
+      credentials: "include",
+      headers,
+    });
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: "내 좌석 정보를 가져올 수 없습니다." }));
-    throw new Error(errorData.message || "내 좌석 정보를 가져올 수 없습니다.");
-  }
+    if (!response.ok) {
+      if (response.status === 404 || response.status === 400) return null;
+      const errorData = await response.json().catch(() => ({ message: "내 좌석 정보를 가져올 수 없습니다." }));
+      throw new Error(errorData.message || "내 좌석 정보를 가져올 수 없습니다.");
+    }
 
   if (role === "ROLE_PERFORMER") {
     const data: PerformerSeatsApiResponse = await response.json();
@@ -75,18 +81,18 @@ export const getMySeat = async (): Promise<Seat | null> => {
       seatNumber: seat_number.toString(),
       status: "selected" as const,
     };
-  } else {
-    try {
-      const data: MySeatApiResponse = await response.json();
-      const { seat_section, seat_number } = data;
-      
-      return {
-        section: seat_section as Section,
-        seatNumber: seat_number.toString(),
-        status: "selected" as const,
-      };
-    } catch {
-      return null;
-    }
+   } else {
+     const data: MySeatApiResponse = await response.json();
+     const { seat_section, seat_number } = data;
+     
+     return {
+       section: seat_section as Section,
+       seatNumber: seat_number.toString(),
+       status: "selected" as const,
+     };
+   }
+  } catch (error) {
+    console.warn(error);
+    return null;
   }
 };
