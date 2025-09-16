@@ -12,6 +12,8 @@ export function useSeatBooking() {
     mutationFn: (data: Omit<Seat, "status">) => seatBooking(data),
     onSuccess: (_result, vars) => {
       queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(vars.section) });
+      queryClient.invalidateQueries({ queryKey: ["mySeat"] });
+      queryClient.invalidateQueries({ queryKey: ["mySeats"] });
     },
     onError: error => {
       console.error(error);
@@ -54,6 +56,9 @@ export function useMultipleSeatBooking() {
       sections.forEach(section => {
         queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(section) });
       });
+      
+      queryClient.invalidateQueries({ queryKey: ["mySeat"] });
+      queryClient.invalidateQueries({ queryKey: ["mySeats"] });
       
       toast.success(result.message);
     },

@@ -12,10 +12,12 @@ import { useCallback } from "react";
 import { cancelSeatBooking } from "@/entities/booking/api/cancelSeatBooking";
 import { cancelPerformerSeats } from "@/entities/booking/api/cancelPerformerSeats";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 const MyBookingPage = () => {
   const { seats, isMultiple, isLoading, error } = useMyBookedSeats();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const layout = null;
 
   if (error) { 
@@ -36,11 +38,15 @@ const MyBookingPage = () => {
         await cancelSeatBooking(seats[0]);
         toast.success("예매가 취소되었습니다.");
       }
+      
+      queryClient.invalidateQueries({ queryKey: ["mySeat"] });
+      queryClient.invalidateQueries({ queryKey: ["mySeats"] });
+      
       router.push("/home");
     } catch (error) {
       toast.error(stringifyError(error as Error));
     }
-  }, [seats, isMultiple, router]);
+  }, [seats, isMultiple, router, queryClient]);
 
   return (
     <div className={cn("w-full max-w-4xl mx-auto p-4 space-y-6")}>
