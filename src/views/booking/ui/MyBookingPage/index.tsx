@@ -30,7 +30,7 @@ const MyBookingPage = () => {
   const handleCancelClick = useCallback(async () => {
     try {
       if (isMultiple) {
-        await cancelPerformerSeats();
+        await cancelPerformerSeats(seats);
         toast.success(`${seats.length}개 좌석 예매가 취소되었습니다.`);
       } else {
         await cancelSeatBooking(seats[0]);
