@@ -71,12 +71,12 @@ const HomePage = () => {
         <FinalsSixthSection />
       </LazySection>
 
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
+      {/* <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
         <SeventhSection />
       </LazySection>
       <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
         <Footer />
-      </LazySection>
+      </LazySection> */}
     </>
   );
 };
