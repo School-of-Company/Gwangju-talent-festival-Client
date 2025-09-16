@@ -12,6 +12,7 @@ const SloganInput = ({ value, length, onChange }: SloganInputProps) => {
   return (
     <CountLength length={length}>
       <Input
+        type="text"
         value={value}
         onChange={onChange}
         max={100}
