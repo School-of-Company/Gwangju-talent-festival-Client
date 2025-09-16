@@ -3,6 +3,7 @@
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import dynamic from "next/dynamic";
+import Video from "@/entities/home/ui/Video";
 
 const Map = dynamic(
   () => import("@/entities/home/ui/Map").then(module => ({ default: module.Map })),
@@ -11,12 +12,6 @@ const Map = dynamic(
   },
 );
 
-const Video = dynamic(
-  () => import("@/entities/home/ui/Video"),
-  {
-    ssr: false,
-  },
-);
 
 const FinalsSixthSection = () => {
   return (
