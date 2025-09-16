@@ -15,9 +15,21 @@ export interface SeatGridProps {
   mySeat?: Seat | null;
   allSeats?: Seat[] | null;
   className?: string;
+  selectedSeats?: Seat[];
+  isSeatSelected?: (seat: Seat) => boolean;
+  isPerformerMode?: boolean;
 }
 
-export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelect, mySeat, allSeats, className }) => {
+export const SeatGrid = memo<SeatGridProps>(({ 
+  layout, 
+  selectedSeat, 
+  onSeatSelect, 
+  mySeat, 
+  allSeats, 
+  className,
+  isSeatSelected,
+  isPerformerMode = false
+}) => {
   const queryClient = useQueryClient();
 
   const handleSeatSelect = useCallback(
@@ -69,8 +81,12 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
                   seat={seat}
                   isSelected={
                     mySeat 
-                      ? mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
-                      : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
+                      ? (allSeats && allSeats.length > 1) 
+                        ? allSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section)
+                        : mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
+                      : isPerformerMode && isSeatSelected
+                        ? isSeatSelected(seat)
+                        : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
                   }
                   onSelect={mySeat ? () => {} : handleSeatSelect}
                 />
@@ -113,8 +129,12 @@ export const SeatGrid = memo<SeatGridProps>(({ layout, selectedSeat, onSeatSelec
                         seat={seat}
                         isSelected={
                           mySeat 
-                            ? mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
-                            : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
+                            ? (allSeats && allSeats.length > 1) 
+                              ? allSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section)
+                              : mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
+                            : isPerformerMode && isSeatSelected
+                              ? isSeatSelected(seat)
+                              : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
                         }
                         onSelect={mySeat ? () => {} : handleSeatSelect}
                         className="w-6 h-6 text-transparent"
