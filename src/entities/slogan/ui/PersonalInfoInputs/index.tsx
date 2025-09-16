@@ -19,6 +19,7 @@ const PersonalInfoInputs = ({ formValues, onFieldChange }: PersonalInfoInputsPro
     <>
       <Input
         name="name"
+        type="text"
         value={formValues.name}
         onChange={onFieldChange("name")}
         label="이름"
@@ -43,6 +44,7 @@ const PersonalInfoInputs = ({ formValues, onFieldChange }: PersonalInfoInputsPro
         />
       </div>
       <Input
+        type="tel"
         name="phone"
         value={formValues.phone_number}
         onChange={onFieldChange("phone_number")}
