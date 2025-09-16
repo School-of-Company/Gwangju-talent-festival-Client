@@ -27,8 +27,7 @@ export default function Standard() {
         계<br />
         (100)
       </li>
-      <li>저장</li>
-      <li>수정</li>
+      <li>저장 및 수정 버튼</li>
     </ul>
   );
 }
