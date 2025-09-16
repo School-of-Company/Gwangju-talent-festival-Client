@@ -16,7 +16,7 @@ export default function EvaluationView() {
         {teams?.map(v => {
           return (
             <EvaluationCard
-              key={v.judge_id}
+              key={v.team_id}
               creativity_composition={v.creativity_composition}
               judge_id={v.judge_id}
               team_id={v.team_id}
