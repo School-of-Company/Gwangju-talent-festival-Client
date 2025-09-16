@@ -16,10 +16,22 @@ interface SeatSectionProps {
   onSeatSelect: (seat: Seat | null) => void;
   selectedSeatInfo: SelectedSeatInfo | null;
   className?: string;
+  selectedSeats?: Seat[];
+  isSeatSelected?: (seat: Seat) => boolean;
+  isPerformerMode?: boolean;
 }
 
 export const SeatSection = memo<SeatSectionProps>(
-  ({ selectedSection, selectedSeat, onSeatSelect, selectedSeatInfo, className }) => {
+  ({ 
+    selectedSection, 
+    selectedSeat, 
+    onSeatSelect, 
+    selectedSeatInfo, 
+    className,
+    selectedSeats,
+    isSeatSelected,
+    isPerformerMode = false
+  }) => {
     const { data: sectionSeats, isLoading, error } = useSectionSeatState(selectedSection!);
     const { data: allSeats, isLoading: isAllSeatsLoading } = useAllSectionsSeatState();
     const [realTimeSeats, setRealTimeSeats] = useState<Seat[] | null>(null);
@@ -131,13 +143,20 @@ export const SeatSection = memo<SeatSectionProps>(
             selectedSeat={selectedSeat}
             onSeatSelect={isLoading || !!error ? () => {} : onSeatSelect}
             allSeats={realTimeSeats}
+            selectedSeats={selectedSeats}
+            isSeatSelected={isSeatSelected}
+            isPerformerMode={isPerformerMode}
           />
         </div>
 
         <div className="h-28"></div>
 
         <div className="h-24">
-          <SelectedSeatDisplay selectedSeat={selectedSeatInfo} selectedSection={selectedSection} />
+          <SelectedSeatDisplay 
+            selectedSeat={!isPerformerMode ? selectedSeatInfo : null}
+            selectedSection={selectedSection}
+            selectedSeats={isPerformerMode ? selectedSeats : undefined}
+          />
         </div>
       </div>
     );

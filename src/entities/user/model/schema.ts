@@ -32,7 +32,7 @@ export interface SignInRequest {
   password: string;
 }
 
-export type Role = "ROLE_USER" | "ROLE_ADMIN";
+export type Role = "ROLE_USER" | "ROLE_ADMIN" | "ROLE_PERFORMER";
 
 export interface SignInResponse {
   access_token: string;
