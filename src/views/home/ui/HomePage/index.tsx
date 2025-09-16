@@ -23,15 +23,15 @@ const FinalsSixthSection = dynamic(() => import("@/widgets/main/FinalsSixthSecti
   ssr: false,
 });
 
-const SeventhSection = dynamic(() => import("@/widgets/main/SevenSection"), {
-  loading: () => <SectionPlaceholder />,
-  ssr: false,
-});
+// const SeventhSection = dynamic(() => import("@/widgets/main/SevenSection"), {
+//   loading: () => <SectionPlaceholder />,
+//   ssr: false,
+// });
 
-const Footer = dynamic(() => import("@/entities/home/ui/Footer"), {
-  loading: () => <SectionPlaceholder />,
-  ssr: false,
-});
+// const Footer = dynamic(() => import("@/entities/home/ui/Footer"), {
+//   loading: () => <SectionPlaceholder />,
+//   ssr: false,
+// });
 
 const SectionPlaceholder = ({ height = "400px" }: { height?: string }) => (
   <div
