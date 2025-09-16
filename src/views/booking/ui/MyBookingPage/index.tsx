@@ -64,7 +64,7 @@ const MyBookingPage = () => {
         />
       </div>
       <Button
-          className="fixed bottom-[48px] w-[375px] h-[48px]"
+          className="fixed bottom-[48px] left-[50%] -translate-x-1/2 w-[98%] h-[48px]"
           onClick={handleCancelClick}
           disabled={seats.length === 0}
         >
