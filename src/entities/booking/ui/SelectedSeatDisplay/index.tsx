@@ -2,17 +2,18 @@
 
 import { memo } from "react";
 import { cn } from "@/shared/utils/cn";
-import { SEAT_INFO, SECTIONS, SelectedSeatInfo, Section, SEAT_STATUS } from "../../model/types";
+import { SEAT_INFO, SECTIONS, SelectedSeatInfo, Section, SEAT_STATUS, Seat } from "../../model/types";
 import { useAllSectionsSeatState } from "../../lib/useSeatState";
 
 export interface SelectedSeatDisplayProps {
   selectedSeat: SelectedSeatInfo | null;
   selectedSection?: Section | null;
+  selectedSeats?: Seat[];
   className?: string;
 }
 
 export const SelectedSeatDisplay = memo<SelectedSeatDisplayProps>(
-  ({ selectedSeat, selectedSection, className }) => {
+  ({ selectedSeat, selectedSection, selectedSeats, className }) => {
     const { data: allSeats } = useAllSectionsSeatState();
     
     const Legend = () => (
@@ -33,9 +34,11 @@ export const SelectedSeatDisplay = memo<SelectedSeatDisplayProps>(
     );
 
     const section = selectedSeat?.section || selectedSection;
-    const seatPosition = selectedSeat
-      ? `${selectedSeat.section}${selectedSeat.seat.seatNumber}`
-      : null;
+    const seatPosition = selectedSeats && selectedSeats.length > 0
+      ? selectedSeats.map(seat => `${seat.section}${seat.seatNumber}`).join(", ")
+      : selectedSeat
+        ? `${selectedSeat.section}${selectedSeat.seat.seatNumber}`
+        : null;
 
     let availableSeatsCount = 0;
     let totalSeats = 0;
