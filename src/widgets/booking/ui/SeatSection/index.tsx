@@ -152,26 +152,11 @@ export const SeatSection = memo<SeatSectionProps>(
         <div className="h-28"></div>
 
         <div className="h-24">
-          {isPerformerMode ? (
-            <div className="bg-white p-4 rounded-lg border">
-              <h3 className="font-semibold text-sm mb-2">선택된 좌석 ({selectedSeats?.length || 0}/3)</h3>
-              <div className="flex flex-wrap gap-2">
-                {selectedSeats?.map((seat) => (
-                  <span 
-                    key={`${seat.section}-${seat.seatNumber}`}
-                    className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs"
-                  >
-                    {seat.section}-{seat.seatNumber}
-                  </span>
-                ))}
-                {selectedSeats?.length === 0 && (
-                  <span className="text-gray-500 text-sm">좌석을 선택해주세요 (최대 3개)</span>
-                )}
-              </div>
-            </div>
-          ) : (
-            <SelectedSeatDisplay selectedSeat={selectedSeatInfo} selectedSection={selectedSection} />
-          )}
+          <SelectedSeatDisplay 
+            selectedSeat={!isPerformerMode ? selectedSeatInfo : null}
+            selectedSection={selectedSection}
+            selectedSeats={isPerformerMode ? selectedSeats : undefined}
+          />
         </div>
       </div>
     );
