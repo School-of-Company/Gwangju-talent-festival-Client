@@ -72,6 +72,24 @@ export const SeatGrid = memo<SeatGridProps>(({
     return [sectionsRow1, sectionsRow2];
   }, []);
 
+  const getSeatSelectedState = useCallback((seat: Seat): boolean => {
+      if (!seat) return false;
+  
+      if (mySeat) {
+        if (myAllSeats && myAllSeats.length > 1) {
+          return myAllSeats.some((s: Seat) => s.seatNumber === seat.seatNumber && s.section === seat.section);
+        }
+        return mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section;
+      }
+      
+      if (isPerformerMode && typeof isSeatSelected === "function") {
+        return isSeatSelected(seat) === true;
+      }
+      return selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section;
+    },
+    [mySeat, myAllSeats, isPerformerMode, isSeatSelected, selectedSeat],
+  );
+  
   const renderSingleSectionGrid = () => (
     <div className="min-w-max flex flex-col justify-start">
       {seatGrid.map((row, rowIndex) => (
@@ -81,15 +99,7 @@ export const SeatGrid = memo<SeatGridProps>(({
               {seat ? (
                 <SeatItem
                   seat={seat}
-                  isSelected={
-                    mySeat 
-                      ? myAllSeats && myAllSeats.length > 1
-                        ? myAllSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section)
-                        : mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
-                      : isPerformerMode && isSeatSelected
-                        ? isSeatSelected(seat)
-                        : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
-                  }
+                  isSelected={getSeatSelectedState(seat)}
                   onSelect={mySeat ? () => {} : handleSeatSelect}
                 />
               ) : (
@@ -129,15 +139,7 @@ export const SeatGrid = memo<SeatGridProps>(({
                     {seat ? (
                       <SeatItem
                         seat={seat}
-                        isSelected={
-                          mySeat 
-                            ? myAllSeats && myAllSeats.length > 1
-                              ? myAllSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section)
-                              : mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
-                            : isPerformerMode && isSeatSelected
-                              ? isSeatSelected(seat)
-                              : selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section
-                        }
+                        isSelected={getSeatSelectedState(seat)}
                         onSelect={mySeat ? () => {} : handleSeatSelect}
                         className="w-6 h-6 text-transparent"
                       />
