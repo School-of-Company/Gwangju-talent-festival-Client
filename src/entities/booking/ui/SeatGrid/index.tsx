@@ -18,6 +18,7 @@ export interface SeatGridProps {
   selectedSeats?: Seat[];
   isSeatSelected?: (seat: Seat) => boolean;
   isPerformerMode?: boolean;
+  myAllSeats?: Seat[];
 }
 
 export const SeatGrid = memo<SeatGridProps>(({ 
@@ -28,7 +29,8 @@ export const SeatGrid = memo<SeatGridProps>(({
   allSeats, 
   className,
   isSeatSelected,
-  isPerformerMode = false
+  isPerformerMode = false,
+  myAllSeats
 }) => {
   const queryClient = useQueryClient();
 
@@ -81,8 +83,8 @@ export const SeatGrid = memo<SeatGridProps>(({
                   seat={seat}
                   isSelected={
                     mySeat 
-                      ? (allSeats && allSeats.length > 1) 
-                        ? allSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section)
+                      ? myAllSeats && myAllSeats.length > 1
+                        ? myAllSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section)
                         : mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
                       : isPerformerMode && isSeatSelected
                         ? isSeatSelected(seat)
@@ -129,8 +131,8 @@ export const SeatGrid = memo<SeatGridProps>(({
                         seat={seat}
                         isSelected={
                           mySeat 
-                            ? (allSeats && allSeats.length > 1) 
-                              ? allSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section)
+                            ? myAllSeats && myAllSeats.length > 1
+                              ? myAllSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section)
                               : mySeat.seatNumber === seat.seatNumber && mySeat.section === seat.section
                             : isPerformerMode && isSeatSelected
                               ? isSeatSelected(seat)
