@@ -3,7 +3,7 @@
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import dynamic from "next/dynamic";
-import Video from "@/entities/home/ui/Video";
+import YouTubeLazyEmbed from "@/shared/ui/YouTubeLazyEmbed";
 
 const Map = dynamic(
   () => import("@/entities/home/ui/Map").then(module => ({ default: module.Map })),
@@ -11,7 +11,6 @@ const Map = dynamic(
     ssr: false,
   },
 );
-
 
 const FinalsSixthSection = () => {
   return (
@@ -32,7 +31,7 @@ const FinalsSixthSection = () => {
             대상: 光트로(예선) 합격팀
             <br />∙ 2025.9.27.(토) 조선대학교 해오름관
           </p>
-          
+
           <div className={cn("flex gap-6 mobile:flex-col mobile:gap-4")}>
             <div className={cn("flex-1")}>
               <Map
@@ -40,10 +39,10 @@ const FinalsSixthSection = () => {
                 className={cn("h-[300px] mobile:h-[250px]")}
               />
             </div>
-            
+
             <div className={cn("flex-1")}>
-              <div className={cn("h-[300px] mobile:h-[250px] rounded-lg overflow-hidden")}>
-                <Video visibleCaption={false} link="https://kr.object.ncloudstorage.com/gwangju-talent-festival-bucket/KakaoTalk_Video_2025-09-05-07-56-53.mp4" />
+              <div className={cn("w-full mobile:w-full ")}>
+                <YouTubeLazyEmbed videoId="SJT8s3DMVls" title="2025 광탈페 길찾기" />
               </div>
             </div>
           </div>
