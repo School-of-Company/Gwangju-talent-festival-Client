@@ -5,7 +5,7 @@ import { getTokenFromCookie } from "@/shared/utils/auth";
 import { useEffect, useState } from "react";
 
 export const useMySeat = () => {
-  return useQuery<Seat, Error, Seat>({
+  return useQuery<Seat | null, Error, Seat | null>({
     queryKey: ["mySeat"],
     queryFn: () => getMySeat(),
     staleTime: 1000 * 60 * 5,
@@ -38,7 +38,7 @@ export const useMyBookedSeats = () => {
 
   const isPerformer = role === "ROLE_PERFORMER";
   
-  const singleSeatQueryWithCondition = useQuery<Seat, Error, Seat>({
+  const singleSeatQueryWithCondition = useQuery<Seat | null, Error, Seat | null>({
     queryKey: ["mySeat"],
     queryFn: () => getMySeat(),
     staleTime: 1000 * 60 * 5,

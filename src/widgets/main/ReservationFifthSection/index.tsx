@@ -33,7 +33,7 @@ const ReservationFifthSection = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
   const { data: mySeat, error } = useMySeat();
 
-  if (error) {
+  if (error && !error.message.includes("예매된 좌석이 없습니다")) {
     toast.error(stringifyError(error));
   }
 

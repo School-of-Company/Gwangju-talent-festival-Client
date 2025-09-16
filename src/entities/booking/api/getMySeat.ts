@@ -39,7 +39,7 @@ export const getMySeats = async (): Promise<Seat[]> => {
   }));
 };
 
-export const getMySeat = async (): Promise<Seat> => {
+export const getMySeat = async (): Promise<Seat | null> => {
   const accessToken = getTokenFromCookie("accessToken");
   const role = getTokenFromCookie("role");
   
@@ -67,7 +67,7 @@ export const getMySeat = async (): Promise<Seat> => {
   if (role === "ROLE_PERFORMER") {
     const data: PerformerSeatsApiResponse = await response.json();
     if (data.length === 0) {
-      throw new Error("예매된 좌석이 없습니다.");
+      return null; 
     }
     const { seat_section, seat_number } = data[0];
     return {
@@ -76,13 +76,17 @@ export const getMySeat = async (): Promise<Seat> => {
       status: "selected" as const,
     };
   } else {
-    const data: MySeatApiResponse = await response.json();
-    const { seat_section, seat_number } = data;
-    
-    return {
-      section: seat_section as Section,
-      seatNumber: seat_number.toString(),
-      status: "selected" as const,
-    };
+    try {
+      const data: MySeatApiResponse = await response.json();
+      const { seat_section, seat_number } = data;
+      
+      return {
+        section: seat_section as Section,
+        seatNumber: seat_number.toString(),
+        status: "selected" as const,
+      };
+    } catch {
+      return null;
+    }
   }
 };
