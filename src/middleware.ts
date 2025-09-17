@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { publicPages, ticketOpenDate, festivalDate, publicIn18, publicIn27, performerTicketOpenDate } from "@/shared/config/authConfig";
+import { publicPages, festivalDate, publicIn18, publicIn27 } from "@/shared/config/authConfig";
 
 export const config = {
   matcher: [
@@ -40,9 +40,9 @@ export function middleware(request: NextRequest) {
 
   if (publicIn18.includes(pathname)) {
     if (role !== "ROLE_ADMIN") {
-      const currentDate = new Date();
-      
-      if (currentDate < (role === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate)) {
+      // const currentDate = new Date();
+
+      if (role === "ROLE_USER") {
         return NextResponse.redirect(new URL("/home", request.url));
       }
     }
