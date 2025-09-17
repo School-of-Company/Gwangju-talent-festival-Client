@@ -7,7 +7,7 @@ import { SectionTitle } from "@/shared/ui/SectionTitle";
 import Button from "@/shared/ui/Button";
 import { redirect } from "next/navigation";
 import { ticketOpenDate, performerTicketOpenDate } from "@/shared/config/authConfig";
-import { useMySeat } from "@/entities/booking/lib/useMySeat";
+import { useMySeat, useMyBookedSeats } from "@/entities/booking/lib/useMySeat";
 import { getTokenFromCookie } from "@/shared/utils/auth";
 import { isLoggedIn } from "@/shared/utils/auth";
 
@@ -31,6 +31,7 @@ const ReservationFifthSection = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [userRole, setUserRole] = useState<string | null>(null);
   const { data: mySeat, refetch: refetchMySeat } = useMySeat();
+  const { seats: myBookedSeats } = useMyBookedSeats();
 
   useEffect(() => {
     const updateUserRole = () => {
@@ -125,24 +126,35 @@ const ReservationFifthSection = () => {
               formatDateLeft(timeLeft)
             ) : (
               mySeat && userRole === "ROLE_PERFORMER" ? (
-                <div className="flex gap-2 w-full">
+                myBookedSeats.length >= 3 ? (
                   <Button
-                    className="flex-1"
+                    className="w-full"
                     onClick={() => {
                       redirect("/booking/my");
                     }}
                   >
                     내 좌석 보기
                   </Button>
-                  <Button
-                    className="flex-1"
-                    onClick={() => {
-                      redirect("/booking");
-                    }}
-                  >
-                    추가 예매
-                  </Button>
-                </div>
+                ) : (
+                  <div className="flex gap-2 w-full">
+                    <Button
+                      className="flex-1"
+                      onClick={() => {
+                        redirect("/booking/my");
+                      }}
+                    >
+                      내 좌석 보기
+                    </Button>
+                    <Button
+                      className="flex-1"
+                      onClick={() => {
+                        redirect("/booking");
+                      }}
+                    >
+                      추가 예매
+                    </Button>
+                  </div>
+                )
               ) : (
                 <Button
                   className="w-full"
