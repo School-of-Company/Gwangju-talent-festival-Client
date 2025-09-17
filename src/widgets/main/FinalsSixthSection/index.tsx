@@ -4,6 +4,7 @@ import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import dynamic from "next/dynamic";
 import YouTubeLazyEmbed from "@/shared/ui/YouTubeLazyEmbed";
+import MapButtonComponent from "@/widgets/mapbutton";
 
 const Map = dynamic(
   () => import("@/entities/home/ui/Map").then(module => ({ default: module.Map })),
@@ -22,24 +23,25 @@ const FinalsSixthSection = () => {
 "
           className={cn("mt-[66px] mobile:mt-[1.7rem]")}
         />
-
         <div className={cn("mt-[5rem] mobile:mt-20")}>
           <p className={cn("text-title4b mobile:text-body3b place-self-start mb-24 mobile:mb-0")}>
             오시는 길
           </p>
-          <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-            대상: 光트로(예선) 합격팀
-            <br />∙ 2025.9.27.(토) 조선대학교 해오름관
-          </p>
-
-          <div className={cn("flex gap-6 mobile:flex-col mobile:gap-4")}>
+          <div className="flex gap-20 mobile:flex-col ">
+            <div>
+              <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
+                ∙ 2025.9.27.(토) 조선대학교 해오름관
+              </p>
+              <MapButtonComponent />
+            </div>
             <div className={cn("flex-1")}>
               <Map
                 address="광주광역시 동구 필문대로 309 조선대학교 해오름관"
-                className={cn("h-[300px] mobile:h-[250px]")}
+                className={cn("h-[260px] mobile:h-[250px]")}
               />
             </div>
-
+          </div>
+          <div className={cn("flex gap-6 mobile:flex-col mobile:gap-4")}>
             <div className={cn("flex-1")}>
               <div className={cn("w-full mobile:w-full ")}>
                 <YouTubeLazyEmbed videoId="SJT8s3DMVls" title="2025 광탈페 길찾기" />
