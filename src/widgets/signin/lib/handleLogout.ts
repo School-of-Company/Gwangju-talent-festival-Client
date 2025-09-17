@@ -6,12 +6,13 @@ export const handleLogout = async () => {
   try {
     await logout();
     toast.success("로그아웃 되었습니다");
+  } catch (error) {
+    console.error(error);
+    toast.error("로그아웃 중 오류가 발생했습니다. 다시 로그인해주세요.");
+  } finally {
     clearTokens();
     if (typeof window !== "undefined") {
       window.location.href = "/signin";
     }
-  } catch (error) {
-    console.error(error);
-    toast.error(error instanceof Error ? error.message : "로그아웃 실패하셨습니다");
   }
 };

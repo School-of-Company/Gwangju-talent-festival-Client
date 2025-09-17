@@ -20,7 +20,37 @@ export default function Header() {
 
   useEffect(() => {
     setMounted(true);
-    setIsUserLoggedIn(isLoggedIn());
+    
+    const updateLoginState = () => {
+      setIsUserLoggedIn(isLoggedIn());
+    };
+
+    updateLoginState();
+
+    const handleStorageChange = () => {
+      updateLoginState();
+    };
+
+    const handleFocus = () => {
+      updateLoginState();
+    };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        updateLoginState();
+      }
+    };
+
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -104,7 +134,7 @@ export default function Header() {
               )}
               onClick={handleClick}
             >
-              <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
+              <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
             </div>
             <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
               {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}

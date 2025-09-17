@@ -1,9 +1,11 @@
 import { useState, useCallback, useMemo } from "react";
 import { Section, Seat, SEAT_STATUS } from "@/entities/booking/model/types";
 
-export const usePerformerSeatSelection = () => {
+export const usePerformerSeatSelection = (existingSeatsCount: number = 0) => {
   const [selectedSection, setSelectedSection] = useState<Section | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
+  
+  const maxSelectableSeats = Math.max(0, 3 - existingSeatsCount);
 
   const handleSectionChange = useCallback((section: Section | null) => {
     setSelectedSection(section);
@@ -24,7 +26,7 @@ export const usePerformerSeatSelection = () => {
             s => !(s.seatNumber === seat.seatNumber && s.section === seat.section)
           );
         } else {
-          if (prev.length >= 3) {
+          if (prev.length >= maxSelectableSeats) {
             return [...prev.slice(1), seat];
           } else {
             return [...prev, seat];
@@ -32,7 +34,7 @@ export const usePerformerSeatSelection = () => {
         }
       });
     },
-    []
+    [maxSelectableSeats]
   );
 
   const canSelectSeat = useCallback(
@@ -56,8 +58,14 @@ export const usePerformerSeatSelection = () => {
   }, [selectedSection, selectedSeats.length]);
 
   const canBook = useMemo(() => {
-    return selectedSeats.length > 0 && selectedSeats.length <= 3;
-  }, [selectedSeats.length]);
+    return selectedSeats.length > 0 && selectedSeats.length <= maxSelectableSeats;
+  }, [selectedSeats.length, maxSelectableSeats]);
+
+  const removeOccupiedSeat = useCallback((section: Section, seatNumber: string) => {
+    setSelectedSeats(prev => 
+      prev.filter(seat => !(seat.section === section && seat.seatNumber === seatNumber))
+    );
+  }, []);
 
   return {
     selectedSection,
@@ -68,5 +76,7 @@ export const usePerformerSeatSelection = () => {
     isSeatSelected,
     isComplete,
     canBook,
+    maxSelectableSeats,
+    removeOccupiedSeat,
   };
 };
