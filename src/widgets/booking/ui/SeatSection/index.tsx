@@ -19,6 +19,7 @@ interface SeatSectionProps {
   selectedSeats?: Seat[];
   isSeatSelected?: (seat: Seat) => boolean;
   isPerformerMode?: boolean;
+  myBookedSeats?: Seat[];
 }
 
 export const SeatSection = memo<SeatSectionProps>(
@@ -30,7 +31,8 @@ export const SeatSection = memo<SeatSectionProps>(
     className,
     selectedSeats,
     isSeatSelected,
-    isPerformerMode = false
+    isPerformerMode = false,
+    myBookedSeats
   }) => {
     const { data: sectionSeats, isLoading, error } = useSectionSeatState(selectedSection!);
     const { data: allSeats, isLoading: isAllSeatsLoading } = useAllSectionsSeatState();
@@ -146,6 +148,7 @@ export const SeatSection = memo<SeatSectionProps>(
             selectedSeats={selectedSeats}
             isSeatSelected={isSeatSelected}
             isPerformerMode={isPerformerMode}
+            myAllSeats={myBookedSeats}
           />
         </div>
 

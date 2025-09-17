@@ -12,10 +12,12 @@ import { useSeatBooking, useMultipleSeatBooking } from "@/widgets/booking/lib/us
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getTokenFromCookie } from "@/shared/utils/auth";
+import { useMyBookedSeats } from "@/entities/booking/lib/useMySeat";
 
 const BookingPage = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
   const router = useRouter();
+  const { seats: myBookedSeats } = useMyBookedSeats();
 
   const {
     selectedSection,
@@ -33,7 +35,8 @@ const BookingPage = () => {
     selectSeat: selectPerformerSeat,
     isSeatSelected,
     canBook,
-  } = usePerformerSeatSelection();
+    maxSelectableSeats,
+  } = usePerformerSeatSelection(myBookedSeats?.length || 0);
 
   const seatBookingMutation = useSeatBooking();
   const multipleSeatBookingMutation = useMultipleSeatBooking();
@@ -104,7 +107,11 @@ const BookingPage = () => {
         return "구역을 선택해주세요";
       }
       if (selectedSeats.length === 0) {
-        return "좌석을 선택해주세요 (최대 3개)";
+        const remainingSlots = maxSelectableSeats;
+        if (remainingSlots === 0) {
+          return "최대 예매 가능 좌석 수 도달";
+        }
+        return `좌석을 선택해주세요 (최대 ${remainingSlots}개 추가 가능)`;
       }
       return `${selectedSeats.length}개 좌석 예매하기`;
     } else {
@@ -138,12 +145,13 @@ const BookingPage = () => {
             selectedSeats={isPerformer ? selectedSeats : undefined}
             isSeatSelected={isPerformer ? isSeatSelected : undefined}
             isPerformerMode={isPerformer}
+            myBookedSeats={isPerformer ? myBookedSeats : undefined}
           />
         </div>
         <Button
           className="fixed bottom-[48px] w-[375px] h-[48px]"
           onClick={handleBookingClick}
-          disabled={isPerformer ? !canBook : !isComplete}
+          disabled={isPerformer ? (!canBook || maxSelectableSeats === 0) : !isComplete}
         >
           {getButtonText()}
         </Button>

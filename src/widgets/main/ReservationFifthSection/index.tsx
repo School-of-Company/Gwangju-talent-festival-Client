@@ -101,14 +101,35 @@ const ReservationFifthSection = () => {
             {timeLeft > 0 ? (
               formatDateLeft(timeLeft)
             ) : (
-              <Button
-                className="w-full"
-                onClick={() => {
-                  redirect(mySeat ? "/booking/my" : "/booking");
-                }}
-              >
-                {mySeat ? "내 좌석 보러가기" : "예매하기"}
-              </Button>
+              mySeat && userRole === "ROLE_PERFORMER" ? (
+                <div className="flex gap-2 w-full">
+                  <Button
+                    className="flex-1"
+                    onClick={() => {
+                      redirect("/booking/my");
+                    }}
+                  >
+                    내 좌석 보기
+                  </Button>
+                  <Button
+                    className="flex-1"
+                    onClick={() => {
+                      redirect("/booking");
+                    }}
+                  >
+                    추가 예매
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    redirect(mySeat ? "/booking/my" : "/booking");
+                  }}
+                >
+                  {mySeat ? "내 좌석 보러가기" : "예매하기"}
+                </Button>
+              )
             )}
           </p>
 
