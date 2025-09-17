@@ -4,17 +4,22 @@ interface MapButtonUIProps {
   imgSrc: string;
   imgAlt: string;
   text: string;
-  bgColor: string;
-  hoverColor: string;
+  bgColor: keyof typeof colorVariants;
   href: string;
 }
 
-const MapButtonUI = ({ imgSrc, imgAlt, text, bgColor, hoverColor, href }: MapButtonUIProps) => {
+const colorVariants = {
+  blue: "bg-blue-500 hover:bg-blue-600",
+  yellow: "bg-yellow-500 hover:bg-yellow-600",
+  green: "bg-green-500 hover:bg-green-600",
+};
+
+const MapButtonUI = ({ imgSrc, imgAlt, text, bgColor, href }: MapButtonUIProps) => {
   return (
     <a
       href={href}
       target="_blank"
-      className={`flex items-center p-4 bg-[${bgColor}] text-white rounded-md text-center transition-all ease-in-out duration-300 hover:bg-[${hoverColor}]`}
+      className={`flex items-center p-4 ${colorVariants[bgColor]} text-white rounded-md text-center transition-all ease-in-out duration-300 `}
     >
       <Image src={imgSrc} alt={imgAlt} width={48} height={48} />
       <span className="mr-8 ml-14">{text}</span>
