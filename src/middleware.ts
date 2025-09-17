@@ -39,15 +39,19 @@ export function middleware(request: NextRequest) {
   }
 
   if (publicIn18.includes(pathname)) {
-    const currentDate = new Date();
-    
-    if (currentDate < (role === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate)) {
-      return NextResponse.redirect(new URL("/home", request.url));
+    if (role !== "ROLE_ADMIN") {
+      const currentDate = new Date();
+      
+      if (currentDate < (role === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate)) {
+        return NextResponse.redirect(new URL("/home", request.url));
+      }
     }
   }
 
-  if (publicIn27.includes(pathname) && new Date() < festivalDate) {
-    return NextResponse.redirect(new URL("/home", request.url));
+  if (publicIn27.includes(pathname)) {
+    if (role !== "ROLE_ADMIN" && new Date() < festivalDate) {
+      return NextResponse.redirect(new URL("/home", request.url));
+    }
   }
 
   if (
