@@ -61,6 +61,12 @@ export const usePerformerSeatSelection = (existingSeatsCount: number = 0) => {
     return selectedSeats.length > 0 && selectedSeats.length <= maxSelectableSeats;
   }, [selectedSeats.length, maxSelectableSeats]);
 
+  const removeOccupiedSeat = useCallback((section: Section, seatNumber: string) => {
+    setSelectedSeats(prev => 
+      prev.filter(seat => !(seat.section === section && seat.seatNumber === seatNumber))
+    );
+  }, []);
+
   return {
     selectedSection,
     selectedSeats,
@@ -71,5 +77,6 @@ export const usePerformerSeatSelection = (existingSeatsCount: number = 0) => {
     isComplete,
     canBook,
     maxSelectableSeats,
+    removeOccupiedSeat,
   };
 };

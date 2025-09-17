@@ -36,6 +36,7 @@ const BookingPage = () => {
     isSeatSelected,
     canBook,
     maxSelectableSeats,
+    removeOccupiedSeat,
   } = usePerformerSeatSelection(myBookedSeats?.length || 0);
 
   const seatBookingMutation = useSeatBooking();
@@ -146,6 +147,7 @@ const BookingPage = () => {
             isSeatSelected={isPerformer ? isSeatSelected : undefined}
             isPerformerMode={isPerformer}
             myBookedSeats={isPerformer ? myBookedSeats : undefined}
+            removeOccupiedSeat={isPerformer ? removeOccupiedSeat : undefined}
           />
         </div>
         <Button
