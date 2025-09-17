@@ -32,7 +32,7 @@ export const useMySeat = () => {
   return useQuery<Seat | null, Error, Seat | null>({
     queryKey: ["mySeat", userLoggedIn],
     queryFn: () => getMySeat(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
     gcTime: 1000 * 60 * 10,
     enabled: isClient && userLoggedIn,
   });
@@ -66,7 +66,7 @@ export const useMySeats = () => {
   return useQuery<Seat[], Error, Seat[]>({
     queryKey: ["mySeats", userLoggedIn],
     queryFn: () => getMySeats(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0, // 항상 refetch
     gcTime: 1000 * 60 * 10,
     enabled: isClient && userLoggedIn,
   });
@@ -89,7 +89,7 @@ export const useMyBookedSeats = () => {
   const singleSeatQueryWithCondition = useQuery<Seat | null, Error, Seat | null>({
     queryKey: ["mySeat"],
     queryFn: () => getMySeat(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
     gcTime: 1000 * 60 * 10,
     enabled: isClient && !isPerformer,
   });
@@ -97,7 +97,7 @@ export const useMyBookedSeats = () => {
   const multiSeatsQueryWithCondition = useQuery<Seat[], Error, Seat[]>({
     queryKey: ["mySeats"],
     queryFn: () => getMySeats(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
     gcTime: 1000 * 60 * 10,
     enabled: isClient && isPerformer,
   });
