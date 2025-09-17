@@ -22,7 +22,8 @@ export default function Header() {
     setMounted(true);
     
     const updateLoginState = () => {
-      setIsUserLoggedIn(isLoggedIn());
+      const loginStatus = isLoggedIn();
+      setIsUserLoggedIn(loginStatus);
     };
 
     updateLoginState();
@@ -41,15 +42,31 @@ export default function Header() {
       }
     };
 
+    const handlePopstate = () => {
+      updateLoginState();
+    };
+
+    const handleBeforeUnload = () => {
+      updateLoginState();
+    };
+
+    const interval = setInterval(() => {
+      updateLoginState();
+    }, 5000);
 
     window.addEventListener('storage', handleStorageChange);
     window.addEventListener('focus', handleFocus);
+    window.addEventListener('popstate', handlePopstate);
+    window.addEventListener('beforeunload', handleBeforeUnload);
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('popstate', handlePopstate);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      clearInterval(interval);
     };
   }, []);
 
