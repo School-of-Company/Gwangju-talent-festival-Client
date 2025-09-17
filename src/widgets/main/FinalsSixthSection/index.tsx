@@ -37,7 +37,7 @@ const FinalsSixthSection = () => {
             <div className={cn("flex-1")}>
               <Map
                 address="광주광역시 동구 필문대로 309 조선대학교 해오름관"
-                className={cn("h-[260px] mobile:h-[250px]")}
+                className={cn("h-[260px] mobile:h-[250px] rounded-[20px]")}
               />
             </div>
           </div>
