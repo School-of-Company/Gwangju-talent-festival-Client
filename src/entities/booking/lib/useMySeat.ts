@@ -1,26 +1,74 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMySeat, getMySeats } from "../api/getMySeat";
 import { Seat } from "../model/types";
-import { getTokenFromCookie } from "@/shared/utils/auth";
+import { getTokenFromCookie, isLoggedIn } from "@/shared/utils/auth";
 import { useEffect, useState } from "react";
 
 export const useMySeat = () => {
+  const [isClient, setIsClient] = useState(false);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setUserLoggedIn(isLoggedIn());
+
+    const handleStorageChange = () => {
+      setUserLoggedIn(isLoggedIn());
+    };
+
+    const handleFocus = () => {
+      setUserLoggedIn(isLoggedIn());
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
+
   return useQuery<Seat | null, Error, Seat | null>({
-    queryKey: ["mySeat"],
+    queryKey: ["mySeat", userLoggedIn],
     queryFn: () => getMySeat(),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
-    enabled: true,
+    enabled: isClient && userLoggedIn,
   });
 };
 
 export const useMySeats = () => {
+  const [isClient, setIsClient] = useState(false);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    setUserLoggedIn(isLoggedIn());
+
+    const handleStorageChange = () => {
+      setUserLoggedIn(isLoggedIn());
+    };
+
+    const handleFocus = () => {
+      setUserLoggedIn(isLoggedIn());
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
+
   return useQuery<Seat[], Error, Seat[]>({
-    queryKey: ["mySeats"],
+    queryKey: ["mySeats", userLoggedIn],
     queryFn: () => getMySeats(),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
-    enabled: true,
+    enabled: isClient && userLoggedIn,
   });
 };
 

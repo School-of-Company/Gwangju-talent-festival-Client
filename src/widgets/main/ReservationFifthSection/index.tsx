@@ -30,14 +30,37 @@ const formatDateLeft = (timeLeft: number) => {
 const ReservationFifthSection = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [userRole, setUserRole] = useState<string | null>(null);
-  const { data: mySeat } = useMySeat();
+  const { data: mySeat, refetch: refetchMySeat } = useMySeat();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const role = getTokenFromCookie("role");
-      setUserRole(role);
-    }
-  }, []);
+    const updateUserRole = () => {
+      if (typeof window !== "undefined") {
+        const role = getTokenFromCookie("role");
+        setUserRole(role);
+      }
+    };
+
+    updateUserRole();
+
+    const handleStorageChange = () => {
+      updateUserRole();
+      refetchMySeat();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    const handleFocus = () => {
+      updateUserRole();
+      refetchMySeat();
+    };
+
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [refetchMySeat]);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
