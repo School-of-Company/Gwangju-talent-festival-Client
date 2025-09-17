@@ -178,14 +178,14 @@ export default function Header() {
                     {link.label}
                   </button>
                 ))}
-                <div
+                {/* <div
                   className={cn(
                     "border-gray-100 cursor-pointer border border-solid text-center rounded-lg px-12 py-8",
                   )}
                   onClick={handleClick}
                 >
                   <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
