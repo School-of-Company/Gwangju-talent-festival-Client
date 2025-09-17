@@ -28,9 +28,9 @@ const FinalsSixthSection = () => {
             오시는 길
           </p>
           <div className="flex gap-20 mobile:flex-col ">
-            <div>
+            <div className="w-[40%] mobile:w-full">
               <p className={cn("text-body2r text-gray-500 mobile:text-caption2r mobile:py-8")}>
-                ∙ 2025.9.27.(토) 조선대학교 해오름관
+                ∙ 일시: 2025.9.27.(토) <br />∙ 장소: 조선대학교 해오름관
               </p>
               <MapButtonComponent />
             </div>
