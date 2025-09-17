@@ -31,7 +31,6 @@ export const BookingInfoDisplay = memo<BookingInfoDisplayProps>(
         </div>
 
         <div className="space-y-6">
-          <InfoRow label="예매자">이름</InfoRow>
           <InfoRow label="관람일자">2025.9.27.(토)</InfoRow>
           <InfoRow label="장소">
             광주광역시 동구 조선대길 146 조선대학교 해오름관
