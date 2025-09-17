@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { stringifyError } from "next/dist/shared/lib/utils";
 import BackHeader from "@/shared/ui/BackHeader";
 import Button from "@/shared/ui/Button";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { cancelSeatBooking } from "@/entities/booking/api/cancelSeatBooking";
 import { cancelPerformerSeats } from "@/entities/booking/api/cancelPerformerSeats";
 import { useRouter } from "next/navigation";
@@ -18,18 +18,25 @@ const MyBookingPage = () => {
   const { seats, isMultiple, isLoading, error } = useMyBookedSeats();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const isCancelingRef = useRef(false);
   const layout = null;
 
-  if (error) { 
-    toast.error(stringifyError(error)); 
-  }
+  useEffect(() => {
+    if (error) { 
+      toast.error(stringifyError(error)); 
+    }
+  }, [error]);
 
-  if (!isLoading && seats.length === 0) {
-    toast.error("예약된 좌석이 없습니다.");
-    router.push("/booking");
-  }
+  useEffect(() => {
+    if (!isLoading && seats.length === 0 && !isCancelingRef.current) {
+      toast.error("예약된 좌석이 없습니다.");
+      router.push("/booking");
+    }
+  }, [isLoading, seats.length, router]);
 
   const handleCancelClick = useCallback(async () => {
+    isCancelingRef.current = true;
+    
     try {
       if (isMultiple) {
         await cancelPerformerSeats(seats);
@@ -39,12 +46,13 @@ const MyBookingPage = () => {
         toast.success("예매가 취소되었습니다.");
       }
       
+      router.push("/home");
+      
       queryClient.invalidateQueries({ queryKey: ["mySeat"] });
       queryClient.invalidateQueries({ queryKey: ["mySeats"] });
-      
-      router.push("/home");
     } catch (error) {
       toast.error(stringifyError(error as Error));
+      isCancelingRef.current = false; 
     }
   }, [seats, isMultiple, router, queryClient]);
 
