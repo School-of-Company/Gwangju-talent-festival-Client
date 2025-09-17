@@ -4,7 +4,7 @@ const MapButtonComponent = () => {
   return (
     <div className="flex gap-4 mt-4 flex-col justify-center mobile:flex-row ">
       <MapButtonUI
-        href="https://map.naver.com/directions/to/35.14082656903739,126.93299243257847"
+        href="https://naver.me/Ghbu7lN7"
         imgSrc="/images/mapLogo/navermap.png"
         imgAlt="Star"
         text="네이버 지도"
