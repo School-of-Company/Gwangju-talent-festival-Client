@@ -21,8 +21,8 @@ const MapButtonUI = ({ imgSrc, imgAlt, text, bgColor, href }: MapButtonUIProps) 
       target="_blank"
       className={`flex items-center p-4 ${colorVariants[bgColor]} text-white rounded-md text-center transition-all ease-in-out duration-300 `}
     >
-      <Image src={imgSrc} alt={imgAlt} width={48} height={48} />
-      <span className="mr-8 ml-14">{text}</span>
+      <Image src={imgSrc} alt={imgAlt} width={48} height={48} className="mobile:w-30 mobile:h-30" />
+      <span className="mr-8 ml-14 mobile:ml-4">{text}</span>
       <span className="block mobile:hidden"> 바로가기</span>
     </a>
   );
