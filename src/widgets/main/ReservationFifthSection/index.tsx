@@ -120,7 +120,7 @@ const ReservationFifthSection = () => {
           )}
         >
           <p className={cn("text-body1b mobile:text-caption1b")}>티켓오픈안내</p>
-          <p className={cn("text-title1b text-main-600 mobile:text-body1b")}>
+          <div className={cn("text-title1b text-main-600 mobile:text-body1b")}>
             {timeLeft > 0 ? (
               formatDateLeft(timeLeft)
             ) : (
@@ -154,7 +154,7 @@ const ReservationFifthSection = () => {
                 </Button>
               )
             )}
-          </p>
+          </div>
 
           <div className={cn("flex justify-center gap-4 items-center")}>
             <span className={cn("text-body2r mobile:text-caption2r")}>티켓오픈</span>
