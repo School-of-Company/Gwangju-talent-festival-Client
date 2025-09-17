@@ -4,9 +4,6 @@ import dynamic from "next/dynamic";
 import IntroFirstSection from "@/widgets/main/IntroFirstSection";
 import SloganSecondSection from "@/widgets/main/SloganSecondSection";
 import LazySection from "@/shared/ui/LazySection";
-import Tool from "@/shared/asset/svg/Tool";
-import { useState } from "react";
-import { Modal } from "@/shared/ui";
 
 const PreliminaryFourthSection = dynamic(() => import("@/widgets/main/PreliminaryFourthSection"), {
   loading: () => <SectionPlaceholder />,
@@ -47,15 +44,8 @@ const SectionPlaceholder = ({ height = "400px" }: { height?: string }) => (
 );
 
 const HomePage = () => {
-  const [open, setOpen] = useState(true);
   return (
     <>
-      <Modal className="w-1/2 h-3/4" isOpen={open} onClose={() => setOpen(false)}>
-        <div className="flex justify-center mt-32 gap-24 items-center flex-col w-full">
-          <Tool height={200} width={200} color="#AC42CD" />
-          <h1 className="text-title4b text-main-500">현재 서버 점검 중입니다</h1>
-        </div>
-      </Modal>
       <IntroFirstSection />
       <SloganSecondSection />
 
