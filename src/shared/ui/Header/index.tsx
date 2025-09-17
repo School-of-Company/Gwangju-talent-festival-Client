@@ -104,7 +104,7 @@ export default function Header() {
               )}
               onClick={handleClick}
             >
-              <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
+              <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
             </div>
             <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
               {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}
