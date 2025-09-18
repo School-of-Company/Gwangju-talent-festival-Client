@@ -20,15 +20,15 @@ const FinalsSixthSection = dynamic(() => import("@/widgets/main/FinalsSixthSecti
   ssr: false,
 });
 
-// const SeventhSection = dynamic(() => import("@/widgets/main/SevenSection"), {
-//   loading: () => <SectionPlaceholder />,
-//   ssr: false,
-// });
+const SeventhSection = dynamic(() => import("@/widgets/main/SevenSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
 
-// const Footer = dynamic(() => import("@/entities/home/ui/Footer"), {
-//   loading: () => <SectionPlaceholder />,
-//   ssr: false,
-// });
+const Footer = dynamic(() => import("@/entities/home/ui/Footer"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
 
 const SectionPlaceholder = ({ height = "400px" }: { height?: string }) => (
   <div
@@ -61,12 +61,12 @@ const HomePage = () => {
         <FinalsSixthSection />
       </LazySection>
 
-      {/* <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
         <SeventhSection />
       </LazySection>
       <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
         <Footer />
-      </LazySection> */}
+      </LazySection>
     </>
   );
 };
