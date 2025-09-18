@@ -18,7 +18,6 @@ import YouTubeLazyEmbed from "@/shared/ui/YouTubeLazyEmbed";
 // ];
 
 const SLIDES_3 = [
-  "/images/예선_공연_순서.jpg",
   "/images/25일/1.jpg",
   "/images/25일/2.jpg",
   "/images/25일/3.jpg",
