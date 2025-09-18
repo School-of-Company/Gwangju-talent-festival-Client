@@ -55,6 +55,8 @@ export function middleware(request: NextRequest) {
   }
 
   if (
+    pathname !== "/" &&
+    pathname !== "/home" &&
     !pathname.startsWith("/api") &&
     !pathname.startsWith("/test") &&
     !publicPages.includes(pathname) &&
