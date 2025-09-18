@@ -127,7 +127,7 @@ const PreliminaryFourthSection = () => {
 
         <div
           className={cn(
-            "flex w-full items-center gap-10 justify-between mobile:flex-col mobile:mb-[38px] mb-32",
+            "flex w-full items-center gap-10 justify-center mobile:flex-col mobile:mb-[38px] mb-32",
           )}
         >
           <div className={cn("w-[50%] mobile:w-full mobile:mt-16 flex justify-center px-8")}>
