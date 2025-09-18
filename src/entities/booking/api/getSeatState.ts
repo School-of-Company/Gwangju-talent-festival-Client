@@ -1,5 +1,6 @@
 import { Section, AllSeatsApiResponse, SectionSeatsApiResponse } from "../model/types";
-import { getTokenFromCookie } from "@/shared/utils/auth";
+import axios from "@/shared/lib/axios";
+import { AxiosError } from "axios";
 
 export async function getSeatState(): Promise<AllSeatsApiResponse>;
 export async function getSeatState(section: Section): Promise<SectionSeatsApiResponse>;
@@ -8,33 +9,19 @@ export async function getSeatState(
 ): Promise<AllSeatsApiResponse | SectionSeatsApiResponse> {
   try {
     const url = `/api/seat${section ? `?section=${section}` : "/all"}`;
-    const accessToken = getTokenFromCookie("accessToken");
     
-    const headers: HeadersInit = {
-      "Content-Type": "application/json",
-    };
-    
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-    
-    const response = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-      headers,
-    });
+    const response = await axios.get<AllSeatsApiResponse | SectionSeatsApiResponse>(url);
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ message: "Unknown error" }));
-      throw new Error(errorData.message || `HTTP ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-
-    throw error;
+    return response.data;
+  } catch (error: unknown) {
+    const axiosError = error as AxiosError;
+    const errorMessage = axiosError?.response?.data && 
+      typeof axiosError.response.data === 'object' && 
+      'message' in axiosError.response.data 
+        ? (axiosError.response.data as { message: string }).message 
+        : axiosError?.response?.status 
+          ? `HTTP ${axiosError.response.status}`
+          : "Unknown error";
+    throw new Error(errorMessage);
   }
 }

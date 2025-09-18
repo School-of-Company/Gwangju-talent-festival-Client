@@ -1,5 +1,7 @@
 import { Seat, Section } from "../model/types";
 import { getTokenFromCookie } from "@/shared/utils/auth";
+import axios from "@/shared/lib/axios";
+import { AxiosError } from "axios";
 
 interface MySeatApiResponse {
   seat_section: string;
@@ -9,89 +11,58 @@ interface MySeatApiResponse {
 type PerformerSeatsApiResponse = MySeatApiResponse[];
 
 export const getMySeats = async (): Promise<Seat[]> => {
-  const accessToken = getTokenFromCookie("accessToken");
-  
-  const headers: HeadersInit = {
-    "Content-Type": "application/json",
-  };
-  
-  if (accessToken) {
-    headers["Authorization"] = `Bearer ${accessToken}`;
+  try {
+    const response = await axios.get<PerformerSeatsApiResponse>("/api/seat/myself/performer");
+    
+    return response.data.map(({ seat_section, seat_number }) => ({
+      section: seat_section as Section,
+      seatNumber: seat_number.toString(),
+      status: "selected" as const,
+    }));
+  } catch (error: unknown) {
+    const axiosError = error as AxiosError;
+    const errorMessage = axiosError?.response?.data && 
+      typeof axiosError.response.data === 'object' && 
+      'message' in axiosError.response.data 
+        ? (axiosError.response.data as { message: string }).message 
+        : "내 좌석 정보를 가져올 수 없습니다.";
+    throw new Error(errorMessage);
   }
-  
-  const response = await fetch("/api/seat/myself/performer", {
-    method: "GET",
-    credentials: "include",
-    headers,
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: "내 좌석 정보를 가져올 수 없습니다." }));
-    throw new Error(errorData.message || "내 좌석 정보를 가져올 수 없습니다.");
-  }
-
-  const data: PerformerSeatsApiResponse = await response.json();
-  
-  return data.map(({ seat_section, seat_number }) => ({
-    section: seat_section as Section,
-    seatNumber: seat_number.toString(),
-    status: "selected" as const,
-  }));
 };
 
 export const getMySeat = async (): Promise<Seat | null> => {
   try {
-    const accessToken = getTokenFromCookie("accessToken");
     const role = getTokenFromCookie("role");
-    
-    if (!accessToken) {
-      return null;
-    }
-    
-    const headers: HeadersInit = {
-      "Content-Type": "application/json",
-    };
-    
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
     
     const endpoint = role === "ROLE_PERFORMER" ? "/api/seat/myself/performer" : "/api/seat/myself";
     
-    const response = await fetch(endpoint, {
-      method: "GET",
-      credentials: "include",
-      headers,
-    });
+    const response = await axios.get<MySeatApiResponse | PerformerSeatsApiResponse>(endpoint);
 
-    if (!response.ok) {
-      if (response.status === 404 || response.status === 400) return null;
-      const errorData = await response.json().catch(() => ({ message: "내 좌석 정보를 가져올 수 없습니다." }));
-      throw new Error(errorData.message || "내 좌석 정보를 가져올 수 없습니다.");
+    if (role === "ROLE_PERFORMER") {
+      const data = response.data as PerformerSeatsApiResponse;
+      if (data.length === 0) {
+        return null; 
+      }
+      const { seat_section, seat_number } = data[0];
+      return {
+        section: seat_section as Section,
+        seatNumber: seat_number.toString(),
+        status: "selected" as const,
+      };
+    } else {
+      const data = response.data as MySeatApiResponse;
+      const { seat_section, seat_number } = data;
+      
+      return {
+        section: seat_section as Section,
+        seatNumber: seat_number.toString(),
+        status: "selected" as const,
+      };
     }
-
-  if (role === "ROLE_PERFORMER") {
-    const data: PerformerSeatsApiResponse = await response.json();
-    if (data.length === 0) {
-      return null; 
+  } catch (error: unknown) {
+    if ((error as AxiosError)?.response?.status === 404 || (error as AxiosError)?.response?.status === 400) {
+      return null;
     }
-    const { seat_section, seat_number } = data[0];
-    return {
-      section: seat_section as Section,
-      seatNumber: seat_number.toString(),
-      status: "selected" as const,
-    };
-   } else {
-     const data: MySeatApiResponse = await response.json();
-     const { seat_section, seat_number } = data;
-     
-     return {
-       section: seat_section as Section,
-       seatNumber: seat_number.toString(),
-       status: "selected" as const,
-     };
-   }
-  } catch (error) {
     console.warn(error);
     return null;
   }
