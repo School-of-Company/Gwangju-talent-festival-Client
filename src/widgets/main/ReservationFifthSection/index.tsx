@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import { ticketOpenDate, performerTicketOpenDate } from "@/shared/config/authConfig";
 import { useMySeat } from "@/entities/booking/lib/useMySeat";
 import { getTokenFromCookie } from "@/shared/utils/auth";
-import { isLoggedIn } from "@/shared/utils/auth";
+// import { isLoggedIn } from "@/shared/utils/auth";
 
 const formatDateLeft = (timeLeft: number) => {
   const DAY = 1000 * 60 * 60 * 24;
@@ -70,16 +70,11 @@ const ReservationFifthSection = () => {
       setTimeLeft(difference > 0 ? difference : 0);
     };
 
-    if (userRole !== null && isLoggedIn()) {
-      calculateTimeLeft();
-      const timer = setInterval(calculateTimeLeft, 1000);
-      return () => clearInterval(timer);
-    } else {
-      const now = new Date();
-      const difference = ticketOpenDate.getTime() - now.getTime();
-      console.log("else",difference);
-      setTimeLeft(difference > 0 ? difference : 0);
-    }
+    calculateTimeLeft();
+    
+    const timer = setInterval(calculateTimeLeft, 1000);
+    
+    return () => clearInterval(timer);
   }, [userRole]);
 
   return (
