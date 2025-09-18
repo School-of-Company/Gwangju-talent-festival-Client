@@ -147,7 +147,7 @@ const ReservationFifthSection = () => {
                 <Button
                   className="w-full"
                   onClick={() => {
-                    redirect(mySeat ? "/booking/my" : "/booking");
+                    location.href = mySeat ? "/booking/my" : "/booking";
                   }}
                 >
                   {mySeat ? "내 좌석 보러가기" : "예매하기"}
