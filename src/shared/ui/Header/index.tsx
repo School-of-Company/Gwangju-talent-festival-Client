@@ -20,7 +20,7 @@ export default function Header() {
 
   useEffect(() => {
     setMounted(true);
-    
+
     const updateLoginState = () => {
       const loginStatus = isLoggedIn();
       setIsUserLoggedIn(loginStatus);
@@ -54,18 +54,18 @@ export default function Header() {
       updateLoginState();
     }, 5000);
 
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('focus', handleFocus);
-    window.addEventListener('popstate', handlePopstate);
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("popstate", handlePopstate);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('focus', handleFocus);
-      window.removeEventListener('popstate', handlePopstate);
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("popstate", handlePopstate);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       clearInterval(interval);
     };
   }, []);
@@ -141,7 +141,9 @@ export default function Header() {
           )}
           onClick={handleClick}
         >
-          <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
+          <span suppressHydrationWarning>
+            {mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}
+          </span>
         </div>
         <div className={cn("hidden mobile:block ")}>
           <div className={cn("flex text-caption2r gap-16")}>
@@ -151,16 +153,20 @@ export default function Header() {
               )}
               onClick={handleClick}
             >
-              <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
+              <span suppressHydrationWarning>
+                {mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}
+              </span>
             </div>
-            <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
-              {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}
-            </div>
+            {pathname.startsWith("/home") && (
+              <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
+                {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}
+              </div>
+            )}
           </div>
         </div>
       </header>
       {/* 모바일 헤더 사이드바 */}
-      {isMobileMenuOpen && (
+      {isMobileMenuOpen && pathname.startsWith("/home") && (
         <div
           className={cn(
             "fixed top-74px right-0 w-full h-[calc(100vh-64px)]  mobile:block hidden z-10",
