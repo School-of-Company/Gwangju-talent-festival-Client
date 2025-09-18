@@ -147,7 +147,7 @@ const PreliminaryFourthSection = () => {
                   <br />
                   조선대학교 해오름관에서 대망의 본선무대가
                   <br />
-                  펼쳐 집니다. 많은 관심과 응원 바랍니다.
+                  펼쳐집니다. 많은 관심과 응원 바랍니다.
                 </p>
                 <p className="text-body2r mobile:text-caption2r">
                   상기 순서는 실제 본선 공연순서와 다르며
