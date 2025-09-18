@@ -44,7 +44,7 @@ const FinalsSixthSection = () => {
           <div className={cn("flex gap-6 mobile:flex-col mobile:gap-4")}>
             <div className={cn("flex-1")}>
               <div className={cn("w-full mobile:w-full ")}>
-                <YouTubeLazyEmbed videoId="SJT8s3DMVls" title="2025 광탈페 길찾기" />
+                <YouTubeLazyEmbed videoId="jSTTkW3dZgE" title="2025 광탈페 길찾기" />
               </div>
             </div>
           </div>
