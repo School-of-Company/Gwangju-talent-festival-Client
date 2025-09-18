@@ -1,11 +1,11 @@
-import { MemberCard } from "@/entities/home/ui/MemberCard";
+// import { MemberCard } from "@/entities/home/ui/MemberCard";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { cn } from "@/shared/utils/cn";
-import GITHUB_ID from "../const/GithubID";
+// import GITHUB_ID from "../const/GithubID";
 import Image from "next/image";
 
 export default function SeventhSection() {
-  const totalWidth = 18.4375 * GITHUB_ID.length;
+  // const totalWidth = 18.4375 * GITHUB_ID.length;
   return (
     <section id="FinalsSixthSection" className={cn("flex flex-col items-center my-20")}>
       <div className={cn("w-[70%] mobile:w-full mobile:px-10")}>
@@ -36,12 +36,12 @@ export default function SeventhSection() {
             </p>
           </div>
         </div>
-        <SectionTitle
+        {/* <SectionTitle
           title="광탈페 웹 플랫폼 개발자"
           description="광탈페 웹 플랫폼을 제작한 학생 개발자들을 소개합니다."
           className={cn("mt-[66px] mobile:mt-[1.7rem]")}
-        />
-        <div
+        /> */}
+        {/* <div
           className={cn(
             "flex flex-col overflow-hidden w-full bg-white pb-[4rem] items-center mobile:py-0",
           )}
@@ -68,7 +68,7 @@ export default function SeventhSection() {
               }
             }
           `}</style>
-        </div>
+        </div> */}
       </div>
     </section>
   );
