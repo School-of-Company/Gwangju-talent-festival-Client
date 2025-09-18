@@ -45,7 +45,7 @@ const SLIDES_3 = [
   "/images/26일/13.jpg",
 ];
 
-const TEAMS_IMAGE = "/images/본선_진출팀.png";
+const TEAMS_IMAGE = "/images/본선.png";
 
 const PreliminaryFourthSection = () => {
   return (
@@ -122,7 +122,7 @@ const PreliminaryFourthSection = () => {
       </div>
       <div className={cn("w-[70%] mobile:w-full")}>
         <SectionTitle
-          title="2025 광탈페 본선 진출팀"
+          title="2025 광탈페 본선"
           className={cn("mt-[66px] mobile:mt-[1.7rem] mb-28")}
         />
 
@@ -133,29 +133,6 @@ const PreliminaryFourthSection = () => {
         >
           <div className={cn("w-[50%] mobile:w-full mobile:mt-16 flex justify-center px-8")}>
             <Image src={TEAMS_IMAGE} alt="본선 진출팀" width={500} height={500} />
-          </div>
-          <div className={cn("w-[50%] mobile:w-full mobile:px-16")}>
-            <div className="space-y-6">
-              <h3 className="text-body2r mobile:text-caption2r font-bold text-gray-800 mb-4">
-                감동과 열정의 예선경연을 거쳐 총 10개 팀이
-                <br />
-                선정되었습니다. 축하드립니다.
-              </h3>
-              <div className="space-y-4 text-body2r mobile:text-caption2r">
-                <p>
-                  이제 2025. 9.27. 토요일
-                  <br />
-                  조선대학교 해오름관에서 대망의 본선무대가
-                  <br />
-                  펼쳐집니다. 많은 관심과 응원 바랍니다.
-                </p>
-                <p className="text-body2r mobile:text-caption2r">
-                  상기 순서는 실제 본선 공연순서와 다르며
-                  <br />
-                  예선심사점수와 무관합니다.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
