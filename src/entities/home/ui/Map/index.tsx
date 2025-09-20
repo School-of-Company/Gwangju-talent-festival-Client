@@ -168,8 +168,10 @@ export const Map = ({
   }, [initMap]);
 
   return (
-    <div className={cn("relative w-full h-[200px] bg-slate-300 mb-[16px]", className)}>
-      <div ref={mapRef} className="w-full h-full" />
+    <div
+      className={cn("relative w-full h-[200px] bg-slate-300 mb-[16px] rounded-[20px]", className)}
+    >
+      <div ref={mapRef} className="w-full h-full rounded-[20px]" />
     </div>
   );
 };

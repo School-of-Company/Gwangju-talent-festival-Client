@@ -31,6 +31,7 @@ const SchoolSearchInput = ({
       <div className="relative">
         <Input
           name="school"
+          type="text"
           value={value}
           onChange={onChange}
           label="학교"

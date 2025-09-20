@@ -19,6 +19,7 @@ export interface SeatGridProps {
   isSeatSelected?: (seat: Seat) => boolean;
   isPerformerMode?: boolean;
   myAllSeats?: Seat[];
+  selectedSeatsForCancel?: Set<string>;
 }
 
 export const SeatGrid = memo<SeatGridProps>(({ 
@@ -30,7 +31,8 @@ export const SeatGrid = memo<SeatGridProps>(({
   className,
   isSeatSelected,
   isPerformerMode = false,
-  myAllSeats
+  myAllSeats,
+  selectedSeatsForCancel
 }) => {
   const queryClient = useQueryClient();
 
@@ -75,6 +77,11 @@ export const SeatGrid = memo<SeatGridProps>(({
   const getSeatSelectedState = useCallback((seat: Seat): boolean => {
       if (!seat) return false;
   
+      if (selectedSeatsForCancel) {
+        const seatId = `${seat.section}-${seat.seatNumber}`;
+        return selectedSeatsForCancel.has(seatId);
+      }
+  
       if (mySeat) {
         if (myAllSeats && myAllSeats.length > 1) {
           return myAllSeats.some((s: Seat) => s.seatNumber === seat.seatNumber && s.section === seat.section);
@@ -87,7 +94,7 @@ export const SeatGrid = memo<SeatGridProps>(({
       }
       return selectedSeat?.seatNumber === seat.seatNumber && selectedSeat?.section === seat.section;
     },
-    [mySeat, myAllSeats, isPerformerMode, isSeatSelected, selectedSeat],
+    [mySeat, myAllSeats, isPerformerMode, isSeatSelected, selectedSeat, selectedSeatsForCancel],
   );
   
   const renderSingleSectionGrid = () => (
