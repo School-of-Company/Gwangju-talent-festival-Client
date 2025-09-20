@@ -1,5 +1,5 @@
 export const MAX = {
-  perform: 40,
-  compleition: 30,
+  perform: 30,
+  compleition: 40,
   creativity: 30,
 } as const;
