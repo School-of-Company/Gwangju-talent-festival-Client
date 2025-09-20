@@ -1,5 +1,4 @@
 export interface Score {
-  judge_id: number;
   completion_expression: number;
   creativity_composition: number;
   stage_manner_performance: number;

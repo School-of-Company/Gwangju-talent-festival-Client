@@ -10,7 +10,6 @@ import { saveScore } from "../../api/saveScore";
 import { MAX } from "../../const/max";
 
 export default function EvaluationCard({
-  judge_id,
   stage_manner_performance,
   completion_expression,
   creativity_composition,
@@ -51,8 +50,8 @@ export default function EvaluationCard({
   }, []);
 
   const handleSave = useCallback(() => {
-    saveScore(judge_id, perform, compleition, creativity);
-  }, [judge_id, perform, compleition, creativity]);
+    saveScore(team_id, perform, compleition, creativity);
+  }, [team_id, perform, compleition, creativity]);
 
   return (
     <div

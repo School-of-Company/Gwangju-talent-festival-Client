@@ -18,7 +18,6 @@ export default function EvaluationView() {
             <EvaluationCard
               key={v.team_id}
               creativity_composition={v.creativity_composition}
-              judge_id={v.judge_id}
               team_id={v.team_id}
               total_score={v.total_score}
               completion_expression={v.completion_expression}
