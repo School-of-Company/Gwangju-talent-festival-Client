@@ -1,45 +1,62 @@
-import { MemberCard } from "@/entities/home/ui/MemberCard";
+// import { MemberCard } from "@/entities/home/ui/MemberCard";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { cn } from "@/shared/utils/cn";
-import GITHUB_ID from "../const/GithubID";
+// import GITHUB_ID from "../const/GithubID";
+import Image from "next/image";
 
 export default function SeventhSection() {
-  const totalWidth = 18.4375 * GITHUB_ID.length;
+  // const totalWidth = 18.4375 * GITHUB_ID.length;
   return (
     <section id="FinalsSixthSection" className={cn("flex flex-col items-center my-20")}>
-      <div className={cn("w-[70%] mobile:w-full mobile:px-16")}>
+      <div className={cn("w-[70%] mobile:w-full mobile:px-10")}>
         <SectionTitle
-          title="광탈페 웹 플랫폼 개발자"
-          description="광탈페 웹 플랫폼을 제작한 학생 개발자들을 소개합니다.
-"
+          title="광탈페 운영진 소개"
+          description="로고 클릭 시 인스타로 이동합니다"
           className={cn("mt-[66px] mobile:mt-[1.7rem]")}
         />
-        <div className={cn("flex flex-col overflow-hidden w-full bg-white py-[4rem] items-center")}>
-          <h3
-            className={cn(
-              "xs:text-[2.75rem]/[3.85rem]",
-              "text-[1.75rem]/[2.75rem]",
-              "font-bold",
-              "text-center",
-            )}
-          ></h3>
-          <div className={cn("flex flex-col relative w-full overflow-hidden gap-6")}>
+        <div className="flex text-title1b mobile:text-body3b text-center gap-20 mobile:gap-4">
+          <div className="w-[50%] flex flex-col items-center border-[5px] border-orange-300 mobile:border-[3px] border-solid rounded-xl cursor-pointer shadow-xl hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105 hover:translate-y-2">
+            <a href="https://www.instagram.com/_gwhc" target="_blank">
+              <Image src="/images/gwhclogo.png" alt="고등의회 로고" width={500} height={500} />
+            </a>
+            광주광역시고등의회
+            <br />
+            <p className="text-gray-500 text-title3m mobile:text-body3r pb-[50px]">
+              행사 기획 및 운영
+            </p>
+          </div>
+          <div className="w-[50%] flex flex-col items-center border-[5px] border-blue-400 mobile:border-[3px] border-solid rounded-xl cursor-pointer shadow-xl hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105 hover:translate-y-2">
+            <a href="https://www.instagram.com/gsm.school" target="_blank">
+              <Image src="/images/gsmlogo-.png" alt="광소마고 로고" width={500} height={500} />
+            </a>
+            광주소프트웨어마이스터고
+            <br />
+            <p className="text-gray-500 text-title3m mobile:text-body3r pb-[50px]">
+              플랫폼 설계 및 개발
+            </p>
+          </div>
+        </div>
+        {/* <SectionTitle
+          title="광탈페 웹 플랫폼 개발자"
+          description="광탈페 웹 플랫폼을 제작한 학생 개발자들을 소개합니다."
+          className={cn("mt-[66px] mobile:mt-[1.7rem]")}
+        /> */}
+        {/* <div
+          className={cn(
+            "flex flex-col overflow-hidden w-full bg-white pb-[4rem] items-center mobile:py-0",
+          )}
+        >
+          <div className={cn("flex flex-col relative w-full overflow-hidden gap-6 mt-8")}>
             <div
-              className={cn("flex space-x-4 gap-[100px] whitespace-nowrap")}
+              className={cn("flex space-x-4 whitespace-nowrap gap-10")}
               style={{
-                animation: "scrollRight 25s linear infinite",
+                animation: `scrollRight ${(totalWidth * 2) / 25}s linear infinite`,
               }}
             >
-              {GITHUB_ID.map(member => (
-                <MemberCard githubID={member} key={member} />
+              {GITHUB_ID.concat(GITHUB_ID).map((member, index) => (
+                <MemberCard githubID={member.id} role={member.role} key={index} />
               ))}
             </div>
-            <div
-              className={cn("flex space-x-4 whitespace-nowrap")}
-              style={{
-                animation: "scrollLeft 25s linear infinite",
-              }}
-            ></div>
           </div>
           <style jsx global>{`
             @keyframes scrollRight {
@@ -47,19 +64,11 @@ export default function SeventhSection() {
                 transform: translateX(0);
               }
               100% {
-                transform: translateX(-${totalWidth + 1}rem);
-              }
-            }
-            @keyframes scrollLeft {
-              0% {
-                transform: translateX(-${totalWidth + 1}rem);
-              }
-              100% {
-                transform: translateX(0);
+                transform: translateX(-${totalWidth}rem);
               }
             }
           `}</style>
-        </div>
+        </div> */}
       </div>
     </section>
   );

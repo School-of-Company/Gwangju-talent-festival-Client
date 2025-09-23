@@ -16,10 +16,26 @@ interface SeatSectionProps {
   onSeatSelect: (seat: Seat | null) => void;
   selectedSeatInfo: SelectedSeatInfo | null;
   className?: string;
+  selectedSeats?: Seat[];
+  isSeatSelected?: (seat: Seat) => boolean;
+  isPerformerMode?: boolean;
+  myBookedSeats?: Seat[];
+  removeOccupiedSeat?: (section: Section, seatNumber: string) => void;
 }
 
 export const SeatSection = memo<SeatSectionProps>(
-  ({ selectedSection, selectedSeat, onSeatSelect, selectedSeatInfo, className }) => {
+  ({ 
+    selectedSection, 
+    selectedSeat, 
+    onSeatSelect, 
+    selectedSeatInfo, 
+    className,
+    selectedSeats,
+    isSeatSelected,
+    isPerformerMode = false,
+    myBookedSeats,
+    removeOccupiedSeat
+  }) => {
     const { data: sectionSeats, isLoading, error } = useSectionSeatState(selectedSection!);
     const { data: allSeats, isLoading: isAllSeatsLoading } = useAllSectionsSeatState();
     const [realTimeSeats, setRealTimeSeats] = useState<Seat[] | null>(null);
@@ -27,6 +43,10 @@ export const SeatSection = memo<SeatSectionProps>(
 
     const handleSeatChange = useCallback((event: { seat_section: Section; seat_number: number; is_available: boolean }) => {
       if (event.seat_section !== selectedSection) return;
+
+      if (!event.is_available && isPerformerMode && removeOccupiedSeat) {
+        removeOccupiedSeat(event.seat_section, event.seat_number.toString());
+      }
 
       setRealTimeSeats(prevSeats => {
         if (!prevSeats) return prevSeats;
@@ -70,7 +90,7 @@ export const SeatSection = memo<SeatSectionProps>(
         });
         queryClient.setQueryData(["allSectionsSeatState"], updatedAllSeats);
       }
-    }, [selectedSection, queryClient]);
+    }, [selectedSection, queryClient, isPerformerMode, removeOccupiedSeat]);
 
     useSeatChangeSSE({
       onSeatChange: handleSeatChange,
@@ -131,13 +151,21 @@ export const SeatSection = memo<SeatSectionProps>(
             selectedSeat={selectedSeat}
             onSeatSelect={isLoading || !!error ? () => {} : onSeatSelect}
             allSeats={realTimeSeats}
+            selectedSeats={selectedSeats}
+            isSeatSelected={isSeatSelected}
+            isPerformerMode={isPerformerMode}
+            myAllSeats={myBookedSeats}
           />
         </div>
 
         <div className="h-28"></div>
 
         <div className="h-24">
-          <SelectedSeatDisplay selectedSeat={selectedSeatInfo} selectedSection={selectedSection} />
+          <SelectedSeatDisplay 
+            selectedSeat={!isPerformerMode ? selectedSeatInfo : null}
+            selectedSection={selectedSection}
+            selectedSeats={isPerformerMode ? selectedSeats : undefined}
+          />
         </div>
       </div>
     );

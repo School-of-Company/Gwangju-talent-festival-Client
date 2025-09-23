@@ -1,12 +1,11 @@
 const GITHUB_ID = [
-  "happytaeyoon",
-  "976520",
-  "bae080311",
-  "s-chan-o",
-  "suuuuuuminnnnnn",
-  "enbraining",
-  "jinjwon",
-  "motaehwan",
+  { id: "happytaeyoon", role: "FrontEnd 개발" },
+  { id: "s-chan-o", role: "BackEnd 개발" },
+  { id: "bae080311", role: "FrontEnd 개발" },
+  { id: "motaehwan", role: "Design" },
+  { id: "suuuuuuminnnnnn", role: "BackEnd 개발" },
+  { id: "976520", role: "FrontEnd 개발" },
+  { id: "enbraining", role: "BackEnd 개발" },
+  { id: "jinjwon", role: "Design" },
 ];
-
 export default GITHUB_ID;
