@@ -38,16 +38,6 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
-  // if (publicIn18.includes(pathname) && new Date() < ticketOpenDate) {
-  //   if (role !== "ROLE_ADMIN") {
-  //     // const currentDate = new Date();
-
-  //     if (role === "ROLE_USER") {
-  //       return NextResponse.redirect(new URL("/home", request.url));
-  //     }
-  //   }
-  // }
-
   if (publicIn27.includes(pathname)) {
     if (role !== "ROLE_ADMIN" && new Date() < festivalDate) {
       return NextResponse.redirect(new URL("/home", request.url));
