@@ -18,11 +18,12 @@ const InfoRow = ({ label, children }: InfoRowProps) => (
 
 interface BookingInfoDisplayProps {
   mySeat: Seat | null;
+  mySeats?: Seat[];
   className?: string;
 }
 
 export const BookingInfoDisplay = memo<BookingInfoDisplayProps>(
-  ({ mySeat, className }) => {
+  ({ mySeat, mySeats, className }) => {
     return (
       <div className={cn("bg-white rounded-lg border border-gray-200 p-6", className)}>
         <div className="mb-6">
@@ -30,13 +31,17 @@ export const BookingInfoDisplay = memo<BookingInfoDisplayProps>(
         </div>
 
         <div className="space-y-6">
-          <InfoRow label="예매자">이름</InfoRow>
           <InfoRow label="관람일자">2025.9.27.(토)</InfoRow>
           <InfoRow label="장소">
             광주광역시 동구 조선대길 146 조선대학교 해오름관
           </InfoRow>
           <InfoRow label="예약좌석">
-            {mySeat ? `${mySeat.section}${mySeat.seatNumber}` : "-"}
+            {mySeats && mySeats.length > 0 
+              ? mySeats.map(seat => `${seat.section}${seat.seatNumber}`).join(", ")
+              : mySeat 
+                ? `${mySeat.section}${mySeat.seatNumber}` 
+                : "-"
+            }
           </InfoRow>
         </div>
       </div>

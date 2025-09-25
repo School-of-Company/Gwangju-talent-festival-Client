@@ -1,21 +1,52 @@
 "use client";
 
 import { cn } from "@/shared/utils/cn";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const Video = () => {
+export interface VideoProps {
+  link?: string;
+  className?: string;
+  visibleCaption?: boolean;
+}
+
+const Video = ({ link = "https://kr.object.ncloudstorage.com/gwangju-talent-festival-bucket/video%20(2).mp4", className, visibleCaption = true }: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    video.play().catch(err => {
-      console.warn("Autoplay blocked:", err);
-    });
-  }, []);
+    
+    setIsLoading(true);
+    setHasError(false);
+    
+    const handleLoadedData = () => {
+      setIsLoading(false);
+      video.play().catch(err => {
+        console.warn("Autoplay blocked:", err);
+      });
+    };
+    
+    const handleError = () => {
+      setIsLoading(false);
+      setHasError(true);
+      console.error("Video loading failed:", link);
+    };
+    
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('error', handleError);
+    
+    video.load();
+    
+    return () => {
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('error', handleError);
+    };
+  }, [link]);
 
   return (
-    <div className={cn("relative", "w-full", "h-full", "select-none")}>
+    <div className={cn("relative", "w-full", "h-full", "select-none", className)}>
       <video
         ref={videoRef}
         className={cn("w-full", "h-full", "object-cover")}
@@ -26,10 +57,31 @@ const Video = () => {
         loop
       >
         <source
-          src="https://kr.object.ncloudstorage.com/gwangju-talent-festival-bucket/video%20(2).mp4"
+          src={link}
           type="video/mp4"
         />
       </video>
+      
+      {/* 로딩 상태 */}
+      {isLoading && (
+        <div className={cn(
+          "absolute inset-0 bg-gray-100 flex items-center justify-center"
+        )}>
+          <div className={cn("text-gray-500")}>동영상 로딩중...</div>
+        </div>
+      )}
+      
+      {/* 에러 상태 */}
+      {hasError && (
+        <div className={cn(
+          "absolute inset-0 bg-gray-100 flex items-center justify-center"
+        )}>
+          <div className={cn("text-gray-500 text-center")}>
+            <p>동영상을 불러올 수 없습니다</p>
+            <p className="text-sm mt-2">네트워크 연결을 확인해주세요</p>
+          </div>
+        </div>
+      )}
 
       <div
         className={cn(
@@ -55,6 +107,7 @@ const Video = () => {
           "select-none",
         )}
       >
+        {visibleCaption && (
         <div
           className={cn(
             "max-w-[1060px]",
@@ -97,6 +150,7 @@ const Video = () => {
             <span className={cn("block")}>학생주도형 오디션 프로그램입니다</span>
           </p>
         </div>
+        )}
       </div>
     </div>
   );
