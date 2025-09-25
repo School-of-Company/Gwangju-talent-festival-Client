@@ -1,0 +1,208 @@
+"use client";
+
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useParams } from "next/navigation";
+import Button from "@/shared/ui/Button";
+import { LotterySeatGrid } from "@/entities/booking/ui/LotterySeatGrid";
+import { useLotteryAnimation } from "@/entities/booking/lib/useLotteryAnimation";
+import { getLotteryConfig, convertToSeats } from "@/entities/booking/model/lotterySeats";
+import { Seat, SECTIONS } from "@/entities/booking/model/types";
+import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
+import { cn } from "@/shared/utils/cn";
+
+const ANIM_DURATION = 500;
+const ANIM_INTERVAL = 100;
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const LotteryView = () => {
+  const params = useParams();
+  const lotteryId = params.id as string;
+
+  const [resultSeats, setResultSeats] = useState<Seat[]>([]); 
+  const [plannedSequence, setPlannedSequence] = useState<Seat[]>([]);
+
+  const [stepIndex, setStepIndex] = useState<number>(-1);            
+  const [revealedSeats, setRevealedSeats] = useState<Seat[]>([]);    
+  const isBatchRunning = stepIndex >= 0;
+  const timerRef = useRef<number | null>(null);
+  const slotIntervalRef = useRef<number | null>(null);
+  const [slotLabel, setSlotLabel] = useState<string>("");
+  
+  const allSeats = useMemo<Seat[]>(
+    () =>
+      SECTIONS.flatMap((section) => {
+        const layout = getSeatLayout(section);
+        return layout?.seats ?? [];
+      }),
+    []
+  );
+
+  const {
+    isAnimating,
+    currentSeat,
+    startAnimation,
+    resetAnimation,
+  } = useLotteryAnimation({
+    seats: allSeats,
+    duration: ANIM_DURATION,
+    interval: ANIM_INTERVAL,
+  });
+
+  useEffect(() => {
+    const config = getLotteryConfig(lotteryId);
+    if (config) {
+      const seats = convertToSeats(config);
+      setResultSeats(seats);
+      setStepIndex(-1);
+      setRevealedSeats([]);
+      setPlannedSequence([]);
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+      cleanupSlotInterval();
+      setSlotLabel("");
+    }
+  }, [lotteryId]);
+
+  const cleanupTimer = () => {
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const cleanupSlotInterval = () => {
+    if (slotIntervalRef.current) {
+      window.clearInterval(slotIntervalRef.current);
+      slotIntervalRef.current = null;
+    }
+  };
+
+  useEffect(() => () => cleanupTimer(), []);
+
+  useEffect(() => {
+    if (isBatchRunning && isAnimating) {
+      cleanupSlotInterval();
+      slotIntervalRef.current = window.setInterval(() => {
+        if (allSeats.length === 0) return;
+        const r = Math.floor(Math.random() * allSeats.length);
+        const s = allSeats[r];
+        setSlotLabel(`${s.section}${s.seatNumber}`);
+      }, 60);
+    } else {
+      cleanupSlotInterval();
+    }
+
+    return () => cleanupSlotInterval();
+  }, [isBatchRunning, isAnimating, allSeats]);
+
+  const runStep = useCallback(
+    (index: number, seq: Seat[]) => {
+      setStepIndex(index);
+      setSlotLabel("");
+      resetAnimation();
+      startAnimation();
+
+      cleanupTimer();
+      timerRef.current = window.setTimeout(() => {
+        const targetSeat = seq[index];
+        setRevealedSeats((prev) => {
+          const exists = prev.some(seat => seat.section === targetSeat.section && seat.seatNumber === targetSeat.seatNumber);
+          return exists ? prev : [...prev, targetSeat];
+        });
+
+        if (index + 1 < seq.length) {
+          runStep(index + 1, seq);
+        } else {
+          setStepIndex(-1);
+        }
+      }, ANIM_DURATION + 30);
+    },
+    [resetAnimation, startAnimation]
+  );
+
+  const handleStartLottery = useCallback(() => {
+    if (allSeats.length === 0) return;
+    if (resultSeats.length === 0) return;
+
+    const seq = shuffle(resultSeats);
+    setPlannedSequence(seq);
+    setRevealedSeats([]);
+
+    runStep(0, seq);
+  }, [allSeats.length, resultSeats, runStep]);
+
+  const currentTarget = useMemo<Seat | null>(
+    () => (stepIndex >= 0 && plannedSequence[stepIndex] ? plannedSequence[stepIndex] : null),
+    [stepIndex, plannedSequence]
+  );
+
+
+  return (
+    <div className="min-h-screen bg-gray-800 p-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="bg-gray-800 p-6 mb-6 mt-32">
+          <LotterySeatGrid
+            layout={null}
+            lotterySeats={allSeats}
+            currentSeat={currentSeat}
+            isAnimating={isAnimating}
+            revealedSeats={revealedSeats}
+          />
+        </div>
+
+        {(revealedSeats.length > 0 || currentTarget) && (
+          <div className="p-6 mt-6 border bg-gray-800">
+            <div className="flex flex-wrap justify-center gap-2">
+              {revealedSeats.map((s) => (
+                <span
+                  key={`${s.section}-${s.seatNumber}`}
+                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-100 px-3 py-1 text-sm font-semibold min-w-[60px] h-8"
+                >
+                  {s.section}{s.seatNumber}
+                </span>
+              ))}
+              {isBatchRunning && currentTarget && !revealedSeats.some(rs => rs.section === currentTarget.section && rs.seatNumber === currentTarget.seatNumber) && (
+                <span
+                  key={`target-${currentTarget.section}-${currentTarget.seatNumber}`}
+                  className="inline-flex items-center justify-center rounded-full border border-purple-200 text-purple-100 px-3 py-1 text-sm font-semibold min-w-[60px] h-8 animate-pulse"
+                >
+                  {isAnimating && slotLabel ? slotLabel : `${currentTarget.section}${currentTarget.seatNumber}`}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
+        <div className="bg-gray-800 p-6">
+          <div className="flex gap-4 justify-center">
+            <Button
+              onClick={handleStartLottery}
+              disabled={isBatchRunning || isAnimating || allSeats.length === 0 || resultSeats.length === 0}
+              className={cn(
+                "px-8 py-3 text-lg font-bold",
+                isBatchRunning || isAnimating
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-purple-600 hover:bg-purple-700"
+              )}
+            >
+              {isBatchRunning || isAnimating ? "선택 중..." : "시작"}
+            </Button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  );
+};
+
+export default LotteryView;
