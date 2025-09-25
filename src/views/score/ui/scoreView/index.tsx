@@ -17,7 +17,7 @@ type StarCell = { id: number; active: boolean };
 export default function ScoreView() {
   const { id } = useParams<{ id: string }>();
   const { data } = useGetVote(id);
-  const activeStars = Math.min(data?.star ?? TOTAL_STARS, TOTAL_STARS);
+  const activeStars = Math.min(data?.star ?? 0, TOTAL_STARS);
   const [stars, setStars] = useState<StarCell[]>(() =>
     Array.from({ length: TOTAL_STARS }, (_, i) => ({ id: i, active: false })),
   );
@@ -69,7 +69,12 @@ export default function ScoreView() {
   }, [activeStars]);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-black">
+    <div className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
+      <div className="my-28 text-center">
+        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+          {data?.team_name || "Unknown Team"}
+        </h1>
+      </div>
       <div
         className="grid"
         style={{
