@@ -150,7 +150,7 @@ const LotteryView = () => {
   return (
     <div className="min-h-screen bg-gray-800 p-4">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-gray-800 p-6 mb-6">
+        <div className="bg-gray-800 p-6 mb-6 mt-32">
           <LotterySeatGrid
             layout={null}
             lotterySeats={allSeats}
