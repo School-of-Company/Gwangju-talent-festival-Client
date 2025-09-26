@@ -49,7 +49,7 @@ export default function VoteView() {
             </svg>
           )}
         </div>
-        <small className="text-body2r mb-24 mt-[40px] text-gray-500">별점을 표시해주세요</small>
+        <small className="text-body2r mb-24 mt-[40px] text-gray-500">방금 공연한 팀에게 별을 선물해 주세요!!</small>
         <div className="flex sm:gap-24 gap-10 mb-[60px]">
           <VoteButton onClick={() => [setScore([true, false, false])]} isActive={score[0]} />
           <VoteButton onClick={() => [setScore([true, true, false])]} isActive={score[1]} />
