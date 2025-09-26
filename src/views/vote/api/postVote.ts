@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const postVote = async (star: number, team_id: number) => {
   try {
-    return await instance.post("vote", {
+    return await instance.post("/api/vote", {
       select: true,
       star,
       team_id,
