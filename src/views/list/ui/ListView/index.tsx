@@ -23,6 +23,7 @@ export default function ListView() {
         <div className="flex gap-[44px]">
           <Wrapper label="현재 상태">
             <TeamSlide
+              length={data?.length ?? 10}
               voteCount={data ? (data[item]?.star ?? 0) : 0}
               status={data ? (data[item]?.vote_status ?? "PENDING") : "PENDING"}
               teamName={data ? (data[item]?.team_name ?? "팀") : "팀"}
