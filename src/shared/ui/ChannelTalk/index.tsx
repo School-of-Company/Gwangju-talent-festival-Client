@@ -1,9 +1,11 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 
 const ChannelTalk = () => {
+  const pathname = usePathname();
   const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
@@ -37,13 +39,13 @@ const ChannelTalk = () => {
   if (!shouldLoad) {
     return null;
   }
-
-  return (
-    <Script
-      id="channelTalk"
-      strategy="lazyOnload"
-      dangerouslySetInnerHTML={{
-        __html: `(function() {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/vote"))
+    return (
+      <Script
+        id="channelTalk"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `(function() {
           var w = window;
           if (w.ChannelIO) {
           return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
@@ -82,9 +84,9 @@ const ChannelTalk = () => {
         "pluginKey": "${process.env.NEXT_PUBLIC_CHANNEL_PLUGIN_KEY}"
       });
         `,
-      }}
-    />
-  );
+        }}
+      />
+    );
 };
 
 export default ChannelTalk;
