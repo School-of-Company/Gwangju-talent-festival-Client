@@ -39,13 +39,13 @@ const ChannelTalk = () => {
   if (!shouldLoad) {
     return null;
   }
-  if (pathname.startsWith("/admin") || pathname.startsWith("/vote"))
-    return (
-      <Script
-        id="channelTalk"
-        strategy="lazyOnload"
-        dangerouslySetInnerHTML={{
-          __html: `(function() {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/vote")) return;
+  return (
+    <Script
+      id="channelTalk"
+      strategy="lazyOnload"
+      dangerouslySetInnerHTML={{
+        __html: `(function() {
           var w = window;
           if (w.ChannelIO) {
           return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
@@ -84,9 +84,9 @@ const ChannelTalk = () => {
         "pluginKey": "${process.env.NEXT_PUBLIC_CHANNEL_PLUGIN_KEY}"
       });
         `,
-        }}
-      />
-    );
+      }}
+    />
+  );
 };
 
 export default ChannelTalk;
