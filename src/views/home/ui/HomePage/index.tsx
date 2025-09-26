@@ -49,22 +49,22 @@ const HomePage = () => {
       <IntroFirstSection />
       <SloganSecondSection />
 
-      <LazySection fallback={<SectionPlaceholder height="600px" />} rootMargin="100px">
+      <LazySection fallback={<SectionPlaceholder height="600px" />} rootMargin="200px">
         <PreliminaryFourthSection />
       </LazySection>
 
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="150px">
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
         <ReservationFifthSection />
       </LazySection>
 
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
         <FinalsSixthSection />
       </LazySection>
 
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
         <SeventhSection />
       </LazySection>
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="500px">
         <Footer />
       </LazySection>
     </>
