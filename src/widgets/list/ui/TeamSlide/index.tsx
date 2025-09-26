@@ -24,7 +24,7 @@ export default function TeamSlide({
   length,
 }: TeamSlideProps) {
   const next = useCallback(() => {
-    if (item < length - 1) {
+    if (item < length) {
       setItem(item + 1);
     }
   }, [item, setItem, length]);
