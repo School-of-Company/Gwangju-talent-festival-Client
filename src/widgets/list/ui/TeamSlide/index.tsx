@@ -24,7 +24,7 @@ export default function TeamSlide({
   length,
 }: TeamSlideProps) {
   const next = useCallback(() => {
-    if (item < length) {
+    if (item < length - 1) {
       setItem(item + 1);
     }
   }, [item, setItem, length]);
@@ -59,7 +59,7 @@ export default function TeamSlide({
           </div>
         </div>
       </div>
-      {item < 9 && (
+      {item < length - 1 && (
         <div
           className="flex items-center cursor-pointer gap-24 text-body1b text-gray-500"
           onClick={next}
