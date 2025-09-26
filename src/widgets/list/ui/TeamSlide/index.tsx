@@ -12,14 +12,22 @@ interface TeamSlideProps {
   teamName: string;
   voteCount: number;
   status: StatusType;
+  length: number;
 }
 
-export default function TeamSlide({ teamName, status, voteCount, setItem, item }: TeamSlideProps) {
+export default function TeamSlide({
+  teamName,
+  status,
+  voteCount,
+  setItem,
+  item,
+  length,
+}: TeamSlideProps) {
   const next = useCallback(() => {
-    if (item < 9) {
+    if (item < length - 1) {
       setItem(item + 1);
     }
-  }, [item, setItem]);
+  }, [item, setItem, length]);
 
   const prev = useCallback(() => {
     if (item > 0) {
