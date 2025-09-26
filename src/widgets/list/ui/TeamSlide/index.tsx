@@ -16,7 +16,7 @@ interface TeamSlideProps {
 
 export default function TeamSlide({ teamName, status, voteCount, setItem, item }: TeamSlideProps) {
   const next = useCallback(() => {
-    if (item < 9) {
+    if (item < 10) {
       setItem(item + 1);
     }
   }, [item, setItem]);
