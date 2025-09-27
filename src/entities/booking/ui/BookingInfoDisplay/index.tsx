@@ -12,7 +12,7 @@ interface InfoRowProps {
 
 const InfoRow = ({ label, children, className }: InfoRowProps) => (
   <div className="flex items-center">
-    <div className="w-[15%] text-gray-600 text-body3r">{label}</div>
+    <div className="w-[20%] text-gray-600 text-body3r">{label}</div>
     <div className={cn("ml-4 flex-1 text-gray-900 text-body3r", className)}>{children}</div>
   </div>
 );
@@ -26,7 +26,7 @@ interface BookingInfoDisplayProps {
 export const BookingInfoDisplay = memo<BookingInfoDisplayProps>(
   ({ mySeat, mySeats, className }) => {
     return (
-      <div className={cn("bg-white rounded-lg border border-gray-200 p-6", className)}>
+      <div className={cn("bg-white rounded-lg border border-gray-200 p-6 pb-24", className)}>
         <div className="mb-12">
           <h2 className="text-body2b text-gray-900 mb-1">예매정보</h2>
         </div>

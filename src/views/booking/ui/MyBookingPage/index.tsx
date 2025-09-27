@@ -121,7 +121,7 @@ const MyBookingPage = () => {
         />
       </div>
 
-      <div className="fixed bottom-[48px] left-[50%] -translate-x-1/2 w-[98%] space-y-2">
+      <div className="absolute bottom-[0px] pb-4 left-[50%] -translate-x-1/2 w-[98%] space-y-2">
         {canSelectIndividualSeats ? (
           <>
             <div className={cn(
