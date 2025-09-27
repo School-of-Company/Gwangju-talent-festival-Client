@@ -188,7 +188,7 @@ const LotteryView = () => {
               onClick={handleStartLottery}
               disabled={isBatchRunning || isAnimating || allSeats.length === 0 || resultSeats.length === 0}
               className={cn(
-                "px-8 py-3 text-lg font-bold",
+                "px-8 py-3 text-lg font-bold bottom-4 right-4 absolute",
                 isBatchRunning || isAnimating
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-purple-600 hover:bg-purple-700"
