@@ -14,34 +14,28 @@ export default function SeventhSection() {
           description="로고 클릭 시 인스타로 이동합니다"
           className={cn("mt-[66px] mobile:mt-[1.7rem]")}
         />
-        <div className="flex text-title1b mobile:text-body3b text-center gap-20 mobile:gap-4">
-          <div className="w-[50%] flex flex-col items-center border-[5px] border-orange-300 mobile:border-[3px] border-solid rounded-xl cursor-pointer shadow-xl hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105 hover:translate-y-2">
+        <div className="flex text-title2b mobile:text-body3b text-center gap-8 justify-center items-center mobile:gap-4">
+          <div className="w-[400px] h-[450px] mobile:h-[20%] mobile:w-[48%] flex flex-col items-center border-[4px] border-orange-300 mobile:border-[3px] border-solid rounded-xl cursor-pointer shadow-md hover:shadow-lg transition-transform duration-300 hover:scale-105 hover:translate-y-2 p-4">
             <a href="https://www.instagram.com/_gwhc" target="_blank">
-              <Image src="/images/gwhclogo.png" alt="고등의회 로고" width={500} height={500} />
+              <Image src="/images/gwhclogo.png" alt="고등의회 로고" width={300} height={300} />
             </a>
-            광주광역시고등의회
-            <br />
-            <p className="text-gray-500 text-title3m mobile:text-body3r pb-[50px]">
-              행사 기획 및 운영
-            </p>
+            <span className="mt-2 text-body1b mobile:text-caption1b font-semibold">광주광역시고등의회</span>
+            <p className="text-gray-500 text-body2r mobile:text-caption2r pb-6">행사 기획 및 운영</p>
           </div>
-          <div className="w-[50%] flex flex-col items-center border-[5px] border-blue-400 mobile:border-[3px] border-solid rounded-xl cursor-pointer shadow-xl hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105 hover:translate-y-2">
+          <div className="w-[400px] h-[450px] mobile:h-[20%] mobile:w-[48%] flex flex-col items-center border-[4px] border-blue-400 mobile:border-[3px] border-solid rounded-xl cursor-pointer shadow-md hover:shadow-lg transition-transform duration-300 hover:scale-105 hover:translate-y-2 p-4">
             <a href="https://www.instagram.com/gsm.school" target="_blank">
-              <Image src="/images/gsmlogo-.png" alt="광소마고 로고" width={500} height={500} />
+              <Image src="/images/gsmlogo-.png" alt="광소마고 로고" width={300} height={300} />
             </a>
-            광주소프트웨어마이스터고
-            <br />
-            <p className="text-gray-500 text-title3m mobile:text-body3r pb-[50px]">
-              플랫폼 설계 및 개발
-            </p>
+            <span className="mt-2 text-body1b mobile:text-caption1b font-semibold">광주소프트웨어마이스터고</span>
+            <p className="text-gray-500 text-body2r mobile:text-caption2r pb-6">플랫폼 설계 및 개발</p>
           </div>
         </div>
         {/* <SectionTitle
           title="광탈페 웹 플랫폼 개발자"
           description="광탈페 웹 플랫폼을 제작한 학생 개발자들을 소개합니다."
           className={cn("mt-[66px] mobile:mt-[1.7rem]")}
-        /> */}
-        {/* <div
+        />
+        <div
           className={cn(
             "flex flex-col overflow-hidden w-full bg-white pb-[4rem] items-center mobile:py-0",
           )}
