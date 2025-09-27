@@ -10,11 +10,11 @@ export const config = {
 };
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
   const role = request.cookies.get("role")?.value;
 
-  const isPublicAdminPath = pathname.match(/^\/admin\/lottery\/[^\/]+$/) || pathname.match(/^\/admin\/score\/[^\/]+$/);
-  
+  const isPublicAdminPath =
+    pathname.match(/^\/admin\/lottery\/[^/]+$/) || pathname.match(/^\/admin\/score\/[^/]+$/);
   if (role !== "ROLE_ADMIN" && pathname.startsWith("/admin") && !isPublicAdminPath) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
@@ -22,21 +22,25 @@ export function middleware(request: NextRequest) {
   if (pathname === "/robots.txt") {
     const host = request.headers.get("host");
     const targetDomain = "www.광탈페.com";
-
     if (host && host !== targetDomain) {
       const url = new URL("/robots.txt", `https://${targetDomain}`);
       return NextResponse.redirect(url);
     }
-
     return NextResponse.next();
   }
 
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
+
   if (pathname === "/slogan") {
     return NextResponse.redirect(new URL("/home", request.url));
   }
+
   if (pathname === "/signin" && accessToken && refreshToken) {
+    const nextParam = searchParams.get("next");
+    if (nextParam && nextParam.startsWith("/") && nextParam !== "/signin") {
+      return NextResponse.redirect(new URL(nextParam, request.url));
+    }
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
@@ -46,18 +50,20 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  if (
+  const isProtectedRoute =
     pathname !== "/" &&
     pathname !== "/home" &&
     !pathname.startsWith("/api") &&
     !pathname.startsWith("/test") &&
     !publicPages.includes(pathname) &&
     !pathname.startsWith("/admin/lottery/") &&
-    !pathname.startsWith("/admin/score/") &&
-    !accessToken &&
-    !refreshToken
-  ) {
-    return NextResponse.redirect(new URL("/signin", request.url));
+    !pathname.startsWith("/admin/score/");
+
+  if (isProtectedRoute && !accessToken && !refreshToken) {
+    const signinUrl = new URL("/signin", request.url);
+    const intended = request.nextUrl.pathname + request.nextUrl.search;
+    signinUrl.searchParams.set("next", intended);
+    return NextResponse.redirect(signinUrl);
   }
 
   return NextResponse.next();
