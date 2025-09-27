@@ -32,18 +32,15 @@ export const BookingInfoDisplay = memo<BookingInfoDisplayProps>(
         </div>
 
         <div className="space-y-8">
-          <InfoRow label="관람일자">2025.9.27.(토)</InfoRow>
-          <InfoRow label="장소">
-            광주광역시 동구 조선대길 146 조선대학교 해오름관
-          </InfoRow>
           <InfoRow className="text-main-600 text-body1b" label="예약좌석">
-            {mySeats && mySeats.length > 0 
+            {mySeats && mySeats.length > 0
               ? mySeats.map(seat => `${seat.section}${seat.seatNumber}`).join(", ")
-              : mySeat 
-                ? `${mySeat.section}${mySeat.seatNumber}` 
-                : "좌석이 없습니다"
-            }
+              : mySeat
+                ? `${mySeat.section}${mySeat.seatNumber}`
+                : "좌석이 없습니다"}
           </InfoRow>
+          <InfoRow label="관람일자">2025.9.27.(토)</InfoRow>
+          <InfoRow label="장소">광주광역시 동구 조선대길 146 조선대학교 해오름관</InfoRow>
         </div>
       </div>
     );
