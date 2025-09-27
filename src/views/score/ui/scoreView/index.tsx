@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Star from "@/shared/asset/svg/Star";
 import { useGetVote } from "@/shared/model/useGetVote";
 import { ease } from "@/entities/score/lib/ease";
 import { useParams, useSearchParams } from "next/navigation";
+import Button from "@/shared/ui/Button";
+import { cn } from "@/shared/utils/cn";
 
 const COLUMNS = 17;
 const ROWS = 17;
@@ -13,7 +15,6 @@ const TOTAL_STARS = COLUMNS * ROWS;
 const STAR_SIZE = 225;
 
 const TEAMS = ['신가밴드', '라온', '야간합주실', '곽서영', 'METAPHOR', 'ALL', '구각와니', '신준', 'UNIVERSE', '정은서', '열정의 하마', '아']
-const SCORES = [100, 90, 80, 70, 60, 50, 40, 30, 20, 100, 100, 289]
 
 type StarCell = { id: number; active: boolean };
 
@@ -31,8 +32,11 @@ export default function ScoreView() {
   
   const activeStars = Math.min(finalScore, TOTAL_STARS);
   const [stars, setStars] = useState<StarCell[]>(() =>
-    Array.from({ length: TOTAL_STARS || SCORES[Number(id) - 1] }, (_, i) => ({ id: i, active: false })),
+    Array.from({ length: TOTAL_STARS }, (_, i) => ({ id: i, active: false })),
   );
+  
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
 
   const rafRef = useRef<number | null>(null);
   const progressRef = useRef(0);
@@ -53,9 +57,14 @@ export default function ScoreView() {
     [mounted],
   );
 
-  useEffect(() => {
+  const startAnimation = useCallback(() => {
+    if (isAnimating) return;
+    
+    setIsAnimating(true);
+    setIsStarted(true);
     setStars(prev => prev.map(s => ({ ...s, active: false })));
     progressRef.current = 0;
+    
     const total = activeStars;
     const duration = Math.max(500, total * 16);
     const start = performance.now();
@@ -72,13 +81,30 @@ export default function ScoreView() {
       }
       if (target < total) {
         rafRef.current = requestAnimationFrame(loop);
+      } else {
+        setIsAnimating(false);
       }
     };
     rafRef.current = requestAnimationFrame(loop);
+  }, [activeStars, isAnimating]);
+
+  const resetAnimation = useCallback(() => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    setIsAnimating(false);
+    setIsStarted(false);
+    setStars(prev => prev.map(s => ({ ...s, active: false })));
+    progressRef.current = 0;
+  }, []);
+
+  // 컴포넌트 언마운트 시 정리
+  useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [activeStars]);
+  }, []);
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
@@ -130,6 +156,33 @@ export default function ScoreView() {
             </div>
           );
         })}
+      </div>
+      
+      <div className="fixed bottom-4 right-4 flex gap-4">
+        <Button
+          onClick={resetAnimation}
+          disabled={!isStarted}
+          className={cn(
+            "px-6 py-3 text-lg font-bold",
+            !isStarted
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-red-600 hover:bg-red-700"
+          )}
+        >
+          초기화
+        </Button>
+        <Button
+          onClick={startAnimation}
+          disabled={isAnimating || (isStarted && !isAnimating)}
+          className={cn(
+            "px-6 py-3 text-lg font-bold",
+            isAnimating || (isStarted && !isAnimating)
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-purple-600 hover:bg-purple-700"
+          )}
+        >
+          {isAnimating ? "표시 중..." : isStarted ? "완료" : "시작"}
+        </Button>
       </div>
     </div>
   );
