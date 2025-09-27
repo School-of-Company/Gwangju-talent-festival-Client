@@ -13,9 +13,10 @@ import TeamSlide from "@/widgets/list/ui/TeamSlide";
 export default function ListView() {
   const [item, setItem] = useState(0);
   const { data, isError, error } = useGetTeams();
+  const list = data?.slice().sort((a, b) => (a.team_id ?? 0) - (b.team_id ?? 0));
 
   if (isError) toast.error(error.message ?? "팀을 불러오는데 실패했습니다");
-  const currentId = data ? String(data[item]?.team_id ?? "0") : "0";
+  const currentId = list ? String(list[item]?.team_id ?? "0") : "0";
   return (
     <div className="px-80 w-full">
       <MiniHeader label="관리자" />
@@ -23,10 +24,10 @@ export default function ListView() {
         <div className="flex gap-[44px]">
           <Wrapper label="현재 상태">
             <TeamSlide
-              length={data?.length ?? 10}
-              voteCount={data ? (data[item]?.star ?? 0) : 0}
-              status={data ? (data[item]?.vote_status ?? "PENDING") : "PENDING"}
-              teamName={data ? (data[item]?.team_name ?? "팀") : "팀"}
+              length={list?.length ?? 10}
+              voteCount={list ? (list[item]?.star ?? 0) : 0}
+              status={list ? (list[item]?.vote_status ?? "PENDING") : "PENDING"}
+              teamName={list ? (list[item]?.team_name ?? "팀") : "팀"}
               setItem={setItem}
               item={item}
             />
@@ -35,7 +36,7 @@ export default function ListView() {
             <Wrapper label="투표 제어">
               <small className="text-caption2r text-center text-gray-500">현재 투표 팀</small>
               <h3 className="text-body2b text-center">
-                {data ? (data[item]?.team_name ?? "팀 이름") : "팀 이름"}
+                {list ? (list[item]?.team_name ?? "팀 이름") : "팀 이름"}
               </h3>
               <Button onClick={() => currentId && openVote(currentId)}>투표 시작</Button>
               <Button variant="third" onClick={() => currentId && closeVote(currentId)}>
@@ -46,8 +47,8 @@ export default function ListView() {
         </div>
         <Wrapper label="팀">
           <div className="flex gap-28 flex-wrap">
-            {data ? (
-              data
+            {list ? (
+              list
                 .slice()
                 .sort((a, b) => (a.team_id ?? 0) - (b.team_id ?? 0))
                 .map(v => (
