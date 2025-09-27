@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Star from "@/shared/asset/svg/Star";
 import { useGetVote } from "@/shared/model/useGetVote";
 import { ease } from "@/entities/score/lib/ease";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 const COLUMNS = 17;
 const ROWS = 17;
@@ -19,11 +19,15 @@ type StarCell = { id: number; active: boolean };
 
 export default function ScoreView() {
   const { id } = useParams<{ id: string }>();
-  const { data, error, isError } = useGetVote(id);
+  const searchParams = useSearchParams();
+  const { data } = useGetVote(id);
   
-  const fallbackScore = SCORES[Number(id) - 1] || 0;
+  const forceScore = searchParams.get('score');
+  const forcedScoreValue = forceScore ? parseInt(forceScore, 10) : null;
+  
   const apiScore = data?.star ?? 0;
-  const finalScore = isError || error ? fallbackScore : apiScore;
+  
+  const finalScore = forcedScoreValue !== null && !isNaN(forcedScoreValue) ? forcedScoreValue : apiScore;
   
   const activeStars = Math.min(finalScore, TOTAL_STARS);
   const [stars, setStars] = useState<StarCell[]>(() =>
@@ -80,7 +84,7 @@ export default function ScoreView() {
     <div className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
       <div className="my-28 text-center">
         <h1 style={{ fontSize: "15rem" }} className="md:text-6xl font-bold text-white mb-4">
-          {(isError || error) ? TEAMS[Number(id) - 1] : (data?.team_name || TEAMS[Number(id) - 1])}
+          {data?.team_name || TEAMS[Number(id) - 1]}
         </h1>
       </div>
       <div
