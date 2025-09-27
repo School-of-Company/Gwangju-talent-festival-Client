@@ -8,9 +8,12 @@ import { useParams } from "next/navigation";
 
 const COLUMNS = 16;
 const ROWS = 19;
-const GAP = "1px";
+const GAP = "2px";
 const TOTAL_STARS = COLUMNS * ROWS;
-const STAR_SIZE = 70;
+const STAR_SIZE = 100;
+
+const TEAMS = ['신가밴드', '라온', '야간합주실', '곽서영', 'METAPHOR', 'ALL', '구각와니', '신준', 'UNIVERSE', '정은서', '열정의 하마']
+const SCORES = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0]
 
 type StarCell = { id: number; active: boolean };
 
@@ -19,7 +22,7 @@ export default function ScoreView() {
   const { data } = useGetVote(id);
   const activeStars = Math.min(data?.star ?? 0, TOTAL_STARS);
   const [stars, setStars] = useState<StarCell[]>(() =>
-    Array.from({ length: TOTAL_STARS }, (_, i) => ({ id: i, active: false })),
+    Array.from({ length: TOTAL_STARS || SCORES[Number(id) - 1] }, (_, i) => ({ id: i, active: false })),
   );
 
   const rafRef = useRef<number | null>(null);
@@ -72,7 +75,7 @@ export default function ScoreView() {
     <div className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
       <div className="my-28 text-center">
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-          {data?.team_name || "Unknown Team"}
+          {data?.team_name || TEAMS[Number(id) - 1]}
         </h1>
       </div>
       <div
