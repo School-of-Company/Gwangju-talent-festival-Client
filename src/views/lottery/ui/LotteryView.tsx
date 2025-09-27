@@ -149,9 +149,9 @@ const LotteryView = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-800 p-4">
+    <div className="min-h-screen bg-black p-4">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-gray-800 p-6 mb-6 mt-52">
+        <div className="p-6 mb-6 mt-52">
           <LotterySeatGrid
             layout={null}
             lotterySeats={allSeats}
@@ -162,7 +162,7 @@ const LotteryView = () => {
         </div>
 
         {(revealedSeats.length > 0 || currentTarget) && (
-          <div className="p-6 mt-6 border bg-gray-800">
+          <div className="p-6 mt-6 border bg-black">
             <div className="flex flex-wrap justify-center gap-2 mx-4">
               {revealedSeats.map((s) => (
                 <span
@@ -183,7 +183,7 @@ const LotteryView = () => {
             </div>
           </div>
         )}
-        <div className="bg-gray-800 p-6">
+        <div className="bg-black p-6">
           <div className="flex gap-4 justify-center">
             <Button
               onClick={handleStartLottery}
