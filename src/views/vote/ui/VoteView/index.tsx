@@ -2,17 +2,30 @@
 
 import { toast } from "sonner";
 import { postVote } from "../../api/postVote";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import VoteButton from "@/shared/asset/svg/VoteButton";
 import { Button } from "@/shared/ui";
 import { useGetVote } from "@/shared/model/useGetVote";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { getIdFromHash, isValidVoteHash } from "@/shared/config/voteHashMapping";
 
 export default function VoteView() {
-  const { id } = useParams<{ id: string }>();
-  const { data, isError, error } = useGetVote(id ?? "");
+  const { id: hashId } = useParams<{ id: string }>();
+  const router = useRouter();
   const [score, setScore] = useState([true, false, false]);
   const [isSuccess, setIsSuccess] = useState(false);
+  
+  const actualId = hashId ? getIdFromHash(hashId) : null;
+  
+  useEffect(() => {
+    if (hashId && !isValidVoteHash(hashId)) {
+      router.replace('/404');
+      return;
+    }
+  }, [hashId, router]);
+  
+  const { data, isError, error } = useGetVote(actualId ?? "");
+  
   if (isError) toast.error(error.message ?? "현재 투표를 불러오는데 실패했습니다");
 
   const handleVote = async () => {
