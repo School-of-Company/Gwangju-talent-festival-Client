@@ -163,7 +163,7 @@ export default function ScoreView() {
           onClick={resetAnimation}
           disabled={!isStarted}
           className={cn(
-            "px-6 py-3 text-lg font-bold",
+            "px-28 py-24 text-body1b font-bold",
             !isStarted
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-red-600 hover:bg-red-700"
@@ -175,7 +175,7 @@ export default function ScoreView() {
           onClick={startAnimation}
           disabled={isAnimating || (isStarted && !isAnimating)}
           className={cn(
-            "px-6 py-3 text-lg font-bold",
+            "px-28 py-24 text-body1b font-bold",
             isAnimating || (isStarted && !isAnimating)
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-purple-600 hover:bg-purple-700"
