@@ -47,15 +47,18 @@ export default function ListView() {
         <Wrapper label="팀">
           <div className="flex gap-28 flex-wrap">
             {data ? (
-              data.map(v => (
-                <TeamCard
-                  voteCount={v.star ?? 0}
-                  vote_status={v.vote_status ?? "PENDING"}
-                  teamId={v.team_id ?? "0"}
-                  teamName={v.team_name ?? "팀"}
-                  key={v.team_id}
-                />
-              ))
+              data
+                .slice()
+                .sort((a, b) => (a.team_id ?? 0) - (b.team_id ?? 0))
+                .map(v => (
+                  <TeamCard
+                    voteCount={v.star ?? 0}
+                    vote_status={v.vote_status ?? "PENDING"}
+                    teamId={v.team_id ?? "0"}
+                    teamName={v.team_name ?? "팀"}
+                    key={v.team_id}
+                  />
+                ))
             ) : (
               <p className="text-gray-500">팀 데이터가 없습니다</p>
             )}
