@@ -14,7 +14,20 @@ const GAP = "1px";
 const TOTAL_STARS = COLUMNS * ROWS;
 const STAR_SIZE = 225;
 
-const TEAMS = ['신가밴드', '라온', '야간합주실', '곽서영', 'METAPHOR', 'ALL', '구각와니', '신준', 'UNIVERSE', '정은서', '열정의 하마', '아']
+const TEAMS = [
+  "신가밴드",
+  "라온",
+  "야간합주실",
+  "곽서영",
+  "METAPHOR",
+  "ALL",
+  "구각와니",
+  "신준",
+  "UNIVERSE",
+  "정은서",
+  "열정의 하마",
+  "아",
+];
 
 type StarCell = { id: number; active: boolean };
 
@@ -22,19 +35,20 @@ export default function ScoreView() {
   const { id } = useParams<{ id: string }>();
   const searchParams = useSearchParams();
   const { data } = useGetVote(id);
-  
-  const forceScore = searchParams.get('score');
+
+  const forceScore = searchParams.get("score");
   const forcedScoreValue = forceScore ? parseInt(forceScore, 10) : null;
-  
+
   const apiScore = data?.star ?? 0;
-  
-  const finalScore = forcedScoreValue !== null && !isNaN(forcedScoreValue) ? forcedScoreValue : apiScore;
-  
+
+  const finalScore =
+    forcedScoreValue !== null && !isNaN(forcedScoreValue) ? forcedScoreValue : apiScore;
+
   const activeStars = Math.min(finalScore, TOTAL_STARS);
   const [stars, setStars] = useState<StarCell[]>(() =>
     Array.from({ length: TOTAL_STARS }, (_, i) => ({ id: i, active: false })),
   );
-  
+
   const [isAnimating, setIsAnimating] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
 
@@ -59,12 +73,12 @@ export default function ScoreView() {
 
   const startAnimation = useCallback(() => {
     if (isAnimating) return;
-    
+
     setIsAnimating(true);
     setIsStarted(true);
     setStars(prev => prev.map(s => ({ ...s, active: false })));
     progressRef.current = 0;
-    
+
     const total = activeStars;
     const duration = Math.max(500, total * 16);
     const start = performance.now();
@@ -157,16 +171,14 @@ export default function ScoreView() {
           );
         })}
       </div>
-      
+
       <div className="fixed bottom-4 right-4 flex gap-4">
         <Button
           onClick={resetAnimation}
           disabled={!isStarted}
           className={cn(
             "px-28 py-24 text-body1b font-bold",
-            !isStarted
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-red-600 hover:bg-red-700"
+            !isStarted ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700",
           )}
         >
           초기화
@@ -178,7 +190,7 @@ export default function ScoreView() {
             "px-28 py-24 text-body1b font-bold",
             isAnimating || (isStarted && !isAnimating)
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-purple-600 hover:bg-purple-700"
+              : "bg-purple-600 hover:bg-purple-700",
           )}
         >
           {isAnimating ? "표시 중..." : isStarted ? "완료" : "시작"}

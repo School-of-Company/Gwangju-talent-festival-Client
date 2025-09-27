@@ -6,7 +6,7 @@ import { ZodError } from "zod";
 
 export const handleSignupFormSubmit = async (
   _previousState: authFormState,
-  formData: FormData
+  formData: FormData,
 ): Promise<authFormState> => {
   const values: SignUpFormValues = {
     phoneNumber: formData.get("phoneNumber")?.toString() || "",

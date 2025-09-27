@@ -29,26 +29,28 @@ export function useMultipleSeatBooking() {
     mutationFn: async (seats: Array<Omit<Seat, "status">>) => {
       const bookingPromises = seats.map(seat => seatBooking(seat));
       const results = await Promise.allSettled(bookingPromises);
-      
-      const successful = results.filter(result => result.status === 'fulfilled');
-      const failed = results.filter(result => result.status === 'rejected');
+
+      const successful = results.filter(result => result.status === "fulfilled");
+      const failed = results.filter(result => result.status === "rejected");
 
       if (failed.length > 0) {
-        const errorMessages = failed.map((result, index) => {
-          if (result.status === 'rejected') {
-            const seat = seats[index];
-            return `${seat.section}${seat.seatNumber} 좌석 예매 실패`;
-          }
-          return '';
-        }).filter(Boolean);
-        
-        throw new Error(`일부 좌석 예매에 실패했습니다: ${errorMessages.join(', ')}`);
+        const errorMessages = failed
+          .map((result, index) => {
+            if (result.status === "rejected") {
+              const seat = seats[index];
+              return `${seat.section}${seat.seatNumber} 좌석 예매 실패`;
+            }
+            return "";
+          })
+          .filter(Boolean);
+
+        throw new Error(`일부 좌석 예매에 실패했습니다: ${errorMessages.join(", ")}`);
       }
 
       return {
         success: true,
         message: `${successful.length}개 좌석이 성공적으로 예매되었습니다.`,
-        bookedSeats: seats
+        bookedSeats: seats,
       };
     },
     onSuccess: (result, vars) => {
@@ -56,10 +58,10 @@ export function useMultipleSeatBooking() {
       sections.forEach(section => {
         queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(section) });
       });
-      
+
       queryClient.invalidateQueries({ queryKey: ["mySeat"] });
       queryClient.invalidateQueries({ queryKey: ["mySeats"] });
-      
+
       toast.success(result.message);
     },
     onError: error => {

@@ -14,10 +14,11 @@ export const cancelSeatBooking = async (data: Omit<Seat, "status">) => {
     return { data: response.data };
   } catch (error: unknown) {
     const axiosError = error as AxiosError;
-    const errorMessage = axiosError?.response?.data && 
-      typeof axiosError.response.data === 'object' && 
-      'message' in axiosError.response.data 
-        ? (axiosError.response.data as { message: string }).message 
+    const errorMessage =
+      axiosError?.response?.data &&
+      typeof axiosError.response.data === "object" &&
+      "message" in axiosError.response.data
+        ? (axiosError.response.data as { message: string }).message
         : "좌석 취소에 실패했습니다.";
     throw new Error(errorMessage);
   }

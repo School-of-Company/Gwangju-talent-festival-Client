@@ -9,7 +9,7 @@ export async function apiHandler(
   endpoint: string,
   method: ApiMethod = "POST",
   successStatus: number = 200,
-  additionalHeaders?: Record<string, string>
+  additionalHeaders?: Record<string, string>,
 ) {
   try {
     let body = null;
@@ -20,7 +20,7 @@ export async function apiHandler(
         console.log("No body or invalid JSON in request");
       }
     }
-    
+
     const url = `${BASE_URL}${endpoint}`;
 
     const headers: Record<string, string> = {

@@ -1,42 +1,45 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-export const runtime = 'nodejs';
+export const runtime = "nodejs";
 
 export async function GET(request: Request) {
   try {
     const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/seat/changes`;
-    
-    const origin = request.headers.get('origin') || 'http://localhost:3000';
-    
-    const cookie = request.headers.get('cookie');
+
+    const origin = request.headers.get("origin") || "http://localhost:3000";
+
+    const cookie = request.headers.get("cookie");
     const requestHeaders: HeadersInit = {
-      'Accept': 'text/event-stream',
+      Accept: "text/event-stream",
     };
-    
+
     if (cookie) {
-      requestHeaders['Cookie'] = cookie;
+      requestHeaders["Cookie"] = cookie;
     }
-    
+
     const response = await fetch(backendUrl, {
       headers: requestHeaders,
-      credentials: 'include',
+      credentials: "include",
     });
 
     if (!response.ok) {
-      return new NextResponse(`Backend connection failed: ${response.status} ${response.statusText}`, { 
-        status: response.status 
-      });
+      return new NextResponse(
+        `Backend connection failed: ${response.status} ${response.statusText}`,
+        {
+          status: response.status,
+        },
+      );
     }
 
     const responseHeaders = new Headers();
-    responseHeaders.set('Content-Type', 'text/event-stream; charset=utf-8');
-    responseHeaders.set('Cache-Control', 'no-cache, no-transform');
-    responseHeaders.set('Connection', 'keep-alive');
-    responseHeaders.set('Transfer-Encoding', 'chunked');
-    responseHeaders.set('Access-Control-Allow-Origin', origin);
-    responseHeaders.set('Access-Control-Allow-Methods', 'GET');
-    responseHeaders.set('Access-Control-Allow-Headers', 'Cache-Control, Cookie');
-    responseHeaders.set('Access-Control-Allow-Credentials', 'true');
+    responseHeaders.set("Content-Type", "text/event-stream; charset=utf-8");
+    responseHeaders.set("Cache-Control", "no-cache, no-transform");
+    responseHeaders.set("Connection", "keep-alive");
+    responseHeaders.set("Transfer-Encoding", "chunked");
+    responseHeaders.set("Access-Control-Allow-Origin", origin);
+    responseHeaders.set("Access-Control-Allow-Methods", "GET");
+    responseHeaders.set("Access-Control-Allow-Headers", "Cache-Control, Cookie");
+    responseHeaders.set("Access-Control-Allow-Credentials", "true");
 
     const stream = new ReadableStream({
       async start(controller) {
@@ -67,6 +70,6 @@ export async function GET(request: Request) {
     return new NextResponse(stream, { headers: responseHeaders });
   } catch (error) {
     console.error(error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

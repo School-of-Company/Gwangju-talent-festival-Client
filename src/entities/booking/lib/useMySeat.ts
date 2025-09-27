@@ -20,12 +20,12 @@ export const useMySeat = () => {
       setUserLoggedIn(isLoggedIn());
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('focus', handleFocus);
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("focus", handleFocus);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("focus", handleFocus);
     };
   }, []);
 
@@ -54,12 +54,12 @@ export const useMySeats = () => {
       setUserLoggedIn(isLoggedIn());
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('focus', handleFocus);
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("focus", handleFocus);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("focus", handleFocus);
     };
   }, []);
 
@@ -85,7 +85,7 @@ export const useMyBookedSeats = () => {
   }, []);
 
   const isPerformer = role === "ROLE_PERFORMER";
-  
+
   const singleSeatQueryWithCondition = useQuery<Seat | null, Error, Seat | null>({
     queryKey: ["mySeat"],
     queryFn: () => getMySeat(),
@@ -101,7 +101,7 @@ export const useMyBookedSeats = () => {
     gcTime: 1000 * 60 * 10,
     enabled: isClient && isPerformer,
   });
-  
+
   if (!isClient) {
     return {
       data: [],

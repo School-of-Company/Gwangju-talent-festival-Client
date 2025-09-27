@@ -9,17 +9,18 @@ export async function getSeatState(
 ): Promise<AllSeatsApiResponse | SectionSeatsApiResponse> {
   try {
     const url = `/api/seat${section ? `?section=${section}` : "/all"}`;
-    
+
     const response = await axios.get<AllSeatsApiResponse | SectionSeatsApiResponse>(url);
 
     return response.data;
   } catch (error: unknown) {
     const axiosError = error as AxiosError;
-    const errorMessage = axiosError?.response?.data && 
-      typeof axiosError.response.data === 'object' && 
-      'message' in axiosError.response.data 
-        ? (axiosError.response.data as { message: string }).message 
-        : axiosError?.response?.status 
+    const errorMessage =
+      axiosError?.response?.data &&
+      typeof axiosError.response.data === "object" &&
+      "message" in axiosError.response.data
+        ? (axiosError.response.data as { message: string }).message
+        : axiosError?.response?.status
           ? `HTTP ${axiosError.response.status}`
           : "Unknown error";
     throw new Error(errorMessage);

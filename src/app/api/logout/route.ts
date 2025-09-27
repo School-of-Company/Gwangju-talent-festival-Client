@@ -2,9 +2,9 @@ import { NextRequest } from "next/server";
 import { apiHandler } from "@/shared/utils/api";
 
 export async function DELETE(request: NextRequest) {
-  const refreshTokenHeader = request.headers.get("refresh-token") || 
-                            request.headers.get("Refresh-Token");
-  
+  const refreshTokenHeader =
+    request.headers.get("refresh-token") || request.headers.get("Refresh-Token");
+
   if (!refreshTokenHeader) {
     return new Response(JSON.stringify({ message: "Refresh token is required" }), {
       status: 400,
@@ -12,11 +12,7 @@ export async function DELETE(request: NextRequest) {
     });
   }
 
-  return apiHandler(
-    request,
-    "/auth/logout",
-    "DELETE",
-    200,
-    { "Refresh-Token": refreshTokenHeader }
-  );
+  return apiHandler(request, "/auth/logout", "DELETE", 200, {
+    "Refresh-Token": refreshTokenHeader,
+  });
 }
