@@ -153,7 +153,7 @@ const BookingPage = () => {
         <Button
           className="fixed bottom-[48px] w-[375px] h-[48px]"
           onClick={handleBookingClick}
-          disabled={isPerformer ? (!canBook || maxSelectableSeats === 0) : !isComplete}
+          disabled={isPerformer ? !canBook || maxSelectableSeats === 0 : !isComplete}
         >
           {getButtonText()}
         </Button>

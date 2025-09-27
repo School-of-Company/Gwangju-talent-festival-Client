@@ -29,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               className,
             )}
             placeholder={placeholder}
-            type={(type === "password") ? (showPassword ? "text" : "password") : type}
+            type={type === "password" ? (showPassword ? "text" : "password") : type}
             ref={ref}
             {...props}
           />
@@ -40,9 +40,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               className="absolute right-[1rem] top-1/2 transform -translate-y-1/2 text-gray-500"
             >
               {showPassword ? (
-                <EyeShow color={colors.gray[400]}/>
+                <EyeShow color={colors.gray[400]} />
               ) : (
-                <EyeHide color={colors.gray[400]}/>
+                <EyeHide color={colors.gray[400]} />
               )}
             </button>
           )}

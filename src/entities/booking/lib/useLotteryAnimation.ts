@@ -7,10 +7,10 @@ interface UseLotteryAnimationProps {
   interval?: number;
 }
 
-export const useLotteryAnimation = ({ 
-  seats, 
-  duration = 3000, 
-  interval = 100 
+export const useLotteryAnimation = ({
+  seats,
+  duration = 3000,
+  interval = 100,
 }: UseLotteryAnimationProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [currentSeat, setCurrentSeat] = useState<Seat | null>(null);
@@ -21,13 +21,13 @@ export const useLotteryAnimation = ({
 
     setIsAnimating(true);
     setFinalSeat(null);
-    
+
     const startTime = Date.now();
     const endTime = startTime + duration;
-    
+
     const animationInterval = setInterval(() => {
       const now = Date.now();
-      
+
       if (now >= endTime) {
         const randomIndex = Math.floor(Math.random() * seats.length);
         const selectedSeat = seats[randomIndex];

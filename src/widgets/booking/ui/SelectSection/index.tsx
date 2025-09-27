@@ -13,7 +13,10 @@ import {
   SEAT_INFO,
   SEAT_STATUS,
 } from "@/entities/booking/model/types";
-import { usePrefetchSeatCaches, useAllSectionsSeatState } from "@/entities/booking/lib/useSeatState";
+import {
+  usePrefetchSeatCaches,
+  useAllSectionsSeatState,
+} from "@/entities/booking/lib/useSeatState";
 import { useSeatChangeSSE } from "@/entities/booking/lib/useSeatChangeSSE";
 import { toast } from "sonner";
 
@@ -27,40 +30,51 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
   const queryClient = useQueryClient();
 
   const { isLoading: isPrefetching, error: prefetchError } = usePrefetchSeatCaches();
-  const { data: allSeats, isLoading: isAllSeatsLoading, error: allSeatsError } = useAllSectionsSeatState();
+  const {
+    data: allSeats,
+    isLoading: isAllSeatsLoading,
+    error: allSeatsError,
+  } = useAllSectionsSeatState();
 
+  const handleSeatChange = useCallback(
+    (event: { seat_section: Section; seat_number: number; is_available: boolean }) => {
+      const cachedSeats = queryClient.getQueryData<Seat[]>(
+        seatQueryKeys.seatState(event.seat_section),
+      );
+      if (cachedSeats) {
+        const updatedSeats = cachedSeats.map(seat => {
+          if (seat.seatNumber === event.seat_number.toString()) {
+            const newStatus = event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED;
+            return {
+              ...seat,
+              status: newStatus,
+            };
+          }
+          return seat;
+        });
+        queryClient.setQueryData(seatQueryKeys.seatState(event.seat_section), updatedSeats);
+      }
 
-  const handleSeatChange = useCallback((event: { seat_section: Section; seat_number: number; is_available: boolean }) => {
-    const cachedSeats = queryClient.getQueryData<Seat[]>(seatQueryKeys.seatState(event.seat_section));
-    if (cachedSeats) {
-      const updatedSeats = cachedSeats.map(seat => {
-        if (seat.seatNumber === event.seat_number.toString()) {
-          const newStatus = event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED;
-          return {
-            ...seat,
-            status: newStatus,
-          };
-        }
-        return seat;
-      });
-      queryClient.setQueryData(seatQueryKeys.seatState(event.seat_section), updatedSeats);
-    }
-    
-    const allSeatsCache = queryClient.getQueryData<Seat[]>(["allSectionsSeatState"]);
-    if (allSeatsCache) {
-      const updatedAllSeats = allSeatsCache.map(seat => {
-        if (seat.section === event.seat_section && seat.seatNumber === event.seat_number.toString()) {
-          const newStatus = event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED;
-          return {
-            ...seat,
-            status: newStatus,
-          };
-        }
-        return seat;
-      });
-      queryClient.setQueryData(["allSectionsSeatState"], updatedAllSeats);
-    }
-  }, [queryClient]);
+      const allSeatsCache = queryClient.getQueryData<Seat[]>(["allSectionsSeatState"]);
+      if (allSeatsCache) {
+        const updatedAllSeats = allSeatsCache.map(seat => {
+          if (
+            seat.section === event.seat_section &&
+            seat.seatNumber === event.seat_number.toString()
+          ) {
+            const newStatus = event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED;
+            return {
+              ...seat,
+              status: newStatus,
+            };
+          }
+          return seat;
+        });
+        queryClient.setQueryData(["allSectionsSeatState"], updatedAllSeats);
+      }
+    },
+    [queryClient],
+  );
 
   useSeatChangeSSE({
     onSeatChange: handleSeatChange,
@@ -91,14 +105,10 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
       queryKey: seatQueryKeys.seatState(section),
       enabled: false,
       staleTime: 0,
-    }))
+    })),
   });
 
-  const sectionQueriesData = useMemo(() => 
-    sectionQueries.map(q => q.data), 
-    [sectionQueries]
-  );
-  
+  const sectionQueriesData = useMemo(() => sectionQueries.map(q => q.data), [sectionQueries]);
 
   const seatInfoMap = useMemo(() => {
     const map: Record<Section, string> = {} as Record<Section, string>;
@@ -110,14 +120,14 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
         const sectionSeats = allSeats.filter(seat => seat.section === section);
         const occupied = sectionSeats.filter(seat => seat.status === SEAT_STATUS.OCCUPIED).length;
         const available = total - occupied;
-        
+
         map[section] = `${available}/${total}`;
       });
     } else {
       SECTIONS.forEach((section, index) => {
         const total = SEAT_INFO[section].total;
         const cachedSeats = sectionQueriesData[index] as Seat[] | undefined;
-        
+
         if (cachedSeats) {
           const occupied = cachedSeats.filter(seat => seat.status === SEAT_STATUS.OCCUPIED).length;
           map[section] = `${total - occupied}/${total}`;
@@ -127,12 +137,7 @@ export const SelectSection = memo<SelectSectionProps>(({ onSectionSelect, classN
       });
     }
     return map;
-  }, [
-    allSeats,
-    sectionQueriesData,
-    isPrefetching,
-    isAllSeatsLoading
-  ]);
+  }, [allSeats, sectionQueriesData, isPrefetching, isAllSeatsLoading]);
 
   return (
     <div className={cn("w-full", className)}>

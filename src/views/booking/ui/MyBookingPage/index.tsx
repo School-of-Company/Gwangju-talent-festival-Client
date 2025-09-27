@@ -21,11 +21,11 @@ const MyBookingPage = () => {
   const queryClient = useQueryClient();
   const isCancelingRef = useRef(false);
   const layout = null;
-  
+
   const canSelectIndividualSeats = isMultiple && seats.length >= 2;
 
   useEffect(() => {
-    if (error) toast.error(stringifyError(error)); 
+    if (error) toast.error(stringifyError(error));
   }, [error]);
 
   useEffect(() => {
@@ -35,46 +35,51 @@ const MyBookingPage = () => {
     }
   }, [isLoading, seats.length, router]);
 
-  const handleIndividualSeatCancel = useCallback(async (seat: Seat) => {
-    isCancelingRef.current = true;
-    
-    const originalSeats = seats;
-    const updatedSeats = seats.filter(s => !(s.section === seat.section && s.seatNumber === seat.seatNumber));
-    
-    queryClient.setQueryData(["mySeats"], updatedSeats);
-    if (updatedSeats.length === 0) {
-      queryClient.setQueryData(["mySeat"], null);
-    }
-    
-    try {
-      await cancelPerformerSeats([seat]);
-      toast.success(`${seat.section}${seat.seatNumber} 좌석 예매가 취소되었습니다.`);
-      
-      queryClient.invalidateQueries({ queryKey: ["mySeat"] });
-      queryClient.invalidateQueries({ queryKey: ["mySeats"] });
-      
+  const handleIndividualSeatCancel = useCallback(
+    async (seat: Seat) => {
+      isCancelingRef.current = true;
+
+      const originalSeats = seats;
+      const updatedSeats = seats.filter(
+        s => !(s.section === seat.section && s.seatNumber === seat.seatNumber),
+      );
+
+      queryClient.setQueryData(["mySeats"], updatedSeats);
       if (updatedSeats.length === 0) {
-        router.push("/home");
+        queryClient.setQueryData(["mySeat"], null);
       }
-    } catch (error) {
-      queryClient.setQueryData(["mySeats"], originalSeats);
-      if (originalSeats.length > 0) {
-        queryClient.setQueryData(["mySeat"], originalSeats[0]);
+
+      try {
+        await cancelPerformerSeats([seat]);
+        toast.success(`${seat.section}${seat.seatNumber} 좌석 예매가 취소되었습니다.`);
+
+        queryClient.invalidateQueries({ queryKey: ["mySeat"] });
+        queryClient.invalidateQueries({ queryKey: ["mySeats"] });
+
+        if (updatedSeats.length === 0) {
+          router.push("/home");
+        }
+      } catch (error) {
+        queryClient.setQueryData(["mySeats"], originalSeats);
+        if (originalSeats.length > 0) {
+          queryClient.setQueryData(["mySeat"], originalSeats[0]);
+        }
+
+        toast.error(stringifyError(error as Error));
+        isCancelingRef.current = false;
       }
-      
-      toast.error(stringifyError(error as Error));
-      isCancelingRef.current = false;
-    }
-  }, [seats, router, queryClient]);
+    },
+    [seats, router, queryClient],
+  );
 
   const handleAllCancelClick = useCallback(async () => {
     isCancelingRef.current = true;
-    
+
     const originalSeats = seats;
-    
+
     queryClient.setQueryData(["mySeats"], []);
     queryClient.setQueryData(["mySeat"], null);
-    
+
     try {
       if (isMultiple) {
         await cancelPerformerSeats(seats);
@@ -83,9 +88,9 @@ const MyBookingPage = () => {
         await cancelSeatBooking(seats[0]);
         toast.success("예매가 취소되었습니다.");
       }
-      
+
       router.push("/home");
-      
+
       queryClient.invalidateQueries({ queryKey: ["mySeat"] });
       queryClient.invalidateQueries({ queryKey: ["mySeats"] });
     } catch (error) {
@@ -93,9 +98,9 @@ const MyBookingPage = () => {
       if (originalSeats.length > 0) {
         queryClient.setQueryData(["mySeat"], originalSeats[0]);
       }
-      
+
       toast.error(stringifyError(error as Error));
-      isCancelingRef.current = false; 
+      isCancelingRef.current = false;
     }
   }, [seats, isMultiple, router, queryClient]);
 
@@ -114,7 +119,7 @@ const MyBookingPage = () => {
       </div>
 
       <div className="w-full">
-        <BookingInfoDisplay 
+        <BookingInfoDisplay
           mySeat={!isMultiple ? seats[0] || null : null}
           mySeats={isMultiple ? seats : undefined}
           className="w-full"
@@ -124,24 +129,29 @@ const MyBookingPage = () => {
       <div className="absolute bottom-[0px] pb-4 left-[50%] -translate-x-1/2 w-[98%] space-y-2">
         {canSelectIndividualSeats ? (
           <>
-            <div className={cn(
-              "grid gap-2", 
-              seats.length === 2 ? "grid-cols-2" : 
-              seats.length === 3 ? "grid-cols-3" : 
-              "grid-cols-2"
-            )}>
-              {seats.map((seat) => (
+            <div
+              className={cn(
+                "grid gap-2",
+                seats.length === 2
+                  ? "grid-cols-2"
+                  : seats.length === 3
+                    ? "grid-cols-3"
+                    : "grid-cols-2",
+              )}
+            >
+              {seats.map(seat => (
                 <Button
                   key={`${seat.section}-${seat.seatNumber}`}
                   className="h-[40px] text-sm"
                   onClick={() => handleIndividualSeatCancel(seat)}
                   disabled={seats.length === 0}
                 >
-                  {seat.section}{seat.seatNumber} 취소
+                  {seat.section}
+                  {seat.seatNumber} 취소
                 </Button>
               ))}
             </div>
-            
+
             <Button
               className="w-full h-[48px] text-white"
               onClick={handleAllCancelClick}

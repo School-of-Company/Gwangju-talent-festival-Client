@@ -47,33 +47,34 @@ const ReservationFifthSection = () => {
       refetchMySeat();
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    
+    window.addEventListener("storage", handleStorageChange);
+
     const handleFocus = () => {
       updateUserRole();
       refetchMySeat();
     };
 
-    window.addEventListener('focus', handleFocus);
+    window.addEventListener("focus", handleFocus);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("focus", handleFocus);
     };
   }, [refetchMySeat]);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      const relevantTicketOpenDate = (userRole === "ROLE_PERFORMER") ? performerTicketOpenDate : ticketOpenDate;
+      const relevantTicketOpenDate =
+        userRole === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate;
       const difference = relevantTicketOpenDate.getTime() - now.getTime();
       setTimeLeft(difference > 0 ? difference : 0);
     };
 
     calculateTimeLeft();
-    
+
     const timer = setInterval(calculateTimeLeft, 1000);
-    
+
     return () => clearInterval(timer);
   }, [userRole]);
 
@@ -118,43 +119,44 @@ const ReservationFifthSection = () => {
           <div className={cn("text-title1b text-main-600 mobile:text-body1b")}>
             {timeLeft > 0 ? (
               formatDateLeft(timeLeft)
-            ) : (
-              mySeat && userRole === "ROLE_PERFORMER" ? (
-                <div className="flex gap-2 w-full">
-                  <Button
-                    className="flex-1"
-                    onClick={() => {
-                      redirect("/booking/my");
-                    }}
-                  >
-                    내 좌석 보기
-                  </Button>
-                  <Button
-                    className="flex-1"
-                    onClick={() => {
-                      redirect("/booking");
-                    }}
-                  >
-                    추가 예매
-                  </Button>
-                </div>
-              ) : (
+            ) : mySeat && userRole === "ROLE_PERFORMER" ? (
+              <div className="flex gap-2 w-full">
                 <Button
-                  className="w-full"
+                  className="flex-1"
                   onClick={() => {
-                    location.href = mySeat ? "/booking/my" : "/booking";
+                    redirect("/booking/my");
                   }}
                 >
-                  {mySeat ? "내 좌석 보러가기" : "예매하기"}
+                  내 좌석 보기
                 </Button>
-              )
+                <Button
+                  className="flex-1"
+                  onClick={() => {
+                    redirect("/booking");
+                  }}
+                >
+                  추가 예매
+                </Button>
+              </div>
+            ) : (
+              <Button
+                className="w-full"
+                onClick={() => {
+                  location.href = mySeat ? "/booking/my" : "/booking";
+                }}
+              >
+                {mySeat ? "내 좌석 보러가기" : "예매하기"}
+              </Button>
             )}
           </div>
 
           <div className={cn("flex justify-center gap-4 items-center")}>
             <span className={cn("text-body2r mobile:text-caption2r")}>티켓오픈</span>
             <span className={cn("text-body2r text-gray-500 mobile:text-caption2r")}>
-              {((userRole === "ROLE_PERFORMER") ? performerTicketOpenDate : ticketOpenDate).toLocaleString("ko-KR", {
+              {(userRole === "ROLE_PERFORMER"
+                ? performerTicketOpenDate
+                : ticketOpenDate
+              ).toLocaleString("ko-KR", {
                 year: "numeric",
                 month: "2-digit",
                 day: "2-digit",

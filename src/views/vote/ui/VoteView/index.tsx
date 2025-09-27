@@ -14,18 +14,18 @@ export default function VoteView() {
   const router = useRouter();
   const [score, setScore] = useState([true, false, false]);
   const [isSuccess, setIsSuccess] = useState(false);
-  
+
   const actualId = hashId ? getIdFromHash(hashId) : null;
-  
+
   useEffect(() => {
     if (hashId && !isValidVoteHash(hashId)) {
-      router.replace('/404');
+      router.replace("/404");
       return;
     }
   }, [hashId, router]);
-  
+
   const { data, isError, error } = useGetVote(actualId ?? "");
-  
+
   if (isError) toast.error(error.message ?? "현재 투표를 불러오는데 실패했습니다");
 
   const handleVote = async () => {
@@ -62,7 +62,9 @@ export default function VoteView() {
             </svg>
           )}
         </div>
-        <small className="text-body2r mb-24 mt-[40px] text-gray-500">방금 공연한 팀에게 별을 선물해 주세요!!</small>
+        <small className="text-body2r mb-24 mt-[40px] text-gray-500">
+          방금 공연한 팀에게 별을 선물해 주세요!!
+        </small>
         <div className="flex sm:gap-24 gap-10 mb-[60px]">
           <VoteButton onClick={() => [setScore([true, false, false])]} isActive={score[0]} />
           <VoteButton onClick={() => [setScore([true, true, false])]} isActive={score[1]} />

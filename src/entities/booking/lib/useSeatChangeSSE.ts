@@ -11,7 +11,7 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
   const { onSeatChange, enabled = true } = options;
   const eventSourceRef = useRef<EventSource | null>(null);
   const onSeatChangeRef = useRef(onSeatChange);
-  
+
   useEffect(() => {
     onSeatChangeRef.current = onSeatChange;
   }, [onSeatChange]);
@@ -19,21 +19,21 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
   useEffect(() => {
     if (!enabled) return;
 
-    const eventSource = new EventSource("/api/seat/changes", { 
-      withCredentials: true 
+    const eventSource = new EventSource("/api/seat/changes", {
+      withCredentials: true,
     });
     eventSourceRef.current = eventSource;
 
-    eventSource.addEventListener('SEAT_CHANGE', (event) => {
+    eventSource.addEventListener("SEAT_CHANGE", event => {
       try {
         const data = JSON.parse(event.data);
-        
+
         const seatChangeEvent: SeatChangeEvent = {
           seat_section: data.seat_section,
           seat_number: data.seat_number,
           is_available: data.is_available,
         };
-        
+
         if (onSeatChangeRef.current) {
           try {
             onSeatChangeRef.current(seatChangeEvent);
@@ -46,7 +46,7 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
       }
     });
 
-    eventSource.onerror = (error) => {
+    eventSource.onerror = error => {
       throw error;
       toast.error("실시간 좌석 정보 연결에 실패했습니다.");
     };

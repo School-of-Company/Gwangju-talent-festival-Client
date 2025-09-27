@@ -42,10 +42,9 @@ export const handleSigninFormSubmit = async (
 
     const urlParams = new URLSearchParams(window.location.search);
     const nextParam = urlParams.get("next");
-    
-    const redirectTo = nextParam && nextParam.startsWith("/") && nextParam !== "/signin" 
-      ? nextParam 
-      : "/home";
+
+    const redirectTo =
+      nextParam && nextParam.startsWith("/") && nextParam !== "/signin" ? nextParam : "/home";
 
     return {
       values,

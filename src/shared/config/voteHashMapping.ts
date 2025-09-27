@@ -1,6 +1,6 @@
 export const VOTE_HASH_MAPPING: Record<string, string> = {
   "1": "B86B273",
-  "2": "FF34FC4", 
+  "2": "FF34FC4",
   "3": "E1C3D89",
   "4": "8F14E45",
   "5": "D4735E3",
@@ -10,11 +10,11 @@ export const VOTE_HASH_MAPPING: Record<string, string> = {
   "9": "19E8157",
   "10": "6B86B27",
   "11": "7B52009",
-  "12": "BD307A3"
+  "12": "BD307A3",
 };
 
 export const HASH_TO_ID_MAPPING: Record<string, string> = Object.fromEntries(
-  Object.entries(VOTE_HASH_MAPPING).map(([id, hash]) => [hash, id])
+  Object.entries(VOTE_HASH_MAPPING).map(([id, hash]) => [hash, id]),
 );
 
 export const getHashFromId = (id: string): string | null => {

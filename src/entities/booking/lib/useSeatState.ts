@@ -1,6 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSeatState } from "@/entities/booking/api/getSeatState";
-import { Section, Seat, SEAT_STATUS, getSectionFromKey, SeatChangeEvent } from "@/entities/booking/model/types";
+import {
+  Section,
+  Seat,
+  SEAT_STATUS,
+  getSectionFromKey,
+  SeatChangeEvent,
+} from "@/entities/booking/model/types";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 
 export const seatQueryKeys = {
@@ -67,29 +73,29 @@ export function useAllSectionsSeatState() {
     queryKey: ["allSectionsSeatState"],
     queryFn: async () => {
       const response = await getSeatState();
-      
-      const allSeats: Seat[] = [];
-      
-       (Object.keys(response) as Array<keyof typeof response>).forEach(sectionKey => {
-         const section = getSectionFromKey(sectionKey);
-         const sectionData = response[sectionKey];
 
-         if (sectionData && sectionData.seats && Array.isArray(sectionData.seats)) {
-           const sectionSeats = sectionData.seats;
-           
-           const layout = getSeatLayout(section);
-           const transformedSeats: Seat[] = layout.seats.map((seat, index) => ({
-             ...seat,
-             status:
-               index < sectionSeats.length && sectionSeats[index]
-                 ? SEAT_STATUS.AVAILABLE
-                 : SEAT_STATUS.OCCUPIED,
-           }));
-           allSeats.push(...transformedSeats);
-         } else {
-           console.warn(sectionData);
-         }
-       });
+      const allSeats: Seat[] = [];
+
+      (Object.keys(response) as Array<keyof typeof response>).forEach(sectionKey => {
+        const section = getSectionFromKey(sectionKey);
+        const sectionData = response[sectionKey];
+
+        if (sectionData && sectionData.seats && Array.isArray(sectionData.seats)) {
+          const sectionSeats = sectionData.seats;
+
+          const layout = getSeatLayout(section);
+          const transformedSeats: Seat[] = layout.seats.map((seat, index) => ({
+            ...seat,
+            status:
+              index < sectionSeats.length && sectionSeats[index]
+                ? SEAT_STATUS.AVAILABLE
+                : SEAT_STATUS.OCCUPIED,
+          }));
+          allSeats.push(...transformedSeats);
+        } else {
+          console.warn(sectionData);
+        }
+      });
       return allSeats;
     },
     staleTime: 0,
@@ -99,24 +105,25 @@ export function useAllSectionsSeatState() {
 
 export function updateSeatInCache(
   queryClient: ReturnType<typeof useQueryClient>,
-  seatChangeEvent: SeatChangeEvent
+  seatChangeEvent: SeatChangeEvent,
 ): void {
-  const { seat_section: section, seat_number: seatNumber, is_available: isAvailable } = seatChangeEvent;
-  
-  queryClient.setQueryData<Seat[]>(
-    seatQueryKeys.seatState(section),
-    (oldData) => {
-      if (!oldData) return oldData;
-      
-      return oldData.map((seat) => {
-        if (seat.seatNumber === seatNumber.toString()) {
-          return {
-            ...seat,
-            status: isAvailable ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED,
-          };
-        }
-        return seat;
-      });
-    }
-  );
+  const {
+    seat_section: section,
+    seat_number: seatNumber,
+    is_available: isAvailable,
+  } = seatChangeEvent;
+
+  queryClient.setQueryData<Seat[]>(seatQueryKeys.seatState(section), oldData => {
+    if (!oldData) return oldData;
+
+    return oldData.map(seat => {
+      if (seat.seatNumber === seatNumber.toString()) {
+        return {
+          ...seat,
+          status: isAvailable ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED,
+        };
+      }
+      return seat;
+    });
+  });
 }
