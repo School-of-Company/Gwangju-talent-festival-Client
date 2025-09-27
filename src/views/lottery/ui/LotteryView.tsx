@@ -9,6 +9,7 @@ import { getLotteryConfig, convertToSeats } from "@/entities/booking/model/lotte
 import { Seat, SECTIONS } from "@/entities/booking/model/types";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 import { cn } from "@/shared/utils/cn";
+import { redirect } from "next/navigation";
 
 const ANIM_DURATION = 30;
 const ANIM_INTERVAL = 90;
@@ -151,7 +152,7 @@ const LotteryView = () => {
   return (
     <div className="min-h-screen bg-black p-4">
       <div className="max-w-6xl mx-auto">
-        <div className="p-6 mb-6 mt-52">
+        <div className="p-6 mb-6 mt-8">
           <LotterySeatGrid
             layout={null}
             lotterySeats={allSeats}
@@ -185,6 +186,24 @@ const LotteryView = () => {
         )}
         <div className="bg-black p-6">
           <div className="flex gap-4 justify-center">
+            <div className="flex justify-center gap-2 mb-6 mt-8 w-full bottom-4 absolute">
+              {Array.from({ length: 11 }, (_, i) => i + 1).map((teamNumber) => (
+                <div
+                  key={teamNumber}
+                  className={cn(
+                    "flex items-center justify-center w-full h-24 rounded-md text-body2b font-semibold border-2 transition-colors",
+                    Number(lotteryId) === teamNumber
+                      ? "bg-main-600 text-white text-body3b border-main-800"
+                      : "bg-transparent text-white text-body3r border-gray-400 hover:border-gray-300"
+                  )}
+                  onClick={() => {
+                    redirect(`/admin/lottery/${teamNumber}`);
+                  }}
+                >
+                  {teamNumber}. {TEAMS[teamNumber - 1]}
+                </div>
+              ))}
+            </div>
             <Button
               onClick={handleStartLottery}
               disabled={isBatchRunning || isAnimating || allSeats.length === 0 || resultSeats.length === 0}
@@ -195,7 +214,7 @@ const LotteryView = () => {
                   : "bg-purple-600 hover:bg-purple-700"
               )}
             >
-              {isBatchRunning || isAnimating ? "선택 중..." : `${TEAMS[Number(lotteryId) - 1]} (${lotteryId}) 시작`}
+              {isBatchRunning || isAnimating ? "선택 중..." : `${TEAMS[Number(lotteryId) - 1]} 시작`}
             </Button>
           </div>
         </div>

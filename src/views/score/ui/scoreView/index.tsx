@@ -6,21 +6,26 @@ import { useGetVote } from "@/shared/model/useGetVote";
 import { ease } from "@/entities/score/lib/ease";
 import { useParams } from "next/navigation";
 
-const COLUMNS = 16;
-const ROWS = 19;
-const GAP = "2px";
+const COLUMNS = 17;
+const ROWS = 17;
+const GAP = "1px";
 const TOTAL_STARS = COLUMNS * ROWS;
-const STAR_SIZE = 100;
+const STAR_SIZE = 225;
 
-const TEAMS = ['신가밴드', '라온', '야간합주실', '곽서영', 'METAPHOR', 'ALL', '구각와니', '신준', 'UNIVERSE', '정은서', '열정의 하마']
-const SCORES = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0]
+const TEAMS = ['신가밴드', '라온', '야간합주실', '곽서영', 'METAPHOR', 'ALL', '구각와니', '신준', 'UNIVERSE', '정은서', '열정의 하마', '아']
+const SCORES = [100, 90, 80, 70, 60, 50, 40, 30, 20, 100, 100, 200]
 
 type StarCell = { id: number; active: boolean };
 
 export default function ScoreView() {
   const { id } = useParams<{ id: string }>();
-  const { data } = useGetVote(id);
-  const activeStars = Math.min(data?.star ?? 0, TOTAL_STARS);
+  const { data, error, isError } = useGetVote(id);
+  
+  const fallbackScore = SCORES[Number(id) - 1] || 0;
+  const apiScore = data?.star ?? 0;
+  const finalScore = isError || error ? fallbackScore : apiScore;
+  
+  const activeStars = Math.min(finalScore, TOTAL_STARS);
   const [stars, setStars] = useState<StarCell[]>(() =>
     Array.from({ length: TOTAL_STARS || SCORES[Number(id) - 1] }, (_, i) => ({ id: i, active: false })),
   );
@@ -74,8 +79,8 @@ export default function ScoreView() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
       <div className="my-28 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-          {data?.team_name || TEAMS[Number(id) - 1]}
+        <h1 style={{ fontSize: "15rem" }} className="md:text-6xl font-bold text-white mb-4">
+          {(isError || error) ? TEAMS[Number(id) - 1] : (data?.team_name || TEAMS[Number(id) - 1])}
         </h1>
       </div>
       <div
@@ -83,7 +88,9 @@ export default function ScoreView() {
         style={{
           gridTemplateColumns: `repeat(${COLUMNS}, minmax(0, 1fr))`,
           gap: GAP,
-          width: "min(1200px, 92vw)",
+          width: "min(80vh, 80vw)",
+          height: "min(80vh, 80vw)",
+          aspectRatio: "1 / 1",
         }}
       >
         {stars.map((star, i) => {
