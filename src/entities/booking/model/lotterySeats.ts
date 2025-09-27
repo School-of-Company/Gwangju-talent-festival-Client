@@ -6061,6 +6061,611 @@ export const LOTTERY_SEAT_CONFIGS: Record<string, LotterySeatConfig> = {
       }
     ]
   },
+  "11": {
+    id: "11", 
+    seats: [
+      {
+        "no": 1,
+        "to": "01077524030",
+        "seat_section": "D",
+        "seat_number": 76
+      },
+      {
+        "no": 2,
+        "to": "01093650665",
+        "seat_section": "D",
+        "seat_number": 94
+      },
+      {
+        "no": 3,
+        "to": "01092518785",
+        "seat_section": "B",
+        "seat_number": 66
+      },
+      {
+        "no": 4,
+        "to": "01056193886",
+        "seat_section": "C",
+        "seat_number": 135
+      },
+      {
+        "no": 5,
+        "to": "01020784030",
+        "seat_section": "D",
+        "seat_number": 75
+      },
+      {
+        "no": 6,
+        "to": "01044360814",
+        "seat_section": "I",
+        "seat_number": 24
+      },
+      {
+        "no": 7,
+        "to": "01057788092",
+        "seat_section": "B",
+        "seat_number": 67
+      },
+      {
+        "no": 8,
+        "to": "01042849722",
+        "seat_section": "D",
+        "seat_number": 60
+      },
+      {
+        "no": 9,
+        "to": "01063281063",
+        "seat_section": "G",
+        "seat_number": 4
+      },
+      {
+        "no": 10,
+        "to": "01020874896",
+        "seat_section": "D",
+        "seat_number": 101
+      },
+      {
+        "no": 11,
+        "to": "01086804469",
+        "seat_section": "D",
+        "seat_number": 49
+      },
+      {
+        "no": 12,
+        "to": "01024934250",
+        "seat_section": "D",
+        "seat_number": 95
+      },
+      {
+        "no": 13,
+        "to": "01034352815",
+        "seat_section": "D",
+        "seat_number": 129
+      },
+      {
+        "no": 14,
+        "to": "01083359932",
+        "seat_section": "B",
+        "seat_number": 44
+      },
+      {
+        "no": 15,
+        "to": "01037018554",
+        "seat_section": "B",
+        "seat_number": 42
+      },
+      {
+        "no": 16,
+        "to": "01063318213",
+        "seat_section": "B",
+        "seat_number": 75
+      },
+      {
+        "no": 17,
+        "to": "01057463410",
+        "seat_section": "B",
+        "seat_number": 50
+      },
+      {
+        "no": 18,
+        "to": "01032203689",
+        "seat_section": "B",
+        "seat_number": 53
+      },
+      {
+        "no": 19,
+        "to": "01040433890",
+        "seat_section": "D",
+        "seat_number": 65
+      },
+      {
+        "no": 20,
+        "to": "01046031380",
+        "seat_section": "B",
+        "seat_number": 76
+      },
+      {
+        "no": 20,
+        "to": "01055212016",
+        "seat_section": "B",
+        "seat_number": 89
+      },
+      {
+        "no": 21,
+        "to": "01090533301",
+        "seat_section": "C",
+        "seat_number": 136
+      },
+      {
+        "no": 22,
+        "to": "01051807767",
+        "seat_section": "A",
+        "seat_number": 24
+      },
+      {
+        "no": 23,
+        "to": "01041421468",
+        "seat_section": "B",
+        "seat_number": 48
+      },
+      {
+        "no": 24,
+        "to": "01034934233",
+        "seat_section": "C",
+        "seat_number": 107
+      },
+      {
+        "no": 25,
+        "to": "01057259617",
+        "seat_section": "B",
+        "seat_number": 127
+      },
+      {
+        "no": 26,
+        "to": "01025635691",
+        "seat_section": "B",
+        "seat_number": 90
+      },
+      {
+        "no": 27,
+        "to": "01080144301",
+        "seat_section": "C",
+        "seat_number": 112
+      },
+      {
+        "no": 28,
+        "to": "01081813822",
+        "seat_section": "B",
+        "seat_number": 69
+      },
+      {
+        "no": 29,
+        "to": "01037064280",
+        "seat_section": "B",
+        "seat_number": 120
+      },
+      {
+        "no": 30,
+        "to": "01085019609",
+        "seat_section": "C",
+        "seat_number": 102
+      },
+      {
+        "no": 31,
+        "to": "01055598138",
+        "seat_section": "D",
+        "seat_number": 67
+      },
+      {
+        "no": 32,
+        "to": "01055190770",
+        "seat_section": "G",
+        "seat_number": 10
+      },
+      {
+        "no": 33,
+        "to": "01020779802",
+        "seat_section": "A",
+        "seat_number": 76
+      },
+      {
+        "no": 34,
+        "to": "01085634140",
+        "seat_section": "D",
+        "seat_number": 121
+      },
+      {
+        "no": 35,
+        "to": "01028074995",
+        "seat_section": "D",
+        "seat_number": 46
+      },
+      {
+        "no": 36,
+        "to": "01046046263",
+        "seat_section": "C",
+        "seat_number": 115
+      },
+      {
+        "no": 37,
+        "to": "01039571114",
+        "seat_section": "C",
+        "seat_number": 131
+      },
+      {
+        "no": 38,
+        "to": "01046264905",
+        "seat_section": "D",
+        "seat_number": 54
+      },
+      {
+        "no": 39,
+        "to": "01092994705",
+        "seat_section": "B",
+        "seat_number": 110
+      },
+      {
+        "no": 40,
+        "to": "01077443990",
+        "seat_section": "B",
+        "seat_number": 88
+      },
+      {
+        "no": 41,
+        "to": "01093069617",
+        "seat_section": "B",
+        "seat_number": 128
+      },
+      {
+        "no": 42,
+        "to": "01075410484",
+        "seat_section": "C",
+        "seat_number": 129
+      },
+      {
+        "no": 43,
+        "to": "01057258723",
+        "seat_section": "C",
+        "seat_number": 113
+      },
+      {
+        "no": 44,
+        "to": "01030034968",
+        "seat_section": "C",
+        "seat_number": 121
+      },
+      {
+        "no": 45,
+        "to": "01041194454",
+        "seat_section": "C",
+        "seat_number": 101
+      },
+      {
+        "no": 46,
+        "to": "01034574710",
+        "seat_section": "E",
+        "seat_number": 30
+      },
+      {
+        "no": 47,
+        "to": "01046081276",
+        "seat_section": "B",
+        "seat_number": 119
+      },
+      {
+        "no": 48,
+        "to": "01052611637",
+        "seat_section": "B",
+        "seat_number": 130
+      },
+      {
+        "no": 49,
+        "to": "01056900812",
+        "seat_section": "H",
+        "seat_number": 92
+      },
+      {
+        "no": 50,
+        "to": "01071977531",
+        "seat_section": "C",
+        "seat_number": 110
+      },
+      {
+        "no": 51,
+        "to": "01066358130",
+        "seat_section": "C",
+        "seat_number": 154
+      },
+      {
+        "no": 52,
+        "to": "01096123155",
+        "seat_section": "H",
+        "seat_number": 63
+      },
+      {
+        "no": 53,
+        "to": "01037383059",
+        "seat_section": "I",
+        "seat_number": 1
+      },
+      {
+        "no": 54,
+        "to": "01096016812",
+        "seat_section": "A",
+        "seat_number": 30
+      },
+      {
+        "no": 55,
+        "to": "01074567941",
+        "seat_section": "A",
+        "seat_number": 25
+      },
+      {
+        "no": 56,
+        "to": "01051050736",
+        "seat_section": "C",
+        "seat_number": 100
+      },
+      {
+        "no": 57,
+        "to": "01057988138",
+        "seat_section": "D",
+        "seat_number": 68
+      },
+      {
+        "no": 58,
+        "to": "01079234479",
+        "seat_section": "C",
+        "seat_number": 120
+      },
+      {
+        "no": 59,
+        "to": "01027108138",
+        "seat_section": "D",
+        "seat_number": 70
+      },
+      {
+        "no": 60,
+        "to": "01086008296",
+        "seat_section": "C",
+        "seat_number": 109
+      },
+      {
+        "no": 61,
+        "to": "01077409680",
+        "seat_section": "A",
+        "seat_number": 26
+      },
+      {
+        "no": 62,
+        "to": "01051075915",
+        "seat_section": "C",
+        "seat_number": 141
+      },
+      {
+        "no": 63,
+        "to": "01021621774",
+        "seat_section": "C",
+        "seat_number": 111
+      },
+      {
+        "no": 64,
+        "to": "01031160441",
+        "seat_section": "C",
+        "seat_number": 133
+      },
+      {
+        "no": 65,
+        "to": "01071712811",
+        "seat_section": "C",
+        "seat_number": 105
+      },
+      {
+        "no": 66,
+        "to": "01046320503",
+        "seat_section": "I",
+        "seat_number": 2
+      },
+      {
+        "no": 67,
+        "to": "01053183739",
+        "seat_section": "B",
+        "seat_number": 59
+      },
+      {
+        "no": 68,
+        "to": "01026668325",
+        "seat_section": "D",
+        "seat_number": 92
+      },
+      {
+        "no": 69,
+        "to": "01088672322",
+        "seat_section": "G",
+        "seat_number": 11
+      },
+      {
+        "no": 70,
+        "to": "01066315950",
+        "seat_section": "C",
+        "seat_number": 122
+      },
+      {
+        "no": 71,
+        "to": "01084411013",
+        "seat_section": "D",
+        "seat_number": 50
+      },
+      {
+        "no": 72,
+        "to": "01066285397",
+        "seat_section": "C",
+        "seat_number": 126
+      },
+      {
+        "no": 73,
+        "to": "01041957532",
+        "seat_section": "C",
+        "seat_number": 108
+      },
+      {
+        "no": 74,
+        "to": "01046155852",
+        "seat_section": "A",
+        "seat_number": 77
+      },
+      {
+        "no": 75,
+        "to": "01082041661",
+        "seat_section": "C",
+        "seat_number": 114
+      },
+      {
+        "no": 76,
+        "to": "01086656944",
+        "seat_section": "C",
+        "seat_number": 139
+      },
+      {
+        "no": 77,
+        "to": "01041260852",
+        "seat_section": "D",
+        "seat_number": 45
+      },
+      {
+        "no": 79,
+        "to": "01075997642",
+        "seat_section": "B",
+        "seat_number": 46
+      },
+      {
+        "no": 80,
+        "to": "01093323095",
+        "seat_section": "D",
+        "seat_number": 82
+      },
+      {
+        "no": 81,
+        "to": "01088820403",
+        "seat_section": "D",
+        "seat_number": 71
+      },
+      {
+        "no": 82,
+        "to": "01051211519",
+        "seat_section": "D",
+        "seat_number": 91
+      },
+      {
+        "no": 83,
+        "to": "01085614209",
+        "seat_section": "A",
+        "seat_number": 42
+      },
+      {
+        "no": 84,
+        "to": "01048937393",
+        "seat_section": "D",
+        "seat_number": 128
+      },
+      {
+        "no": 85,
+        "to": "01066836745",
+        "seat_section": "H",
+        "seat_number": 87
+      },
+      {
+        "no": 86,
+        "to": "01074237532",
+        "seat_section": "H",
+        "seat_number": 64
+      },
+      {
+        "no": 87,
+        "to": "01075607138",
+        "seat_section": "C",
+        "seat_number": 153
+      },
+      {
+        "no": 88,
+        "to": "01036048650",
+        "seat_section": "C",
+        "seat_number": 104
+      },
+      {
+        "no": 89,
+        "to": "01049428212",
+        "seat_section": "C",
+        "seat_number": 132
+      },
+      {
+        "no": 90,
+        "to": "01094605765",
+        "seat_section": "C",
+        "seat_number": 144
+      },
+      {
+        "no": 91,
+        "to": "01085072899",
+        "seat_section": "D",
+        "seat_number": 61
+      },
+      {
+        "no": 92,
+        "to": "01085237503",
+        "seat_section": "D",
+        "seat_number": 44
+      },
+      {
+        "no": 93,
+        "to": "01041929965",
+        "seat_section": "B",
+        "seat_number": 129
+      },
+      {
+        "no": 94,
+        "to": "01048740670",
+        "seat_section": "C",
+        "seat_number": 116
+      },
+      {
+        "no": 95,
+        "to": "01085331319",
+        "seat_section": "D",
+        "seat_number": 43
+      },
+      {
+        "no": 96,
+        "to": "01074027654",
+        "seat_section": "D",
+        "seat_number": 57
+      },
+      {
+        "no": 97,
+        "to": "01087367349",
+        "seat_section": "B",
+        "seat_number": 100
+      },
+      {
+        "no": 98,
+        "to": "01072811468",
+        "seat_section": "B",
+        "seat_number": 54
+      },
+      {
+        "no": 99,
+        "to": "01075746356",
+        "seat_section": "C",
+        "seat_number": 127
+      },
+      {
+        "no": 100,
+        "to": "01056393278",
+        "seat_section": "B",
+        "seat_number": 65
+      }
+    ]
+  },
 };
 
 export const getLotteryConfig = (id: string): LotterySeatConfig | null => {
