@@ -10,8 +10,8 @@ import { Seat, SECTIONS } from "@/entities/booking/model/types";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 import { cn } from "@/shared/utils/cn";
 
-const ANIM_DURATION = 50;
-const ANIM_INTERVAL = 100;
+const ANIM_DURATION = 30;
+const ANIM_INTERVAL = 90;
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
