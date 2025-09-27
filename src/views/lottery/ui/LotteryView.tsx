@@ -12,6 +12,7 @@ import { cn } from "@/shared/utils/cn";
 
 const ANIM_DURATION = 30;
 const ANIM_INTERVAL = 90;
+const TEAMS = ['신가밴드', '라온', '야간합주실', '곽서영', 'METAPHOR', 'ALL', '구각와니', '신준', 'UNIVERSE', '정은서', '열정의 하마']
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -150,7 +151,7 @@ const LotteryView = () => {
   return (
     <div className="min-h-screen bg-gray-800 p-4">
       <div className="max-w-6xl mx-auto">
-        <div className="bg-gray-800 p-6 mb-6 mt-32">
+        <div className="bg-gray-800 p-6 mb-6 mt-52">
           <LotterySeatGrid
             layout={null}
             lotterySeats={allSeats}
@@ -194,7 +195,7 @@ const LotteryView = () => {
                   : "bg-purple-600 hover:bg-purple-700"
               )}
             >
-              {isBatchRunning || isAnimating ? "선택 중..." : "시작"}
+              {isBatchRunning || isAnimating ? "선택 중..." : `${TEAMS[Number(lotteryId) - 1]} (${lotteryId}) 시작`}
             </Button>
           </div>
         </div>
