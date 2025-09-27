@@ -13,7 +13,7 @@ const TOTAL_STARS = COLUMNS * ROWS;
 const STAR_SIZE = 225;
 
 const TEAMS = ['신가밴드', '라온', '야간합주실', '곽서영', 'METAPHOR', 'ALL', '구각와니', '신준', 'UNIVERSE', '정은서', '열정의 하마', '아']
-const SCORES = [100, 90, 80, 70, 60, 50, 40, 30, 20, 100, 100, 200]
+const SCORES = [100, 90, 80, 70, 60, 50, 40, 30, 20, 100, 100, 289]
 
 type StarCell = { id: number; active: boolean };
 
