@@ -13,21 +13,23 @@ export default function EvaluationView() {
       </header>
       <Standard />
       <div className="justify-center flex flex-col gap-24 w-full">
-        {teams?.map(v => {
-          return (
-            <EvaluationCard
-              key={v.team_id}
-              creativity_composition={v.creativity_composition}
-              team_id={v.team_id}
-              total_score={v.total_score}
-              completion_expression={v.completion_expression}
-              stage_manner_performance={v.stage_manner_performance}
-              team_name={v.team_name}
-              is_judged={v.is_judged}
-              is_performed={v.is_performed}
-            />
-          );
-        })}
+        {teams
+          ?.sort((a, b) => a.team_id - b.team_id)
+          .map(v => {
+            return (
+              <EvaluationCard
+                key={v.team_id}
+                creativity_composition={v.creativity_composition}
+                team_id={v.team_id}
+                total_score={v.total_score}
+                completion_expression={v.completion_expression}
+                stage_manner_performance={v.stage_manner_performance}
+                team_name={v.team_name}
+                is_judged={v.is_judged}
+                is_performed={v.is_performed}
+              />
+            );
+          })}
       </div>
     </div>
   );
