@@ -16,6 +16,7 @@ export default function EvaluationView() {
         {teams
           ?.sort((a, b) => a.team_id - b.team_id)
           .map(v => {
+            if (v.team_id === 11) return null;
             return (
               <EvaluationCard
                 key={v.team_id}
