@@ -116,22 +116,6 @@ const PreliminaryFourthSection = () => {
           </div>
         </div>
       </div>
-      <div className={cn("w-[70%] mobile:w-full")}>
-        <SectionTitle
-          title="2025 광탈페 본선"
-          className={cn("mt-[66px] mobile:mt-[1.7rem] mb-28")}
-        />
-
-        <div
-          className={cn(
-            "flex w-full flex-col items-start gap-10 justify-between mb-[90px] mobile:mb-[38px]",
-          )}
-        >
-          <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-            <YouTubeLazyEmbed videoId="J-Bj9cM4c3M" title="2025 광탈페 본선 다시보기" />
-          </div>
-        </div>
-      </div>
     </section>
   );
 };
