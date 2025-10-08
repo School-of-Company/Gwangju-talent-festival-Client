@@ -112,7 +112,7 @@ const ReservationFifthSection = () => {
         <SectionTitle title="본선 수상팀 명단" className="mb-28" />
         <div
           className={cn(
-            "w-full max-w-[720px] flex flex-col gap-[40px] mb-[60px] bg-white rounded-[12px] p-[2%] text-center mobile:p-[24px] mobile:w-full justify-self-center mx-auto mobile:mb-[15px] mobile:gap-[24px]",
+            "max-w-[720px] flex flex-col gap-[40px] mb-[60px] bg-white rounded-[12px] p-[2%] text-center mobile:p-[24px] mx-16 md:mx-auto mobile:mb-[15px] mobile:gap-[24px]",
           )}
         >
           {/* <div className={cn("text-title1b text-main-600 mobile:text-body1b")}>
