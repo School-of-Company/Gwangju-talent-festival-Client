@@ -1,88 +1,88 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import Button from "@/shared/ui/Button";
-import { redirect } from "next/navigation";
-import { ticketOpenDate, performerTicketOpenDate } from "@/shared/config/authConfig";
-import { useMySeat } from "@/entities/booking/lib/useMySeat";
-import { getTokenFromCookie } from "@/shared/utils/auth";
+// import { redirect } from "next/navigation";
+// import { ticketOpenDate, performerTicketOpenDate } from "@/shared/config/authConfig";
+// import { useMySeat } from "@/entities/booking/lib/useMySeat";
+// import { getTokenFromCookie } from "@/shared/utils/auth";
 // import { isLoggedIn } from "@/shared/utils/auth";
 
-const formatDateLeft = (timeLeft: number) => {
-  const DAY = 1000 * 60 * 60 * 24;
-  const HOUR = 1000 * 60 * 60;
-  const MIN = 1000 * 60;
-  const SEC = 1000;
-  if (timeLeft < DAY) {
-    if (timeLeft < HOUR) {
-      return `${String(Math.floor(timeLeft / MIN)).padStart(2, "0")}분 ${String(Math.floor((timeLeft % MIN) / SEC)).padStart(2, "0")}초 후`;
-    } else {
-      return `${String(Math.floor(timeLeft / HOUR)).padStart(2, "0")}시간 후`;
-    }
-  } else {
-    return `D-${Math.round(timeLeft / DAY)}`;
-  }
-};
+// const formatDateLeft = (timeLeft: number) => {
+//   const DAY = 1000 * 60 * 60 * 24;
+//   const HOUR = 1000 * 60 * 60;
+//   const MIN = 1000 * 60;
+//   const SEC = 1000;
+//   if (timeLeft < DAY) {
+//     if (timeLeft < HOUR) {
+//       return `${String(Math.floor(timeLeft / MIN)).padStart(2, "0")}분 ${String(Math.floor((timeLeft % MIN) / SEC)).padStart(2, "0")}초 후`;
+//     } else {
+//       return `${String(Math.floor(timeLeft / HOUR)).padStart(2, "0")}시간 후`;
+//     }
+//   } else {
+//     return `D-${Math.round(timeLeft / DAY)}`;
+//   }
+// };
 
 const ReservationFifthSection = () => {
-  const [timeLeft, setTimeLeft] = useState<number>(0);
-  const [userRole, setUserRole] = useState<string | null>(null);
-  const { data: mySeat, refetch: refetchMySeat } = useMySeat();
+  // const [timeLeft, setTimeLeft] = useState<number>(0);
+  // const [userRole, setUserRole] = useState<string | null>(null);
+  // const { data: mySeat, refetch: refetchMySeat } = useMySeat();
 
-  useEffect(() => {
-    const updateUserRole = () => {
-      if (typeof window !== "undefined") {
-        const role = getTokenFromCookie("role");
-        setUserRole(role);
-      }
-    };
+  // useEffect(() => {
+  //   const updateUserRole = () => {
+  //     if (typeof window !== "undefined") {
+  //       const role = getTokenFromCookie("role");
+  //       setUserRole(role);
+  //     }
+  //   };
 
-    updateUserRole();
+  //   updateUserRole();
 
-    const handleStorageChange = () => {
-      updateUserRole();
-      refetchMySeat();
-    };
+  //   const handleStorageChange = () => {
+  //     updateUserRole();
+  //     refetchMySeat();
+  //   };
 
-    window.addEventListener("storage", handleStorageChange);
+  //   window.addEventListener("storage", handleStorageChange);
 
-    const handleFocus = () => {
-      updateUserRole();
-      refetchMySeat();
-    };
+  //   const handleFocus = () => {
+  //     updateUserRole();
+  //     refetchMySeat();
+  //   };
 
-    window.addEventListener("focus", handleFocus);
+  //   window.addEventListener("focus", handleFocus);
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("focus", handleFocus);
-    };
-  }, [refetchMySeat]);
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //     window.removeEventListener("focus", handleFocus);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const now = new Date();
-      const relevantTicketOpenDate =
-        userRole === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate;
-      const difference = relevantTicketOpenDate.getTime() - now.getTime();
-      setTimeLeft(difference > 0 ? difference : 0);
-    };
+  // useEffect(() => {
+  //   const calculateTimeLeft = () => {
+  //     const now = new Date();
+  //     const relevantTicketOpenDate =
+  //       userRole === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate;
+  //     const difference = relevantTicketOpenDate.getTime() - now.getTime();
+  //     setTimeLeft(difference > 0 ? difference : 0);
+  //   };
 
-    calculateTimeLeft();
+  //   calculateTimeLeft();
 
-    const timer = setInterval(calculateTimeLeft, 1000);
+  //   const timer = setInterval(calculateTimeLeft, 1000);
 
-    return () => clearInterval(timer);
-  }, [userRole]);
+  //   return () => clearInterval(timer);
+  // }, [userRole]);
 
   return (
     <section
       id="ReservationFifthSection"
       className={cn(
-        "relative h-full max-h-[600px] bg-main-100 overflow-hidden tablet:h-[800px] justify-items-center mt-20",
+        "relative h-full max-h-[600px] bg-main-100 overflow-hidden justify-items-center mt-20",
       )}
     >
       <div className={cn("z-0")}>
@@ -109,15 +109,14 @@ const ReservationFifthSection = () => {
       </div>
 
       <div className={cn("relative w-full text-center mt-[66px] mobile:mt-[2rem]")}>
-        <SectionTitle title="본선 좌석예매" className="mb-28" />
+        <SectionTitle title="본선 수상팀 명단" className="mb-28" />
         <div
           className={cn(
-            "flex flex-col gap-[40px] mb-[60px] bg-white rounded-[12px] py-[72px] px-[60px] text-center w-[376px] mobile:p-[24px] mobile:w-fit justify-self-center mx-auto mobile:mb-[15px] mobile:gap-[24px]",
+            "w-full max-w-[720px] flex flex-col gap-[40px] mb-[60px] bg-white rounded-[12px] p-[2%] text-center mobile:p-[24px] mobile:w-full justify-self-center mx-auto mobile:mb-[15px] mobile:gap-[24px]",
           )}
         >
-          <p className={cn("text-body1b mobile:text-caption1b")}>티켓오픈안내</p>
-          <div className={cn("text-title1b text-main-600 mobile:text-body1b")}>
-            {timeLeft > 0 ? (
+          {/* <div className={cn("text-title1b text-main-600 mobile:text-body1b")}>
+            {/* {timeLeft > 0 ? (
               formatDateLeft(timeLeft)
             ) : mySeat && userRole === "ROLE_PERFORMER" ? (
               <div className="flex gap-2 w-full">
@@ -148,9 +147,10 @@ const ReservationFifthSection = () => {
                 {mySeat ? "내 좌석 보러가기" : "예매하기"}
               </Button>
             )}
-          </div>
+          </div> */}
+          <Button className="w-full">결과 보러가기</Button>
 
-          <div className={cn("flex justify-center gap-4 items-center")}>
+          {/* <div className={cn("flex justify-center gap-4 items-center")}>
             <span className={cn("text-body2r mobile:text-caption2r")}>티켓오픈</span>
             <span className={cn("text-body2r text-gray-500 mobile:text-caption2r")}>
               {(userRole === "ROLE_PERFORMER"
@@ -168,7 +168,7 @@ const ReservationFifthSection = () => {
           </div>
           <span className={cn("text-body2b text-main-600 mobile:text-caption2b")}>
             현장에서 실물티켓으로 교환 후 입장 가능합니다.
-          </span>
+          </span> */}
         </div>
       </div>
     </section>

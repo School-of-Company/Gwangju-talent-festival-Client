@@ -20,31 +20,30 @@ const RANK_DATA: RankData[] = [
     team_name: "구각와니",
     popularity_award: false,
   },
-  
+
   {
     ranking: 3,
     team_name: "ALL",
     popularity_award: false,
   },
-  
+
   {
     ranking: 4,
     team_name: "신준",
     popularity_award: false,
   },
-  
+
   {
     ranking: 5,
     team_name: "신가밴드",
     popularity_award: true,
   },
-  
+
   {
     ranking: 6,
     team_name: "정은서",
     popularity_award: true,
   },
-  
 ];
 
 export default function RankView() {

@@ -15,10 +15,10 @@ const ReservationFifthSection = dynamic(() => import("@/widgets/main/Reservation
   ssr: false,
 });
 
-const FinalsSixthSection = dynamic(() => import("@/widgets/main/FinalsSixthSection"), {
-  loading: () => <SectionPlaceholder />,
-  ssr: false,
-});
+// const FinalsSixthSection = dynamic(() => import("@/widgets/main/FinalsSixthSection"), {
+//   loading: () => <SectionPlaceholder />,
+//   ssr: false,
+// });
 
 const SeventhSection = dynamic(() => import("@/widgets/main/SevenSection"), {
   loading: () => <SectionPlaceholder />,
@@ -53,12 +53,13 @@ const HomePage = () => {
         <PreliminaryFourthSection />
       </LazySection>
 
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
-        <ReservationFifthSection />
-      </LazySection>
-
+      {/* 
       <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
         <FinalsSixthSection />
+      </LazySection> */}
+
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
+        <ReservationFifthSection />
       </LazySection>
 
       <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
