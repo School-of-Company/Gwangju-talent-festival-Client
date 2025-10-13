@@ -2,7 +2,6 @@
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import ImageCarousel from "@/entities/home/ui/ImageCarousel";
-import Image from "next/image";
 import YouTubeLazyEmbed from "@/shared/ui/YouTubeLazyEmbed";
 
 // const SLIDES_1 = [
@@ -43,8 +42,6 @@ const SLIDES_3 = [
   "/images/26일/12.jpg",
   "/images/26일/13.jpg",
 ];
-
-const TEAMS_IMAGE = "/images/본선.png";
 
 const PreliminaryFourthSection = () => {
   return (
@@ -116,22 +113,6 @@ const PreliminaryFourthSection = () => {
             <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
               <YouTubeLazyEmbed videoId="n1o5Q2AVs88" title="2025 광탈페 예선2 다시보기" />
             </div>
-          </div>
-        </div>
-      </div>
-      <div className={cn("w-[70%] mobile:w-full")}>
-        <SectionTitle
-          title="2025 광탈페 본선"
-          className={cn("mt-[66px] mobile:mt-[1.7rem] mb-28")}
-        />
-
-        <div
-          className={cn(
-            "flex w-full items-center gap-10 justify-center mobile:flex-col mobile:mb-[38px] mb-32",
-          )}
-        >
-          <div className={cn("w-[50%] mobile:w-full mobile:mt-16 flex justify-center px-8")}>
-            <Image src={TEAMS_IMAGE} alt="본선 진출팀" width={500} height={500} />
           </div>
         </div>
       </div>
