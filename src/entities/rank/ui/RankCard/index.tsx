@@ -2,26 +2,23 @@ import Fire from "@/shared/asset/svg/Fire";
 import { cn } from "@/shared/utils/cn";
 import { Rank } from "@/views/rank/model/rankType";
 
-export default function RankCard({ popularity_award, ranking, team_name }: Rank) {
+export default function RankCard({ popularity_award, team_name }: Rank) {
   return (
     <article
       className={cn(
-        "flex justify-center items-center py-[40px] rounded-[40px] gap-[40px]",
+        "flex justify-center items-center py-[20px] rounded-[20px] gap-[40px]",
         popularity_award
           ? "bg-main-100 border-main-600 border border-solid"
           : "shadow-[0_0_28px_4px_rgba(0,0,0,0.16)]",
       )}
     >
       {popularity_award && (
-        <div className="flex gap-12 items-center justify-center">
-          <Fire />
-          <h4 className="text-title2b text-main-600">인기상</h4>
+        <div className="flex gap-6 items-center justify-center">
+          <Fire width={30} height={30} />
+          <h4 className="text-body1b mobile:text-caption1b text-main-600">인기상</h4>
         </div>
       )}
-      <strong className={cn("text-gray-400", popularity_award ? "text-title4b" : "text-title2b")}>
-        {ranking}등
-      </strong>
-      <strong className="text-title4b">{team_name}</strong>
+      <strong className="text-body1b mobile:text-caption1b">{team_name}</strong>
     </article>
   );
 }

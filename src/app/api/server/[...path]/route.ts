@@ -17,7 +17,10 @@ async function handleRequest(request: NextRequest): Promise<NextResponse> {
   try {
     const options: RequestInit = {
       method,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Barer " + "",
+      },
       credentials: "include",
     };
 

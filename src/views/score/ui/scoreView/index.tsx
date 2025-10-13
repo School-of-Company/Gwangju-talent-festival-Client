@@ -1,23 +1,56 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Star from "@/shared/asset/svg/Star";
 import { useGetVote } from "@/shared/model/useGetVote";
-import { rgbs } from "@/shared/utils/color";
 import { ease } from "@/entities/score/lib/ease";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import Button from "@/shared/ui/Button";
+import { cn } from "@/shared/utils/cn";
 
-const TOTAL_STARS = 200;
+const COLUMNS = 17;
+const ROWS = 17;
+const GAP = "1px";
+const TOTAL_STARS = COLUMNS * ROWS;
+const STAR_SIZE = 225;
+
+const TEAMS = [
+  "신가밴드",
+  "라온",
+  "야간합주실",
+  "곽서영",
+  "METAPHOR",
+  "ALL",
+  "구각와니",
+  "신준",
+  "UNIVERSE",
+  "정은서",
+  "열정의 하마",
+  "아",
+];
 
 type StarCell = { id: number; active: boolean };
 
 export default function ScoreView() {
   const { id } = useParams<{ id: string }>();
+  const searchParams = useSearchParams();
   const { data } = useGetVote(id);
-  const activeStars = Math.min(data?.star ?? TOTAL_STARS, TOTAL_STARS);
+
+  const forceScore = searchParams.get("score");
+  const forcedScoreValue = forceScore ? parseInt(forceScore, 10) : null;
+
+  const apiScore = data?.star ?? 0;
+
+  const finalScore =
+    forcedScoreValue !== null && !isNaN(forcedScoreValue) ? forcedScoreValue : apiScore;
+
+  const activeStars = Math.min(finalScore, TOTAL_STARS);
   const [stars, setStars] = useState<StarCell[]>(() =>
     Array.from({ length: TOTAL_STARS }, (_, i) => ({ id: i, active: false })),
   );
+
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
 
   const rafRef = useRef<number | null>(null);
   const progressRef = useRef(0);
@@ -38,11 +71,16 @@ export default function ScoreView() {
     [mounted],
   );
 
-  useEffect(() => {
+  const startAnimation = useCallback(() => {
+    if (isAnimating) return;
+
+    setIsAnimating(true);
+    setIsStarted(true);
     setStars(prev => prev.map(s => ({ ...s, active: false })));
     progressRef.current = 0;
+
     const total = activeStars;
-    const duration = Math.max(900, total * 16);
+    const duration = Math.max(500, total * 16);
     const start = performance.now();
 
     const loop = (t: number) => {
@@ -57,27 +95,51 @@ export default function ScoreView() {
       }
       if (target < total) {
         rafRef.current = requestAnimationFrame(loop);
+      } else {
+        setIsAnimating(false);
       }
     };
     rafRef.current = requestAnimationFrame(loop);
+  }, [activeStars, isAnimating]);
+
+  const resetAnimation = useCallback(() => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    setIsAnimating(false);
+    setIsStarted(false);
+    setStars(prev => prev.map(s => ({ ...s, active: false })));
+    progressRef.current = 0;
+  }, []);
+
+  // 컴포넌트 언마운트 시 정리
+  useEffect(() => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [activeStars]);
+  }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center bg-black">
+    <div className="relative min-h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
+      <div className="my-28 text-center">
+        <h1 style={{ fontSize: "15rem" }} className="md:text-6xl font-bold text-white mb-4">
+          {data?.team_name || TEAMS[Number(id) - 1]}
+        </h1>
+      </div>
       <div
         className="grid"
         style={{
-          gridTemplateColumns: "repeat(20, minmax(0, 1fr))",
-          gap: "6px",
-          width: "min(1200px, 92vw)",
+          gridTemplateColumns: `repeat(${COLUMNS}, minmax(0, 1fr))`,
+          gap: GAP,
+          width: "min(80vh, 80vw)",
+          height: "min(80vh, 80vw)",
+          aspectRatio: "1 / 1",
         }}
       >
         {stars.map((star, i) => {
           const fx = cellFx[i];
-          const glow = `rgba(${rgbs.main[400]}, ${fx.glow})`;
+          const glow = `rgba(255, 205, 5, ${fx.glow})`;
 
           return (
             <div
@@ -103,11 +165,36 @@ export default function ScoreView() {
                     : "none",
                 }}
               >
-                <Star active={star.active} />
+                <Star active={star.active} size={STAR_SIZE} />
               </div>
             </div>
           );
         })}
+      </div>
+
+      <div className="fixed bottom-4 right-4 flex gap-4">
+        <Button
+          onClick={resetAnimation}
+          disabled={!isStarted}
+          className={cn(
+            "px-28 py-24 text-body1b font-bold",
+            !isStarted ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700",
+          )}
+        >
+          초기화
+        </Button>
+        <Button
+          onClick={startAnimation}
+          disabled={isAnimating || (isStarted && !isAnimating)}
+          className={cn(
+            "px-28 py-24 text-body1b font-bold",
+            isAnimating || (isStarted && !isAnimating)
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-purple-600 hover:bg-purple-700",
+          )}
+        >
+          {isAnimating ? "표시 중..." : isStarted ? "완료" : "시작"}
+        </Button>
       </div>
     </div>
   );

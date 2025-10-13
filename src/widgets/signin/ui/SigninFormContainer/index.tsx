@@ -37,7 +37,7 @@ const SigninFormContainer = () => {
 
   return (
     <div className={cn("w-full mb-4")}>
-      <form action={formAction}>
+      <form action={formAction} className="flex flex-col h-[min(calc(100vh-300px),30rem)]">
         <input type="hidden" name="formType" value="signin" />
         <div className={cn("space-y-16")}>
           <div>
@@ -65,7 +65,7 @@ const SigninFormContainer = () => {
           </div>
         </div>
 
-        <div className={cn("flex flex-col gap-2 mt-16")}>
+        <div className={cn("flex flex-col gap-2 mt-auto")}>
           <SubmitButton
             buttonText={state.isLoading ? "로그인 중..." : "로그인"}
             disabled={state.isLoading}

@@ -1,9 +1,11 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 
 const ChannelTalk = () => {
+  const pathname = usePathname();
   const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const ChannelTalk = () => {
   if (!shouldLoad) {
     return null;
   }
-
+  if (pathname.startsWith("/admin") || pathname.startsWith("/vote")) return;
   return (
     <Script
       id="channelTalk"

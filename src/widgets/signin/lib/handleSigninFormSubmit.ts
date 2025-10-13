@@ -40,13 +40,19 @@ export const handleSigninFormSubmit = async (
 
     document.cookie = `role=${response.role as Role}; path=/;`;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const nextParam = urlParams.get("next");
+
+    const redirectTo =
+      nextParam && nextParam.startsWith("/") && nextParam !== "/signin" ? nextParam : "/home";
+
     return {
       values,
       isValid: true,
       submitted: true,
       isLoading: false,
       shouldRedirect: true,
-      redirectTo: "/home",
+      redirectTo,
     };
   } catch (err) {
     const message = err instanceof Error ? err.message : "로그인에 실패했습니다.";

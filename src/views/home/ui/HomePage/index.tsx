@@ -20,6 +20,16 @@ const FinalsSixthSection = dynamic(() => import("@/widgets/main/FinalsSixthSecti
   ssr: false,
 });
 
+const SeventhSection = dynamic(() => import("@/widgets/main/SevenSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
+
+const Footer = dynamic(() => import("@/entities/home/ui/Footer"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
+
 const SectionPlaceholder = ({ height = "400px" }: { height?: string }) => (
   <div
     className="w-full bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center"
@@ -39,16 +49,24 @@ const HomePage = () => {
       <IntroFirstSection />
       <SloganSecondSection />
 
-      <LazySection fallback={<SectionPlaceholder height="600px" />} rootMargin="100px">
+      <LazySection fallback={<SectionPlaceholder height="600px" />} rootMargin="200px">
         <PreliminaryFourthSection />
       </LazySection>
 
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="150px">
+      
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
+        <FinalsSixthSection />
+      </LazySection>
+
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
         <ReservationFifthSection />
       </LazySection>
 
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="200px">
-        <FinalsSixthSection />
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
+        <SeventhSection />
+      </LazySection>
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="500px">
+        <Footer />
       </LazySection>
     </>
   );

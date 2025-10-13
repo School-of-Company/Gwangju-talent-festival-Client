@@ -22,4 +22,4 @@ export const refresh = async (refreshToken: string): Promise<RefreshResponse> =>
   }
 
   return result;
-}; 
+};

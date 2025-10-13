@@ -14,7 +14,61 @@ import { useCallback, useEffect, useState } from "react";
 export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const R = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+
+    const updateLoginState = () => {
+      const loginStatus = isLoggedIn();
+      setIsUserLoggedIn(loginStatus);
+    };
+
+    updateLoginState();
+
+    const handleStorageChange = () => {
+      updateLoginState();
+    };
+
+    const handleFocus = () => {
+      updateLoginState();
+    };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        updateLoginState();
+      }
+    };
+
+    const handlePopstate = () => {
+      updateLoginState();
+    };
+
+    const handleBeforeUnload = () => {
+      updateLoginState();
+    };
+
+    const interval = setInterval(() => {
+      updateLoginState();
+    }, 5000);
+
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("popstate", handlePopstate);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("popstate", handlePopstate);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -29,12 +83,12 @@ export default function Header() {
   }, [isMobileMenuOpen]);
 
   const handleClick = useCallback(() => {
-    if (isLoggedIn()) {
+    if (isUserLoggedIn) {
       handleLogout();
     } else {
       R.push("/signin");
     }
-  }, [R]);
+  }, [R, isUserLoggedIn]);
 
   const hidden =
     pathname.startsWith("/signin") ||
@@ -55,8 +109,8 @@ export default function Header() {
     { section: "SloganSecondSection", label: "2025 광탈페 슬로건" },
     // { section: "section3", label: "FaQ" },
     { section: "PreliminaryFourthSection", label: "2025 광탈페 예선 다시보기" },
-    { section: "ReservationFifthSection", label: "본선 좌석예매" },
-    { section: "FinalsSixthSection", label: "본선" },
+    { section: "FinalsSixthSection", label: "2025 광탈페 본선 다시보기" },
+    { section: "ReservationFifthSection", label: "본선 수상팀 명단" },
   ];
 
   const handleScrollToSection = (section: string) => {
@@ -87,18 +141,32 @@ export default function Header() {
           )}
           onClick={handleClick}
         >
-          <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
+          <span suppressHydrationWarning>
+            {mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}
+          </span>
         </div>
-        <div className={cn("hidden mobile:block")}>
+        <div className={cn("hidden mobile:block ")}>
           <div className={cn("flex text-caption2r gap-16")}>
-            <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
-              {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}
+            <div
+              className={cn(
+                "border-gray-100 cursor-pointer border border-solid text-center rounded-lg px-12 py-8",
+              )}
+              onClick={handleClick}
+            >
+              <span suppressHydrationWarning>
+                {mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}
+              </span>
             </div>
+            {pathname.startsWith("/home") && (
+              <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
+                {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}
+              </div>
+            )}
           </div>
         </div>
       </header>
       {/* 모바일 헤더 사이드바 */}
-      {isMobileMenuOpen && (
+      {isMobileMenuOpen && pathname.startsWith("/home") && (
         <div
           className={cn(
             "fixed top-74px right-0 w-full h-[calc(100vh-64px)]  mobile:block hidden z-10",
@@ -116,14 +184,14 @@ export default function Header() {
                     {link.label}
                   </button>
                 ))}
-                <div
+                {/* <div
                   className={cn(
                     "border-gray-100 cursor-pointer border border-solid text-center rounded-lg px-12 py-8",
                   )}
                   onClick={handleClick}
                 >
-                  <span suppressHydrationWarning>{isLoggedIn() ? "로그아웃" : "로그인"}</span>
-                </div>
+                  <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
+                </div> */}
               </div>
             </div>
           </div>

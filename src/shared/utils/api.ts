@@ -9,7 +9,7 @@ export async function apiHandler(
   endpoint: string,
   method: ApiMethod = "POST",
   successStatus: number = 200,
-  additionalHeaders?: Record<string, string>
+  additionalHeaders?: Record<string, string>,
 ) {
   try {
     let body = null;
@@ -20,15 +20,28 @@ export async function apiHandler(
         console.log("No body or invalid JSON in request");
       }
     }
-    
+
     const url = `${BASE_URL}${endpoint}`;
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      ...additionalHeaders,
+    };
+
+    const authHeader = request.headers.get("authorization") || request.headers.get("Authorization");
+    if (authHeader) {
+      headers["Authorization"] = authHeader;
+    }
+
+    const cookie = request.headers.get("cookie");
+    if (cookie) {
+      headers["Cookie"] = cookie;
+    }
 
     const options: RequestInit = {
       method,
-      headers: {
-        "Content-Type": "application/json",
-        ...additionalHeaders,
-      },
+      headers,
+      credentials: "include",
     };
 
     if (body) {

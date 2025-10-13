@@ -3,7 +3,7 @@ import { getTokenFromCookie, setTokens, clearTokens } from "@/shared/utils/auth"
 import { refresh } from "@/shared/api/refresh";
 import { publicPages } from "@/shared/config/authConfig";
 
-export const baseURL = process.env.NEXT_PUBLIC_API_URL;
+export const baseURL = "";
 
 const instance = axios.create({
   baseURL: baseURL,
@@ -60,7 +60,21 @@ instance.interceptors.response.use(
 
     const status = error.response?.status;
 
-    if (status !== 403) return Promise.reject(error);
+    if (status === 403 || status === 401) {
+      clearTokens();
+      const currentPath = window.location.pathname;
+      const search = window.location.search;
+      
+      if (currentPath !== "/signin") {
+        const shouldSaveNext = !publicPages.some((p: string) => currentPath.startsWith(p));
+        const nextParam = shouldSaveNext ? `?next=${encodeURIComponent(currentPath + search)}` : '';
+        window.location.href = `/signin${nextParam}`;
+      }
+      
+      return Promise.reject(error);
+    }
+
+    if (status !== 401 && status !== 403) return Promise.reject(error);
 
     const url = originalRequest.url ?? "";
     if (publicPages.some(p => url.includes(p))) {
@@ -109,7 +123,12 @@ instance.interceptors.response.use(
       clearTokens();
 
       const currentPath = window.location.pathname;
+      const search = window.location.search;
+      
       if (!publicPages.some((p: string) => currentPath.startsWith(p))) {
+        const nextParam = `?next=${encodeURIComponent(currentPath + search)}`;
+        window.location.href = `/signin${nextParam}`;
+      } else {
         window.location.href = "/signin";
       }
 

@@ -52,6 +52,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/gwangju-talent-festival-bucket/**",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        port: "",
+        pathname: "/u/**",
+      },
     ],
   },
 
