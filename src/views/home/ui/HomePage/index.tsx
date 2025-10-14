@@ -20,7 +20,12 @@ const FinalsSixthSection = dynamic(() => import("@/widgets/main/FinalsSixthSecti
   ssr: false,
 });
 
-const SeventhSection = dynamic(() => import("@/widgets/main/SevenSection"), {
+const SeventhSection = dynamic(() => import("@/widgets/main/SeventhSection"), {
+  loading: () => <SectionPlaceholder />,
+  ssr: false,
+});
+
+const TeamIntroduceSection = dynamic(() => import("@/widgets/main/TeamIntroduceSection"), {
   loading: () => <SectionPlaceholder />,
   ssr: false,
 });
@@ -63,9 +68,10 @@ const HomePage = () => {
       <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
         <SeventhSection />
       </LazySection>
-      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="500px">
-        <Footer />
+      <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
+        <TeamIntroduceSection />
       </LazySection>
+      <Footer />
     </>
   );
 };
