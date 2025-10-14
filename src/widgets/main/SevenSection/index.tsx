@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function SeventhSection() {
   return (
-    <section id="FinalsSixthSection" className={cn("flex flex-col items-center my-20")}>
+    <section id="SeventhSection" className={cn("flex flex-col items-center my-20")}>
       <div className={cn("w-[70%] mobile:w-full mobile:px-10")}>
         <SectionTitle
           title="광탈페 운영진 소개"
