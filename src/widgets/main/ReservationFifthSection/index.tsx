@@ -5,6 +5,8 @@ import Image from "next/image";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import Button from "@/shared/ui/Button";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 // import { redirect } from "next/navigation";
 // import { ticketOpenDate, performerTicketOpenDate } from "@/shared/config/authConfig";
 // import { useMySeat } from "@/entities/booking/lib/useMySeat";
@@ -28,6 +30,7 @@ import Button from "@/shared/ui/Button";
 // };
 
 const ReservationFifthSection = () => {
+  const R = useRouter();
   // const [timeLeft, setTimeLeft] = useState<number>(0);
   // const [userRole, setUserRole] = useState<string | null>(null);
   // const { data: mySeat, refetch: refetchMySeat } = useMySeat();
@@ -77,6 +80,10 @@ const ReservationFifthSection = () => {
 
   //   return () => clearInterval(timer);
   // }, [userRole]);
+
+  const handleResultClick = useCallback(() => {
+    R.push("/rank");
+  }, [R]);
 
   return (
     <section
@@ -148,7 +155,9 @@ const ReservationFifthSection = () => {
               </Button>
             )}
           </div> */}
-          <Button className="w-full">결과 보러가기</Button>
+          <Button onClick={handleResultClick} className="w-full">
+            결과 보러가기
+          </Button>
 
           {/* <div className={cn("flex justify-center gap-4 items-center")}>
             <span className={cn("text-body2r mobile:text-caption2r")}>티켓오픈</span>
