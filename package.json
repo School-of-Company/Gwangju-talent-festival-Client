@@ -19,7 +19,7 @@
     "canvas-confetti": "^1.9.3",
     "clsx": "^2.1.1",
     "ioredis": "^5.7.0",
-    "next": "15.3.0",
+    "next": "15.5.9",
     "next-sitemap": "^4.2.3",
     "nextjs-google-analytics": "^2.3.7",
     "react": "19.0.0",
