@@ -53,7 +53,6 @@ const HomePage = () => {
         <PreliminaryFourthSection />
       </LazySection>
 
-      
       <LazySection fallback={<SectionPlaceholder height="500px" />} rootMargin="300px">
         <FinalsSixthSection />
       </LazySection>
