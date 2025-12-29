@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAuthSync } from "@/shared/hooks/useAuthSync";
 import { useMobileMenu } from "@/shared/hooks/useMobileMenu";
 import { MobileSidebar } from "./ui/MobileSidebar";
+import { ProfileIcon } from "@/shared/asset/svg/ProfileIcon";
 
 export default function Header() {
   const pathname = usePathname();
@@ -59,12 +60,13 @@ export default function Header() {
 
         <div
           className={cn(
-            "border-main-600 cursor-pointer text-center hidden sm:block border border-solid rounded-lg px-12 py-8",
+            "border-[#AC42CD] cursor-pointer text-center hidden sm:block border border-solid rounded-lg px-16 py-12",
           )}
           onClick={handleClick}
         >
-          <div className="flex items-center text-main-600 gap-2 justify-center">
-            <span>{mounted && isUserLoggedIn ? "로그아웃" : "로그인"}</span>
+          <div className="flex items-center text-main-600 gap-12 justify-center">
+            <ProfileIcon width={18} height={18} color="#AC42CD" />
+            <span className="text-body3b">{mounted && isUserLoggedIn ? "로그아웃" : "로그인"}</span>
           </div>
         </div>
 
