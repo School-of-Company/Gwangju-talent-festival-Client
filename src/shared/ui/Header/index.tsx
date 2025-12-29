@@ -3,7 +3,7 @@
 import { Logo } from "@/shared/asset/svg/Logo";
 import { MobileMenuIcon } from "@/shared/asset/svg/MobileMenuIcon";
 import { CloseIcon } from "@/shared/asset/svg/CloseIcon";
-import { links } from "@/shared/const/headerValues";
+import { isHiddenPath, links } from "@/shared/const/headerValues";
 import { cn } from "@/shared/utils/cn";
 import { scrollToElement } from "@/shared/utils/scroll";
 import { handleLogout } from "@/widgets/signin/lib/handleLogout";
@@ -39,6 +39,8 @@ export default function Header() {
     scrollToElement(`${section}`);
     closeMobileMenu();
   };
+
+  if (isHiddenPath(pathname)) return null;
 
   return (
     <>
