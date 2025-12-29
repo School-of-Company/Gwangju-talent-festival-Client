@@ -153,7 +153,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <meta name="naver-site-verification" content="9b809c2b47126fcb57113f690708d63c39eb9681" />
       </head>
