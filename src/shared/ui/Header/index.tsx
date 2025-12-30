@@ -1,86 +1,31 @@
 "use client";
 
-import { CloseIcon } from "@/shared/asset/svg/CloseIcon";
 import { Logo } from "@/shared/asset/svg/Logo";
 import { MobileMenuIcon } from "@/shared/asset/svg/MobileMenuIcon";
-import { isLoggedIn } from "@/shared/utils/auth";
+import { CloseIcon } from "@/shared/asset/svg/CloseIcon";
+import { isHiddenPath, links } from "@/shared/const/headerValues";
 import { cn } from "@/shared/utils/cn";
 import { scrollToElement } from "@/shared/utils/scroll";
 import { handleLogout } from "@/widgets/signin/lib/handleLogout";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { useAuthSync } from "@/shared/hooks/useAuthSync";
+import { useMobileMenu } from "@/shared/hooks/useMobileMenu";
+import { MobileSidebar } from "./ui/MobileSidebar";
+import { ProfileIcon } from "@/shared/asset/svg/ProfileIcon";
 
 export default function Header() {
   const pathname = usePathname();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const R = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  const { isUserLoggedIn } = useAuthSync();
+  const { isMobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useMobileMenu();
 
   useEffect(() => {
     setMounted(true);
-
-    const updateLoginState = () => {
-      const loginStatus = isLoggedIn();
-      setIsUserLoggedIn(loginStatus);
-    };
-
-    updateLoginState();
-
-    const handleStorageChange = () => {
-      updateLoginState();
-    };
-
-    const handleFocus = () => {
-      updateLoginState();
-    };
-
-    const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        updateLoginState();
-      }
-    };
-
-    const handlePopstate = () => {
-      updateLoginState();
-    };
-
-    const handleBeforeUnload = () => {
-      updateLoginState();
-    };
-
-    const interval = setInterval(() => {
-      updateLoginState();
-    }, 5000);
-
-    window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("focus", handleFocus);
-    window.addEventListener("popstate", handlePopstate);
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("popstate", handlePopstate);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      clearInterval(interval);
-    };
   }, []);
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobileMenuOpen]);
 
   const handleClick = useCallback(() => {
     if (isUserLoggedIn) {
@@ -90,39 +35,18 @@ export default function Header() {
     }
   }, [R, isUserLoggedIn]);
 
-  const hidden =
-    pathname.startsWith("/signin") ||
-    pathname.startsWith("/signup") ||
-    pathname.startsWith("/vote") ||
-    pathname.startsWith("/admin");
-  if (hidden) return null;
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(prevState => !prevState);
-  };
-
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
-
-  const links = [
-    { section: "SloganSecondSection", label: "2025 광탈페 슬로건" },
-    // { section: "section3", label: "FaQ" },
-    { section: "PreliminaryFourthSection", label: "2025 광탈페 예선 다시보기" },
-    { section: "FinalsSixthSection", label: "2025 광탈페 본선 다시보기" },
-    { section: "ReservationFifthSection", label: "본선 수상팀 명단" },
-  ];
-
   const handleScrollToSection = (section: string) => {
     scrollToElement(`${section}`);
-    setIsMobileMenuOpen(false);
+    closeMobileMenu();
   };
+
+  if (isHiddenPath(pathname)) return null;
 
   return (
     <>
       <header
         className={cn(
-          "flex items-center py-[1rem] justify-around mobile:justify-between  mobile:px-16",
+          "flex items-center py-[1rem] justify-around mobile:justify-between mobile:px-16",
         )}
       >
         <Link href="/">
@@ -135,28 +59,32 @@ export default function Header() {
             </button>
           ))}
         </div>
+
         <div
           className={cn(
-            "border-gray-100 cursor-pointer text-center hidden sm:block border border-solid rounded-lg px-12 py-8",
+            "border-[#AC42CD] cursor-pointer text-center hidden sm:block border border-solid rounded-lg px-16 py-12",
           )}
           onClick={handleClick}
         >
-          <span suppressHydrationWarning>
-            {mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}
-          </span>
+          <div className="flex items-center text-main-600 gap-12 justify-center">
+            <ProfileIcon width={18} height={18} color="#AC42CD" />
+            <span className="text-body3b">{mounted && isUserLoggedIn ? "로그아웃" : "로그인"}</span>
+          </div>
         </div>
+
         <div className={cn("hidden mobile:block ")}>
           <div className={cn("flex text-caption2r gap-16")}>
             <div
               className={cn(
-                "border-gray-100 cursor-pointer border border-solid text-center rounded-lg px-12 py-8",
+                "cursor-pointer border border-solid border-gray-100 rounded-lg px-12 py-8 text-center",
               )}
               onClick={handleClick}
             >
-              <span suppressHydrationWarning>
-                {mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}
-              </span>
+              <div className="flex items-center gap-2 justify-center">
+                <span>{mounted && isUserLoggedIn ? "로그아웃" : "로그인"}</span>
+              </div>
             </div>
+
             {pathname.startsWith("/home") && (
               <div onClick={toggleMobileMenu} className={cn("place-self-center")}>
                 {isMobileMenuOpen ? <CloseIcon /> : <MobileMenuIcon />}
@@ -165,37 +93,8 @@ export default function Header() {
           </div>
         </div>
       </header>
-      {/* 모바일 헤더 사이드바 */}
       {isMobileMenuOpen && pathname.startsWith("/home") && (
-        <div
-          className={cn(
-            "fixed top-74px right-0 w-full h-[calc(100vh-64px)]  mobile:block hidden z-10",
-          )}
-        >
-          <div className={cn("flex h-full")}>
-            <div
-              className={cn("w-[calc(100vw-129px)]", "bg-black/40")}
-              onClick={closeMobileMenu}
-            ></div>
-            <div className={cn("w-[129px] bg-white")}>
-              <div className={cn("flex flex-col gap-[2.5rem] text-body3b m-26")}>
-                {links.map((link, index) => (
-                  <button key={index} onClick={() => handleScrollToSection(link.section)}>
-                    {link.label}
-                  </button>
-                ))}
-                {/* <div
-                  className={cn(
-                    "border-gray-100 cursor-pointer border border-solid text-center rounded-lg px-12 py-8",
-                  )}
-                  onClick={handleClick}
-                >
-                  <span suppressHydrationWarning>{mounted ? (isUserLoggedIn ? "로그아웃" : "로그인") : "로그인"}</span>
-                </div> */}
-              </div>
-            </div>
-          </div>
-        </div>
+        <MobileSidebar onClose={closeMobileMenu} onLinkClick={handleScrollToSection} />
       )}
     </>
   );

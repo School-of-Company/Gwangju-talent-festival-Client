@@ -82,29 +82,29 @@ const ReservationFifthSection = () => {
     <section
       id="ReservationFifthSection"
       className={cn(
-        "relative h-full max-h-[600px] bg-main-100 overflow-hidden justify-items-center mt-20",
+        "relative h-full max-h-[800px] bg-main-100 overflow-hidden justify-items-center",
       )}
     >
       <div className={cn("z-0")}>
         <div className={cn("absolute left-[1%] top-0 h-full w-[26%] mobile:w-[30%]")}>
-          <Image src="/images/starline.png" alt="Star Line" fill />
+          <Image src="/images/left_line.png" alt="Star Line" fill />
         </div>
         <div className={cn("absolute right-[4%] top-0 h-full w-[26%] mobile:w-[30%]")}>
-          <Image src="/images/trophyline.png" alt="Trophy Line" fill />
+          <Image src="/images/right_line.png" alt="Trophy Line" fill />
         </div>
         <div
           className={cn(
             "absolute left-0 top-[40%] translate-y-[-50%] w-[30%] aspect-square tablet:left-0 mobile:w-[40%] mobile:top-[60%] mobile:left-[-4%]",
           )}
         >
-          <Image src="/images/star.png" alt="Star" fill />
+          <Image src="/images/left_star.png" alt="Star" fill />
         </div>
         <div
           className={cn(
             "absolute right-[4%] top-[40%] translate-y-[-50%] w-[30%] aspect-square z-0 mobile:w-[40%] mobile:right-[-10%]",
           )}
         >
-          <Image src="/images/trophy.png" alt="Trophy" fill />
+          <Image src="/images/right_star.png" alt="Trophy" fill />
         </div>
       </div>
 
