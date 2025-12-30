@@ -90,7 +90,6 @@ const YouTubeLazyEmbed = ({ videoId, title, className }: YouTubeLazyEmbedProps) 
           src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
           title={title}
           className="w-full h-full"
-          frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
           loading="lazy"

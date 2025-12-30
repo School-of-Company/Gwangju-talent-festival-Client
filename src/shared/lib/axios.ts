@@ -64,13 +64,13 @@ instance.interceptors.response.use(
       clearTokens();
       const currentPath = window.location.pathname;
       const search = window.location.search;
-      
+
       if (currentPath !== "/signin") {
         const shouldSaveNext = !publicPages.some((p: string) => currentPath.startsWith(p));
-        const nextParam = shouldSaveNext ? `?next=${encodeURIComponent(currentPath + search)}` : '';
+        const nextParam = shouldSaveNext ? `?next=${encodeURIComponent(currentPath + search)}` : "";
         window.location.href = `/signin${nextParam}`;
       }
-      
+
       return Promise.reject(error);
     }
 
@@ -124,7 +124,7 @@ instance.interceptors.response.use(
 
       const currentPath = window.location.pathname;
       const search = window.location.search;
-      
+
       if (!publicPages.some((p: string) => currentPath.startsWith(p))) {
         const nextParam = `?next=${encodeURIComponent(currentPath + search)}`;
         window.location.href = `/signin${nextParam}`;
