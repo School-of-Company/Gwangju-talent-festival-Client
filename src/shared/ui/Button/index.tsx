@@ -5,11 +5,11 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variant = {
-  default: "bg-main-600 text-white",
+  default: "bg-new-main text-white",
   secondary: "text-white bg-main-300",
-  third: "bg-main-100 text-main-600",
-  disabled: "bg-gray-300 cursor-not-allowed text-white",
-  outline: "border border-solid border-main-600 text-main-600",
+  third: "bg-new-sub3 text-new-main",
+  disabled: "bg-gray-100 cursor-not-allowed text-white border border-gray-200 text-gray-800",
+  outline: "border border-solid border-new-main text-new-main",
 };
 
 const Button = ({
