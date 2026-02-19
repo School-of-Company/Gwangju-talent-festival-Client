@@ -9,7 +9,7 @@ interface HighlightTextProps {
 const HighlightText = ({
   text,
   searchTerm,
-  highlightClassName = "text-main-600 font-semibold",
+  highlightClassName = "text-new-main font-semibold",
 }: HighlightTextProps) => {
   if (!searchTerm.trim()) {
     return <span>{text}</span>;
