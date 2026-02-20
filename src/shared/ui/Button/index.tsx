@@ -8,7 +8,7 @@ const variant = {
   default: "bg-new-main text-white",
   secondary: "text-white bg-main-300",
   third: "bg-new-sub3 text-new-main",
-  disabled: "bg-gray-100 cursor-not-allowed text-white border border-gray-200 text-gray-800",
+  disabled: "bg-gray-100 cursor-not-allowed border border-gray-200 text-gray-800",
   outline: "border border-solid border-new-main text-new-main",
 };
 
