@@ -128,12 +128,12 @@ export default {
         },
         black: "#121212",
         white: "#FFFFFF",
-        new: {
-          main: "#FF9644",
-          sub1: "#FFAD6D",
-          sub2: "#FFCE99",
-          sub3: "#FFEAD4",
-          sub4: "#FFFDF1",
+        orange: {
+          "100": "#FFFDF1",//4
+          "200": "#FFEAD4",//3
+          "300": "#FFCE99",//2
+          "400": "#FFAD6D",//1
+          "500": "#FF9644",//main
         },
       },
     },
