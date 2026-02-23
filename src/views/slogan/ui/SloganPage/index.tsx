@@ -9,7 +9,7 @@ export default function SloganPage() {
   const [agree, setAgree] = useState(true);
   const [danger, setDanger] = useState(true);
   return (
-    <div className={cn("w-full max-w-[708px]")}>
+    <div className={cn("w-full max-w-[708px] mx-auto")}>
       <SloganFormContainer />
       <Modal type="danger" setIsOpen={setDanger} isOpen={danger} />
       {danger === false && <Modal type="agree" setIsOpen={setAgree} isOpen={agree} />}

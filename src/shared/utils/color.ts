@@ -24,6 +24,13 @@ export const colors = {
   },
   black: "#121212",
   white: "#FFFFFF",
+  orange: {
+    "100": "#FFFDF1",
+    "200": "#FFEAD4",
+    "300": "#FFCE99",
+    "400": "#FFAD6D",
+    "500": "#FF9644",
+  },
 } as const;
 
 export const rgbs = {
@@ -52,4 +59,11 @@ export const rgbs = {
   },
   black: "18, 18, 18", // #121212
   white: "255, 255, 255", // #FFFFFF
+  orange: {
+    100: "255, 253, 241", // #FFFDF1
+    200: "255, 234, 212", // #FFEAD4
+    300: "255, 206, 153", // #FFCE99
+    400: "255, 173, 109", // #FFAD6D
+    500: "255, 150, 68", // #FF9644
+  },
 } as const;
