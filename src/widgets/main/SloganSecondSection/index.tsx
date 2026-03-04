@@ -31,8 +31,10 @@ const PRIZES = [
   },
 ];
 
-const SLOGAN_START = new Date("2026-05-04T00:00:00+09:00");
-const SLOGAN_END = new Date("2026-05-08T17:59:59+09:00");
+const SLOGAN_YEAR = 2026;
+
+const SLOGAN_START = new Date(`${SLOGAN_YEAR}-05-04T00:00:00+09:00`);
+const SLOGAN_END = new Date(`${SLOGAN_YEAR}-05-08T17:59:59+09:00`);
 
 const SloganSecondSection = () => {
   const R = useRouter();
@@ -54,20 +56,20 @@ const SloganSecondSection = () => {
   const submissionPeriodText = React.useMemo(() => {
     const startText = formatDate(SLOGAN_START);
     const endText = formatDate(SLOGAN_END);
-    return `공모기간 : 2026.${startText}~${endText} 18:00까지`;
+    return `공모기간 : ${SLOGAN_YEAR}.${startText}~${endText} 18:00까지`;
   }, []);
 
   return (
     <section id="SloganSecondSection" className={cn("w-full mt-[3.5rem] mobile:mt-20 text-center")}>
       <SectionTitle
-        title="2026 광탈페 슬로건"
+        title={`${SLOGAN_YEAR} 광탈페 슬로건`}
         description={
           <>
             <span className="text-black text-body2b">
               세상의 무대 위, 광탈페! 너의 꿈이 시작되는 순간!
             </span>
             <span className={cn("block")}>
-              2026년 모두가 주인공이 되는 광주학생탈렌트페스티벌의 꿈의 무대가 펼쳐집니다.
+              {SLOGAN_YEAR}년 모두가 주인공이 되는 광주학생탈렌트페스티벌의 꿈의 무대가 펼쳐집니다.
             </span>
           </>
         }
