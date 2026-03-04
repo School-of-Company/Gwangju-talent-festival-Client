@@ -37,9 +37,18 @@ const SLOGAN_END = new Date("2026-05-08T17:59:59+09:00");
 const SloganSecondSection = () => {
   const R = useRouter();
 
-  const isSloganPeriod = React.useMemo(() => {
-    const now = new Date();
-    return now >= SLOGAN_START && now <= SLOGAN_END;
+  const [isSloganPeriod, setIsSloganPeriod] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkPeriod = () => {
+      const now = new Date();
+      setIsSloganPeriod(now >= SLOGAN_START && now <= SLOGAN_END);
+    };
+
+    checkPeriod();
+    const timer = setInterval(checkPeriod, 60000);
+
+    return () => clearInterval(timer);
   }, []);
 
   const submissionPeriodText = React.useMemo(() => {
