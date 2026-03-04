@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback, useMemo, useEffect } from "react";
+import { useReducer, useCallback, useMemo } from "react";
 import { formReducer, initialFormState } from "./formReducer";
 import { sloganSchema, SloganFormValues } from "../model/schema";
 import { handleSloganFormSubmit } from "./handleSloganFormSubmit";
@@ -13,13 +13,7 @@ const SCHOOL_SEARCH_DELAY = 200;
 export const useSloganForm = (): UseSloganFormReturn => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
 
-  const isValid = useMemo(() => {
-    return sloganSchema.safeParse(state.formValues).success;
-  }, [state.formValues]);
-
-  useEffect(() => {
-    dispatch({ type: "SET_VALID", value: isValid });
-  }, [isValid]);
+  const isValid = sloganSchema.safeParse(state.formValues).success;
 
   const normalizedSchoolName = useMemo(
     () => state.formValues.school.replace(/\s+/g, ""),
@@ -77,6 +71,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
 
   return {
     state,
+    isValid,
     handlers: {
       handleSloganChange,
       handleDescriptionChange,
