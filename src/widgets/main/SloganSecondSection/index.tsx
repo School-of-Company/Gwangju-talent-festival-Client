@@ -37,7 +37,7 @@ const SLOGAN_START = new Date(`${SLOGAN_YEAR}-05-04T00:00:00+09:00`);
 const SLOGAN_END = new Date(`${SLOGAN_YEAR}-05-08T17:59:59+09:00`);
 
 const SloganSecondSection = () => {
-  const R = useRouter();
+  const router = useRouter();
 
   const [isSloganPeriod, setIsSloganPeriod] = React.useState(false);
 
@@ -86,7 +86,7 @@ const SloganSecondSection = () => {
       </div>
       <Button
         type="button"
-        onClick={() => R.push("/slogan")}
+        onClick={() => router.push("/slogan")}
         className={cn("my-[24px] mobile:mb-[12px] px-28")}
         disabled={!isSloganPeriod}
       >
