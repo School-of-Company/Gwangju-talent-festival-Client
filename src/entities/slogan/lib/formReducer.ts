@@ -2,7 +2,6 @@ import { SloganFormValues } from "../model/schema";
 
 export interface FormState {
   formValues: SloganFormValues;
-  isValid: boolean;
   isSubmitted: boolean;
   isSubmitting: boolean;
   sloganLength: number;
@@ -15,7 +14,6 @@ export type FormAction =
   | { type: "UPDATE_DESCRIPTION"; value: string; length: number }
   | { type: "SET_SUBMITTING"; value: boolean }
   | { type: "SET_SUBMITTED"; value: boolean }
-  | { type: "SET_VALID"; value: boolean }
   | { type: "SELECT_SCHOOL"; schoolName: string };
 
 export const initialFormState: FormState = {
@@ -28,7 +26,6 @@ export const initialFormState: FormState = {
     classroom: "",
     phone_number: "",
   },
-  isValid: false,
   isSubmitted: false,
   isSubmitting: false,
   sloganLength: 0,
@@ -63,8 +60,6 @@ export const formReducer = (state: FormState, action: FormAction): FormState => 
       return { ...state, isSubmitting: action.value };
     case "SET_SUBMITTED":
       return { ...state, isSubmitted: action.value };
-    case "SET_VALID":
-      return { ...state, isValid: action.value };
     default:
       return state;
   }

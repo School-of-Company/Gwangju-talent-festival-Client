@@ -11,7 +11,7 @@ import PersonalInfoInputs from "@/entities/slogan/ui/PersonalInfoInputs";
 import { useSloganForm } from "@/entities/slogan/lib/useSloganForm";
 
 export default function SloganFormContainer() {
-  const { state, handlers, schoolData } = useSloganForm();
+  const { state, isValid, handlers, schoolData } = useSloganForm();
 
   if (state.isSubmitted) {
     return <SloganFormSuccess />;
@@ -56,7 +56,7 @@ export default function SloganFormContainer() {
           />
         </div>
       </div>
-      <Button type="submit" disabled={!state.isValid || state.isSubmitting}>
+      <Button type="submit" disabled={!isValid || state.isSubmitting}>
         응모하기
       </Button>
     </form>

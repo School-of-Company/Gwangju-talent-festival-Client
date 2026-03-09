@@ -18,7 +18,7 @@ const FinalsSixthSection = () => {
     <section id="FinalsSixthSection" className={cn("flex flex-col items-center my-20")}>
       <div className={cn("w-[70%] mobile:w-full")}>
         <SectionTitle
-          title="2025 광탈페 본선"
+          title="2025 광탈페 본선 다시보기"
           className={cn("mt-[66px] mobile:mt-[1.7rem] mb-28")}
         />
 

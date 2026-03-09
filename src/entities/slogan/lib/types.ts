@@ -20,6 +20,7 @@ export interface SloganFormSchoolData {
 
 export interface UseSloganFormReturn {
   state: FormState;
+  isValid: boolean;
   handlers: SloganFormHandlers;
   schoolData: SloganFormSchoolData;
 }
