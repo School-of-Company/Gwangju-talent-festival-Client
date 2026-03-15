@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import SloganPage from "@/views/slogan/ui/SloganPage";
 
 export default function Slogan() {
-  redirect("/home");
+  return <SloganPage />;
 }
