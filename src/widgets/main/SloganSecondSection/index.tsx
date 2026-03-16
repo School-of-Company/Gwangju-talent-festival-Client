@@ -6,11 +6,9 @@ import Button from "@/shared/ui/Button";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { formatDate } from "@/shared/utils/formatDate";
+import { sloganStartDate, sloganEndDate } from "@/shared/config/authConfig";
 
-const SLOGAN_YEAR = 2026;
-
-const SLOGAN_START = new Date(`${SLOGAN_YEAR}-05-18T00:00:00+09:00`);
-const SLOGAN_END = new Date(`${SLOGAN_YEAR}-05-28T23:59:59+09:00`);
+const SLOGAN_YEAR = sloganStartDate.getFullYear();
 
 const SloganSecondSection = () => {
   const router = useRouter();
@@ -20,7 +18,7 @@ const SloganSecondSection = () => {
   React.useEffect(() => {
     const checkPeriod = () => {
       const now = new Date();
-      setIsSloganPeriod(now >= SLOGAN_START && now <= SLOGAN_END);
+      setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
     };
 
     checkPeriod();
@@ -30,8 +28,8 @@ const SloganSecondSection = () => {
   }, []);
 
   const submissionPeriodText = React.useMemo(() => {
-    const startText = formatDate(SLOGAN_START);
-    const endText = formatDate(SLOGAN_END);
+    const startText = formatDate(sloganStartDate);
+    const endText = formatDate(sloganEndDate);
     return `공모기간 : ${SLOGAN_YEAR}.${startText}~${endText} 24:00까지`;
   }, []);
 
