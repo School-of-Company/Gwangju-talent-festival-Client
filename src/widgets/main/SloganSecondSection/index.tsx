@@ -9,8 +9,8 @@ import { formatDate } from "@/shared/utils/formatDate";
 
 const SLOGAN_YEAR = 2026;
 
-const SLOGAN_START = new Date(`${SLOGAN_YEAR}-05-04T00:00:00+09:00`);
-const SLOGAN_END = new Date(`${SLOGAN_YEAR}-05-08T17:59:59+09:00`);
+const SLOGAN_START = new Date(`${SLOGAN_YEAR}-05-18T00:00:00+09:00`);
+const SLOGAN_END = new Date(`${SLOGAN_YEAR}-05-28T23:59:59+09:00`);
 
 const SloganSecondSection = () => {
   const router = useRouter();
@@ -32,7 +32,7 @@ const SloganSecondSection = () => {
   const submissionPeriodText = React.useMemo(() => {
     const startText = formatDate(SLOGAN_START);
     const endText = formatDate(SLOGAN_END);
-    return `공모기간 : ${SLOGAN_YEAR}.${startText}~${endText} 18:00까지`;
+    return `공모기간 : ${SLOGAN_YEAR}.${startText}~${endText} 24:00까지`;
   }, []);
 
   return (
