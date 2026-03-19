@@ -5,6 +5,7 @@ import { SignInRequest, SignInResponse } from "../model/schema";
 export const signin = async (data: SignInRequest): Promise<SignInResponse> => {
   const response = await fetch("/api/signin", {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
 
