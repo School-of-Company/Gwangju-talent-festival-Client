@@ -6,51 +6,21 @@ export function useAuthSync() {
 
   useEffect(() => {
     const updateLoginState = () => {
-      const loginStatus = isLoggedIn();
-      setIsUserLoggedIn(loginStatus);
+      setIsUserLoggedIn(isLoggedIn());
     };
 
     updateLoginState();
 
-    const handleStorageChange = () => {
-      updateLoginState();
-    };
-
-    const handleFocus = () => {
-      updateLoginState();
-    };
-
     const handleVisibilityChange = () => {
-      if (!document.hidden) {
-        updateLoginState();
-      }
+      if (!document.hidden) updateLoginState();
     };
 
-    const handlePopstate = () => {
-      updateLoginState();
-    };
-
-    const handleBeforeUnload = () => {
-      updateLoginState();
-    };
-
-    const interval = setInterval(() => {
-      updateLoginState();
-    }, 5000);
-
-    window.addEventListener("storage", handleStorageChange);
-    window.addEventListener("focus", handleFocus);
-    window.addEventListener("popstate", handlePopstate);
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("focus", updateLoginState);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
-      window.removeEventListener("focus", handleFocus);
-      window.removeEventListener("popstate", handlePopstate);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("focus", updateLoginState);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      clearInterval(interval);
     };
   }, []);
 
