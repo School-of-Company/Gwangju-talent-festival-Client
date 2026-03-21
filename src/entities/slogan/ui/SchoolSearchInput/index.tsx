@@ -3,6 +3,7 @@ import { Input } from "@/shared/ui";
 import { cn } from "@/shared/utils/cn";
 import Search from "@/shared/asset/svg/Search";
 import HighlightText from "../HighlightText";
+import { normalizeText } from "@/entities/slogan/lib/normalizeText";
 
 type School = {
   SD_SCHUL_CODE: string;
@@ -24,7 +25,7 @@ const SchoolSearchInput = ({
   isSchoolFetched,
   onSchoolSelect,
 }: SchoolSearchInputProps) => {
-  const normalizedValue = useMemo(() => value.replace(/\s+/g, ""), [value]);
+  const normalizedValue = useMemo(() => normalizeText(value), [value]);
 
   return (
     <div className="relative">
