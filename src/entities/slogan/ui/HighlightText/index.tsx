@@ -1,4 +1,5 @@
 import React from "react";
+import { normalizeText } from "@/entities/slogan/lib/normalizeText";
 
 interface HighlightTextProps {
   text: string;
@@ -15,13 +16,13 @@ const HighlightText = ({
     return <span>{text}</span>;
   }
 
-  const normalizedSearchTerm = searchTerm.replace(/\s+/g, "");
+  const normalizedSearchTerm = normalizeText(searchTerm);
 
   if (!normalizedSearchTerm) {
     return <span>{text}</span>;
   }
 
-  const matchIndex = text.replace(/\s+/g, "").indexOf(normalizedSearchTerm);
+  const matchIndex = normalizeText(text).indexOf(normalizedSearchTerm);
 
   if (matchIndex === -1) {
     return <span>{text}</span>;
