@@ -10,7 +10,7 @@ export async function handleSloganFormSubmit(values: SloganFormValues): Promise<
     }
     toast.success("슬로건이 제출되었습니다.");
     return true;
-  } catch (error) {
+  } catch {
     toast.error("슬로건 제출에 실패했습니다.");
     return false;
   }
