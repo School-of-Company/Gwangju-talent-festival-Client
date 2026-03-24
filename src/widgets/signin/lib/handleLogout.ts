@@ -1,15 +1,15 @@
 import { toast } from "sonner";
 import { clearTokens } from "@/shared/utils/auth";
+import { logout } from "@/widgets/signin/api/logout";
 
 export const handleLogout = async () => {
   try {
-    clearTokens();
-    if (typeof window !== "undefined") {
-      window.location.href = "/signin";
-    }
-    toast.success("로그아웃 되었습니다");
+    await logout();
   } catch (error) {
-    console.error(error);
-    toast.error("로그아웃 중 오류가 발생했습니다. 다시 로그인해주세요.");
+    console.error("로그아웃 API 호출에 실패했습니다:", error);
+  } finally {
+    clearTokens();
+    toast.success("로그아웃 되었습니다");
+    window.location.href = "/signin";
   }
 };

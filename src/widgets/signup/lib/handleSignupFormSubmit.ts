@@ -50,7 +50,6 @@ export const handleSignupFormSubmit = async (
       values,
       isValid: true,
       submitted: true,
-      isLoading: false,
       shouldRedirect: true,
       redirectTo: "/signin",
     };
@@ -62,7 +61,6 @@ export const handleSignupFormSubmit = async (
       values,
       isValid: false,
       submitted: true,
-      isLoading: false,
       error: errorMessage,
     };
   }

@@ -7,9 +7,10 @@ export const setTokens = (
   refreshTokenExpiredAt: string,
 ) => {
   // const accessExpiry = new Date(accessTokenExpiredAt);
+  const accessExpiry = new Date(accessTokenExpiredAt);
   const refreshExpiry = new Date(refreshTokenExpiredAt);
 
-  document.cookie = `accessToken=${accessToken}; path=/;`;
+  document.cookie = `accessToken=${accessToken}; expires=${accessExpiry.toUTCString()}; path=/;`;
   document.cookie = `refreshToken=${refreshToken}; expires=${refreshExpiry.toUTCString()}; path=/;`;
 };
 
