@@ -6,7 +6,6 @@ import { sloganSchema, SloganFormValues } from "../model/schema";
 import { handleSloganFormSubmit } from "./handleSloganFormSubmit";
 import { useDebounce } from "./useDebounce";
 import { useGetSchool } from "../api/useGetSchool";
-import { normalizeText } from "./normalizeText";
 import { SchoolInfoResponse } from "@/widgets/slogan/model/school";
 import { UseSloganFormReturn } from "./types";
 
@@ -23,7 +22,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
   const isValid = sloganSchema.safeParse(state.formValues).success;
 
   const normalizedSchoolName = useMemo(
-    () => normalizeText(state.formValues.school),
+    () => state.formValues.school.replace(/\s+/g, ""),
     [state.formValues.school],
   );
   const debouncedSchoolName = useDebounce<string>(normalizedSchoolName, SCHOOL_SEARCH_DELAY);
