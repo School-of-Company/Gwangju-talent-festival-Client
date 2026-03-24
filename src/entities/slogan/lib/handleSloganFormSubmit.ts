@@ -4,10 +4,7 @@ import { postSlogan } from "../api/postSlogan";
 
 export async function handleSloganFormSubmit(values: SloganFormValues): Promise<boolean> {
   try {
-    const res = await postSlogan(values);
-    if (res.status !== 200 && res.status !== 201) {
-      throw new Error(`API request failed with status ${res.status}`);
-    }
+    await postSlogan(values);
     toast.success("슬로건이 제출되었습니다.");
     return true;
   } catch {
