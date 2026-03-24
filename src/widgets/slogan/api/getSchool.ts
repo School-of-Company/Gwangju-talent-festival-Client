@@ -1,4 +1,4 @@
-import { SchoolInfoResponse } from "../model/school";
+import { SchoolInfoResponse } from "@/entities/slogan/model/school";
 
 export async function getSchool(name: string): Promise<SchoolInfoResponse> {
   const res = await fetch(

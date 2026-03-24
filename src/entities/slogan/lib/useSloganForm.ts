@@ -6,7 +6,7 @@ import { sloganSchema, SloganFormValues } from "../model/schema";
 import { handleSloganFormSubmit } from "./handleSloganFormSubmit";
 import { useDebounce } from "./useDebounce";
 import { useGetSchool } from "../api/useGetSchool";
-import { SchoolInfoResponse } from "@/widgets/slogan/model/school";
+import { SchoolInfoResponse } from "../model/school";
 import { UseSloganFormReturn } from "./types";
 
 const SCHOOL_SEARCH_DELAY = 200;
@@ -61,6 +61,8 @@ export const useSloganForm = (): UseSloganFormReturn => {
       try {
         const res = await handleSloganFormSubmit(state.formValues);
         dispatch({ type: "SET_SUBMITTED", value: res });
+      } catch (error) {
+        console.error("Form submission error:", error);
       } finally {
         dispatch({ type: "SET_SUBMITTING", value: false });
       }
