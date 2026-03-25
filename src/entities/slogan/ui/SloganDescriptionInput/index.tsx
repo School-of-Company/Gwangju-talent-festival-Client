@@ -4,13 +4,12 @@ import Textarea from "../Textarea";
 
 type SloganDescriptionInputProps = {
   value: string;
-  length: number;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-const SloganDescriptionInput = ({ value, length, onChange }: SloganDescriptionInputProps) => {
+const SloganDescriptionInput = ({ value, onChange }: SloganDescriptionInputProps) => {
   return (
-    <CountLength length={length} max={1000}>
+    <CountLength length={value.length} max={1000}>
       <Textarea
         value={value}
         onChange={onChange}

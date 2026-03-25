@@ -1,6 +1,6 @@
 import { FormState } from "./formReducer";
 import { SloganFormValues } from "../model/schema";
-import { SchoolInfo } from "@/widgets/slogan/model/school";
+import { SchoolInfo } from "../model/school";
 
 export interface SloganFormHandlers {
   handleSloganChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
