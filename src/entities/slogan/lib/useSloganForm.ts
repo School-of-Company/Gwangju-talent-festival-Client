@@ -60,7 +60,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
       dispatch({ type: "SET_SUBMITTING", value: true });
       try {
         const res = await handleSloganFormSubmit(state.formValues);
-        dispatch({ type: "SET_SUBMITTED", value: res });
+        dispatch({ type: "SET_SUBMITTED", value: !!res });
       } catch (error) {
         console.error("Form submission error:", error);
       } finally {
