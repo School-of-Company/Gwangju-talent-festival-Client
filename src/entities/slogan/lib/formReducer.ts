@@ -4,17 +4,12 @@ export interface FormState {
   formValues: SloganFormValues;
   isSubmitted: boolean;
   isSubmitting: boolean;
-  sloganLength: number;
-  descriptionLength: number;
 }
 
 export type FormAction =
   | { type: "UPDATE_FIELD"; field: keyof SloganFormValues; value: string }
-  | { type: "UPDATE_SLOGAN"; value: string; length: number }
-  | { type: "UPDATE_DESCRIPTION"; value: string; length: number }
   | { type: "SET_SUBMITTING"; value: boolean }
-  | { type: "SET_SUBMITTED"; value: boolean }
-  | { type: "SELECT_SCHOOL"; schoolName: string };
+  | { type: "SET_SUBMITTED"; value: boolean };
 
 export const initialFormState: FormState = {
   formValues: {
@@ -28,8 +23,6 @@ export const initialFormState: FormState = {
   },
   isSubmitted: false,
   isSubmitting: false,
-  sloganLength: 0,
-  descriptionLength: 0,
 };
 
 export const formReducer = (state: FormState, action: FormAction): FormState => {
@@ -38,23 +31,6 @@ export const formReducer = (state: FormState, action: FormAction): FormState => 
       return {
         ...state,
         formValues: { ...state.formValues, [action.field]: action.value },
-      };
-    case "UPDATE_SLOGAN":
-      return {
-        ...state,
-        formValues: { ...state.formValues, slogan: action.value },
-        sloganLength: action.length,
-      };
-    case "UPDATE_DESCRIPTION":
-      return {
-        ...state,
-        formValues: { ...state.formValues, description: action.value },
-        descriptionLength: action.length,
-      };
-    case "SELECT_SCHOOL":
-      return {
-        ...state,
-        formValues: { ...state.formValues, school: action.schoolName },
       };
     case "SET_SUBMITTING":
       return { ...state, isSubmitting: action.value };

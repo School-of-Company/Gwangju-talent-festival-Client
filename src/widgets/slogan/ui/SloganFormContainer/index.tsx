@@ -27,13 +27,11 @@ export default function SloganFormContainer() {
         <div className={cn("flex flex-col mt-[3.5rem] gap-24")}>
           <SloganInput
             value={state.formValues.slogan}
-            length={state.sloganLength}
             onChange={handlers.handleSloganChange}
           />
 
           <SloganDescriptionInput
             value={state.formValues.description}
-            length={state.descriptionLength}
             onChange={handlers.handleDescriptionChange}
           />
 

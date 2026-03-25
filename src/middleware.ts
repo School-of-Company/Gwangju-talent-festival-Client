@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { publicPages, festivalDate, publicIn27 } from "@/shared/config/authConfig";
+import {
+  publicPages,
+  festivalDate,
+  publicIn27,
+  sloganStartDate,
+  sloganEndDate,
+} from "@/shared/config/authConfig";
 
 export const config = {
   matcher: [
@@ -12,6 +18,7 @@ export const config = {
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const role = request.cookies.get("role")?.value;
+  const now = new Date();
 
   const isPublicAdminPath =
     pathname.match(/^\/admin\/lottery\/[^/]+$/) || pathname.match(/^\/admin\/score\/[^/]+$/);
@@ -32,7 +39,7 @@ export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  if (pathname === "/slogan") {
+  if (pathname === "/slogan" && (now < sloganStartDate || now > sloganEndDate)) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 

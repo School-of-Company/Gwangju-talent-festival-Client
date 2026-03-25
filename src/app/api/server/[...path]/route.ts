@@ -30,8 +30,10 @@ async function handleRequest(request: NextRequest): Promise<NextResponse> {
     }
 
     const response = await fetch(url, options);
-    const data = await response.json();
-    return NextResponse.json(data);
+    const contentLength = response.headers.get("content-length");
+    const hasBody = contentLength !== "0" && response.status !== 204;
+    const data = hasBody ? await response.json().catch(() => null) : null;
+    return NextResponse.json(data, { status: response.status });
   } catch (error) {
     console.error(`${method} ${url}:`, error);
     return NextResponse.json({ status: 500 });

@@ -6,11 +6,10 @@ import Button from "@/shared/ui/Button";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { formatDate } from "@/shared/utils/formatDate";
+import { sloganStartDate, sloganEndDate } from "@/shared/config/authConfig";
+import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
 
-const SLOGAN_YEAR = 2026;
-
-const SLOGAN_START = new Date(`${SLOGAN_YEAR}-05-04T00:00:00+09:00`);
-const SLOGAN_END = new Date(`${SLOGAN_YEAR}-05-08T17:59:59+09:00`);
+const SLOGAN_YEAR = sloganStartDate.getFullYear();
 
 const SloganSecondSection = () => {
   const router = useRouter();
@@ -20,7 +19,7 @@ const SloganSecondSection = () => {
   React.useEffect(() => {
     const checkPeriod = () => {
       const now = new Date();
-      setIsSloganPeriod(now >= SLOGAN_START && now <= SLOGAN_END);
+      setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
     };
 
     checkPeriod();
@@ -30,15 +29,15 @@ const SloganSecondSection = () => {
   }, []);
 
   const submissionPeriodText = React.useMemo(() => {
-    const startText = formatDate(SLOGAN_START);
-    const endText = formatDate(SLOGAN_END);
-    return `공모기간 : ${SLOGAN_YEAR}.${startText}~${endText} 18:00까지`;
+    const startText = formatDate(sloganStartDate);
+    const endText = formatDate(sloganEndDate);
+    return `공모기간 : ${SLOGAN_YEAR}.${startText}~${endText}`;
   }, []);
 
   return (
     <section id="SloganSecondSection" className={cn("w-full mt-[3.5rem] mobile:mt-20 text-center")}>
       <SectionTitle
-        title={`${SLOGAN_YEAR} 광탈페 슬로건`}
+        title={`${SLOGAN_YEAR} 광탈페 슬로건 공모예정`}
         description={
           <>
             <span className="text-black text-body2b">
@@ -63,11 +62,12 @@ const SloganSecondSection = () => {
       <Button
         type="button"
         onClick={() => router.push("/slogan")}
-        className={cn("my-[24px] mobile:mb-[12px] px-28")}
+        className={cn("mobile:mb-[12px] px-28 mt-[54px] mb-[10px] rounded-lg")}
         disabled={!isSloganPeriod}
       >
-        <span className={cn("text-body2b mobile:text-body3b flex items-center gap-10")}>
-          {isSloganPeriod ? "슬로건 공모하러가기" : "공모기간이 아닙니다"} <span>➔</span>
+        <span className={cn("text-body3b px-[60px] mobile:text-body3b flex items-center gap-10")}>
+          {isSloganPeriod ? "슬로건 공모하러가기" : "공모기간이 아닙니다"}{" "}
+          <ArrowBack color={isSloganPeriod ? "white" : "#1F2937"} />
         </span>
       </Button>
 

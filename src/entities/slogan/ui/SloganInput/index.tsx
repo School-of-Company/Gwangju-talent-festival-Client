@@ -4,13 +4,12 @@ import CountLength from "../CountLength";
 
 type SloganInputProps = {
   value: string;
-  length: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const SloganInput = ({ value, length, onChange }: SloganInputProps) => {
+const SloganInput = ({ value, onChange }: SloganInputProps) => {
   return (
-    <CountLength length={length}>
+    <CountLength length={value.length}>
       <Input
         type="text"
         value={value}
