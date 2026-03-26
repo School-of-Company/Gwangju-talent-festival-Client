@@ -5,10 +5,10 @@ import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { cn } from "@/shared/utils/cn";
 // import GITHUB_ID from "../const/GithubID";
 
-export default function SeventhSection() {
+export default function SevenSection() {
   // const totalWidth = 18.4375 * GITHUB_ID.length;
   return (
-    <section id="FinalsSixthSection" className={cn("flex flex-col items-center my-20")}>
+    <section id="SevenSection" className={cn("flex flex-col items-center mt-20 mb-[40px]")}>
       <div className={cn("w-[70%] mobile:w-full mobile:px-10")}>
         <SectionTitle
           title="광탈페 운영진 소개"
