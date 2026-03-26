@@ -33,7 +33,7 @@ export default function Modal({ type, setIsOpen, isOpen }: ModalProps) {
   return (
     <BaseModal
       isOpen={isOpen}
-      onClose={handleClose}
+      onClose={type === "agree" ? () => {} : handleClose}
       title={type === "agree" ? "개인정보수집 동의서" : "주의사항"}
       icon={<Inform />}
       showCloseButton={false}
