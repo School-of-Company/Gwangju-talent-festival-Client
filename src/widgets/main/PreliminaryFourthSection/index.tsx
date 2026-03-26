@@ -32,7 +32,7 @@ const PreliminaryFourthSection = () => {
           >
             <h2
               className={cn(
-                "text-body2b mobile:text-body3b place-self-start mb-18 mobile:mb-0 mobile:ml-12",
+                "text-body2b mobile:text-body3b place-self-start mb-8 mobile:mb-0 mobile:ml-12",
               )}
             >
               2025. 7. 25(금) 光트로 예선1 다시보기
@@ -48,7 +48,7 @@ const PreliminaryFourthSection = () => {
           >
             <h2
               className={cn(
-                "text-body2b mobile:text-body3b place-self-start mb-18 mobile:mb-0 mobile:ml-12",
+                "text-body2b mobile:text-body3b place-self-start mb-8 mobile:mb-0 mobile:ml-12",
               )}
             >
               2025. 7. 26(토) 光트로 예선2 다시보기
