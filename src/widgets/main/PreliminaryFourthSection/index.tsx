@@ -15,6 +15,11 @@ import YouTubeLazyEmbed from "@/shared/ui/YouTubeLazyEmbed";
 //   "/images/Preliminary/slide2_3.jpg",
 // ];
 
+const PRELIMINARY_VIDEOS = [
+  { title: "2025. 7. 25(금) 光트로 예선1 다시보기", videoId: "KbnIFWzWU2Y" },
+  { title: "2025. 7. 26(토) 光트로 예선2 다시보기", videoId: "n1o5Q2AVs88" },
+] as const;
+
 const PreliminaryFourthSection = () => {
   return (
     <section id="PreliminaryFourthSection" className={cn("flex flex-col items-center")}>
@@ -25,38 +30,25 @@ const PreliminaryFourthSection = () => {
         />
 
         <div className={cn("flex w-full gap-10 mobile:flex-col")}>
-          <div
-            className={cn(
-              "flex w-full flex-col items-start gap-10 justify-between mb-[90px] mobile:mb-[38px]",
-            )}
-          >
-            <h2
+          {PRELIMINARY_VIDEOS.map(({ title, videoId }) => (
+            <div
+              key={videoId}
               className={cn(
-                "text-body2b mobile:text-body3b place-self-start mb-8 mobile:mb-0 mobile:ml-12",
+                "flex w-full flex-col items-start gap-10 justify-between mb-[90px] mobile:mb-[38px]",
               )}
             >
-              2025. 7. 25(금) 光트로 예선1 다시보기
-            </h2>
-            <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-              <YouTubeLazyEmbed videoId="KbnIFWzWU2Y" title="2025 광탈페 예선1 다시보기" />
+              <h2
+                className={cn(
+                  "text-body2b mobile:text-body3b place-self-start mb-8 mobile:mb-0 mobile:ml-12",
+                )}
+              >
+                {title}
+              </h2>
+              <div className={cn("w-full mobile:mt-16 mobile:px-16")}>
+                <YouTubeLazyEmbed videoId={videoId} title={title} />
+              </div>
             </div>
-          </div>
-          <div
-            className={cn(
-              "flex w-full flex-col items-start gap-10 justify-between mb-[90px] mobile:mb-[38px]",
-            )}
-          >
-            <h2
-              className={cn(
-                "text-body2b mobile:text-body3b place-self-start mb-8 mobile:mb-0 mobile:ml-12",
-              )}
-            >
-              2025. 7. 26(토) 光트로 예선2 다시보기
-            </h2>
-            <div className={cn("w-full mobile:w-full mobile:mt-16 mobile:px-16")}>
-              <YouTubeLazyEmbed videoId="n1o5Q2AVs88" title="2025 광탈페 예선2 다시보기" />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
