@@ -11,6 +11,13 @@ const getRandomFonts = (count: number): FontType[] => {
   return shuffledFonts.slice(0, count);
 };
 
+const assignFonts = (slogans1: ReadonlyArray<string>, slogans2: ReadonlyArray<string>) => {
+  const fonts1 = getRandomFonts(slogans1.length);
+  const remaining = FONTS.filter(font => !fonts1.includes(font));
+  const fonts2 = [...remaining].sort(() => Math.random() - 0.5).slice(0, slogans2.length);
+  return [fonts1, fonts2] as const;
+};
+
 const SloganMarquee = (): React.ReactElement => {
   const [slogans1, setSlogans1] = useState<ReadonlyArray<string>>([]);
   const [slogans2, setSlogans2] = useState<ReadonlyArray<string>>([]);
@@ -18,35 +25,21 @@ const SloganMarquee = (): React.ReactElement => {
   const [fonts2, setFonts2] = useState<ReadonlyArray<FontType>>([]);
 
   const initializeSlogans = useCallback(() => {
+    let s1: ReadonlyArray<string>;
+    let s2: ReadonlyArray<string>;
+
     try {
-      const [selectedSlogans1, selectedSlogans2] = getRandomSubset(slogansMock, 8);
-
-      setSlogans1(selectedSlogans1);
-      setSlogans2(selectedSlogans2);
-
-      const randomFonts1 = getRandomFonts(selectedSlogans1.length);
-      const remainingFonts = FONTS.filter(font => !randomFonts1.includes(font));
-      const randomFonts2 = [...remainingFonts]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, selectedSlogans2.length);
-
-      setFonts1(randomFonts1);
-      setFonts2(randomFonts2);
+      [s1, s2] = getRandomSubset(slogansMock, 8);
     } catch {
-      const defaultSlogans1 = slogansMock.slice(0, 4);
-      const defaultSlogans2 = slogansMock.slice(4, 8);
-      setSlogans1(defaultSlogans1);
-      setSlogans2(defaultSlogans2);
-
-      const fallbackFonts1 = getRandomFonts(defaultSlogans1.length);
-      const fallbackRemainingFonts = FONTS.filter(font => !fallbackFonts1.includes(font));
-      const fallbackFonts2 = [...fallbackRemainingFonts]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, defaultSlogans2.length);
-
-      setFonts1(fallbackFonts1);
-      setFonts2(fallbackFonts2);
+      s1 = slogansMock.slice(0, 4);
+      s2 = slogansMock.slice(4, 8);
     }
+
+    const [f1, f2] = assignFonts(s1, s2);
+    setSlogans1(s1);
+    setSlogans2(s2);
+    setFonts1(f1);
+    setFonts2(f2);
   }, []);
 
   useEffect(() => {
