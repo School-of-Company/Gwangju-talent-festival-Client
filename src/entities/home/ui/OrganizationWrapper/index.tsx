@@ -14,12 +14,23 @@ export default function OrganizationWrapper({
   href,
 }: OrganizationWrapperProps) {
   return (
-    <div className="w-[400px] h-[400px] mobile:h-[20%] mobile:w-[48%] flex flex-col items-center border-gray-100 border-solid rounded-xl cursor-pointer shadow-md hover:shadow-lg transition-transform duration-300 hover:scale-105 hover:translate-y-2 p-4">
-      <a href={href} target="_blank">
-        <Image src={imageSrc} alt="고등의회 로고" width={300} height={300} />
-      </a>
-      <span className="mt-2 text-body1b mobile:text-caption1b font-semibold">{label}</span>
-      <p className="text-gray-500 text-body2r mobile:text-caption2r pb-6">{description}</p>
-    </div>
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex-1 max-w-[420px] mobile:w-full flex flex-col items-center px-9 py-11 tablet:px-6 tablet:py-8 mobile:px-24 mobile:py-[32px] rounded-[20px] bg-white border border-gray-100 hover:border-gray-300 shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-500 cursor-pointer"
+    >
+      <div className="relative w-[60%] aspect-square mb-24 tablet:mb-16 mobile:mb-16">
+        <Image src={imageSrc} alt={label} fill className="object-contain" />
+      </div>
+
+      <span className="text-caption2r text-gray-500 bg-gray-100 rounded-full px-14 py-6 mb-14 mobile:mb-10">
+        {description}
+      </span>
+
+      <span className="text-body1b tablet:text-body3b mobile:text-caption1b text-center text-black break-keep leading-snug">
+        {label}
+      </span>
+    </a>
   );
 }
