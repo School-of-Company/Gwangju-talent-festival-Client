@@ -17,7 +17,7 @@ import { ProfileIcon } from "@/shared/asset/svg/ProfileIcon";
 
 export default function Header() {
   const pathname = usePathname();
-  const R = useRouter();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
   const { isUserLoggedIn } = useAuthSync();
@@ -31,12 +31,12 @@ export default function Header() {
     if (isUserLoggedIn) {
       handleLogout();
     } else {
-      R.push("/signin");
+      router.push("/signin");
     }
-  }, [R, isUserLoggedIn]);
+  }, [router, isUserLoggedIn]);
 
   const handleScrollToSection = (section: string) => {
-    scrollToElement(`${section}`);
+    scrollToElement(section);
     closeMobileMenu();
   };
 
@@ -50,7 +50,7 @@ export default function Header() {
         )}
       >
         <Link href="/">
-          <Logo className="h-[42px] w-[67px] mobile:h-[32px] mobile:w-[52px]" />
+          <Logo className="h-[42px] w-[67px] mobile:h-[32px] mobile:w-[52px]" color="#FF9644" />
         </Link>
         <div className={cn("flex gap-[2.5rem] text-body3b mobile:hidden")}>
           {links.map((link, index) => (
