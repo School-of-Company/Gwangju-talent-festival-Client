@@ -18,7 +18,7 @@ export default function OrganizationWrapper({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex-1 max-w-[420px] mobile:w-full flex flex-col items-center px-9 py-11 tablet:px-6 tablet:py-8 mobile:px-24 mobile:py-[32px] rounded-[20px] bg-white border border-gray-100 hover:border-gray-300 shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-500 cursor-pointer"
+      className="group flex-1 max-w-[420px] mobile:w-full flex flex-col items-center px-9 py-11 tablet:px-6 tablet:py-8 mobile:px-24 mobile:py-32 rounded-[20px] bg-white border border-gray-100 hover:border-gray-300 shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-500 cursor-pointer"
     >
       <div className="relative w-[60%] aspect-square mb-24 tablet:mb-16 mobile:mb-16">
         <Image src={imageSrc} alt={label} fill className="object-contain" />

@@ -26,7 +26,7 @@ const PreliminaryFourthSection = () => {
       <div className={cn("w-[70%] mobile:w-full")}>
         <SectionTitle
           title="2025 광탈페 예선 다시보기"
-          className={cn("mt-[66px] mobile:mt-[1.7rem] mb-[24px]")}
+          className={cn("mt-66 mobile:mt-[1.7rem] mb-24")}
         />
 
         <div className={cn("flex w-full gap-10 mobile:flex-col")}>
@@ -34,7 +34,7 @@ const PreliminaryFourthSection = () => {
             <div
               key={videoId}
               className={cn(
-                "flex w-full flex-col items-start gap-10 justify-between mb-[90px] mobile:mb-[38px]",
+                "flex w-full flex-col items-start gap-10 justify-between mb-90 mobile:mb-38",
               )}
             >
               <h2
