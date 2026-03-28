@@ -1,14 +1,10 @@
 import MainYoutubeVideo from "@/entities/home/ui/MainYoutubeVideo";
-import { cn } from "@/shared/utils/cn";
 
 const IntroFirstSection = () => {
   return (
     <section
       id="section1"
-      className={cn(
-        "w-full relative bg-black overflow-hidden",
-        "min-[1000px]:h-screen max-[999px]:h-auto",
-      )}
+      className="w-full relative bg-black overflow-hidden min-[1000px]:h-screen max-[999px]:h-auto"
     >
       <MainYoutubeVideo />
       <div className="absolute inset-0 z-10 flex flex-col justify-end pb-[8%] mobile:pb-[6%]">
