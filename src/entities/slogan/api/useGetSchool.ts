@@ -1,4 +1,4 @@
-import { getSchool } from "@/widgets/slogan/api/getSchool";
+import { getSchool } from "./getSchool";
 import { useQuery } from "@tanstack/react-query";
 
 export function useGetSchool(name: string) {
