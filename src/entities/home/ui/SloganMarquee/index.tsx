@@ -25,19 +25,19 @@ const SloganMarquee = (): React.ReactElement => {
   const [fonts2, setFonts2] = useState<ReadonlyArray<FontType>>([]);
 
   const initializeSlogans = useCallback(() => {
-    let s1: ReadonlyArray<string>;
-    let s2: ReadonlyArray<string>;
+    let firstSlogans: ReadonlyArray<string>;
+    let secondSlogans: ReadonlyArray<string>;
 
     try {
-      [s1, s2] = getRandomSubset(slogansMock, 8);
+      [firstSlogans, secondSlogans] = getRandomSubset(slogansMock, 8);
     } catch {
-      s1 = slogansMock.slice(0, 4);
-      s2 = slogansMock.slice(4, 8);
+      firstSlogans = slogansMock.slice(0, 4);
+      secondSlogans = slogansMock.slice(4, 8);
     }
 
-    const [f1, f2] = assignFonts(s1, s2);
-    setSlogans1(s1);
-    setSlogans2(s2);
+    const [f1, f2] = assignFonts(firstSlogans, secondSlogans);
+    setSlogans1(firstSlogans);
+    setSlogans2(secondSlogans);
     setFonts1(f1);
     setFonts2(f2);
   }, []);
