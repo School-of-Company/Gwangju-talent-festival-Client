@@ -91,7 +91,7 @@ const SignupFormContainer = () => {
                 />
               </div>
               <Button
-                className={cn("w-32 shrink-0 h-[50px]")}
+                className={cn("w-128 shrink-0 h-[50px]")}
                 type="button"
                 onClick={handleSendVerificationCode}
                 disabled={isPending || isCodeSending}

@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 // import dynamic from "next/dynamic";
