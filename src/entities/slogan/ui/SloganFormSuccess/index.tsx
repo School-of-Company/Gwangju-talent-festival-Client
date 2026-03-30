@@ -33,7 +33,7 @@ const SloganFormSuccess = () => {
           </div>
         )}
         <div className="mx-auto">
-          <Button onClick={() => router.push("/home")} className="my-[24px] mobile:mb-[12px] px-28 ">
+          <Button onClick={() => router.push("/home")} className="my-[24px] mobile:mb-[12px] px-28">
             <span className="text-body2b mobile:text-body3b flex items-center gap-10">
               홈으로 가기 <span>➔</span>
             </span>
