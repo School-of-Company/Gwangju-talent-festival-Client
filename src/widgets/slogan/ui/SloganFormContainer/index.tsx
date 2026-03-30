@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/shared/utils/cn";
 import { Button } from "@/shared/ui";
 import BackHeader from "@/shared/ui/BackHeader";
 import SloganFormSuccess from "@/entities/slogan/ui/SloganFormSuccess";
@@ -19,11 +20,11 @@ export default function SloganFormContainer() {
   return (
     <form
       onSubmit={handlers.handleSubmit}
-      className="flex px-12 mt-[32px] flex-col pb-5 gap-[6.25rem]"
+      className={cn("flex px-12 mt-[32px] flex-col pb-5 gap-[6.25rem]")}
     >
       <div>
         <BackHeader text="슬로건 응모" />
-        <div className="flex flex-col mt-[3.5rem] gap-24">
+        <div className={cn("flex flex-col mt-[3.5rem] gap-24")}>
           <SloganInput
             value={state.formValues.slogan}
             onChange={handlers.handleSloganChange}
