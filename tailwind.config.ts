@@ -93,6 +93,7 @@ export default {
         "96": "96px",
         "100": "100px",
         "120": "120px",
+        "128": "128px",
       },
       borderRadius: {
         none: "0",

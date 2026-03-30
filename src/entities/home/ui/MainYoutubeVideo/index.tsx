@@ -1,3 +1,4 @@
+import { cn } from "@/shared/utils/cn";
 
 export default function MainYoutubeVideo() {
   const youtubeId = "8iM_JB8u-Vo";
@@ -13,18 +14,39 @@ export default function MainYoutubeVideo() {
   return (
     <>
       <iframe
-        className="max-[1199px]:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] h-[100vh] min-w-full min-h-full pointer-events-none"
+        className={cn(
+          "max-[1199px]:hidden",
+          "absolute",
+          "top-1/2",
+          "left-1/2",
+          "-translate-x-1/2",
+          "-translate-y-1/2",
+          "w-[177.78vh]",
+          "h-[100vh]",
+          "min-w-full",
+          "min-h-full",
+          "pointer-events-none",
+        )}
         {...iframeProps}
       />
 
-      <div className="min-[1200px]:hidden relative w-full aspect-video">
+      <div className={cn("min-[1200px]:hidden", "relative", "w-full", "aspect-video")}>
         <iframe
-          className="absolute inset-0 w-full h-full pointer-events-none"
+          className={cn("absolute", "inset-0", "w-full", "h-full", "pointer-events-none")}
           {...iframeProps}
         />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/10" />
+      <div
+        className={cn(
+          "absolute",
+          "inset-0",
+          "bg-gradient-to-t",
+          "from-black",
+          "via-black/30",
+          "to-black/10",
+        )}
+      />
     </>
   );
 }
