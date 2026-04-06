@@ -46,8 +46,7 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
       }
     });
 
-    eventSource.onerror = error => {
-      throw error;
+    eventSource.onerror = () => {
       toast.error("실시간 좌석 정보 연결에 실패했습니다.");
     };
 
