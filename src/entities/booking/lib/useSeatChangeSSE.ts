@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { SeatChangeEvent } from "../model/types";
-import { event } from "nextjs-google-analytics";
 
 interface UseSeatChangeSSEOptions {
   onSeatChange?: (event: SeatChangeEvent) => void;
@@ -36,14 +35,10 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
         };
 
         if (onSeatChangeRef.current) {
-          try {
-            onSeatChangeRef.current(seatChangeEvent);
-          } catch (callbackError) {
-            throw callbackError;
-          }
+          onSeatChangeRef.current(seatChangeEvent);
         }
       } catch (error) {
-        throw error;
+        toast.error("좌석 정보를 불러오는 중 오류가 발생했습니다.");
       }
     });
 
