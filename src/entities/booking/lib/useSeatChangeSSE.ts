@@ -37,7 +37,7 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
         if (onSeatChangeRef.current) {
           onSeatChangeRef.current(seatChangeEvent);
         }
-      } catch (error) {
+      } catch {
         toast.error("좌석 정보를 불러오는 중 오류가 발생했습니다.");
       }
     });
