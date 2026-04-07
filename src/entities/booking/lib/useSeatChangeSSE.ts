@@ -37,18 +37,21 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
         if (onSeatChangeRef.current) {
           try {
             onSeatChangeRef.current(seatChangeEvent);
-          } catch (callbackError) {
-            throw callbackError;
+          } catch {
+            toast.error("좌석 정보 처리 중 오류가 발생했습니다.");
           }
         }
-      } catch (error) {
-        throw error;
+      } catch {
+        toast.error("좌석 정보를 불러오는 중 오류가 발생했습니다.");
       }
     });
 
-    eventSource.onerror = error => {
-      throw error;
-      toast.error("실시간 좌석 정보 연결에 실패했습니다.");
+    eventSource.onopen = () => {
+      toast.dismiss("sse-error");
+    };
+
+    eventSource.onerror = () => {
+      toast.error("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
     };
 
     return () => {
