@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
-    globals: true,
+    globals: false,
     setupFiles: ["./vitest.setup.ts"],
     coverage: {
       provider: "v8",
@@ -14,7 +14,6 @@ export default defineConfig({
       exclude: [
         "node_modules/**",
         ".next/**",
-        "src/app/**",
         "**/*.config.*",
         "**/*.d.ts",
       ],
