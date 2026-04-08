@@ -22,10 +22,7 @@ jobs:
       - name: Node.js 설정
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-
-      - name: npm 최신 버전 설치 (선택 사항)
-        run: npm install -g npm@8
+          node-version: "20"
 
       - name: npm 캐시 설정
         uses: actions/cache@v3
@@ -57,14 +54,50 @@ jobs:
       - name: Node.js 설정
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "20"
 
-      - name: 커버리지 리포트
+      - name: npm 캐시 설정
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: PR 브랜치 의존성 설치
+        run: npm install --frozen-lockfile
+
+      - name: PR 브랜치 커버리지 생성
+        run: npm run test:coverage
+
+      - name: PR 커버리지 백업
+        run: cp coverage/coverage-final.json /tmp/head-coverage.json
+
+      - name: Base 브랜치 체크아웃
+        run: git checkout ${{ github.base_ref }}
+
+      - name: Base 브랜치 의존성 설치
+        run: npm install --frozen-lockfile
+
+      - name: Base 브랜치 커버리지 생성
+        run: npm run test:coverage
+        continue-on-error: true
+
+      - name: Base 커버리지 백업
+        run: |
+          if [ -f coverage/coverage-final.json ]; then
+            cp coverage/coverage-final.json /tmp/base-coverage.json
+          else
+            cp /tmp/head-coverage.json /tmp/base-coverage.json
+          fi
+
+      - name: 커버리지 리포트 PR 코멘트
         uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          test-script: npm run test:coverage
-          package-manager: npm
+          skip-step: all
+          coverage-file: /tmp/head-coverage.json
+          base-coverage-file: /tmp/base-coverage.json
 
   pr-checks:
     needs: [build]
