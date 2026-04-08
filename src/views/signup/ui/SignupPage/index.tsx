@@ -19,7 +19,7 @@ const SignupPage = () => {
         <SignupFormContainer />
         <p className="text-body2r mt-28 text-gray-500 mobile:text-caption1r mobile:mt-10 ">
           이미 회원가입을 하셨나요?{" "}
-          <Link href="/signin" className="text-main-600 hover:underline">
+          <Link href="/signin" className="text-orange-500 hover:underline">
             로그인 하러가기
           </Link>
         </p>
