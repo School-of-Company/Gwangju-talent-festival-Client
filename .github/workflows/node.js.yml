@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
     branches: [main, develop]
     types: [opened, synchronize, reopened, ready_for_review]
@@ -18,15 +18,15 @@ jobs:
 
     steps:
       - name: 소스코드 체크아웃
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Node.js 설정
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
 
       - name: npm 캐시 설정
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -44,64 +44,33 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
 
     steps:
       - name: 소스코드 체크아웃
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v4
 
       - name: Node.js 설정
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
 
       - name: npm 캐시 설정
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: PR 브랜치 의존성 설치
+      - name: 의존성 설치
         run: npm install --frozen-lockfile
 
-      - name: PR 브랜치 커버리지 생성
+      - name: 테스트 및 커버리지 생성
         run: npm run test:coverage
-
-      - name: PR 커버리지 백업
-        run: cp coverage/coverage-final.json /tmp/head-coverage.json
-
-      - name: Base 브랜치 체크아웃
-        run: git checkout -f ${{ github.base_ref }}
-
-      - name: Base 브랜치 의존성 설치
-        run: npm install --frozen-lockfile
-
-      - name: Base 브랜치 커버리지 생성
-        run: npm run test:coverage
-        continue-on-error: true
-
-      - name: Base 커버리지 백업
-        run: |
-          if [ -f coverage/coverage-final.json ]; then
-            cp coverage/coverage-final.json /tmp/base-coverage.json
-          else
-            cp /tmp/head-coverage.json /tmp/base-coverage.json
-          fi
-
-      - name: PR 브랜치로 복귀
-        run: git checkout -f ${{ github.event.pull_request.head.sha }}
 
       - name: 커버리지 리포트 PR 코멘트
-        uses: ArtiomTr/jest-coverage-report-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          skip-step: all
-          coverage-file: /tmp/head-coverage.json
-          base-coverage-file: /tmp/base-coverage.json
+        uses: davelosert/vitest-coverage-report-action@v2
+        if: github.event_name == 'pull_request'
 
   pr-checks:
     needs: [build]
@@ -109,7 +78,7 @@ jobs:
     if: always() && github.event_name == 'pull_request'
     steps:
       - name: PR CI 결과 코멘트
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const buildResult = '${{ needs.build.result }}';

@@ -10,7 +10,7 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     coverage: {
       provider: "istanbul",
-      reporter: ["text", "lcov", "json"],
+      reporter: ["text", "lcov", "json", "json-summary"],
       exclude: [
         "node_modules/**",
         ".next/**",
