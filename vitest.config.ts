@@ -9,7 +9,7 @@ export default defineConfig({
     globals: false,
     setupFiles: ["./vitest.setup.ts"],
     coverage: {
-      provider: "v8",
+      provider: "istanbul",
       reporter: ["text", "lcov", "json"],
       exclude: [
         "node_modules/**",

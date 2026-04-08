@@ -10,6 +10,7 @@ on:
 permissions:
   pull-requests: write
   contents: read
+  checks: write
 
 jobs:
   build:
@@ -90,6 +91,9 @@ jobs:
           else
             cp /tmp/head-coverage.json /tmp/base-coverage.json
           fi
+
+      - name: PR 브랜치로 복귀
+        run: git checkout -f ${{ github.event.pull_request.head.sha }}
 
       - name: 커버리지 리포트 PR 코멘트
         uses: ArtiomTr/jest-coverage-report-action@v2
