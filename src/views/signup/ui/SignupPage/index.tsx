@@ -10,7 +10,7 @@ const SignupPage = () => {
       <div className={cn("w-full max-w-md flex flex-col items-center")}>
         <div className={cn("mb-20 mobile:mb-0")}>
           <Logo
-            color={colors.main[600]}
+            color={colors.orange[500]}
             width={200}
             height={200}
             className="mobile:w-[150px] mobile:h-[100px]"
