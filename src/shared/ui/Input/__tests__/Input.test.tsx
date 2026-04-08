@@ -29,8 +29,8 @@ describe("Input", () => {
 
   it("password 토글 시 type이 변경된다", async () => {
     const user = userEvent.setup();
-    const { container } = render(<Input type="password" />);
-    const input = container.querySelector("input") as HTMLInputElement;
+    render(<Input type="password" id="password" label="비밀번호" />);
+    const input = screen.getByLabelText("비밀번호") as HTMLInputElement;
     expect(input.type).toBe("password");
     await user.click(screen.getByRole("button"));
     expect(input.type).toBe("text");
