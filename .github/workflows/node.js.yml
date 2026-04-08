@@ -74,7 +74,7 @@ jobs:
         run: cp coverage/coverage-final.json /tmp/head-coverage.json
 
       - name: Base 브랜치 체크아웃
-        run: git checkout ${{ github.base_ref }}
+        run: git checkout -f ${{ github.base_ref }}
 
       - name: Base 브랜치 의존성 설치
         run: npm install --frozen-lockfile
