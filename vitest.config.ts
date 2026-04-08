@@ -14,6 +14,7 @@ export default defineConfig({
       exclude: [
         "node_modules/**",
         ".next/**",
+        "src/app/**",
         "**/*.config.*",
         "**/*.d.ts",
       ],
