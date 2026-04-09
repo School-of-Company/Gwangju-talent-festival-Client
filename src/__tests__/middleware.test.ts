@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { NextRequest } from "next/server";
 import { middleware } from "../middleware";
 
@@ -114,19 +114,21 @@ describe("middleware - 어드민 접근 제어", () => {
 });
 
 describe("middleware - 슬로건 게이트", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("슬로건 기간 이전에는 /slogan 접근 시 /home으로 리다이렉트한다", () => {
     vi.setSystemTime(new Date("2026-04-01T00:00:00"));
     const res = middleware(makeRequest("/slogan", { accessToken: "abc", refreshToken: "xyz" }));
     expect(res.status).toBe(307);
     expect(getLocation(res)).toContain("/home");
-    vi.useRealTimers();
   });
 
   it("슬로건 기간 내에는 /slogan 접근이 허용된다", () => {
     vi.setSystemTime(new Date("2026-05-20T00:00:00"));
     const res = middleware(makeRequest("/slogan", { accessToken: "abc", refreshToken: "xyz" }));
     expect(res.status).toBe(200);
-    vi.useRealTimers();
   });
 
   it("슬로건 기간 이후에는 /slogan 접근 시 /home으로 리다이렉트한다", () => {
@@ -134,6 +136,5 @@ describe("middleware - 슬로건 게이트", () => {
     const res = middleware(makeRequest("/slogan", { accessToken: "abc", refreshToken: "xyz" }));
     expect(res.status).toBe(307);
     expect(getLocation(res)).toContain("/home");
-    vi.useRealTimers();
   });
 });

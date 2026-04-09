@@ -37,6 +37,7 @@ describe("handleSignupFormSubmit - 유효성 검사", () => {
     );
     expect(result.isValid).toBe(false);
     expect(mockSignUp).not.toHaveBeenCalled();
+    expect(mockToastError).toHaveBeenCalled();
   });
 
   it("인증코드가 6자리가 아니면 isValid: false를 반환한다", async () => {
@@ -46,6 +47,7 @@ describe("handleSignupFormSubmit - 유효성 검사", () => {
     );
     expect(result.isValid).toBe(false);
     expect(mockSignUp).not.toHaveBeenCalled();
+    expect(mockToastError).toHaveBeenCalled();
   });
 
   it("비밀번호가 8자 미만이면 isValid: false를 반환한다", async () => {
@@ -55,6 +57,7 @@ describe("handleSignupFormSubmit - 유효성 검사", () => {
     );
     expect(result.isValid).toBe(false);
     expect(mockSignUp).not.toHaveBeenCalled();
+    expect(mockToastError).toHaveBeenCalled();
   });
 });
 

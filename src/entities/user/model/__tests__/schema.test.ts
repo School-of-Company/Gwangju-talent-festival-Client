@@ -50,6 +50,7 @@ describe("verificationCodeSchema", () => {
   it("6자리 초과면 실패한다", () => {
     const result = verificationCodeSchema.safeParse("1234567");
     expect(result.success).toBe(false);
+    expect(result.error?.errors[0].message).toBe("인증번호는 6자리여야 합니다.");
   });
 });
 

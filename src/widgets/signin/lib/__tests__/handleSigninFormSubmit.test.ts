@@ -26,13 +26,17 @@ function makeFormData(data: Record<string, string>) {
   return fd;
 }
 
-beforeEach(() => {
-  vi.clearAllMocks();
+function setLocationSearch(search: string) {
   Object.defineProperty(window, "location", {
-    value: { search: "" },
+    value: { search },
     writable: true,
     configurable: true,
   });
+}
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  setLocationSearch("");
 });
 
 describe("handleSigninFormSubmit - 유효성 검사", () => {
@@ -83,11 +87,7 @@ describe("handleSigninFormSubmit - 로그인 성공", () => {
 
   it("올바른 next 파라미터가 있으면 해당 경로로 리다이렉트한다", async () => {
     mockSignin.mockResolvedValue(MOCK_RESPONSE);
-    Object.defineProperty(window, "location", {
-      value: { search: "?next=/vote" },
-      writable: true,
-      configurable: true,
-    });
+    setLocationSearch("?next=/vote");
     const result = await handleSigninFormSubmit(
       INITIAL_STATE,
       makeFormData({ phoneNumber: "01012345678", password: "pass1234" }),
@@ -97,11 +97,7 @@ describe("handleSigninFormSubmit - 로그인 성공", () => {
 
   it("오픈 리다이렉트 방지: next가 /signin이면 /home으로 리다이렉트한다", async () => {
     mockSignin.mockResolvedValue(MOCK_RESPONSE);
-    Object.defineProperty(window, "location", {
-      value: { search: "?next=/signin" },
-      writable: true,
-      configurable: true,
-    });
+    setLocationSearch("?next=/signin");
     const result = await handleSigninFormSubmit(
       INITIAL_STATE,
       makeFormData({ phoneNumber: "01012345678", password: "pass1234" }),
@@ -111,11 +107,7 @@ describe("handleSigninFormSubmit - 로그인 성공", () => {
 
   it("오픈 리다이렉트 방지: next가 외부 URL이면 /home으로 리다이렉트한다", async () => {
     mockSignin.mockResolvedValue(MOCK_RESPONSE);
-    Object.defineProperty(window, "location", {
-      value: { search: "?next=https://evil.com" },
-      writable: true,
-      configurable: true,
-    });
+    setLocationSearch("?next=https://evil.com");
     const result = await handleSigninFormSubmit(
       INITIAL_STATE,
       makeFormData({ phoneNumber: "01012345678", password: "pass1234" }),
