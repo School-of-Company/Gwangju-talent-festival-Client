@@ -10,7 +10,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, placeholder, label, ...props }, ref) => {
+  ({ className, type, placeholder, label, id, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {
@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="w-full flex flex-col gap-8">
-        <label className="text-body3b">{label}</label>
+        <label className="text-body3b" htmlFor={id}>{label}</label>
         <div className="relative">
           <input
             className={cn(
@@ -28,6 +28,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
               className,
             )}
+            id={id}
             placeholder={placeholder}
             type={type === "password" ? (showPassword ? "text" : "password") : type}
             ref={ref}
