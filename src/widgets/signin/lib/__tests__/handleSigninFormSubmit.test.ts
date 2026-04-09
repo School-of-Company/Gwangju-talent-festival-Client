@@ -34,9 +34,17 @@ function setLocationSearch(search: string) {
   });
 }
 
+function clearAllCookies() {
+  document.cookie.split(";").forEach(c => {
+    const name = c.split("=")[0].trim();
+    if (name) document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  });
+}
+
 beforeEach(() => {
   vi.clearAllMocks();
   setLocationSearch("");
+  clearAllCookies();
 });
 
 describe("handleSigninFormSubmit - 유효성 검사", () => {
@@ -61,7 +69,7 @@ describe("handleSigninFormSubmit - 유효성 검사", () => {
 });
 
 describe("handleSigninFormSubmit - 로그인 성공", () => {
-  it("setTokens를 올바른 인자로 호출한다", async () => {
+  it("setTokens를 올바른 인자로 호출하고 role 쿠키를 저장한다", async () => {
     mockSignin.mockResolvedValue(MOCK_RESPONSE);
     await handleSigninFormSubmit(
       INITIAL_STATE,
@@ -73,6 +81,7 @@ describe("handleSigninFormSubmit - 로그인 성공", () => {
       MOCK_RESPONSE.refresh_token,
       MOCK_RESPONSE.refresh_token_expired_at,
     );
+    expect(document.cookie).toContain(`role=${MOCK_RESPONSE.role}`);
   });
 
   it("next 파라미터 없으면 /home으로 리다이렉트한다", async () => {
