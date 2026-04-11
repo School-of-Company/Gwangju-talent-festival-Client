@@ -242,7 +242,7 @@ main ← develop ← feat/<name>
 
 ## PR Rules
 
-- Title: `[type] Brief description` (under 70 chars)
+- Title: `type: 한국어 설명` (70자 이내)
 - Body: must include **Summary** + **Test plan** sections
 - Base branch: always `develop`
 - Merge only after CI passes
