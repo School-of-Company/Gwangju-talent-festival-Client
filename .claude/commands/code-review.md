@@ -1,5 +1,9 @@
 Review the current branch changes against develop: $ARGUMENTS
 
+## Rules
+
+- **All review output must be written in Korean**
+
 ## Instructions
 
 1. Run `git diff develop...HEAD` to get the full diff
@@ -9,37 +13,38 @@ Review the current branch changes against develop: $ARGUMENTS
 
 ## Review Criteria
 
-### Must Check
-- **Bug risk**: null/undefined handling, async error handling, edge cases
-- **Security**: XSS, open redirect, sensitive data exposure, missing auth checks
-- **Type safety**: `any` usage, unsafe type assertions
+### 필수 확인
+- **버그 가능성**: null/undefined 처리, 비동기 에러 처리, 엣지 케이스
+- **보안**: XSS, 오픈 리다이렉트, 민감 정보 노출, 인증/인가 누락
+- **타입 안전성**: `any` 사용, 잘못된 타입 단언
 
-### Code Quality
-- **FSD compliance**: layer dependency direction must be `app` → `views` → `widgets` → `entities` → `shared`; reverse imports are forbidden
-- **Unnecessary complexity**: over-abstraction, dead code
-- **Duplication**: repeated logic that should be extracted
+### 코드 품질
+- **FSD 규칙 준수**: 레이어 의존성 방향 `app` → `views` → `widgets` → `entities` → `shared`, 역방향 참조 금지
+- **불필요한 복잡도**: 과도한 추상화, 사용되지 않는 코드
+- **중복**: 반복되는 로직
 
-### Tests
-- New logic should have corresponding tests
-- Tests should verify behavior, not implementation details
+### 테스트
+- 새 로직에 테스트가 있는지
+- 테스트가 구현 세부사항이 아닌 동작을 검증하는지
 
 ## Output Format
 
 ```
-## Code Review
+## 코드 리뷰
 
-### Must Fix
-- [file:line] issue and suggestion
+### 🚨 필수 수정
+- [파일명:라인] 문제점 및 제안
 
-### Recommended
-- [file:line] issue and suggestion
+### 💡 권장 개선
+- [파일명:라인] 문제점 및 제안
 
-### Optional
-- [file:line] comment or opinion
+### 🔍 확인 사항 (선택)
+- [파일명:라인] 의견
 
-### Good Parts
+### ✅ 잘된 점
 - ...
 ```
 
-- If no issues found, explicitly state "No issues"
-- Always include file path and line number for each item
+- 이슈가 없으면 해당 섹션 생략
+- 문제가 전혀 없으면 "이슈 없음" 명시
+- 각 항목에 파일 경로와 라인 번호 포함
