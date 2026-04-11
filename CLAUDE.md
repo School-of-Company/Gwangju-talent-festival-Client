@@ -182,6 +182,19 @@ const BASE_URL = "https://api.stateinfra.kr"
 
 ## Branch Strategy
 
+```
+main ← develop ← feat/<name>
+                ← fix/<name>
+                ← test/<name>
+                ← chore/<name>
+                ← ...
+```
+
+- All feature branches must be created from `develop`
+- Feature branches merge into `develop` via PR
+- `develop` merges into `main` via PR (release)
+- **Direct commits or pushes to `main` or `develop` are strictly forbidden**
+
 | Branch | Purpose |
 |--------|---------|
 | `main` | Production deployment |
@@ -190,6 +203,9 @@ const BASE_URL = "https://api.stateinfra.kr"
 | `fix/<name>` | Bug fix |
 | `test/<name>` | Test code |
 | `chore/<name>` | Config, dependencies |
+| `refactor/<name>` | Code improvement |
+| `design/<name>` | UI design change |
+| `docs/<name>` | Documentation |
 
 ## Git Conventions
 
@@ -231,6 +247,9 @@ const BASE_URL = "https://api.stateinfra.kr"
 
 | Command | Description |
 |---------|-------------|
+| `/create-branch <type>/<name>` | Create a new branch from develop |
+| `/create-component <Name>` | Create a component in the correct FSD layer |
+| `/create-page <route>` | Create an App Router page with loading/error |
 | `/write-test <file>` | Write unit tests for the specified file |
 | `/commit` | Analyze changes and create a commit |
 | `/pr` | Draft and create a pull request |
