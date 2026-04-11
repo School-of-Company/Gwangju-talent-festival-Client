@@ -229,6 +229,10 @@ main ← develop ← feat/<name>
 | `remove` | Delete files or folders |
 | `perf` | Performance improvement |
 
+**Writing Rules:**
+- Subject must be written in Korean
+- No period at end of subject line
+
 **Commit Granularity Rules:**
 - Keep commits as small as possible — one commit = one unit of change
 - Always split into separate commits when change areas differ:

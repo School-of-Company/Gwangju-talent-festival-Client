@@ -22,7 +22,7 @@ Analyze staged changes and create a commit: $ARGUMENTS
 | `remove` | Delete files or folders |
 | `perf` | Performance improvement |
 
-- Subject written in Korean is acceptable
+- Subject must be written in Korean
 - No period at end of subject line
 
 ## Commit Granularity Rules
@@ -46,9 +46,9 @@ Analyze staged changes and create a commit: $ARGUMENTS
 ## Examples
 
 ```
-feat: add validation to sign-in form
-fix: prevent infinite redirect on token expiry
-test: add unit tests for handleSigninFormSubmit
-chore: update vitest coverage config
-refactor: extract setLocationSearch as a helper function
+feat: 로그인 폼 유효성 검사 추가
+fix: 토큰 만료 시 무한 리다이렉트 수정
+test: handleSigninFormSubmit 단위 테스트 추가
+chore: vitest coverage 설정 변경
+refactor: setLocationSearch 헬퍼 함수로 추출
 ```
