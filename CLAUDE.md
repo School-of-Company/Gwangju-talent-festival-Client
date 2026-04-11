@@ -204,6 +204,7 @@ main ← develop ← feat/<name>
 | `test/<name>` | Test code |
 | `chore/<name>` | Config, dependencies |
 | `refactor/<name>` | Code improvement |
+| `perf/<name>` | Performance improvement |
 | `design/<name>` | UI design change |
 | `docs/<name>` | Documentation |
 
@@ -243,7 +244,7 @@ main ← develop ← feat/<name>
 ## PR Rules
 
 - Title: `type: 한국어 설명` (70자 이내)
-- Body: must include **Summary** + **Test plan** sections
+- Body: must follow `.github/PULL_REQUEST_TEMPLATE.md` — **💡 PR 요약**, **📋 작업 내용**, **🤝 리뷰 시 참고사항** 섹션 포함
 - Base branch: always `develop`
 - Merge only after CI passes
 
@@ -259,6 +260,8 @@ main ← develop ← feat/<name>
 | `/pr` | Draft and create a pull request |
 | `/code-review` | Review current branch changes |
 | `/resolve <PR number>` | Reply to all open PR review comments |
+| `/refactor <file>` | Refactor without changing behavior |
+| `/perf <file>` | Improve performance of the specified target |
 
 ## New Feature Checklist
 

@@ -13,6 +13,7 @@ Create a new branch from develop and switch to it: $ARGUMENTS
 | `test/<name>` | Test code |
 | `chore/<name>` | Config, dependencies |
 | `refactor/<name>` | Code improvement |
+| `perf/<name>` | Performance improvement |
 | `design/<name>` | UI design change |
 | `docs/<name>` | Documentation |
 
