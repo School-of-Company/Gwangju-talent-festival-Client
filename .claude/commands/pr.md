@@ -14,7 +14,7 @@ Draft and create a pull request based on the current branch: $ARGUMENTS
 1. Run `git log develop..HEAD` to get the commit list
 2. Run `git diff develop...HEAD` to understand all changes
 3. Draft the PR title and body following the template below
-4. Confirm with the user, then run `gh pr create`
+4. Confirm with the user, then run `gh pr create --base develop`
 
 ## PR Title Format
 

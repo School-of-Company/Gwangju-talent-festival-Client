@@ -14,7 +14,7 @@ Read all open PR review comments and post a reply to each thread: $ARGUMENTS
 
 2. Fetch all open review comments
    ```bash
-   gh api repos/{owner}/{repo}/pulls/{pr}/comments
+   gh api repos/:owner/:repo/pulls/{pr}/comments
    ```
 
 3. Classify each comment into one of:
@@ -24,7 +24,7 @@ Read all open PR review comments and post a reply to each thread: $ARGUMENTS
 
 4. Post a reply to each comment thread
    ```bash
-   gh api repos/{owner}/{repo}/pulls/comments/{comment_id}/replies \
+   gh api repos/:owner/:repo/pulls/comments/{comment_id}/replies \
      -X POST -f body="<한국어 답글>"
    ```
 

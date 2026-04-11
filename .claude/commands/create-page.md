@@ -59,7 +59,13 @@ export const metadata: Metadata = {
 }
 
 export default async function <Page>Page() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000,
+      },
+    },
+  })
 
   await queryClient.prefetchQuery({
     queryKey: ["<page>"],

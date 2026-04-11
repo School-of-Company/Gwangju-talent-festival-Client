@@ -15,7 +15,7 @@ interface <Name>Props {
 
 export default function <Name>({ className }: <Name>Props) {
   return (
-    <div className={cn("", className)}>
+    <div className={cn(className)}>
       {/* content */}
     </div>
   )
@@ -36,7 +36,7 @@ interface <Name>Props {
 
 export default function <Name>({ className }: <Name>Props) {
   return (
-    <div className={cn("", className)}>
+    <div className={cn(className)}>
       {/* content */}
     </div>
   )
@@ -58,7 +58,7 @@ const <Name> = forwardRef<HTMLInputElement, <Name>Props>(
     return (
       <div>
         {label && <label>{label}</label>}
-        <input ref={ref} className={cn("", className)} {...props} />
+        <input ref={ref} className={cn(className)} {...props} />
       </div>
     )
   }

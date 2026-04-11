@@ -24,7 +24,7 @@ interface ComponentNameProps {
 
 export default function ComponentName({ className }: ComponentNameProps) {
   return (
-    <div className={cn("", className)}>
+    <div className={cn(className)}>
       {/* content */}
     </div>
   )
@@ -47,7 +47,7 @@ export default function ComponentName({ className }: ComponentNameProps) {
   const [state, setState] = useState(...)
 
   return (
-    <div className={cn("", className)}>
+    <div className={cn(className)}>
       {/* content */}
     </div>
   )
