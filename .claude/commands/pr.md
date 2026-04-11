@@ -19,7 +19,7 @@ Draft and create a pull request based on the current branch: $ARGUMENTS
 ## PR Title Format
 
 ```
-[type] 한국어로 간결하게 (70자 이내)
+type: 한국어로 간결하게 (70자 이내)
 ```
 
 ## PR Body Template (must follow exactly)
@@ -47,8 +47,8 @@ Draft and create a pull request based on the current branch: $ARGUMENTS
 ## Title Examples
 
 ```
-[feat] 로그인 폼 유효성 검사 추가
-[fix] 토큰 만료 시 무한 리다이렉트 수정
-[test] auth 관련 단위 테스트 추가
-[chore] GitHub Actions CI 설정 추가
+feat: 로그인 폼 유효성 검사 추가
+fix: 토큰 만료 시 무한 리다이렉트 수정
+test: auth 관련 단위 테스트 추가
+chore: GitHub Actions CI 설정 추가
 ```
