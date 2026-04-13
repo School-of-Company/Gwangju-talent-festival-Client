@@ -61,6 +61,20 @@ src/
 
 ## Coding Conventions
 
+### FSD Layer Rules
+
+Layer dependency direction is strictly enforced:
+
+```
+app → views → widgets → entities → shared
+```
+
+- Each layer may only import from layers **below** it
+- Cross-slice imports within the same layer are forbidden
+  - e.g. `entities/user` cannot import from `entities/team`
+- `shared` cannot import from any other layer
+- TanStack Query hooks belong in `model/` — never in `hooks/`
+
 ### Naming
 
 - Components: `PascalCase.tsx`, default export
