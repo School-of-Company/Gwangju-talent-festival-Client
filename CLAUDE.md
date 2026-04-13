@@ -253,14 +253,11 @@ main ← develop ← feat/<name>
 | Command | Description |
 |---------|-------------|
 | `/create-branch <type>/<name>` | Create a new branch from develop |
-| `/create-component <Name>` | Create a component in the correct FSD layer |
-| `/create-page <route>` | Create an App Router page with loading/error |
 | `/write-test <file>` | Write unit tests for the specified file |
 | `/commit` | Analyze changes and create a commit |
 | `/pr` | Draft and create a pull request |
 | `/code-review` | Review current branch changes |
 | `/resolve <PR number>` | Reply to all open PR review comments |
-| `/refactor <file>` | Refactor without changing behavior |
 | `/perf <file>` | Improve performance of the specified target |
 
 ## New Feature Checklist
