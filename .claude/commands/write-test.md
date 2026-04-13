@@ -1,12 +1,12 @@
 Write unit tests for the specified file or feature: $ARGUMENTS
 
-## Project Testing Context
+## Testing Stack
 
 - **Framework**: Vitest + React Testing Library
 - **Coverage**: `@vitest/coverage-istanbul`
-- **Setup file**: `vitest.setup.ts` (`@testing-library/jest-dom` 자동 적용)
-- **Path alias**: `@/` maps to `src/`
-- **Run tests**: `npm run test:run src/path/to/file.test.ts`
+- **Setup file**: `vitest.setup.ts` (auto-applies `@testing-library/jest-dom`)
+- **Path alias**: `@/` → `src/`
+- **Run single file**: `npm run test:run src/path/to/__tests__/file.test.ts`
 - **Run all**: `npm run test:run`
 - **Coverage**: `npm run test:coverage`
 
@@ -20,50 +20,57 @@ Write unit tests for the specified file or feature: $ARGUMENTS
    - Place test file in `__tests__/` directory next to the source file
    - `foo.ts` → `__tests__/foo.test.ts`
    - Group with `describe`, name cases with `it`
-   - Import `describe`, `it`, `expect`, `vi`, `beforeEach`, `afterEach` from `vitest` (globals: false)
+   - Always import explicitly from `vitest` — `globals: false`
+     ```ts
+     import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
+     ```
 
 4. **Mocking**:
-   - API 함수: `vi.mock("@/entities/.../api/...")`
-   - 외부 라이브러리: `vi.mock("sonner")`, `vi.mock("next/navigation")` 등
-   - `vi.mocked(fn)`으로 타입 안전하게 사용
-   - 각 테스트 전 `vi.clearAllMocks()` 호출
+   - API functions: `vi.mock("@/entities/.../api/...")`
+   - External libraries: `vi.mock("sonner")`, `vi.mock("next/navigation")`, etc.
+   - Use `vi.mocked(fn)` for type-safe access to mocked functions
+   - Call `vi.clearAllMocks()` in every `beforeEach`
 
-5. **React components**: `render`, `screen`, `userEvent` from `@testing-library/react`
+5. **React components**: use `render`, `screen`, `userEvent`
    ```ts
-   import { render, screen } from "@testing-library/react";
-   import userEvent from "@testing-library/user-event";
+   import { render, screen } from "@testing-library/react"
+   import userEvent from "@testing-library/user-event"
    ```
 
-6. **Next.js middleware**: `NextRequest`를 직접 생성해서 테스트
+6. **Next.js middleware**: create `NextRequest` directly
    ```ts
-   import { NextRequest } from "next/server";
+   import { NextRequest } from "next/server"
    new NextRequest(new URL("/path", "http://localhost"), {
      headers: { Cookie: "accessToken=abc; refreshToken=xyz" },
-   });
+   })
    ```
 
-7. **Date-dependent logic**: `vi.setSystemTime(new Date(...))` + `vi.useRealTimers()`
-
-8. **cookies (jsdom)**: `document.cookie`로 직접 설정/초기화
+7. **Date-dependent logic**: use `vi.setSystemTime` + restore in `afterEach`
    ```ts
-   beforeEach(() => {
+   afterEach(() => { vi.useRealTimers() })
+   ```
+
+8. **Cookies (jsdom)**: use `document.cookie` directly
+   ```ts
+   function clearAllCookies() {
      document.cookie.split(";").forEach(c => {
-       const name = c.split("=")[0].trim();
-       if (name) document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-     });
-   });
+       const name = c.split("=")[0].trim()
+       if (name) document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+     })
+   }
+   beforeEach(() => { clearAllCookies() })
    ```
 
 9. **What to test**:
-   - Happy path (정상 동작)
-   - Error states (API 실패, 유효성 오류)
-   - Edge cases (오픈 리다이렉트 방지, 권한 분기 등)
-   - User interactions (UI 컴포넌트)
+   - Happy path (normal behavior)
+   - Error states (API failure, validation errors)
+   - Edge cases (open redirect prevention, permission branching, etc.)
+   - User interactions (UI components)
 
 10. **What NOT to test**:
-    - 구현 세부사항 (내부 상태, private 메서드)
-    - 서드파티 라이브러리 내부 동작
-    - 단순 pass-through 코드
+    - Implementation details (internal state, private methods)
+    - Third-party library internals
+    - Simple pass-through code
 
 11. After writing, run the tests to confirm they pass:
     ```bash
