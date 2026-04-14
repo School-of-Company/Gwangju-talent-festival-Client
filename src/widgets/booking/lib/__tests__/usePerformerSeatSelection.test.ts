@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from "vitest"
 import { renderHook, act } from "@testing-library/react"
 import { usePerformerSeatSelection } from "../usePerformerSeatSelection"
-import { Seat, Section, SEAT_STATUS } from "@/entities/booking/model/types"
+import { Seat, Section, SeatStatus, SEAT_STATUS } from "@/entities/booking/model/types"
 
-const makeSeat = (seatNumber: string, section: Section = "A", status = SEAT_STATUS.AVAILABLE): Seat => ({
+const makeSeat = (seatNumber: string, section: Section = "A", status: SeatStatus = SEAT_STATUS.AVAILABLE): Seat => ({
   seatNumber,
   status,
   section,
@@ -11,6 +11,28 @@ const makeSeat = (seatNumber: string, section: Section = "A", status = SEAT_STAT
 
 beforeEach(() => {
   vi.clearAllMocks()
+})
+
+describe("usePerformerSeatSelection - 초기 상태", () => {
+  it("selectedSection의 초기값은 null이다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+    expect(result.current.selectedSection).toBeNull()
+  })
+
+  it("selectedSeats의 초기값은 빈 배열이다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+    expect(result.current.selectedSeats).toHaveLength(0)
+  })
+
+  it("isComplete의 초기값은 false다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+    expect(result.current.isComplete).toBe(false)
+  })
+
+  it("canBook의 초기값은 false다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+    expect(result.current.canBook).toBe(false)
+  })
 })
 
 describe("usePerformerSeatSelection - maxSelectableSeats", () => {
@@ -186,6 +208,65 @@ describe("usePerformerSeatSelection - canBook", () => {
   it("좌석이 없으면 false다", () => {
     const { result } = renderHook(() => usePerformerSeatSelection(0))
     expect(result.current.canBook).toBe(false)
+  })
+})
+
+describe("usePerformerSeatSelection - canSelectSeat", () => {
+  it("AVAILABLE 좌석은 선택 가능하다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+    expect(result.current.canSelectSeat(makeSeat("1", "A", SEAT_STATUS.AVAILABLE))).toBe(true)
+  })
+
+  it("OCCUPIED 좌석은 선택 불가하다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+    expect(result.current.canSelectSeat(makeSeat("1", "A", SEAT_STATUS.OCCUPIED))).toBe(false)
+  })
+
+  it("SELECTED 좌석은 선택 불가하다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+    expect(result.current.canSelectSeat(makeSeat("1", "A", SEAT_STATUS.SELECTED))).toBe(false)
+  })
+})
+
+describe("usePerformerSeatSelection - isSeatSelected 엣지 케이스", () => {
+  it("같은 번호지만 다른 섹션의 좌석은 선택된 것으로 보지 않는다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+
+    act(() => { result.current.selectSeat(makeSeat("1", "A")) })
+
+    expect(result.current.isSeatSelected(makeSeat("1", "B"))).toBe(false)
+  })
+})
+
+describe("usePerformerSeatSelection - maxSelectableSeats = 0 경계 동작", () => {
+  it("existingSeatsCount가 3일 때 좌석 선택 시도해도 canBook은 false다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(3))
+
+    act(() => { result.current.selectSeat(makeSeat("1")) })
+
+    expect(result.current.canBook).toBe(false)
+  })
+
+  it("섹션과 좌석이 있어도 existingSeatsCount가 3이면 isComplete는 false다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(3))
+
+    act(() => { result.current.setSelectedSection("A") })
+    act(() => { result.current.selectSeat(makeSeat("1")) })
+
+    expect(result.current.isComplete).toBe(false)
+  })
+})
+
+describe("usePerformerSeatSelection - 섹션 null 변경", () => {
+  it("섹션을 null로 변경하면 선택 좌석이 초기화된다", () => {
+    const { result } = renderHook(() => usePerformerSeatSelection(0))
+
+    act(() => { result.current.setSelectedSection("A") })
+    act(() => { result.current.selectSeat(makeSeat("1")) })
+    act(() => { result.current.setSelectedSection(null) })
+
+    expect(result.current.selectedSection).toBeNull()
+    expect(result.current.selectedSeats).toHaveLength(0)
   })
 })
 
