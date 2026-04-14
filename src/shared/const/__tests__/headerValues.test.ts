@@ -54,9 +54,12 @@ describe("isHiddenPath", () => {
       // /sign은 /signin, /signup 어디에도 해당하지 않음
       expect(isHiddenPath("/sign")).toBe(false);
     });
-
-  it("startsWith 특성 - /voters는 /vote로 시작하므로 true를 반환한다", () => {
-    expect(isHiddenPath("/voters")).toBe(true);
   });
+
+  describe("startsWith 부작용 - 예상치 못한 true 케이스", () => {
+    it("/voters는 /vote로 시작하므로 true를 반환한다", () => {
+      // startsWith("/vote") 조건으로 인해 /vote로 시작하는 모든 경로가 숨김 처리됨
+      expect(isHiddenPath("/voters")).toBe(true);
+    });
   });
 });

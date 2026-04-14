@@ -14,8 +14,8 @@ describe("formatDate", () => {
     expect(formatDate(date)).toBe("12.25(목)");
   });
 
-  it("일이 두 자리인 경우 패딩 없이 반환한다", () => {
-    // 2025-01-11 (토요일)
+  it("일이 이미 두 자리인 경우 그대로 유지된다", () => {
+    // 2025-01-11 (토요일) - padStart(2, "0")이 적용되지만 변화 없음
     const date = new Date(2025, 0, 11);
     expect(formatDate(date)).toBe("1.11(토)");
   });
