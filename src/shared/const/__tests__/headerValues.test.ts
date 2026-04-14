@@ -50,16 +50,11 @@ describe("isHiddenPath", () => {
       expect(isHiddenPath("/schedule")).toBe(false);
     });
 
-    it("숨김 prefix와 비슷하지만 다른 경로에서 false를 반환한다", () => {
-      // /sign은 /signin, /signup 어디에도 해당하지 않음
+    it("숨김 prefix와 비슷하지만 독립된 경로에서 false를 반환한다", () => {
       expect(isHiddenPath("/sign")).toBe(false);
-    });
-  });
-
-  describe("startsWith 부작용 - 예상치 못한 true 케이스", () => {
-    it("/voters는 /vote로 시작하므로 true를 반환한다", () => {
-      // startsWith("/vote") 조건으로 인해 /vote로 시작하는 모든 경로가 숨김 처리됨
-      expect(isHiddenPath("/voters")).toBe(true);
+      expect(isHiddenPath("/voters")).toBe(false);
+      expect(isHiddenPath("/vote-info")).toBe(false);
+      expect(isHiddenPath("/admins")).toBe(false);
     });
   });
 });
