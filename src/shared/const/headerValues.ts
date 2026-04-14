@@ -2,13 +2,10 @@ const matchesSegment = (pathname: string, prefix: string): boolean => {
   return pathname === prefix || pathname.startsWith(prefix + "/");
 };
 
+const HIDDEN_PREFIXES = ["/signin", "/signup", "/vote", "/admin"];
+
 export const isHiddenPath = (pathname: string): boolean => {
-  return (
-    matchesSegment(pathname, "/signin") ||
-    matchesSegment(pathname, "/signup") ||
-    matchesSegment(pathname, "/vote") ||
-    matchesSegment(pathname, "/admin")
-  );
+  return HIDDEN_PREFIXES.some(prefix => matchesSegment(pathname, prefix));
 };
 
 export const links = [
