@@ -18,6 +18,17 @@ describe("customTwMerge", () => {
   it("충돌하지 않는 클래스는 모두 유지된다", () => {
     expect(customTwMerge("text-h1", "font-bold")).toBe("text-h1 font-bold");
   });
+
+  it("커스텀 텍스트 컬러 클래스 중복 시 마지막 클래스만 남긴다", () => {
+    expect(customTwMerge("text-main-100", "text-main-200")).toBe("text-main-200");
+    expect(customTwMerge("text-gray-100", "text-gray-700")).toBe("text-gray-700");
+    expect(customTwMerge("text-system-success", "text-system-error")).toBe("text-system-error");
+  });
+
+  it("커스텀 텍스트 컬러와 black/white 중복 시 마지막 클래스만 남긴다", () => {
+    expect(customTwMerge("text-black", "text-main-500")).toBe("text-main-500");
+    expect(customTwMerge("text-main-300", "text-white")).toBe("text-white");
+  });
 });
 
 describe("cn", () => {
