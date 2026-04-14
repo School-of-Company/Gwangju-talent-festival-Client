@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { getSectionFromKey } from "../types"
+import { getSectionFromKey, SECTIONS } from "../types"
 
 describe("getSectionFromKey - 섹션 키 변환", () => {
   it("section_a를 A로 변환한다", () => {
@@ -29,5 +29,21 @@ describe("getSectionFromKey - 섹션 키 변환", () => {
     expect(() =>
       getSectionFromKey("section_z" as Parameters<typeof getSectionFromKey>[0]),
     ).toThrow("Invalid section key: section_z")
+  })
+
+  it("에러 메시지에 잘못된 키 이름이 포함된다", () => {
+    expect(() =>
+      getSectionFromKey("section_k" as Parameters<typeof getSectionFromKey>[0]),
+    ).toThrow("Invalid section key: section_k")
+  })
+
+  it("반환값은 항상 SECTIONS 배열에 속한다", () => {
+    const validKeys = [
+      "section_a", "section_b", "section_c", "section_d", "section_e",
+      "section_f", "section_g", "section_h", "section_i", "section_j",
+    ] as const
+    validKeys.forEach(key => {
+      expect(SECTIONS).toContain(getSectionFromKey(key))
+    })
   })
 })
