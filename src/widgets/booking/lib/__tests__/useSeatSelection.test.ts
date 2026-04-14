@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from "vitest"
 import { renderHook, act } from "@testing-library/react"
 import { useSeatSelection } from "../useSeatSelection"
-import { Seat, SEAT_STATUS } from "@/entities/booking/model/types"
+import { Seat, Section, SeatStatus, SEAT_STATUS } from "@/entities/booking/model/types"
 
-const makeSeat = (seatNumber: string, status = SEAT_STATUS.AVAILABLE): Seat => ({
+const makeSeat = (seatNumber: string, status: SeatStatus = SEAT_STATUS.AVAILABLE): Seat => ({
   seatNumber,
   status,
   section: "A",
@@ -87,6 +87,34 @@ describe("useSeatSelection - canSelectSeat", () => {
     const { result } = renderHook(() => useSeatSelection())
     expect(result.current.canSelectSeat(makeSeat("1", SEAT_STATUS.OCCUPIED))).toBe(false)
   })
+
+  it("SELECTED 좌석은 선택 불가하다", () => {
+    const { result } = renderHook(() => useSeatSelection())
+    expect(result.current.canSelectSeat(makeSeat("1", SEAT_STATUS.SELECTED))).toBe(false)
+  })
+})
+
+describe("useSeatSelection - 좌석 선택 엣지 케이스", () => {
+  it("같은 번호지만 다른 섹션의 좌석은 토글되지 않고 교체된다", () => {
+    const { result } = renderHook(() => useSeatSelection())
+    const seatA: Seat = { seatNumber: "1", status: SEAT_STATUS.AVAILABLE, section: "A" as Section }
+    const seatB: Seat = { seatNumber: "1", status: SEAT_STATUS.AVAILABLE, section: "B" as Section }
+
+    act(() => { result.current.selectSeat(seatA) })
+    act(() => { result.current.selectSeat(seatB) })
+
+    expect(result.current.selectedSeat).toEqual(seatB)
+  })
+
+  it("섹션을 같은 값으로 다시 설정해도 선택 좌석이 초기화된다", () => {
+    const { result } = renderHook(() => useSeatSelection())
+
+    act(() => { result.current.setSelectedSection("A") })
+    act(() => { result.current.selectSeat(makeSeat("1")) })
+    act(() => { result.current.setSelectedSection("A") })
+
+    expect(result.current.selectedSeat).toBeNull()
+  })
 })
 
 describe("useSeatSelection - selectedSeatInfo", () => {
@@ -114,6 +142,28 @@ describe("useSeatSelection - selectedSeatInfo", () => {
     act(() => { result.current.setSelectedSection("A") })
 
     expect(result.current.selectedSeatInfo).toBeNull()
+  })
+})
+
+describe("useSeatSelection - 초기 상태", () => {
+  it("selectedSection의 초기값은 null이다", () => {
+    const { result } = renderHook(() => useSeatSelection())
+    expect(result.current.selectedSection).toBeNull()
+  })
+
+  it("selectedSeat의 초기값은 null이다", () => {
+    const { result } = renderHook(() => useSeatSelection())
+    expect(result.current.selectedSeat).toBeNull()
+  })
+
+  it("selectedSeatInfo의 초기값은 null이다", () => {
+    const { result } = renderHook(() => useSeatSelection())
+    expect(result.current.selectedSeatInfo).toBeNull()
+  })
+
+  it("isComplete의 초기값은 false다", () => {
+    const { result } = renderHook(() => useSeatSelection())
+    expect(result.current.isComplete).toBe(false)
   })
 })
 
