@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { getSeatLayout, findSeatById, getAvailableSeatsCount } from "../seatLayouts"
+import { getSeatLayout, findSeatById, getAvailableSeatsCount, getSeatPattern } from "../seatLayouts"
 import { SEAT_STATUS, SEAT_INFO } from "../types"
 
 describe("getSeatLayout - 레이아웃 생성", () => {
@@ -73,5 +73,74 @@ describe("getAvailableSeatsCount - 빈 좌석 카운트", () => {
       const count = getAvailableSeatsCount(section)
       expect(count).toBe(SEAT_INFO[section].total)
     })
+  })
+})
+
+describe("getSeatPattern - 섹션 패턴 조회", () => {
+  it("2차원 배열을 반환한다", () => {
+    const pattern = getSeatPattern("A")
+    expect(Array.isArray(pattern)).toBe(true)
+    expect(pattern.every(row => Array.isArray(row))).toBe(true)
+  })
+
+  it("패턴의 숫자 요소 수는 SEAT_INFO.total과 일치한다", () => {
+    const sections = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"] as const
+    sections.forEach(section => {
+      const count = getSeatPattern(section).flat().filter(n => n !== null).length
+      expect(count).toBe(SEAT_INFO[section].total)
+    })
+  })
+
+  it("A·E·G·H·I·J 섹션 패턴에는 null이 포함된다", () => {
+    const sectionsWithNulls = ["A", "E", "G", "H", "I", "J"] as const
+    sectionsWithNulls.forEach(section => {
+      const hasNull = getSeatPattern(section).flat().some(n => n === null)
+      expect(hasNull).toBe(true)
+    })
+  })
+
+  it("B·C·D 섹션 패턴에는 null이 없다", () => {
+    const sectionsWithoutNulls = ["B", "C", "D"] as const
+    sectionsWithoutNulls.forEach(section => {
+      const hasNull = getSeatPattern(section).flat().some(n => n === null)
+      expect(hasNull).toBe(false)
+    })
+  })
+})
+
+describe("getSeatLayout - 좌석 번호 형식", () => {
+  it("좌석 번호는 문자열 타입이다", () => {
+    const layout = getSeatLayout("A")
+    layout.seats.forEach(seat => {
+      expect(typeof seat.seatNumber).toBe("string")
+    })
+  })
+
+  it("각 섹션의 첫 번째 좌석 번호는 '1'이다", () => {
+    const sections = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"] as const
+    sections.forEach(section => {
+      expect(getSeatLayout(section).seats[0].seatNumber).toBe("1")
+    })
+  })
+
+  it("같은 섹션 내 좌석 번호는 중복되지 않는다", () => {
+    const sections = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"] as const
+    sections.forEach(section => {
+      const numbers = getSeatLayout(section).seats.map(s => s.seatNumber)
+      expect(new Set(numbers).size).toBe(numbers.length)
+    })
+  })
+})
+
+describe("findSeatById - 엣지 케이스", () => {
+  it("좌석 번호 '0'은 존재하지 않는다", () => {
+    expect(findSeatById("0", "A")).toBeUndefined()
+  })
+
+  it("섹션이 다르면 같은 번호도 해당 섹션 기준으로 독립적으로 조회된다", () => {
+    const seatA = findSeatById("1", "A")
+    const seatB = findSeatById("1", "B")
+    expect(seatA?.section).toBe("A")
+    expect(seatB?.section).toBe("B")
   })
 })
