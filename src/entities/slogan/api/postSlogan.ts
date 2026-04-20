@@ -4,7 +4,7 @@ import { SloganFormValues } from "../model/schema";
 export const postSlogan = async (data: SloganFormValues, isOutOfSchool: boolean) => {
   const { phone_number, classroom, grade, birthday, school, ...rest } = data;
 
-  const birthDate = birthday ? birthday.replace(/\s*\/\s*/g, "-") : undefined;
+  const birthDate = birthday ? birthday.trim().replace(/\s*\/\s*/g, "-") : undefined;
 
   return await instance.post("/slogan", {
     ...rest,
