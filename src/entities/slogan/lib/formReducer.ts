@@ -47,7 +47,7 @@ export const formReducer = (state: FormState, action: FormAction): FormState => 
         isOutOfSchool: next,
         formValues: next
           ? { ...state.formValues, school: "", grade: "", classroom: "" }
-          : state.formValues,
+          : { ...state.formValues, birthday: "" },
       };
     }
     default:
