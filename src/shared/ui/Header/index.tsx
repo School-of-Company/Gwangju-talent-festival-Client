@@ -17,7 +17,7 @@ import { ProfileIcon } from "@/shared/asset/svg/ProfileIcon";
 
 export default function Header() {
   const pathname = usePathname();
-  const R = useRouter();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
   const { isUserLoggedIn } = useAuthSync();
@@ -31,12 +31,12 @@ export default function Header() {
     if (isUserLoggedIn) {
       handleLogout();
     } else {
-      R.push("/signin");
+      router.push("/signin");
     }
-  }, [R, isUserLoggedIn]);
+  }, [router, isUserLoggedIn]);
 
   const handleScrollToSection = (section: string) => {
-    scrollToElement(`${section}`);
+    scrollToElement(section);
     closeMobileMenu();
   };
 
@@ -50,7 +50,7 @@ export default function Header() {
         )}
       >
         <Link href="/">
-          <Logo className="h-[42px] w-[67px] mobile:h-[32px] mobile:w-[52px]" />
+          <Logo className="h-[42px] w-[67px] mobile:h-[32px] mobile:w-[52px]" color="#FF9644" />
         </Link>
         <div className={cn("flex gap-[2.5rem] text-body3b mobile:hidden")}>
           {links.map((link, index) => (
@@ -62,12 +62,12 @@ export default function Header() {
 
         <div
           className={cn(
-            "border-[#AC42CD] cursor-pointer text-center hidden sm:block border border-solid rounded-lg px-16 py-12",
+            "border-orange-500 cursor-pointer text-center hidden sm:block border border-solid rounded-lg px-16 py-12",
           )}
           onClick={handleClick}
         >
-          <div className="flex items-center text-main-600 gap-12 justify-center">
-            <ProfileIcon width={18} height={18} color="#AC42CD" />
+          <div className="flex items-center text-orange-500 gap-12 justify-center">
+            <ProfileIcon width={18} height={18} color="#FF9644" />
             <span className="text-body3b">{mounted && isUserLoggedIn ? "로그아웃" : "로그인"}</span>
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function Header() {
           <div className={cn("flex text-caption2r gap-16")}>
             <div
               className={cn(
-                "cursor-pointer border border-solid border-gray-100 rounded-lg px-12 py-8 text-center",
+                "cursor-pointer border border-solid border-orange-500 rounded-lg px-12 py-8 text-center text-orange-500",
               )}
               onClick={handleClick}
             >

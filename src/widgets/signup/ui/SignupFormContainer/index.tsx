@@ -23,10 +23,9 @@ const SignupFormContainer = () => {
     values: { phoneNumber: "", verificationCode: "", password: "" },
     isValid: false,
     submitted: false,
-    isLoading: false,
   };
 
-  const [state, formAction] = useActionState(handleSignupFormSubmit, initialState);
+  const [state, formAction, isPending] = useActionState(handleSignupFormSubmit, initialState);
 
   useEffect(() => {
     if (state.error) {
@@ -79,7 +78,7 @@ const SignupFormContainer = () => {
         <input type="hidden" name="formType" value="signup" />
         <div className={cn("space-y-16")}>
           <div className={cn("flex flex-col gap-2")}>
-            <label className={cn("text-sm font-medium")}>전화번호</label>
+            <label className={cn("text-body3b")}>전화번호</label>
             <div className={cn("flex items-end gap-8")}>
               <div className={cn("w-full")}>
                 <Input
@@ -87,15 +86,15 @@ const SignupFormContainer = () => {
                   placeholder="전화번호를 입력해주세요."
                   name="phoneNumber"
                   ref={phoneInputRef}
-                  disabled={state.isLoading || isCodeSending}
+                  disabled={isPending || isCodeSending}
                   defaultValue={state.values.phoneNumber}
                 />
               </div>
               <Button
-                className={cn("w-32 shrink-0 h-[50px]")}
+                className={cn("w-128 shrink-0 h-[50px]")}
                 type="button"
                 onClick={handleSendVerificationCode}
-                disabled={state.isLoading || isCodeSending}
+                disabled={isPending || isCodeSending}
               >
                 {isCodeSending ? "전송중..." : codeSent ? "재전송" : "인증번호"}
               </Button>
@@ -110,7 +109,7 @@ const SignupFormContainer = () => {
                 label="인증번호 입력"
                 className={cn("mt-2")}
                 name="verificationCode"
-                disabled={state.isLoading}
+                disabled={isPending}
                 defaultValue={state.values.verificationCode}
               />
             </div>
@@ -123,7 +122,7 @@ const SignupFormContainer = () => {
               label="비밀번호 입력"
               className={cn("mt-2")}
               name="password"
-              disabled={state.isLoading}
+              disabled={isPending}
               defaultValue={state.values.password}
             />
           </div>
@@ -135,7 +134,7 @@ const SignupFormContainer = () => {
               label="비밀번호 확인"
               className={cn("mt-2")}
               name="passwordConfirm"
-              disabled={state.isLoading}
+              disabled={isPending}
               defaultValue={state.values.passwordConfirm}
             />
           </div>
@@ -143,8 +142,8 @@ const SignupFormContainer = () => {
 
         <div className={cn("flex flex-col gap-2 mt-auto")}>
           <SubmitButton
-            buttonText={state.isLoading ? "가입 중..." : "회원가입"}
-            disabled={state.isLoading || !codeSent}
+            buttonText={isPending ? "가입 중..." : "회원가입"}
+            disabled={isPending || !codeSent}
           />
         </div>
       </form>

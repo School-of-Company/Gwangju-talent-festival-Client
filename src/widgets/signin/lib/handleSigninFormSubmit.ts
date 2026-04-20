@@ -18,7 +18,6 @@ export const handleSigninFormSubmit = async (
       values,
       isValid: false,
       submitted: true,
-      isLoading: false,
       error: result.error.errors.map(e => e.message),
     };
   }
@@ -50,7 +49,6 @@ export const handleSigninFormSubmit = async (
       values,
       isValid: true,
       submitted: true,
-      isLoading: false,
       shouldRedirect: true,
       redirectTo,
     };
@@ -60,7 +58,6 @@ export const handleSigninFormSubmit = async (
       values,
       isValid: false,
       submitted: true,
-      isLoading: false,
       error: [message],
     };
   }

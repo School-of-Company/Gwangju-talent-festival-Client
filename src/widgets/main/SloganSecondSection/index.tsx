@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 // import PrizeItem from "@/entities/home/ui/PrizeItem";
 import SloganMarquee from "@/entities/home/ui/SloganMarquee";
@@ -10,13 +12,14 @@ import { sloganStartDate, sloganEndDate } from "@/shared/config/authConfig";
 import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
 
 const SLOGAN_YEAR = sloganStartDate.getFullYear();
+const submissionPeriodText = `공모기간 : ${SLOGAN_YEAR}.${formatDate(sloganStartDate)}~${formatDate(sloganEndDate)}`;
 
 const SloganSecondSection = () => {
   const router = useRouter();
 
-  const [isSloganPeriod, setIsSloganPeriod] = React.useState(false);
+  const [isSloganPeriod, setIsSloganPeriod] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const checkPeriod = () => {
       const now = new Date();
       setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
@@ -26,12 +29,6 @@ const SloganSecondSection = () => {
     const timer = setInterval(checkPeriod, 60000);
 
     return () => clearInterval(timer);
-  }, []);
-
-  const submissionPeriodText = React.useMemo(() => {
-    const startText = formatDate(sloganStartDate);
-    const endText = formatDate(sloganEndDate);
-    return `공모기간 : ${SLOGAN_YEAR}.${startText}~${endText}`;
   }, []);
 
   return (

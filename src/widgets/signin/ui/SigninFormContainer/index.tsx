@@ -15,10 +15,9 @@ const SigninFormContainer = () => {
     values: { phoneNumber: "", password: "" },
     isValid: false,
     submitted: false,
-    isLoading: false,
   };
 
-  const [state, formAction] = useActionState(handleSigninFormSubmit, initialState);
+  const [state, formAction, isPending] = useActionState(handleSigninFormSubmit, initialState);
 
   useEffect(() => {
     if (state.error) {
@@ -47,7 +46,7 @@ const SigninFormContainer = () => {
               label="전화번호"
               name="phoneNumber"
               className={cn("mt-2")}
-              disabled={state.isLoading}
+              disabled={isPending}
               defaultValue={state.values.phoneNumber}
             />
           </div>
@@ -59,7 +58,7 @@ const SigninFormContainer = () => {
               label="비밀번호"
               name="password"
               className={cn("mt-2")}
-              disabled={state.isLoading}
+              disabled={isPending}
               defaultValue={state.values.password}
             />
           </div>
@@ -67,8 +66,8 @@ const SigninFormContainer = () => {
 
         <div className={cn("flex flex-col gap-2 mt-auto")}>
           <SubmitButton
-            buttonText={state.isLoading ? "로그인 중..." : "로그인"}
-            disabled={state.isLoading}
+            buttonText={isPending ? "로그인 중..." : "로그인"}
+            disabled={isPending}
           />
         </div>
       </form>

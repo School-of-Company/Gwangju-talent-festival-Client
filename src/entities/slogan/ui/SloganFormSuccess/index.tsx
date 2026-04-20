@@ -1,10 +1,10 @@
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Logo } from "@/shared/asset/svg/Logo";
 import { colors } from "@/shared/utils/color";
 import { share } from "../../lib/share";
 import Share from "@/shared/asset/svg/Share";
 import Button from "@/shared/ui/Button";
-import { useCallback } from "react";
 import React from "react";
 
 const SloganFormSuccess = () => {
@@ -13,10 +13,6 @@ const SloganFormSuccess = () => {
   const handleGoHome = useCallback(() => {
     router.push("/home");
   }, [router]);
-
-  const handleShare = useCallback(() => {
-    share();
-  }, []);
 
   return (
     <div
@@ -32,7 +28,7 @@ const SloganFormSuccess = () => {
         </div>
         {typeof navigator.share !== "undefined" && (
           <div
-            onClick={handleShare}
+            onClick={share}
             className="flex gap-24 cursor-pointer items-center justify-center mt-12 sm:mt-24"
           >
             <Share color={colors.orange[500]} height={24} width={24} />
@@ -42,7 +38,7 @@ const SloganFormSuccess = () => {
           </div>
         )}
         <div className="mx-auto">
-          <Button onClick={handleGoHome} className="my-[24px] mobile:mb-[12px] px-28 ">
+          <Button onClick={handleGoHome} className="my-[24px] mobile:mb-[12px] px-28">
             <span className="text-body2b mobile:text-body3b flex items-center gap-10">
               홈으로 가기 <span>➔</span>
             </span>

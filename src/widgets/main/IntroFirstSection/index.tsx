@@ -6,40 +6,43 @@ const IntroFirstSection = () => {
     <section
       id="section1"
       className={cn(
-        "mobile:h-auto",
-        "tablet:h-auto",
-        "h-[calc(100vh-4.625rem)]",
         "w-full",
         "relative",
-        "top-0",
-        "flex",
-        "justify-center",
         "bg-black",
         "overflow-hidden",
+        "min-[1000px]:h-screen",
+        "max-[999px]:h-auto",
       )}
     >
       <MainYoutubeVideo />
       <div
         className={cn(
-          "relative",
+          "absolute",
+          "inset-0",
           "z-10",
-          "w-full",
-          "max-w-[1060px]",
-          "px-4",
           "flex",
           "flex-col",
           "justify-end",
-          "pb-[12%]",
-          "text-white",
+          "pb-[8%]",
+          "mobile:pb-[6%]",
         )}
       >
-        <h1 className={cn("text-title1b mobile:text-caption1b")}>
-          光탈페 (광주학생탈렌트페스티벌)
-        </h1>
-        <p className={cn("mt-12 text-title4r mobile:text-caption3r leading-[130%]")}>
-          광주학생의회가 중심이 되어 학생들이 재능을 펼치고 즐길 수 있도록 기획된 학생주도형 오디션
-          프로그램입니다.
-        </p>
+        <div className={cn("w-full", "max-w-[1060px]", "mx-auto", "px-4", "text-white")}>
+          <h1 className={cn("text-[clamp(0.875rem,calc(-1.982rem+7.14vw),2.75rem)]", "font-bold", "leading-[120%]")}>
+            光탈페 (광주학생탈렌트페스티벌)
+          </h1>
+          <p
+            className={cn(
+              "mt-[clamp(0.5rem,calc(-0.5rem+2.5vw),1.5rem)]",
+              "text-[clamp(0.6875rem,calc(-1.3125rem+5vw),2rem)]",
+              "leading-[130%]",
+              "break-keep",
+            )}
+          >
+            광주학생의회가 중심이 되어 학생들이 재능을 펼치고 즐길 수 있도록 기획된 학생주도형
+            오디션 프로그램입니다.
+          </p>
+        </div>
       </div>
     </section>
   );

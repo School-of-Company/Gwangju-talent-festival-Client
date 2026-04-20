@@ -14,12 +14,14 @@ async function handleRequest(request: NextRequest): Promise<NextResponse> {
   const queryString = !isBodyRequired ? searchParams.toString() : "";
   const url = `${BASE_URL}/${path}${queryString ? `?${queryString}` : ""}`;
 
+  const token = request.cookies.get("accessToken")?.value ?? "";
+
   try {
     const options: RequestInit = {
       method,
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Barer " + "",
+        Authorization: "Bearer " + token,
       },
       credentials: "include",
     };
