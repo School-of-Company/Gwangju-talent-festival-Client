@@ -10,6 +10,7 @@ export interface SloganFormHandlers {
   ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSchoolSelect: (schoolName: string) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleToggleOutOfSchool: () => void;
 }
 
 export interface SloganFormSchoolData {
@@ -21,6 +22,7 @@ export interface SloganFormSchoolData {
 export interface UseSloganFormReturn {
   state: FormState;
   isValid: boolean;
+  isOutOfSchool: boolean;
   handlers: SloganFormHandlers;
   schoolData: SloganFormSchoolData;
 }
