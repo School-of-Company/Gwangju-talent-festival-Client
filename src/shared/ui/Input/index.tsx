@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="w-full flex flex-col gap-8">
-        <label className="text-body3b">{label}</label>
+        {label && <label className="text-body3b">{label}</label>}
         <div className="relative">
           <input
             className={cn(
