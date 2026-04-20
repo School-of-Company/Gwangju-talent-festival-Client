@@ -8,6 +8,7 @@ import { useDebounce } from "./useDebounce";
 import { useGetSchool } from "../api/useGetSchool";
 import { SchoolInfoResponse } from "../model/school";
 import { UseSloganFormReturn } from "./types";
+import { outOfSchoolSloganSchema } from "../model/schema";
 
 const SCHOOL_SEARCH_DELAY = 200;
 
@@ -19,7 +20,9 @@ const parseSchoolApiResponse = (data: SchoolInfoResponse | undefined) => {
 export const useSloganForm = (): UseSloganFormReturn => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
 
-  const isValid = sloganSchema.safeParse(state.formValues).success;
+  const isValid = state.isOutOfSchool
+    ? outOfSchoolSloganSchema.safeParse(state.formValues).success
+    : sloganSchema.safeParse(state.formValues).success;
 
   const normalizedSchoolName = useMemo(
     () => state.formValues.school.replace(/\s+/g, ""),
@@ -54,12 +57,16 @@ export const useSloganForm = (): UseSloganFormReturn => {
     dispatch({ type: "UPDATE_FIELD", field: "school", value: schoolName });
   }, []);
 
+  const handleToggleOutOfSchool = useCallback(() => {
+    dispatch({ type: "TOGGLE_OUT_OF_SCHOOL" });
+  }, []);
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       dispatch({ type: "SET_SUBMITTING", value: true });
       try {
-        const res = await handleSloganFormSubmit(state.formValues);
+        const res = await handleSloganFormSubmit(state.formValues, state.isOutOfSchool);
         dispatch({ type: "SET_SUBMITTED", value: !!res });
       } catch (error) {
         console.error("Form submission error:", error);
@@ -67,18 +74,20 @@ export const useSloganForm = (): UseSloganFormReturn => {
         dispatch({ type: "SET_SUBMITTING", value: false });
       }
     },
-    [state.formValues],
+    [state.formValues, state.isOutOfSchool],
   );
 
   return {
     state,
     isValid,
+    isOutOfSchool: state.isOutOfSchool,
     handlers: {
       handleSloganChange,
       handleDescriptionChange,
       handleFieldChange,
       handleSchoolSelect,
       handleSubmit,
+      handleToggleOutOfSchool,
     },
     schoolData: {
       schoolList,
