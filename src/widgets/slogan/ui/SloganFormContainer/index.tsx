@@ -11,7 +11,7 @@ import PersonalInfoInputs from "@/entities/slogan/ui/PersonalInfoInputs";
 import { useSloganForm } from "@/entities/slogan/lib/useSloganForm";
 
 export default function SloganFormContainer() {
-  const { state, isValid, handlers, schoolData } = useSloganForm();
+  const { state, isValid, isOutOfSchool, handlers, schoolData } = useSloganForm();
 
   if (state.isSubmitted) {
     return <SloganFormSuccess />;
@@ -25,10 +25,7 @@ export default function SloganFormContainer() {
       <div>
         <BackHeader text="슬로건 응모" />
         <div className={cn("flex flex-col mt-[3.5rem] gap-24")}>
-          <SloganInput
-            value={state.formValues.slogan}
-            onChange={handlers.handleSloganChange}
-          />
+          <SloganInput value={state.formValues.slogan} onChange={handlers.handleSloganChange} />
 
           <SloganDescriptionInput
             value={state.formValues.description}
@@ -41,6 +38,10 @@ export default function SloganFormContainer() {
             filteredSchools={schoolData.filteredSchools}
             isSchoolFetched={schoolData.isSchoolFetched}
             onSchoolSelect={handlers.handleSchoolSelect}
+            isOutOfSchool={isOutOfSchool}
+            onToggleOutOfSchool={handlers.handleToggleOutOfSchool}
+            birthdayValue={state.formValues.birthday ?? ""}
+            onBirthdayChange={handlers.handleFieldChange("birthday")}
           />
 
           <PersonalInfoInputs
@@ -51,6 +52,7 @@ export default function SloganFormContainer() {
               phone_number: state.formValues.phone_number,
             }}
             onFieldChange={handlers.handleFieldChange}
+            isOutOfSchool={isOutOfSchool}
           />
         </div>
       </div>
