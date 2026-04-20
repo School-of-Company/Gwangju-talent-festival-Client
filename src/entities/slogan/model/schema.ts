@@ -12,11 +12,20 @@ export const classroomSchema = z.string().min(1).regex(/^\d+$/, "반은 숫자�
 export const sloganSchema = z.object({
   slogan: sloganNameSchema,
   description: sloganDescriptionSchema,
-  school: z.string().min(1),
   name: z.string().min(1),
+  school: z.string().min(1),
   grade: gradeSchema,
   classroom: classroomSchema,
   phone_number: phoneNumberSchema,
+  birthday: z.string().optional(),
+});
+
+export const outOfSchoolSloganSchema = sloganSchema.omit({
+  school: true,
+  grade: true,
+  classroom: true,
+}).extend({
+  birthday: z.string().min(1),
 });
 
 export type SloganFormValues = z.infer<typeof sloganSchema>;
