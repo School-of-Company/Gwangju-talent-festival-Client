@@ -15,7 +15,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <label className="text-body3b">{label}</label>
         <textarea
           className={cn(
-            "w-full outline-none rounded-md p-12 text-body3r placeholder:text-gray-400 overflow-y-scroll focus:ring-0 transition-all h-[150px] border border-gray-100 resize-none",
+            "w-full outline-none rounded-md p-12 text-body3r placeholder:text-gray-400 overflow-y-scroll focus:ring-0 h-[150px] border border-gray-100 resize-none",
             className,
           )}
           placeholder={placeholder}

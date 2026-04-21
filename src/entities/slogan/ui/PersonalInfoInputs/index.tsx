@@ -63,7 +63,7 @@ const PersonalInfoInputs = ({ formValues, onFieldChange, onFieldBlur, isOutOfSch
         onChange={onFieldChange("phone_number")}
         onBlur={onFieldBlur("phone_number")}
         label="전화번호(휴대폰번호)"
-        placeholder="전화번호를 입력해주세요"
+        placeholder="전화번호를 입력해주세요 (예: 01012345678)"
         error={fieldErrors.phone_number}
       />
     </div>

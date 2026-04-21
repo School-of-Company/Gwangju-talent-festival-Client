@@ -29,7 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <div className="relative">
           <input
             className={cn(
-              "w-full outline-none rounded-md px-16 py-4 text-body3r placeholder:text-gray-400 focus:ring-0 transition-all h-[50px] border-gray-100 border border-solid",
+              "w-full outline-none rounded-md px-16 py-4 text-body3r placeholder:text-gray-400 focus:ring-0 h-[50px] border-gray-100 border border-solid",
               type === "number" &&
                 "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
               className,
