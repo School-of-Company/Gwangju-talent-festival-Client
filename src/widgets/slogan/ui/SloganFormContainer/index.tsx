@@ -11,7 +11,7 @@ import PersonalInfoInputs from "@/entities/slogan/ui/PersonalInfoInputs";
 import { useSloganForm } from "@/entities/slogan/lib/useSloganForm";
 
 export default function SloganFormContainer() {
-  const { state, isValid, isOutOfSchool, handlers, schoolData } = useSloganForm();
+  const { state, isValid, isOutOfSchool, fieldErrors, handlers, schoolData } = useSloganForm();
 
   if (state.isSubmitted) {
     return <SloganFormSuccess />;
@@ -24,36 +24,46 @@ export default function SloganFormContainer() {
     >
       <div>
         <BackHeader text="슬로건 응모" />
-        <div className={cn("flex flex-col mt-[3.5rem] gap-24")}>
-          <SloganInput value={state.formValues.slogan} onChange={handlers.handleSloganChange} />
+        <div className={cn("flex flex-col mt-[3.5rem] gap-32")}>
+          <SloganInput value={state.formValues.slogan} onChange={handlers.handleSloganChange} onBlur={handlers.handleFieldBlur("slogan")} error={fieldErrors.slogan} />
 
           <SloganDescriptionInput
             value={state.formValues.description}
             onChange={handlers.handleDescriptionChange}
+            onBlur={handlers.handleFieldBlur("description")}
+            error={fieldErrors.description}
           />
 
-          <SchoolSearchInput
-            value={state.formValues.school}
-            onChange={handlers.handleFieldChange("school")}
-            filteredSchools={schoolData.filteredSchools}
-            isSchoolFetched={schoolData.isSchoolFetched}
-            onSchoolSelect={handlers.handleSchoolSelect}
-            isOutOfSchool={isOutOfSchool}
-            onToggleOutOfSchool={handlers.handleToggleOutOfSchool}
-            birthdayValue={state.formValues.birthday ?? ""}
-            onBirthdayChange={handlers.handleFieldChange("birthday")}
-          />
+          <div className={cn("flex flex-col gap-16")}>
+            <SchoolSearchInput
+              value={state.formValues.school}
+              onChange={handlers.handleFieldChange("school")}
+              onBlur={handlers.handleFieldBlur("school")}
+              error={fieldErrors.school}
+              filteredSchools={schoolData.filteredSchools}
+              isSchoolFetched={schoolData.isSchoolFetched}
+              onSchoolSelect={handlers.handleSchoolSelect}
+              isOutOfSchool={isOutOfSchool}
+              onToggleOutOfSchool={handlers.handleToggleOutOfSchool}
+              birthdayValue={state.formValues.birthday ?? ""}
+              onBirthdayChange={handlers.handleFieldChange("birthday")}
+              onBirthdayBlur={handlers.handleFieldBlur("birthday")}
+              birthdayError={fieldErrors.birthday}
+            />
 
-          <PersonalInfoInputs
-            formValues={{
-              name: state.formValues.name,
-              grade: state.formValues.grade,
-              classroom: state.formValues.classroom,
-              phone_number: state.formValues.phone_number,
-            }}
-            onFieldChange={handlers.handleFieldChange}
-            isOutOfSchool={isOutOfSchool}
-          />
+            <PersonalInfoInputs
+              formValues={{
+                name: state.formValues.name,
+                grade: state.formValues.grade,
+                classroom: state.formValues.classroom,
+                phone_number: state.formValues.phone_number,
+              }}
+              onFieldChange={handlers.handleFieldChange}
+              onFieldBlur={handlers.handleFieldBlur}
+              isOutOfSchool={isOutOfSchool}
+              fieldErrors={fieldErrors}
+            />
+          </div>
         </div>
       </div>
       <Button type="submit" disabled={!isValid || state.isSubmitting}>
