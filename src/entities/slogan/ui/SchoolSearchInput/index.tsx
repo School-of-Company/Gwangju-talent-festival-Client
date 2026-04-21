@@ -13,6 +13,8 @@ type School = {
 type SchoolSearchInputProps = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
+  error?: string;
   filteredSchools: School[];
   isSchoolFetched: boolean;
   onSchoolSelect: (schoolName: string) => void;
@@ -20,11 +22,15 @@ type SchoolSearchInputProps = {
   onToggleOutOfSchool: () => void;
   birthdayValue: string;
   onBirthdayChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBirthdayBlur?: () => void;
+  birthdayError?: string;
 };
 
 const SchoolSearchInput = ({
   value,
   onChange,
+  onBlur,
+  error,
   filteredSchools,
   isSchoolFetched,
   onSchoolSelect,
@@ -32,6 +38,8 @@ const SchoolSearchInput = ({
   onToggleOutOfSchool,
   birthdayValue,
   onBirthdayChange,
+  onBirthdayBlur,
+  birthdayError,
 }: SchoolSearchInputProps) => {
   const normalizedValue = useMemo(() => value.replace(/\s+/g, ""), [value]);
 
@@ -51,6 +59,8 @@ const SchoolSearchInput = ({
             type="text"
             value={birthdayValue}
             onChange={onBirthdayChange}
+            onBlur={onBirthdayBlur}
+            error={birthdayError}
             placeholder="2001 / 10 / 28"
           />
         ) : (
@@ -60,9 +70,11 @@ const SchoolSearchInput = ({
               type="text"
               value={value}
               onChange={onChange}
+              onBlur={onBlur}
+              error={error}
               placeholder="학교를 입력해주세요"
             />
-            <span className={cn("absolute right-[1.25rem] top-1/2 -translate-y-1/2")}>
+            <span className={cn("absolute right-[1.25rem] top-[25px] -translate-y-1/2")}>
               <Search />
             </span>
           </>

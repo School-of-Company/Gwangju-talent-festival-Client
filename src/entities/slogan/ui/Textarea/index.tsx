@@ -4,10 +4,12 @@ import React from "react";
 
 type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string;
+  error?: string;
+  hideErrorSpace?: boolean;
 };
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, placeholder, label, ...props }, ref) => {
+  ({ className, placeholder, label, error, hideErrorSpace, ...props }, ref) => {
     return (
       <div className="w-full flex flex-col gap-8">
         <label className="text-body3b">{label}</label>
@@ -20,6 +22,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           {...props}
         />
+        {!hideErrorSpace && (
+          <p className={cn("text-caption1r h-[0.75rem] leading-none", error ? "text-red-500" : "invisible")}>
+            {error ?? " "}
+          </p>
+        )}
       </div>
     );
   },
