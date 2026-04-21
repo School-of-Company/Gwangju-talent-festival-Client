@@ -8,11 +8,13 @@ export const sloganDescriptionSchema = z.string().min(1, "슬로건 설명을 �
 export const gradeSchema = z
   .string()
   .min(1, "학년을 입력해주세요.")
+  .refine(val => /^\d+$/.test(val), "학년은 숫자만 입력할 수 있습니다.")
   .refine(val => Number(val) <= 3, "학년은 3학년까지 입력할 수 있습니다.");
 
 export const classroomSchema = z
   .string()
   .min(1, "반을 입력해주세요.")
+  .refine(val => /^\d+$/.test(val), "반은 숫자만 입력할 수 있습니다.")
   .refine(val => Number(val) <= 99, "반은 두자릿수 이내로 입력 해주세요.");
 
 export const sloganSchema = z.object({
