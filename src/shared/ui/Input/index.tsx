@@ -7,10 +7,12 @@ import { colors } from "@/shared/utils/color";
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   type: string;
+  error?: string;
+  hideErrorSpace?: boolean;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, placeholder, label, id, ...props }, ref) => {
+  ({ className, type, placeholder, label, id, error, hideErrorSpace, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {
@@ -52,6 +54,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             </button>
           )}
         </div>
+        {!hideErrorSpace && (
+          <p className={cn("text-caption1r h-[0.75rem] leading-none", error ? "text-red-500" : "invisible")}>
+            {error ?? " "}
+          </p>
+        )}
       </div>
     );
   },
