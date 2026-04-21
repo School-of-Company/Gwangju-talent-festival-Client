@@ -8,7 +8,7 @@ import Button from "@/shared/ui/Button";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { formatDate } from "@/shared/utils/formatDate";
-import { sloganStartDate, sloganEndDate } from "@/shared/config/authConfig";
+import { sloganStartDate, sloganEndDate } from "@/shared/config/dateConfig";
 import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
 
 const SLOGAN_YEAR = sloganStartDate.getFullYear();

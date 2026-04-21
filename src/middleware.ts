@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  publicPages,
-  festivalDate,
-  publicIn27,
-  sloganStartDate,
-  sloganEndDate,
-} from "@/shared/config/authConfig";
+import { publicPages, publicIn27 } from "@/shared/config/authConfig";
+import { festivalDate, sloganStartDate, sloganEndDate } from "@/shared/config/dateConfig";
 
 export const config = {
   matcher: [
