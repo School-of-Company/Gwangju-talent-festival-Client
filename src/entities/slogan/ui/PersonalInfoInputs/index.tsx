@@ -57,7 +57,8 @@ const PersonalInfoInputs = ({ formValues, onFieldChange, onFieldBlur, isOutOfSch
         </div>
       )}
       <Input
-        type="number"
+        type="tel"
+        inputMode="numeric"
         name="phone"
         value={formValues.phone_number}
         onChange={onFieldChange("phone_number")}
