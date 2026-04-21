@@ -4,6 +4,7 @@ import { cn } from "@/shared/utils/cn";
 import Search from "@/shared/asset/svg/Search";
 import HighlightText from "../HighlightText";
 import CheckBox from "@/shared/asset/svg/CheckBox";
+import BirthdayPicker from "../BirthdayPicker";
 
 type School = {
   SD_SCHUL_CODE: string;
@@ -21,7 +22,7 @@ type SchoolSearchInputProps = {
   isOutOfSchool: boolean;
   onToggleOutOfSchool: () => void;
   birthdayValue: string;
-  onBirthdayChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBirthdaySelect: (date: Date | undefined) => void;
   onBirthdayBlur?: () => void;
   birthdayError?: string;
 };
@@ -37,7 +38,7 @@ const SchoolSearchInput = ({
   isOutOfSchool,
   onToggleOutOfSchool,
   birthdayValue,
-  onBirthdayChange,
+  onBirthdaySelect,
   onBirthdayBlur,
   birthdayError,
 }: SchoolSearchInputProps) => {
@@ -54,14 +55,11 @@ const SchoolSearchInput = ({
       </div>
       <div className="relative">
         {isOutOfSchool ? (
-          <Input
-            name="birthday"
-            type="text"
+          <BirthdayPicker
             value={birthdayValue}
-            onChange={onBirthdayChange}
+            onSelect={onBirthdaySelect}
             onBlur={onBirthdayBlur}
             error={birthdayError}
-            placeholder="2001 / 10 / 28"
           />
         ) : (
           <>

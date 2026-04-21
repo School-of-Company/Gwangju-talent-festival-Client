@@ -97,6 +97,17 @@ export const useSloganForm = (): UseSloganFormReturn => {
     dispatch({ type: "CONFIRM_SCHOOL", value: schoolName });
   }, []);
 
+  const handleBirthdaySelect = useCallback((date: Date | undefined) => {
+    if (!date) {
+      dispatch({ type: "UPDATE_FIELD", field: "birthday", value: "" });
+      return;
+    }
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    dispatch({ type: "UPDATE_FIELD", field: "birthday", value: `${yyyy}-${mm}-${dd}` });
+  }, []);
+
   const handleToggleOutOfSchool = useCallback(() => {
     dispatch({ type: "TOGGLE_OUT_OF_SCHOOL" });
   }, []);
@@ -126,6 +137,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
       handleDescriptionChange,
       handleFieldChange,
       handleSchoolSelect,
+      handleBirthdaySelect,
       handleSubmit,
       handleToggleOutOfSchool,
       handleFieldBlur,

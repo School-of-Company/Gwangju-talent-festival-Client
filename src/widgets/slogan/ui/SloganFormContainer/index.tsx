@@ -46,7 +46,7 @@ export default function SloganFormContainer() {
               isOutOfSchool={isOutOfSchool}
               onToggleOutOfSchool={handlers.handleToggleOutOfSchool}
               birthdayValue={state.formValues.birthday ?? ""}
-              onBirthdayChange={handlers.handleFieldChange("birthday")}
+              onBirthdaySelect={handlers.handleBirthdaySelect}
               onBirthdayBlur={handlers.handleFieldBlur("birthday")}
               birthdayError={fieldErrors.birthday}
             />
