@@ -5,11 +5,13 @@ export interface FormState {
   isSubmitted: boolean;
   isSubmitting: boolean;
   isOutOfSchool: boolean;
+  isSchoolConfirmed: boolean;
   touchedFields: Partial<Record<keyof SloganFormValues, boolean>>;
 }
 
 export type FormAction =
   | { type: "UPDATE_FIELD"; field: keyof SloganFormValues; value: string }
+  | { type: "CONFIRM_SCHOOL"; value: string }
   | { type: "SET_SUBMITTING"; value: boolean }
   | { type: "SET_SUBMITTED"; value: boolean }
   | { type: "TOGGLE_OUT_OF_SCHOOL" }
@@ -29,6 +31,7 @@ export const initialFormState: FormState = {
   isSubmitted: false,
   isSubmitting: false,
   isOutOfSchool: false,
+  isSchoolConfirmed: false,
   touchedFields: {},
 };
 
@@ -38,6 +41,14 @@ export const formReducer = (state: FormState, action: FormAction): FormState => 
       return {
         ...state,
         formValues: { ...state.formValues, [action.field]: action.value },
+        ...(action.field === "school" ? { isSchoolConfirmed: false } : {}),
+      };
+    case "CONFIRM_SCHOOL":
+      return {
+        ...state,
+        formValues: { ...state.formValues, school: action.value },
+        isSchoolConfirmed: true,
+        touchedFields: { ...state.touchedFields, school: true },
       };
     case "SET_SUBMITTING":
       return { ...state, isSubmitting: action.value };
@@ -50,6 +61,7 @@ export const formReducer = (state: FormState, action: FormAction): FormState => 
       return {
         ...state,
         isOutOfSchool: next,
+        isSchoolConfirmed: false,
         formValues: next
           ? { ...state.formValues, school: "", grade: "", classroom: "" }
           : { ...state.formValues, birthday: "" },

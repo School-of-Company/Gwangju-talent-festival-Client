@@ -21,22 +21,8 @@ export const useSloganForm = (): UseSloganFormReturn => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
 
   const schema = state.isOutOfSchool ? outOfSchoolSloganSchema : sloganSchema;
-  const isValid = schema.safeParse(state.formValues).success;
 
   const debouncedFormValues = useDebounce(state.formValues, 500);
-
-  const fieldErrors = useMemo(() => {
-    const result = schema.safeParse(debouncedFormValues);
-    if (result.success) return {} as Partial<Record<keyof SloganFormValues, string>>;
-    const errors: Partial<Record<keyof SloganFormValues, string>> = {};
-    for (const issue of result.error.issues) {
-      const field = issue.path[0] as keyof SloganFormValues;
-      if (!errors[field] && state.touchedFields[field]) {
-        errors[field] = issue.message;
-      }
-    }
-    return errors;
-  }, [debouncedFormValues, state.touchedFields, schema]);
 
   const normalizedSchoolName = useMemo(
     () => state.formValues.school.replace(/\s+/g, ""),
@@ -46,6 +32,39 @@ export const useSloganForm = (): UseSloganFormReturn => {
   const { data: schoolData, isSuccess: isSchoolFetched } = useGetSchool(debouncedSchoolName);
 
   const schoolList = useMemo(() => parseSchoolApiResponse(schoolData), [schoolData]);
+
+  const isSchoolValid = useMemo(
+    () =>
+      state.isSchoolConfirmed ||
+      schoolList.some(s => s.SCHUL_NM === normalizedSchoolName),
+    [state.isSchoolConfirmed, schoolList, normalizedSchoolName],
+  );
+
+  const isValid =
+    schema.safeParse(state.formValues).success &&
+    (state.isOutOfSchool || isSchoolValid);
+
+  const fieldErrors = useMemo(() => {
+    const result = schema.safeParse(debouncedFormValues);
+    const errors: Partial<Record<keyof SloganFormValues, string>> = {};
+    if (!result.success) {
+      for (const issue of result.error.issues) {
+        const field = issue.path[0] as keyof SloganFormValues;
+        if (!errors[field] && state.touchedFields[field]) {
+          errors[field] = issue.message;
+        }
+      }
+    }
+    if (
+      !state.isOutOfSchool &&
+      !isSchoolValid &&
+      state.touchedFields.school &&
+      debouncedFormValues.school
+    ) {
+      errors.school = "학교를 목록에서 선택해주세요.";
+    }
+    return errors;
+  }, [debouncedFormValues, state.touchedFields, isSchoolValid, state.isOutOfSchool, schema]);
 
   const filteredSchools = useMemo(
     () => schoolList.filter(school => school.SCHUL_NM !== normalizedSchoolName),
@@ -75,7 +94,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
   );
 
   const handleSchoolSelect = useCallback((schoolName: string) => {
-    dispatch({ type: "UPDATE_FIELD", field: "school", value: schoolName });
+    dispatch({ type: "CONFIRM_SCHOOL", value: schoolName });
   }, []);
 
   const handleToggleOutOfSchool = useCallback(() => {
