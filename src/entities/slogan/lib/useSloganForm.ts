@@ -20,9 +20,23 @@ const parseSchoolApiResponse = (data: SchoolInfoResponse | undefined) => {
 export const useSloganForm = (): UseSloganFormReturn => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
 
-  const isValid = state.isOutOfSchool
-    ? outOfSchoolSloganSchema.safeParse(state.formValues).success
-    : sloganSchema.safeParse(state.formValues).success;
+  const schema = state.isOutOfSchool ? outOfSchoolSloganSchema : sloganSchema;
+  const isValid = schema.safeParse(state.formValues).success;
+
+  const debouncedFormValues = useDebounce(state.formValues, 500);
+
+  const fieldErrors = useMemo(() => {
+    const result = schema.safeParse(debouncedFormValues);
+    if (result.success) return {} as Partial<Record<keyof SloganFormValues, string>>;
+    const errors: Partial<Record<keyof SloganFormValues, string>> = {};
+    for (const issue of result.error.issues) {
+      const field = issue.path[0] as keyof SloganFormValues;
+      if (!errors[field] && state.touchedFields[field]) {
+        errors[field] = issue.message;
+      }
+    }
+    return errors;
+  }, [debouncedFormValues, state.touchedFields, schema]);
 
   const normalizedSchoolName = useMemo(
     () => state.formValues.school.replace(/\s+/g, ""),
@@ -53,6 +67,13 @@ export const useSloganForm = (): UseSloganFormReturn => {
     [],
   );
 
+  const handleFieldBlur = useCallback(
+    (field: keyof SloganFormValues) => () => {
+      dispatch({ type: "TOUCH_FIELD", field });
+    },
+    [],
+  );
+
   const handleSchoolSelect = useCallback((schoolName: string) => {
     dispatch({ type: "UPDATE_FIELD", field: "school", value: schoolName });
   }, []);
@@ -68,8 +89,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
       try {
         const res = await handleSloganFormSubmit(state.formValues, state.isOutOfSchool);
         dispatch({ type: "SET_SUBMITTED", value: !!res });
-      } catch (error) {
-        console.error("Form submission error:", error);
+      } catch {
       } finally {
         dispatch({ type: "SET_SUBMITTING", value: false });
       }
@@ -81,6 +101,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
     state,
     isValid,
     isOutOfSchool: state.isOutOfSchool,
+    fieldErrors,
     handlers: {
       handleSloganChange,
       handleDescriptionChange,
@@ -88,6 +109,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
       handleSchoolSelect,
       handleSubmit,
       handleToggleOutOfSchool,
+      handleFieldBlur,
     },
     schoolData: {
       schoolList,
