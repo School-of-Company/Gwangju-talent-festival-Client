@@ -6,15 +6,21 @@ interface CountLengthProps {
   children: React.ReactNode;
   length?: number;
   max?: number;
+  error?: string;
 }
 
-const CountLength = ({ children, length = 0, max = 100 }: CountLengthProps) => {
+const CountLength = ({ children, length = 0, max = 100, error }: CountLengthProps) => {
   const countText = useMemo(() => `${length}/${max}`, [length, max]);
 
   return (
     <div className={cn("flex flex-col gap-4")}>
       {children}
-      <span className={cn("text-body3r ml-auto text-gray-400")}>{countText}</span>
+      <div className="flex items-center justify-between">
+        <span className={cn("text-caption1r", error ? "text-red-500" : "invisible")}>
+          {error ?? " "}
+        </span>
+        <span className={cn("text-body3r text-gray-400")}>{countText}</span>
+      </div>
     </div>
   );
 };
