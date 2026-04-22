@@ -17,31 +17,38 @@ export const classroomSchema = z
   .refine(val => /^\d+$/.test(val), "반은 숫자만 입력할 수 있습니다.")
   .refine(val => Number(val) <= 99, "반은 두자릿수 이내로 입력 해주세요.");
 
-export const sloganSchema = z.object({
+const sharedSloganFields = {
   slogan: sloganNameSchema,
   description: sloganDescriptionSchema,
   name: z
     .string()
     .min(1, "이름을 입력해주세요.")
     .regex(/^[가-힣a-zA-Z\s]+$/, "올바르지 않은 형식입니다."),
+  phone_number: phoneNumberSchema,
+};
+
+export const sloganSchema = z.object({
+  ...sharedSloganFields,
   school: z.string().min(1, "학교를 입력해주세요."),
   grade: gradeSchema,
   classroom: classroomSchema,
-  phone_number: phoneNumberSchema,
-  birthday: z.string().optional(),
 });
 
-export const outOfSchoolSloganSchema = sloganSchema
-  .omit({
-    school: true,
-    grade: true,
-    classroom: true,
-  })
-  .extend({
-    birthday: z
-      .string()
-      .min(1, "생년월일을 입력해주세요.")
-      .regex(/^\d{4}-\d{2}-\d{2}$/, "올바르지 않은 형식입니다."),
-  });
+export const outOfSchoolSloganSchema = z.object({
+  ...sharedSloganFields,
+  birthday: z
+    .string()
+    .min(1, "생년월일을 입력해주세요.")
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "올바르지 않은 형식입니다."),
+});
 
-export type SloganFormValues = z.infer<typeof sloganSchema>;
+export interface SloganFormValues {
+  slogan: string;
+  description: string;
+  name: string;
+  phone_number: string;
+  school: string;
+  grade: string;
+  classroom: string;
+  birthday: string;
+}
