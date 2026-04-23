@@ -13,6 +13,8 @@ export default function MainYoutubeVideo() {
           "-translate-y-1/2",
           "w-[177.78vh]",
           "h-[56.25vw]",
+          "mobile:w-full",
+          "mobile:h-full",
           "min-w-full",
           "min-h-full",
           "pointer-events-none",
@@ -28,7 +30,7 @@ export default function MainYoutubeVideo() {
           "absolute",
           "inset-0",
           "bg-gradient-to-t",
-          "from-black/100",
+          "from-black",
           "via-black/30",
           "to-black/10",
         )}

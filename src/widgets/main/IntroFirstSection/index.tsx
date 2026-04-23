@@ -11,6 +11,7 @@ const IntroFirstSection = () => {
         "bg-black",
         "overflow-hidden",
         "h-[calc(100vh-4.625rem)]",
+        "mobile:h-auto",
         "mobile:aspect-video",
       )}
     >
