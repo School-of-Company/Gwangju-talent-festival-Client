@@ -10,8 +10,8 @@ const IntroFirstSection = () => {
         "relative",
         "bg-black",
         "overflow-hidden",
-        "min-[1000px]:h-screen",
-        "max-[999px]:h-auto",
+        "h-[calc(100vh-4.625rem)]",
+        "mobile:aspect-video",
       )}
     >
       <MainYoutubeVideo />
