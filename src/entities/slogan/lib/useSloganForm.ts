@@ -8,6 +8,7 @@ import { useDebounce } from "./useDebounce";
 import { useGetSchool } from "../api/useGetSchool";
 import { SchoolInfoResponse } from "../model/school";
 import { UseSloganFormReturn } from "./types";
+import { outOfSchoolSloganSchema } from "../model/schema";
 
 const SCHOOL_SEARCH_DELAY = 200;
 
@@ -19,7 +20,9 @@ const parseSchoolApiResponse = (data: SchoolInfoResponse | undefined) => {
 export const useSloganForm = (): UseSloganFormReturn => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
 
-  const isValid = sloganSchema.safeParse(state.formValues).success;
+  const schema = state.isOutOfSchool ? outOfSchoolSloganSchema : sloganSchema;
+
+  const debouncedFormValues = useDebounce(state.formValues, 500);
 
   const normalizedSchoolName = useMemo(
     () => state.formValues.school.replace(/\s+/g, ""),
@@ -29,6 +32,39 @@ export const useSloganForm = (): UseSloganFormReturn => {
   const { data: schoolData, isSuccess: isSchoolFetched } = useGetSchool(debouncedSchoolName);
 
   const schoolList = useMemo(() => parseSchoolApiResponse(schoolData), [schoolData]);
+
+  const isSchoolValid = useMemo(
+    () =>
+      state.isSchoolConfirmed ||
+      schoolList.some(s => s.SCHUL_NM === normalizedSchoolName),
+    [state.isSchoolConfirmed, schoolList, normalizedSchoolName],
+  );
+
+  const isValid =
+    schema.safeParse(state.formValues).success &&
+    (state.isOutOfSchool || isSchoolValid);
+
+  const fieldErrors = useMemo(() => {
+    const result = schema.safeParse(debouncedFormValues);
+    const errors: Partial<Record<keyof SloganFormValues, string>> = {};
+    if (!result.success) {
+      for (const issue of result.error.issues) {
+        const field = issue.path[0] as keyof SloganFormValues;
+        if (!errors[field] && state.touchedFields[field]) {
+          errors[field] = issue.message;
+        }
+      }
+    }
+    if (
+      !state.isOutOfSchool &&
+      !isSchoolValid &&
+      state.touchedFields.school &&
+      debouncedFormValues.school
+    ) {
+      errors.school = "학교를 목록에서 선택해주세요.";
+    }
+    return errors;
+  }, [debouncedFormValues, state.touchedFields, isSchoolValid, state.isOutOfSchool, schema]);
 
   const filteredSchools = useMemo(
     () => schoolList.filter(school => school.SCHUL_NM !== normalizedSchoolName),
@@ -50,8 +86,30 @@ export const useSloganForm = (): UseSloganFormReturn => {
     [],
   );
 
+  const handleFieldBlur = useCallback(
+    (field: keyof SloganFormValues) => () => {
+      dispatch({ type: "TOUCH_FIELD", field });
+    },
+    [],
+  );
+
   const handleSchoolSelect = useCallback((schoolName: string) => {
-    dispatch({ type: "UPDATE_FIELD", field: "school", value: schoolName });
+    dispatch({ type: "CONFIRM_SCHOOL", value: schoolName });
+  }, []);
+
+  const handleBirthdaySelect = useCallback((date: Date | undefined) => {
+    if (!date) {
+      dispatch({ type: "UPDATE_FIELD", field: "birthday", value: "" });
+      return;
+    }
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    dispatch({ type: "UPDATE_FIELD", field: "birthday", value: `${yyyy}-${mm}-${dd}` });
+  }, []);
+
+  const handleToggleOutOfSchool = useCallback(() => {
+    dispatch({ type: "TOGGLE_OUT_OF_SCHOOL" });
   }, []);
 
   const handleSubmit = useCallback(
@@ -59,26 +117,30 @@ export const useSloganForm = (): UseSloganFormReturn => {
       e.preventDefault();
       dispatch({ type: "SET_SUBMITTING", value: true });
       try {
-        const res = await handleSloganFormSubmit(state.formValues);
+        const res = await handleSloganFormSubmit(state.formValues, state.isOutOfSchool);
         dispatch({ type: "SET_SUBMITTED", value: !!res });
-      } catch (error) {
-        console.error("Form submission error:", error);
+      } catch {
       } finally {
         dispatch({ type: "SET_SUBMITTING", value: false });
       }
     },
-    [state.formValues],
+    [state.formValues, state.isOutOfSchool],
   );
 
   return {
     state,
     isValid,
+    isOutOfSchool: state.isOutOfSchool,
+    fieldErrors,
     handlers: {
       handleSloganChange,
       handleDescriptionChange,
       handleFieldChange,
       handleSchoolSelect,
+      handleBirthdaySelect,
       handleSubmit,
+      handleToggleOutOfSchool,
+      handleFieldBlur,
     },
     schoolData: {
       schoolList,

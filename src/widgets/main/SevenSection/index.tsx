@@ -5,24 +5,26 @@ import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { cn } from "@/shared/utils/cn";
 // import GITHUB_ID from "../const/GithubID";
 
-export default function SeventhSection() {
+export default function SevenSection() {
   // const totalWidth = 18.4375 * GITHUB_ID.length;
   return (
-    <section id="FinalsSixthSection" className={cn("flex flex-col items-center my-20")}>
-      <div className={cn("w-[70%] mobile:w-full mobile:px-10")}>
+    <section id="SevenSection" className={cn("flex flex-col items-center mt-20 mb-120 mobile:mb-60")}>
+      <div className={cn("w-[75%] mobile:w-full mobile:px-10")}>
         <SectionTitle
           title="광탈페 운영진 소개"
           description="로고 클릭 시 인스타로 이동합니다"
-          className={cn("mt-[66px] mobile:mt-[1.7rem]")}
+          className={cn("mt-66 mobile:mt-[1.7rem]")}
         />
-        <div className="flex text-title2b mobile:text-body3b text-center gap-[100px] justify-center items-center mobile:gap-[12px]">
+        <div className="mt-56 mobile:mt-32 flex items-center justify-center mobile:flex-col mobile:gap-16">
           <OrganizationWrapper
             label="광주광역시고등의회"
             description="행사 기획 및 운영"
             imageSrc="/images/gwhclogo.png"
             href="https://www.instagram.com/_gwhc"
           />
-          <ShakeHand />
+          <ShakeHand
+            className="flex-shrink-0 text-gray-300 w-[clamp(1.5rem,3.5vw,3.25rem)] h-[clamp(1.5rem,3.5vw,3.25rem)] mx-[clamp(0.75rem,2.5vw,2.25rem)] mobile:mx-0 mobile:my-4"
+          />
           <OrganizationWrapper
             label="광주소프트웨어마이스터고"
             description="플랫폼 설계 및 개발"

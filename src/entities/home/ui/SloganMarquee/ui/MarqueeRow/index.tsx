@@ -7,7 +7,7 @@ type MarqueeRowProps = Readonly<{
   slogans: ReadonlyArray<string>;
   fonts: ReadonlyArray<FontType>;
   reverse?: boolean;
-  color?: "text-main-500" | "text-main-600";
+  color?: "text-orange-200" | "text-orange-500";
 }>;
 
 export const MarqueeRow = memo(
@@ -15,7 +15,7 @@ export const MarqueeRow = memo(
     slogans,
     fonts,
     reverse = false,
-    color = "text-main-600",
+    color = "text-orange-200",
   }: MarqueeRowProps): React.ReactElement => {
     const rendered = useMemo(
       () =>

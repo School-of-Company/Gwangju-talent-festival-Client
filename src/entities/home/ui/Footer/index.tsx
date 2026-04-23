@@ -2,9 +2,9 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="py-24 bg-main-100 flex items-center justify-center gap-[5%] text-black mobile:pr-[70px]">
+    <footer className="py-24 bg-gray-100 flex items-center justify-center gap-[5%] text-black mobile:pr-[70px]">
       <ul className="flex items-center sm:text-body3r text-caption2r gap-5 mobile:flex-col mobile:gap-0">
-        <p>&copy; 2025 光탈페. All rights reserved. </p>
+        <p>&copy; 2026 光탈페. All rights reserved. </p>
         <a
           className="pr-8 underline underline-offset-4"
           href="https://zircon-august-7e1.notion.site/kr-2727d70a961480b88410fe81e5ebc239?source=copy_link"
