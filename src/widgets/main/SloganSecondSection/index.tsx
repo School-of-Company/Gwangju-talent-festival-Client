@@ -17,16 +17,16 @@ const submissionPeriodText = `공모기간 : ${SLOGAN_YEAR}.${formatDate(sloganS
 const SloganSecondSection = () => {
   const router = useRouter();
 
-  const [isSloganPeriod, setIsSloganPeriod] = useState(false);
+  const [isSloganPeriod, setIsSloganPeriod] = useState(() => {
+    const now = new Date();
+    return now >= sloganStartDate && now <= sloganEndDate;
+  });
 
   useEffect(() => {
-    const checkPeriod = () => {
+    const timer = setInterval(() => {
       const now = new Date();
       setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
-    };
-
-    checkPeriod();
-    const timer = setInterval(checkPeriod, 60000);
+    }, 60000);
 
     return () => clearInterval(timer);
   }, []);
@@ -60,11 +60,11 @@ const SloganSecondSection = () => {
         type="button"
         onClick={() => router.push("/slogan")}
         className={cn("mobile:mb-[12px] px-28 mt-[54px] mb-[10px] rounded-lg")}
-        disabled={!isSloganPeriod}
+        disabled={false}
       >
         <span className={cn("text-body3b px-[60px] mobile:text-body3b flex items-center gap-10")}>
-          {isSloganPeriod ? "슬로건 공모하러가기" : "공모기간이 아닙니다"}{" "}
-          <ArrowBack color={isSloganPeriod ? "white" : "#1F2937"} />
+          {"슬로건 공모하러가기"}{" "}
+          <ArrowBack color={"white"} />
         </span>
       </Button>
 
