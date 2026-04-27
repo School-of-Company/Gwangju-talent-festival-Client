@@ -12,10 +12,8 @@ export default function MainYoutubeVideo() {
             "left-1/2",
             "-translate-x-1/2",
             "-translate-y-1/2",
-            "w-[177.78vh]",
-            "h-[56.25vw]",
-            "min-w-full",
-            "min-h-[110%]",
+            "w-[115%]",
+            "h-[115%]",
             "pointer-events-none",
           )}
           src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${youtubeId}&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0`}
