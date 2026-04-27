@@ -10,7 +10,7 @@ const IntroFirstSection = () => {
         "relative",
         "bg-black",
         "overflow-hidden",
-        "h-[calc(100vh-4.625rem)]",
+        "h-[calc(100vh-var(--header-height))]",
         "tablet:h-auto",
         "tablet:aspect-video",
         "mobile:h-auto",
