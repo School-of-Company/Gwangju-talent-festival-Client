@@ -27,8 +27,11 @@ export default function MainYoutubeVideo() {
             "left-1/2",
             "-translate-x-1/2",
             "-translate-y-1/2",
-            "w-[115%]",
-            "h-[115%]",
+            "w-[177.78vh]",
+            "h-[56.25vw]",
+            "min-w-full",
+            "min-h-full",
+            "scale-[1.15]",
             "pointer-events-none",
           )}
           src={src}
