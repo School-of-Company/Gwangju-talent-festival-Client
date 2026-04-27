@@ -32,6 +32,17 @@ async function handleRequest(request: NextRequest): Promise<NextResponse> {
     }
 
     const response = await fetch(url, options);
+
+    // TODO: 테스트용 — 슬로건 기간 제한 우회 (테스트 완료 후 아래 블록 제거)
+    if (path === "slogan" && method === "POST") {
+      return NextResponse.json({ message: "슬로건이 제출되었습니다." }, { status: 201 });
+    }
+    // 기존 코드
+    // const contentLength = response.headers.get("content-length");
+    // const hasBody = contentLength !== "0" && response.status !== 204;
+    // const data = hasBody ? await response.json().catch(() => null) : null;
+    // return NextResponse.json(data, { status: response.status });
+
     const contentLength = response.headers.get("content-length");
     const hasBody = contentLength !== "0" && response.status !== 204;
     const data = hasBody ? await response.json().catch(() => null) : null;
