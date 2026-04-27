@@ -3,6 +3,8 @@ import { Input } from "@/shared/ui";
 import { cn } from "@/shared/utils/cn";
 import Search from "@/shared/asset/svg/Search";
 import HighlightText from "../HighlightText";
+import CheckBox from "@/shared/asset/svg/CheckBox";
+import BirthdayPicker from "../BirthdayPicker";
 
 type School = {
   SD_SCHUL_CODE: string;
@@ -12,34 +14,69 @@ type School = {
 type SchoolSearchInputProps = {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
+  error?: string;
   filteredSchools: School[];
   isSchoolFetched: boolean;
   onSchoolSelect: (schoolName: string) => void;
+  isOutOfSchool: boolean;
+  onToggleOutOfSchool: () => void;
+  birthdayValue: string;
+  onBirthdaySelect: (date: Date | undefined) => void;
+  onBirthdayBlur?: () => void;
+  birthdayError?: string;
 };
 
 const SchoolSearchInput = ({
   value,
   onChange,
+  onBlur,
+  error,
   filteredSchools,
   isSchoolFetched,
   onSchoolSelect,
+  isOutOfSchool,
+  onToggleOutOfSchool,
+  birthdayValue,
+  onBirthdaySelect,
+  onBirthdayBlur,
+  birthdayError,
 }: SchoolSearchInputProps) => {
   const normalizedValue = useMemo(() => value.replace(/\s+/g, ""), [value]);
 
   return (
     <div className="relative">
+      <div className="flex items-center justify-between mb-8">
+        <span className="text-body3b">{isOutOfSchool ? "생년월일" : "학교"}</span>
+        <button type="button" onClick={onToggleOutOfSchool} className="flex items-center gap-8">
+          <CheckBox checked={isOutOfSchool} />
+          <span className="text-body3b text-orange-500">학교 밖 청소년</span>
+        </button>
+      </div>
       <div className="relative">
-        <Input
-          name="school"
-          type="text"
-          value={value}
-          onChange={onChange}
-          label="학교"
-          placeholder="학교를 입력해주세요"
-        />
-        <span className={cn("absolute top-4 right-0 mt-[2.5rem] mr-[1.25rem]")}>
-          <Search />
-        </span>
+        {isOutOfSchool ? (
+          <BirthdayPicker
+            value={birthdayValue}
+            onSelect={onBirthdaySelect}
+            onBlur={onBirthdayBlur}
+            error={birthdayError}
+          />
+        ) : (
+          <>
+            <Input
+              name="school"
+              type="text"
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              error={error}
+              placeholder="학교를 입력해주세요"
+            />
+            <span className={cn("absolute right-[1.25rem] top-[25px] -translate-y-1/2")}>
+              <Search />
+            </span>
+          </>
+        )}
       </div>
       {isSchoolFetched && normalizedValue !== "" && filteredSchools.length > 0 && (
         <div className="absolute left-0 right-0 bg-white shadow-xl rounded mt-8 max-h-[350px] overflow-y-auto z-10">

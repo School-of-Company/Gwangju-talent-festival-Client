@@ -9,7 +9,10 @@ export interface SloganFormHandlers {
     field: keyof SloganFormValues,
   ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSchoolSelect: (schoolName: string) => void;
+  handleBirthdaySelect: (date: Date | undefined) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleToggleOutOfSchool: () => void;
+  handleFieldBlur: (field: keyof SloganFormValues) => () => void;
 }
 
 export interface SloganFormSchoolData {
@@ -21,6 +24,8 @@ export interface SloganFormSchoolData {
 export interface UseSloganFormReturn {
   state: FormState;
   isValid: boolean;
+  isOutOfSchool: boolean;
+  fieldErrors: Partial<Record<keyof SloganFormValues, string>>;
   handlers: SloganFormHandlers;
   schoolData: SloganFormSchoolData;
 }

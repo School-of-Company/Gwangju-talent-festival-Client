@@ -7,10 +7,12 @@ import { colors } from "@/shared/utils/color";
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   type: string;
+  error?: string;
+  hideErrorSpace?: boolean;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, placeholder, label, ...props }, ref) => {
+  ({ className, type, placeholder, label, id, error, hideErrorSpace, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleTogglePassword = () => {
@@ -19,15 +21,20 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="w-full flex flex-col gap-8">
-        <label className="text-body3b">{label}</label>
+        {label && (
+          <label className="text-body3b" htmlFor={id}>
+            {label}
+          </label>
+        )}
         <div className="relative">
           <input
             className={cn(
-              "w-full outline-none rounded-md px-16 py-4 text-body3r placeholder:text-gray-400 focus:ring-0 transition-all h-[50px] border-gray-100 border border-solid",
+              "w-full outline-none rounded-md px-16 py-4 text-body3r placeholder:text-gray-400 focus:ring-0 h-[50px] border-gray-100 border border-solid",
               type === "number" &&
                 "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
               className,
             )}
+            id={id}
             placeholder={placeholder}
             type={type === "password" ? (showPassword ? "text" : "password") : type}
             ref={ref}
@@ -47,6 +54,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             </button>
           )}
         </div>
+        {!hideErrorSpace && (
+          <p className={cn("text-caption1r h-[0.75rem] leading-none", error ? "text-red-500" : "invisible")}>
+            {error ?? " "}
+          </p>
+        )}
       </div>
     );
   },

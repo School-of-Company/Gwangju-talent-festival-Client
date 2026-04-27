@@ -78,7 +78,7 @@ const SignupFormContainer = () => {
         <input type="hidden" name="formType" value="signup" />
         <div className={cn("space-y-16")}>
           <div className={cn("flex flex-col gap-2")}>
-            <label className={cn("text-sm font-medium")}>전화번호</label>
+            <label className={cn("text-body3b")}>전화번호</label>
             <div className={cn("flex items-end gap-8")}>
               <div className={cn("w-full")}>
                 <Input

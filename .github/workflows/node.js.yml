@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
     branches: [main, develop]
     types: [opened, synchronize, reopened, ready_for_review]
@@ -10,24 +10,23 @@ on:
 permissions:
   pull-requests: write
   contents: read
+  checks: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - name: 소스코드 체크아웃
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Node.js 설정
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "18"
-
-      - name: npm 최신 버전 설치 (선택 사항)
-        run: npm install -g npm@8
+          node-version: "20"
 
       - name: npm 캐시 설정
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -43,23 +42,52 @@ jobs:
       - name: 빌드
         run: npm run build
 
-  pr-checks:
-    needs: build
+  test:
     runs-on: ubuntu-latest
+
+    steps:
+      - name: 소스코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: npm 캐시 설정
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 의존성 설치
+        run: npm install --frozen-lockfile
+
+      - name: 테스트 및 커버리지 생성
+        run: npm run test:coverage
+
+      - name: 커버리지 리포트 PR 코멘트
+        uses: davelosert/vitest-coverage-report-action@v2
+        if: github.event_name == 'pull_request'
+
+  pr-checks:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'pull_request'
     steps:
       - name: PR CI 결과 코멘트
-        if: always()
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
-            const pr = context.payload.pull_request;
-            const status = '${{ job.status }}';
-            const message = status === 'success' 
-              ? '✅ CI 성공'
-              : '❌ CI 실패';
+            const buildResult = '${{ needs.build.result }}';
+            const message = buildResult === 'success'
+              ? '✅ CI 성공 (빌드 & 린트 통과)'
+              : `❌ CI 실패 (빌드: ${buildResult})`;
 
             github.rest.issues.createComment({
-              issue_number: pr.number,
+              issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: message

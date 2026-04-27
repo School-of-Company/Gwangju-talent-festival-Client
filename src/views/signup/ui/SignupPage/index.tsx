@@ -10,7 +10,7 @@ const SignupPage = () => {
       <div className={cn("w-full max-w-md flex flex-col items-center")}>
         <div className={cn("mb-20 mobile:mb-0")}>
           <Logo
-            color={colors.main[600]}
+            color={colors.orange[500]}
             width={200}
             height={200}
             className="mobile:w-[150px] mobile:h-[100px]"
@@ -19,7 +19,7 @@ const SignupPage = () => {
         <SignupFormContainer />
         <p className="text-body2r mt-28 text-gray-500 mobile:text-caption1r mobile:mt-10 ">
           이미 회원가입을 하셨나요?{" "}
-          <Link href="/signin" className="text-main-600 hover:underline">
+          <Link href="/signin" className="text-orange-500 hover:underline">
             로그인 하러가기
           </Link>
         </p>
