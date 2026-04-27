@@ -38,7 +38,6 @@ export default function MainYoutubeVideo() {
         />
       </div>
 
-      <div className={cn("absolute", "inset-0", "pointer-events-none")} />
       <div
         className={cn(
           "absolute",
