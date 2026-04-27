@@ -11,7 +11,9 @@ export async function handleSloganFormSubmit(values: SloganFormValues, isOutOfSc
     } else {
       toast.error("슬로건 제출에 실패했습니다.");
     }
-  } catch {
-    toast.error("슬로건 제출에 실패했습니다.");
+  } catch (error) {
+    const axiosError = error as { response?: { data?: { message?: string } } };
+    const msg = axiosError?.response?.data?.message;
+    toast.error(msg ?? "슬로건 제출에 실패했습니다.");
   }
 }
