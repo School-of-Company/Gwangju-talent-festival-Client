@@ -18,14 +18,21 @@ const formatDisplay = (dateStr: string) => dateStr;
 const BirthdayPicker = ({ value, onSelect, onBlur, error }: BirthdayPickerProps) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const openRef = useRef(false);
+
+  useEffect(() => {
+    openRef.current = open;
+  }, [open]);
 
   const selectedDate = value ? new Date(value) : undefined;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
+        if (openRef.current) {
+          onBlur?.();
+        }
         setOpen(false);
-        onBlur?.();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
