@@ -2,6 +2,21 @@ import { cn } from "@/shared/utils/cn";
 
 export default function MainYoutubeVideo() {
   const youtubeId = "8iM_JB8u-Vo";
+  const params = new URLSearchParams({
+    autoplay: "1",
+    mute: "1",
+    controls: "0",
+    playsinline: "1",
+    loop: "1",
+    playlist: youtubeId,
+    modestbranding: "1",
+    rel: "0",
+    iv_load_policy: "3",
+    disablekb: "1",
+    fs: "0",
+    cc_load_policy: "0",
+  });
+  const src = `https://www.youtube.com/embed/${youtubeId}?${params}`;
   return (
     <>
       <div className={cn("absolute", "inset-0", "overflow-hidden")}>
@@ -16,7 +31,7 @@ export default function MainYoutubeVideo() {
             "h-[115%]",
             "pointer-events-none",
           )}
-          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&playsinline=1&loop=1&playlist=${youtubeId}&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0`}
+          src={src}
           title="Intro video"
           allow="autoplay; encrypted-media; picture-in-picture"
           referrerPolicy="strict-origin-when-cross-origin"
