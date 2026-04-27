@@ -10,8 +10,11 @@ const IntroFirstSection = () => {
         "relative",
         "bg-black",
         "overflow-hidden",
-        "min-[1000px]:h-screen",
-        "max-[999px]:h-auto",
+        "h-[calc(100vh-4.625rem)]",
+        "tablet:h-auto",
+        "tablet:aspect-video",
+        "mobile:h-auto",
+        "mobile:aspect-video",
       )}
     >
       <MainYoutubeVideo />
@@ -27,14 +30,16 @@ const IntroFirstSection = () => {
           "mobile:pb-[6%]",
         )}
       >
-        <div className={cn("w-full", "max-w-[1060px]", "mx-auto", "px-4", "text-white")}>
-          <h1 className={cn("text-[clamp(0.875rem,calc(-1.982rem+7.14vw),2.75rem)]", "font-bold", "leading-[120%]")}>
+        <div className={cn("w-full", "max-w-[1060px]", "mx-auto", "px-4", "text-white", "tablet:text-center", "mobile:text-center")}>
+          <h1 className={cn("text-[clamp(0.875rem,calc(-1.982rem+7.14vw),2.75rem)]", "tablet:text-[clamp(0.875rem,calc(-1.5rem+6vw),2rem)]", "mobile:text-[clamp(0.875rem,calc(-1.5rem+6vw),2rem)]", "font-bold", "leading-[120%]")}>
             光탈페 (광주학생탈렌트페스티벌)
           </h1>
           <p
             className={cn(
               "mt-[clamp(0.5rem,calc(-0.5rem+2.5vw),1.5rem)]",
               "text-[clamp(0.6875rem,calc(-1.3125rem+5vw),2rem)]",
+              "tablet:text-[clamp(0.6875rem,calc(-0.8125rem+4vw),1.5rem)]",
+              "mobile:text-[clamp(0.6875rem,calc(-0.8125rem+4vw),1.5rem)]",
               "leading-[130%]",
               "break-keep",
             )}
