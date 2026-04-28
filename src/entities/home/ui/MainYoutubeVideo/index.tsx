@@ -39,6 +39,8 @@ export default function MainYoutubeVideo() {
           title="Intro video"
           allow="autoplay; encrypted-media; picture-in-picture"
           referrerPolicy="strict-origin-when-cross-origin"
+          aria-hidden="true"
+          tabIndex={-1}
         />
       </div>
 
