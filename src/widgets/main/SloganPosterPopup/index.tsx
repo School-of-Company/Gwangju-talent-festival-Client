@@ -2,16 +2,17 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Modal from "@/shared/ui/Modal";
 import Button from "@/shared/ui/Button";
-import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
+import { RightArrow } from "@/shared/asset/svg/RightArrow";
 
 const STORAGE_KEY = "sloganPosterHidden";
 
 export default function SloganPosterPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [doNotShow, setDoNotShow] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -27,6 +28,11 @@ export default function SloganPosterPopup() {
     setIsOpen(false);
   };
 
+  const handleGoSlogan = () => {
+    handleClose();
+    router.push("/slogan");
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -36,14 +42,16 @@ export default function SloganPosterPopup() {
       contentClassName="overflow-y-auto min-h-0"
       footer={
         <div className="flex flex-col gap-[min(0.75rem,1.5dvh)]">
-          <Link href="/slogan" onClick={handleClose} className="w-full">
-            <Button type="button" className="w-full rounded-lg h-[min(50px,7dvh)]">
-              <span className="text-body3b flex items-center justify-center gap-10">
-                슬로건 공모하러가기
-                <ArrowBack color="white" />
-              </span>
-            </Button>
-          </Link>
+          <Button
+            type="button"
+            className="w-full rounded-lg h-[min(50px,7dvh)]"
+            onClick={handleGoSlogan}
+          >
+            <span className="text-body3b flex items-center justify-center gap-10">
+              슬로건 공모하러가기
+              <RightArrow color="white" width={16} height={16} />
+            </span>
+          </Button>
           <div className="flex items-center gap-8">
             <input
               id="doNotShow"

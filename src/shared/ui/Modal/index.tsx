@@ -48,9 +48,9 @@ export default function Modal({
               {title && <h3 className="text-body2b">{title}</h3>}
             </div>
             {showCloseButton && (
-              <span className="cursor-pointer" onClick={onClose}>
+              <button type="button" className="cursor-pointer" onClick={onClose}>
                 <CloseIcon />
-              </span>
+              </button>
             )}
           </div>
         )}
