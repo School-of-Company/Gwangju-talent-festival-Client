@@ -46,7 +46,7 @@ export default function Header() {
     <>
       <header
         className={cn(
-          "flex items-center py-[1rem] justify-around mobile:justify-between mobile:px-16",
+          "flex items-center h-[var(--header-height)] justify-around mobile:justify-between mobile:px-16",
         )}
       >
         <Link href="/">
