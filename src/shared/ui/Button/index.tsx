@@ -26,7 +26,7 @@ const Button = ({
     <>
       <button
         className={cn(
-          `px-4 py-2 h-[50px] rounded-md whitespace-nowrap text-body3b font-bold ${variant[effectiveVariant]}`,
+          `px-4 py-2 h-[50px] rounded-md whitespace-nowrap text-body3b font-bold select-none ${disabled ? "" : "cursor-pointer"} ${variant[effectiveVariant]}`,
           className,
         )}
         onClick={onClick}

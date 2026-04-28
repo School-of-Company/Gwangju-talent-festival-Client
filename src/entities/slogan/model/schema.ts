@@ -38,7 +38,7 @@ export const outOfSchoolSloganSchema = z.object({
   ...sharedSloganFields,
   birthday: z
     .string()
-    .min(1, "생년월일을 입력해주세요.")
+    .min(1, "생년월일을 선택해주세요.")
     .regex(/^\d{4}-\d{2}-\d{2}$/, "올바르지 않은 형식입니다."),
 });
 
