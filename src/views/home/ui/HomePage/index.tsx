@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import IntroFirstSection from "@/widgets/main/IntroFirstSection";
 import SloganSecondSection from "@/widgets/main/SloganSecondSection";
 import LazySection from "@/shared/ui/LazySection";
+import SloganPosterPopup from "@/widgets/main/SloganPosterPopup";
 
 const PreliminaryFourthSection = dynamic(() => import("@/widgets/main/PreliminaryFourthSection"), {
   loading: () => <SectionPlaceholder />,
@@ -46,6 +47,7 @@ const SectionPlaceholder = ({ height = "400px" }: { height?: string }) => (
 const HomePage = () => {
   return (
     <>
+      <SloganPosterPopup />
       <IntroFirstSection />
       <SloganSecondSection />
 
