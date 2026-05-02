@@ -15,6 +15,7 @@ const IntroFirstSection = () => {
         "tablet:aspect-video",
         "mobile:h-auto",
         "mobile:aspect-video",
+        "mobile:min-h-[300px]",
       )}
     >
       <MainYoutubeVideo />
