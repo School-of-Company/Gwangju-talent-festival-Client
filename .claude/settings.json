@@ -1,0 +1,70 @@
+{                                                                                                                                            
+    "permissions": {                                                                                                                           
+      "allow": [                                                                                                                               
+        "Bash(npm run *)",                                                                                                                   
+        "Bash(npx *)",                    
+        "Bash(git status)",              
+        "Bash(git diff *)",                                                                                                                    
+        "Bash(git log *)",               
+        "Bash(git fetch *)",                                                                                                                   
+        "Bash(git add *)",                                                                                                                   
+        "Bash(git checkout *)",           
+        "Bash(git branch *)",
+        "Bash(git rev-parse *)",                                                                                                               
+        "Bash(git stash *)",             
+        "Bash(gh pr view *)",                                                                                                                  
+        "Bash(gh pr list *)",                                                                                                                
+        "Bash(gh pr checks *)",           
+        "Bash(gh api *)",
+        "Bash(find *)",                                                                                                                        
+        "Bash(grep *)",                  
+        "Bash(ls *)",                                                                                                                          
+        "Bash(jq *)",                                                                                                                        
+        "Bash(cat *)",                    
+        "Bash(wc *)",   
+        "Bash(sort *)",                  
+        "Bash(chmod *)"                                                                                                                        
+      ],                              
+      "deny": [                                                                                                                                
+        "Bash(git push --force *)",                                                                                                          
+        "Bash(git push -f *)",            
+        "Bash(git push * main)",
+        "Bash(git push * develop)",      
+        "Bash(git reset --hard *)",                                                                                                            
+        "Bash(rm -rf *)"              
+      ]                                                                                                                                        
+    },                                                                                                                                       
+    "hooks": {                            
+      "PreToolUse": [   
+        {                                
+          "matcher": "Bash",             
+          "hooks": [                  
+            {                                                                                                                                  
+              "type": "command",
+              "command": ".claude/hooks/branch-guard.sh"                                             
+            }                                                                                                                                
+          ]                               
+        }               
+      ],                                 
+      "PostToolUse": [                   
+        {                                                                                                                                      
+          "matcher": "Write|Edit",
+          "hooks": [                                                                                                                           
+            {                                                                                                                                
+              "type": "command",          
+              "command": ".claude/hooks/fsd-check.sh"
+            }                                                                                                                                  
+          ]                              
+        },                                                                                                                                     
+        {     
+          "matcher": "Write",             
+          "hooks": [    
+            {                            
+              "type": "command",         
+              "command": ".claude/hooks/test-runner.sh"
+            }                                                                                                                                  
+          ]
+        }                                                                                                                                      
+      ]       
+    }                                     
+  }                    
