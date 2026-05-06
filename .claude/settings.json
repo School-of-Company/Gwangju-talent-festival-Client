@@ -41,7 +41,7 @@
           "hooks": [                  
             {                                                                                                                                  
               "type": "command",
-              "command": "/Users/bae/Gwangju-talent-festival-Client/.claude/hooks/branch-guard.sh"                                             
+              "command": ".claude/hooks/branch-guard.sh"                                             
             }                                                                                                                                
           ]                               
         }               
@@ -52,7 +52,7 @@
           "hooks": [                                                                                                                           
             {                                                                                                                                
               "type": "command",          
-              "command": "/Users/bae/Gwangju-talent-festival-Client/.claude/hooks/fsd-check.sh"
+              "command": ".claude/hooks/fsd-check.sh"
             }                                                                                                                                  
           ]                              
         },                                                                                                                                     
@@ -61,7 +61,7 @@
           "hooks": [    
             {                            
               "type": "command",         
-              "command": "/Users/bae/Gwangju-talent-festival-Client/.claude/hooks/test-runner.sh"
+              "command": ".claude/hooks/test-runner.sh"
             }                                                                                                                                  
           ]
         }                                                                                                                                      
