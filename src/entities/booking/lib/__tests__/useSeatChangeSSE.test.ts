@@ -155,7 +155,7 @@ describe("useSeatChangeSSE", () => {
   });
 
   describe("연결 오류 처리", () => {
-    it("onerror에서 readyState가 CONNECTING이면 재연결을 스케줄하지 않는다", () => {
+    it("onerror에서 readyState가 CONNECTING이면 연결을 닫고 재연결을 스케줄한다", () => {
       renderHook(() => useSeatChangeSSE());
       const instance = mockInstances[0];
 
@@ -164,9 +164,13 @@ describe("useSeatChangeSSE", () => {
       });
 
       expect(toast.error).toHaveBeenCalledWith("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
-      vi.advanceTimersByTime(2000);
-      // 재연결이 없으면 새 인스턴스가 생기지 않는다
-      expect(mockInstances).toHaveLength(1);
+      expect(instance.closeCalled).toBe(true);
+
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+
+      expect(mockInstances).toHaveLength(2);
     });
 
     it("onerror에서 readyState가 CLOSED이면 에러 토스트를 표시한다", () => {
