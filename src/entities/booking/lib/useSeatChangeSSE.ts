@@ -87,8 +87,16 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
       }
     };
 
+    const handleOnline = () => {
+      if (eventSourceRef.current?.readyState === EventSource.CLOSED) {
+        retryCountRef.current = 0;
+        connect();
+      }
+    };
+
     connect();
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("online", handleOnline);
 
     return () => {
       if (retryTimerRef.current) {
@@ -96,6 +104,7 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
         retryTimerRef.current = null;
       }
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("online", handleOnline);
       eventSourceRef.current?.close();
       eventSourceRef.current = null;
     };

@@ -273,6 +273,43 @@ describe("useSeatChangeSSE", () => {
     });
   });
 
+  describe("네트워크 복구 (online 이벤트) 연동", () => {
+    it("네트워크가 복구되면 CLOSED 상태 연결을 즉시 재연결한다", () => {
+      renderHook(() => useSeatChangeSSE());
+      mockInstances[0].readyState = MockEventSource.CLOSED;
+
+      act(() => {
+        window.dispatchEvent(new Event("online"));
+      });
+
+      expect(mockInstances).toHaveLength(2);
+    });
+
+    it("네트워크가 복구돼도 연결이 살아있으면 새 EventSource를 만들지 않는다", () => {
+      renderHook(() => useSeatChangeSSE());
+      mockInstances[0].readyState = MockEventSource.OPEN;
+
+      act(() => {
+        window.dispatchEvent(new Event("online"));
+      });
+
+      expect(mockInstances).toHaveLength(1);
+    });
+
+    it("언마운트 후에는 online 이벤트에 반응하지 않는다", () => {
+      const { unmount } = renderHook(() => useSeatChangeSSE());
+      mockInstances[0].readyState = MockEventSource.CLOSED;
+
+      unmount();
+
+      act(() => {
+        window.dispatchEvent(new Event("online"));
+      });
+
+      expect(mockInstances).toHaveLength(1);
+    });
+  });
+
   describe("Page Visibility 연동", () => {
     it("탭이 숨겨진 상태에서는 재연결하지 않는다", () => {
       renderHook(() => useSeatChangeSSE());
