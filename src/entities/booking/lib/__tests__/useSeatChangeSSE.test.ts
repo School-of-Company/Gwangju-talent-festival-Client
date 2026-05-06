@@ -277,6 +277,38 @@ describe("useSeatChangeSSE", () => {
       expect(mockInstances).toHaveLength(2);
     });
 
+    it("오프라인 상태에서 오류 발생 시 타이머를 걸지 않는다", () => {
+      Object.defineProperty(navigator, "onLine", { value: false, configurable: true });
+      renderHook(() => useSeatChangeSSE());
+
+      act(() => {
+        mockInstances[0].simulateError(MockEventSource.CLOSED);
+      });
+
+      act(() => { vi.advanceTimersByTime(60_000); });
+      expect(mockInstances).toHaveLength(1);
+
+      Object.defineProperty(navigator, "onLine", { value: true, configurable: true });
+    });
+
+    it("네트워크 복구 시 ref=null(오프라인 중 연결 끊김) 상태에서도 즉시 재연결한다", () => {
+      Object.defineProperty(navigator, "onLine", { value: false, configurable: true });
+      renderHook(() => useSeatChangeSSE());
+
+      act(() => {
+        mockInstances[0].simulateError(MockEventSource.CLOSED);
+      });
+      // 오프라인이라 타이머 없음 → ref=null 상태
+
+      Object.defineProperty(navigator, "onLine", { value: true, configurable: true });
+
+      act(() => {
+        window.dispatchEvent(new Event("online"));
+      });
+
+      expect(mockInstances).toHaveLength(2);
+    });
+
     it("네트워크가 복구돼도 연결이 살아있으면 새 EventSource를 만들지 않는다", () => {
       renderHook(() => useSeatChangeSSE());
       mockInstances[0].readyState = MockEventSource.OPEN;
@@ -320,6 +352,38 @@ describe("useSeatChangeSSE", () => {
       expect(mockInstances).toHaveLength(2);
 
       Object.defineProperty(document, "hidden", { value: false, configurable: true });
+    });
+
+    it("탭 숨김 상태에서 오류 발생 시 타이머를 걸지 않는다", () => {
+      Object.defineProperty(document, "hidden", { value: true, configurable: true });
+      renderHook(() => useSeatChangeSSE());
+
+      act(() => {
+        mockInstances[0].simulateError(MockEventSource.CLOSED);
+      });
+
+      act(() => { vi.advanceTimersByTime(60_000); });
+      expect(mockInstances).toHaveLength(1);
+
+      Object.defineProperty(document, "hidden", { value: false, configurable: true });
+    });
+
+    it("탭이 다시 보이면 ref=null(숨김 중 연결 끊김) 상태에서도 즉시 재연결한다", () => {
+      Object.defineProperty(document, "hidden", { value: true, configurable: true });
+      renderHook(() => useSeatChangeSSE());
+
+      act(() => {
+        mockInstances[0].simulateError(MockEventSource.CLOSED);
+      });
+      // 탭 숨김이라 타이머 없음 → ref=null 상태
+
+      Object.defineProperty(document, "hidden", { value: false, configurable: true });
+
+      act(() => {
+        document.dispatchEvent(new Event("visibilitychange"));
+      });
+
+      expect(mockInstances).toHaveLength(2);
     });
 
     it("탭이 다시 보이면 CLOSED 상태 연결을 즉시 복구한다", () => {
