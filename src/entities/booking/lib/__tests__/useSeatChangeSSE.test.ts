@@ -266,6 +266,10 @@ describe("useSeatChangeSSE", () => {
   });
 
   describe("네트워크 복구 (online 이벤트) 연동", () => {
+    afterEach(() => {
+      Object.defineProperty(navigator, "onLine", { value: true, configurable: true });
+    });
+
     it("네트워크가 복구되면 CLOSED 상태 연결을 즉시 재연결한다", () => {
       renderHook(() => useSeatChangeSSE());
       mockInstances[0].readyState = MockEventSource.CLOSED;
@@ -287,8 +291,6 @@ describe("useSeatChangeSSE", () => {
 
       act(() => { vi.advanceTimersByTime(60_000); });
       expect(mockInstances).toHaveLength(1);
-
-      Object.defineProperty(navigator, "onLine", { value: true, configurable: true });
     });
 
     it("네트워크 복구 시 ref=null(오프라인 중 연결 끊김) 상태에서도 즉시 재연결한다", () => {
@@ -335,6 +337,10 @@ describe("useSeatChangeSSE", () => {
   });
 
   describe("Page Visibility 연동", () => {
+    afterEach(() => {
+      Object.defineProperty(document, "hidden", { value: false, configurable: true });
+    });
+
     it("탭이 숨겨진 상태에서는 재연결하지 않는다", () => {
       renderHook(() => useSeatChangeSSE());
       act(() => { mockInstances[0].simulateError(MockEventSource.CLOSED); });
@@ -350,8 +356,6 @@ describe("useSeatChangeSSE", () => {
 
       // hidden=true이므로 추가 인스턴스 없음
       expect(mockInstances).toHaveLength(2);
-
-      Object.defineProperty(document, "hidden", { value: false, configurable: true });
     });
 
     it("탭 숨김 상태에서 오류 발생 시 타이머를 걸지 않는다", () => {
@@ -364,8 +368,6 @@ describe("useSeatChangeSSE", () => {
 
       act(() => { vi.advanceTimersByTime(60_000); });
       expect(mockInstances).toHaveLength(1);
-
-      Object.defineProperty(document, "hidden", { value: false, configurable: true });
     });
 
     it("탭이 다시 보이면 ref=null(숨김 중 연결 끊김) 상태에서도 즉시 재연결한다", () => {
