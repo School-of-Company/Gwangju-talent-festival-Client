@@ -47,11 +47,11 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
             try {
               onSeatChangeRef.current(seatChangeEvent);
             } catch {
-              toast.error("좌석 정보 처리 중 오류가 발생했습니다.");
+              toast.error("좌석 정보 처리 중 오류가 발생했습니다.");
             }
           }
         } catch {
-          toast.error("좌석 정보를 불러오는 중 오류가 발생했습니다.");
+          toast.error("좌석 정보를 불러오는 중 오류가 발생했습니다.");
         }
       });
 
@@ -61,16 +61,16 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
       };
 
       eventSource.onerror = () => {
+        toast.error("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
         if (eventSource.readyState === EventSource.CLOSED) {
           scheduleReconnect();
         }
-        toast.error("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
       };
     };
 
     const scheduleReconnect = () => {
       if (retryCountRef.current >= MAX_RETRIES) {
-        toast.error("실시간 연결이 종료되었습니다. 페이지를 새로고침 해주세요.", {
+        toast.error("실시간 연결이 종료되었습니다. 페이지를 새로고침 해주세요.", {
           id: "sse-error",
         });
         return;
