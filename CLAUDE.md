@@ -34,3 +34,16 @@ src/
 @.claude/rules/fsd-architecture.md
 @.claude/rules/git-workflow.md
 @.claude/rules/coding-standards.md
+@.claude/rules/harness-self-improve.md
+
+## 하네스 자가 개선
+
+작업 중 다음 상황이 발생하면 **즉시** `.claude/` 파일을 수정한다:
+- 훅이 잡지 못하는 위반을 2번 이상 발견
+- 에이전트 워크플로우에서 누락된 단계 확인
+- 규칙 파일에 없는 패턴이 반복적으로 등장
+
+수정 후 반드시:
+1. 변경 사항 검증 (문법 및 동작 확인, .sh 파일은 `bash -n`으로 검사)
+2. `.claude/HARNESS_CHANGELOG.md`에 항목 추가
+3. 사용자에게 "하네스를 개선했어요 [파일]: [이유]. 커밋할게요." 알림 후 커밋
