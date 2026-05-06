@@ -11,18 +11,6 @@ vi.mock("sonner", () => ({
 
 import { toast } from "sonner";
 
-// 소스 파일이 NFD(macOS 분해형) 한글로 저장되어 있어 toHaveBeenCalledWith의 문자열 비교가
-// NFC로 저장된 테스트 파일 문자열과 불일치한다. 정규화 후 비교하는 헬퍼로 우회한다.
-function expectToastError(msg: string, options?: object) {
-  const calls = vi.mocked(toast.error).mock.calls;
-  const found = calls.some(args => {
-    const msgMatch = typeof args[0] === "string" && args[0].normalize("NFC") === msg;
-    if (options === undefined) return msgMatch && args.length === 1;
-    return msgMatch && JSON.stringify(args[1]) === JSON.stringify(options);
-  });
-  expect(found, `toast.error not called with "${msg}"`).toBe(true);
-}
-
 // ── MockEventSource ──────────────────────────────────────────────────────────
 
 let mockInstances: MockEventSource[] = [];
@@ -145,7 +133,7 @@ describe("useSeatChangeSSE", () => {
         mockInstances[0].dispatchMalformedSeatChange();
       });
 
-      expectToastError("좌석 정보를 불러오는 중 오류가 발생했습니다.");
+      expect(toast.error).toHaveBeenCalledWith("좌석 정보를 불러오는 중 오류가 발생했습니다.");
     });
 
     it("onSeatChange 콜백이 예외를 던지면 처리 오류 토스트를 표시한다", () => {
@@ -162,7 +150,7 @@ describe("useSeatChangeSSE", () => {
         });
       });
 
-      expectToastError("좌석 정보 처리 중 오류가 발생했습니다.");
+      expect(toast.error).toHaveBeenCalledWith("좌석 정보 처리 중 오류가 발생했습니다.");
     });
   });
 
@@ -175,7 +163,7 @@ describe("useSeatChangeSSE", () => {
         instance.simulateError(MockEventSource.CONNECTING);
       });
 
-      expectToastError("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
+      expect(toast.error).toHaveBeenCalledWith("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
       vi.advanceTimersByTime(2000);
       // 재연결이 없으면 새 인스턴스가 생기지 않는다
       expect(mockInstances).toHaveLength(1);
@@ -188,7 +176,7 @@ describe("useSeatChangeSSE", () => {
         mockInstances[0].simulateError(MockEventSource.CLOSED);
       });
 
-      expectToastError("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
+      expect(toast.error).toHaveBeenCalledWith("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
     });
 
     it("CLOSED 상태에서 1초 후 자동으로 재연결한다 (지수 백오프 1차)", () => {
@@ -246,7 +234,7 @@ describe("useSeatChangeSSE", () => {
       act(() => { mockInstances[5].simulateError(MockEventSource.CLOSED); });
       act(() => { vi.advanceTimersByTime(60_000); });
       expect(mockInstances).toHaveLength(6);
-      expectToastError("실시간 연결이 종료되었습니다. 페이지를 새로고침 해주세요.", { id: "sse-error" });
+      expect(toast.error).toHaveBeenCalledWith("실시간 연결이 종료되었습니다. 페이지를 새로고침 해주세요.", { id: "sse-error" });
     });
   });
 
