@@ -10,13 +10,14 @@
 
 ## 개선 프로세스
 
-Observe → Evaluate → Edit → Log → Notify
+Observe → Evaluate → Edit → Verify → Log → Notify
 
 1. **Observe**: 패턴/공백 발견
 2. **Evaluate**: "이게 없어서 다음에도 실수하거나 헷갈릴까?" → Yes면 진행
 3. **Edit**: 해당 .claude/ 파일 직접 수정
-4. **Log**: .claude/HARNESS_CHANGELOG.md에 항목 추가
-5. **Notify**: 사용자에게 알리고 커밋 진행
+4. **Verify**: 수정된 파일 문법 및 동작 확인 (특히 .sh 파일은 `bash -n`으로 문법 검사)
+5. **Log**: .claude/HARNESS_CHANGELOG.md에 항목 추가
+6. **Notify**: 사용자에게 알리고 커밋 진행
 
 ## 개선 대상 파일
 
@@ -33,6 +34,7 @@ Observe → Evaluate → Edit → Log → Notify
 
 - .claude/settings.json — 권한 목록 (보안 관련)
 - .claude/hooks/branch-guard.sh — 보호 로직 및 exit code 동작
+- .claude/rules/harness-self-improve.md — 자가 개선 규칙 본체 (수정 시 제약 자체가 무력화될 수 있음)
 
 ## 커밋 포맷
 
@@ -41,3 +43,4 @@ chore: 하네스 [대상] 보완 - [이유 한 줄]
 예시:
 - chore: 하네스 fsd-check 보완 - views→app 크로스슬라이스 감지 누락
 - chore: 하네스 coding-standards 보완 - useEffect 의존성 배열 규칙 추가
+
