@@ -3,7 +3,7 @@
 # PostToolUse (Write) 후 테스트 파일이 작성되면 자동 실행
 
 INPUT=$(cat)
-FILE=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))" 2>/dev/null)
+FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // ""' 2>/dev/null)
 
 # __tests__/ 폴더의 .test.ts(x) 파일인지 확인
 if [[ "$FILE" != */__tests__/*.test.ts ]] && [[ "$FILE" != */__tests__/*.test.tsx ]]; then

@@ -7,7 +7,7 @@ echo "----------------------------------------------------------------"
 
 # 1. 미들웨어 및 위젯 내 주석 처리된 게이트 탐지
 echo "📌 1. 활성화 대기 중인 게이트(주석 처리된 코드) 확인:"
-DISABLED_GATES=$(grep -rE "//.*(주석 해제|now <|now >|now >=|new Date\(\))" src/middleware.ts src/widgets/main/)
+DISABLED_GATES=$(grep -rE "//.*(주석 해제|now <|now >|now >=|new Date\(\))" src/middleware.ts src/widgets/main/ 2>/dev/null || true)
 
 if [ -n "$DISABLED_GATES" ]; then
   echo "⚠️  주의: 다음 파일들에 비활성화된 게이트 로직이 발견되었습니다:"
@@ -42,20 +42,13 @@ echo ""
 
 # 4. 관련 테스트 코드 실행 여부 확인
 echo "📌 4. 스케줄 관련 테스트 파일 존재 여부:"
-TEST_FILES=("src/__tests__/middleware.test.ts" "src/widgets/main/ReservationFifthSection/__tests__/index.test.ts" "src/widgets/main/SloganSecondSection/__tests__/index.test.ts")
-
-for test_file in "${TEST_FILES[@]}"; do
-  if [ -f "$test_file" ]; then
-    echo "✅ $test_file 파일이 존재합니다."
-    # 테스트 내 주석 처리된 케이스 확인
-    DISABLED_TESTS=$(grep -nE "//.*(it\(|describe\()" "$test_file")
-    if [ -n "$DISABLED_TESTS" ]; then
-      echo "   ⚠️  주의: 테스트 코드 내에 주석 처리된 케이스가 있습니다."
-    fi
-  else
-    echo "❌ 미확인: $test_file 파일이 없습니다. (확인 필요)"
+while IFS= read -r test_file; do
+  echo "✅ $test_file 파일이 존재합니다."
+  DISABLED_TESTS=$(grep -nE "//.*(it\(|describe\()" "$test_file" 2>/dev/null || true)
+  if [ -n "$DISABLED_TESTS" ]; then
+    echo "   ⚠️  주의: 테스트 코드 내에 주석 처리된 케이스가 있습니다."
   fi
-done
+done < <(find src -path "*/__tests__/*.test.ts" -o -path "*/__tests__/*.test.tsx" 2>/dev/null)
 
 echo "----------------------------------------------------------------"
 echo "💡 점검 완료. 오픈 기간에 맞춰 게이트를 활성화(주석 해제)했는지 확인하세요."

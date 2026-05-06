@@ -3,7 +3,7 @@
 # PostToolUse (Write, Edit) 후 TypeScript 파일의 FSD import 규칙 검사
 
 INPUT=$(cat)
-FILE=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))" 2>/dev/null)
+FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // ""' 2>/dev/null)
 
 # TypeScript 파일이 아니거나 src/ 외부면 종료
 if [[ "$FILE" != */src/*.ts ]] && [[ "$FILE" != */src/*.tsx ]]; then

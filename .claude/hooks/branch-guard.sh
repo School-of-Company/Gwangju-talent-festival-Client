@@ -3,7 +3,7 @@
 # PreToolUse (Bash) 전 main/develop에 커밋/푸시 시도 차단
 
 INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('command',''))" 2>/dev/null)
+COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // ""' 2>/dev/null)
 
 # git commit 또는 git push 명령인지 확인
 if ! echo "$COMMAND" | grep -qE "^git (commit|push)"; then
