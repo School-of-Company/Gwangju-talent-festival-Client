@@ -81,20 +81,29 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
         });
         return;
       }
+      // 탭 비활성화/오프라인 상태에서는 재시도 횟수를 낭비하지 않고
+      // visibilitychange/online 이벤트가 발생할 때 재연결
+      if (document.hidden || !navigator.onLine) {
+        return;
+      }
       const delay = BASE_DELAY * 2 ** retryCountRef.current;
       retryCountRef.current++;
       retryTimerRef.current = setTimeout(connect, delay);
     };
 
+    const isDisconnected = () =>
+      eventSourceRef.current === null ||
+      eventSourceRef.current.readyState === EventSource.CLOSED;
+
     const handleVisibilityChange = () => {
-      if (!document.hidden && eventSourceRef.current?.readyState === EventSource.CLOSED) {
+      if (!document.hidden && isDisconnected()) {
         retryCountRef.current = 0;
         connect();
       }
     };
 
     const handleOnline = () => {
-      if (eventSourceRef.current?.readyState === EventSource.CLOSED) {
+      if (isDisconnected()) {
         retryCountRef.current = 0;
         connect();
       }
