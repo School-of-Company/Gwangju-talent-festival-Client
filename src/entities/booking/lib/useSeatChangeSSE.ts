@@ -2,6 +2,9 @@ import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { SeatChangeEvent } from "../model/types";
 
+const MAX_RETRIES = 5;
+const BASE_DELAY = 1000;
+
 interface UseSeatChangeSSEOptions {
   onSeatChange?: (event: SeatChangeEvent) => void;
   enabled?: boolean;
@@ -11,6 +14,8 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
   const { onSeatChange, enabled = true } = options;
   const eventSourceRef = useRef<EventSource | null>(null);
   const onSeatChangeRef = useRef(onSeatChange);
+  const retryCountRef = useRef(0);
+  const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     onSeatChangeRef.current = onSeatChange;
@@ -19,54 +24,90 @@ export function useSeatChangeSSE(options: UseSeatChangeSSEOptions = {}) {
   useEffect(() => {
     if (!enabled) return;
 
-    const eventSource = new EventSource("/api/seat/changes", {
-      withCredentials: true,
-    });
-    eventSourceRef.current = eventSource;
-
-    eventSource.addEventListener("SEAT_CHANGE", event => {
-      try {
-        const data = JSON.parse(event.data);
-
-        const seatChangeEvent: SeatChangeEvent = {
-          seat_section: data.seat_section,
-          seat_number: data.seat_number,
-          is_available: data.is_available,
-        };
-
-        if (onSeatChangeRef.current) {
-          try {
-            onSeatChangeRef.current(seatChangeEvent);
-          } catch {
-            toast.error("좌석 정보 처리 중 오류가 발생했습니다.");
-          }
-        }
-      } catch {
-        toast.error("좌석 정보를 불러오는 중 오류가 발생했습니다.");
+    const connect = () => {
+      if (retryTimerRef.current) {
+        clearTimeout(retryTimerRef.current);
+        retryTimerRef.current = null;
       }
-    });
 
-    eventSource.onopen = () => {
-      toast.dismiss("sse-error");
+      const eventSource = new EventSource("/api/seat/changes", {
+        withCredentials: true,
+      });
+      eventSourceRef.current = eventSource;
+
+      eventSource.addEventListener("SEAT_CHANGE", event => {
+        try {
+          const data = JSON.parse(event.data);
+          const seatChangeEvent: SeatChangeEvent = {
+            seat_section: data.seat_section,
+            seat_number: data.seat_number,
+            is_available: data.is_available,
+          };
+          if (onSeatChangeRef.current) {
+            try {
+              onSeatChangeRef.current(seatChangeEvent);
+            } catch {
+              toast.error("좌석 정보 처리 중 오류가 발생했습니다.");
+            }
+          }
+        } catch {
+          toast.error("좌석 정보를 불러오는 중 오류가 발생했습니다.");
+        }
+      });
+
+      eventSource.onopen = () => {
+        retryCountRef.current = 0;
+        toast.dismiss("sse-error");
+      };
+
+      eventSource.onerror = () => {
+        if (eventSource.readyState === EventSource.CLOSED) {
+          scheduleReconnect();
+        }
+        toast.error("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
+      };
     };
 
-    eventSource.onerror = () => {
-      toast.error("실시간 좌석 정보 연결에 실패했습니다.", { id: "sse-error" });
+    const scheduleReconnect = () => {
+      if (retryCountRef.current >= MAX_RETRIES) {
+        toast.error("실시간 연결이 종료되었습니다. 페이지를 새로고침 해주세요.", {
+          id: "sse-error",
+        });
+        return;
+      }
+      const delay = BASE_DELAY * 2 ** retryCountRef.current;
+      retryCountRef.current++;
+      retryTimerRef.current = setTimeout(connect, delay);
     };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden && eventSourceRef.current?.readyState === EventSource.CLOSED) {
+        retryCountRef.current = 0;
+        connect();
+      }
+    };
+
+    connect();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-        eventSourceRef.current = null;
+      if (retryTimerRef.current) {
+        clearTimeout(retryTimerRef.current);
+        retryTimerRef.current = null;
       }
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      eventSourceRef.current?.close();
+      eventSourceRef.current = null;
     };
   }, [enabled]);
 
   const closeConnection = () => {
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-      eventSourceRef.current = null;
+    if (retryTimerRef.current) {
+      clearTimeout(retryTimerRef.current);
+      retryTimerRef.current = null;
     }
+    eventSourceRef.current?.close();
+    eventSourceRef.current = null;
   };
 
   return { closeConnection };
