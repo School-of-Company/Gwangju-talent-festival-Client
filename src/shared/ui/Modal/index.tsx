@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { cn } from "@/shared/utils/cn";
+import { CloseIcon } from "@/shared/asset/svg/CloseIcon";
 
 type ModalProps = {
   isOpen: boolean;
@@ -47,9 +48,9 @@ export default function Modal({
               {title && <h3 className="text-body2b">{title}</h3>}
             </div>
             {showCloseButton && (
-              <span className="cursor-pointer" onClick={onClose}>
-                ✕
-              </span>
+              <button type="button" className="cursor-pointer" onClick={onClose}>
+                <CloseIcon />
+              </button>
             )}
           </div>
         )}
