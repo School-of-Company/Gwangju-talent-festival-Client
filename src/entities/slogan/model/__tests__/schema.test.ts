@@ -53,6 +53,16 @@ describe("gradeSchema", () => {
     expect(result.success).toBe(false);
     expect(result.error?.errors[0].message).toBe("학년은 숫자만 입력할 수 있습니다.");
   });
+
+  it("0이면 실패한다", () => {
+    const result = gradeSchema.safeParse("0");
+    expect(result.success).toBe(false);
+    expect(result.error?.errors[0].message).toBe("학년은 1학년 이상 입력해주세요.");
+  });
+
+  it("4 이상이면 실패한다", () => {
+    expect(gradeSchema.safeParse("4").success).toBe(false);
+  });
 });
 
 describe("classroomSchema", () => {
@@ -68,6 +78,16 @@ describe("classroomSchema", () => {
     const result = classroomSchema.safeParse("5반");
     expect(result.success).toBe(false);
     expect(result.error?.errors[0].message).toBe("반은 숫자만 입력할 수 있습니다.");
+  });
+
+  it("0이면 실패한다", () => {
+    const result = classroomSchema.safeParse("0");
+    expect(result.success).toBe(false);
+    expect(result.error?.errors[0].message).toBe("반은 1반 이상 입력해주세요.");
+  });
+
+  it("100 이상이면 실패한다", () => {
+    expect(classroomSchema.safeParse("100").success).toBe(false);
   });
 });
 
