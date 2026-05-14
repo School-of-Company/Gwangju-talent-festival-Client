@@ -34,22 +34,22 @@ const PersonalInfoInputs = ({ formValues, onFieldChange, onFieldBlur, isOutOfSch
         <div className="flex gap-24">
           <Input
             name="grade"
-            type="number"
+            type="text"
+            inputMode="numeric"
             value={formValues.grade}
             onChange={onFieldChange("grade")}
             onBlur={onFieldBlur("grade")}
-            onKeyDown={e => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
             label="학년"
             placeholder="학년을 입력해주세요"
             error={fieldErrors.grade}
           />
           <Input
             name="class"
-            type="number"
+            type="text"
+            inputMode="numeric"
             value={formValues.classroom}
             onChange={onFieldChange("classroom")}
             onBlur={onFieldBlur("classroom")}
-            onKeyDown={e => ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault()}
             label="반"
             placeholder="반을 입력해주세요"
             error={fieldErrors.classroom}
