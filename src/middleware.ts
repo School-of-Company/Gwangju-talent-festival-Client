@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publicPages, publicIn27 } from "@/shared/config/authConfig";
 // TODO: 테스트 완료 후 sloganStartDate, sloganEndDate 주석 해제
-import { festivalDate /*, sloganStartDate, sloganEndDate */ } from "@/shared/config/dateConfig";
+import { festivalDate } from "@/shared/config/dateConfig";
 
 export const config = {
   matcher: [
@@ -34,11 +34,6 @@ export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  // TODO: 테스트 완료 후 아래 슬로건 기간 체크 주석 해제
-  // const now = new Date();
-  // if (pathname === "/slogan" && (now < sloganStartDate || now > sloganEndDate)) {
-  //   return NextResponse.redirect(new URL("/home", request.url));
-  // }
 
   if (pathname === "/signin" && accessToken && refreshToken) {
     const nextParam = searchParams.get("next");
