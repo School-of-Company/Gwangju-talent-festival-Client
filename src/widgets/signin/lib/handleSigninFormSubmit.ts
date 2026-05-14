@@ -1,12 +1,12 @@
-import { signinSchema, SignInFormValues, Role } from "@/entities/user/model/schema";
-import { authFormState } from "@/entities/user/lib/authFormState";
+import { signinSchema, SignInFormValues } from "@/entities/user/model/schema";
+import { AuthFormState } from "@/entities/user/lib/AuthFormState";
 import { signin } from "@/entities/user/api/signin";
-import { setTokens } from "@/shared/utils/auth";
+import { setTokens, setRole } from "@/shared/utils/auth";
 
 export const handleSigninFormSubmit = async (
-  _previousState: authFormState,
+  _previousState: AuthFormState,
   formData: FormData,
-): Promise<authFormState> => {
+): Promise<AuthFormState> => {
   const values: SignInFormValues = {
     phoneNumber: formData.get("phoneNumber")?.toString() || "",
     password: formData.get("password")?.toString() || "",
@@ -37,7 +37,7 @@ export const handleSigninFormSubmit = async (
       response.refresh_token_expired_at,
     );
 
-    document.cookie = `role=${response.role as Role}; path=/;`;
+    setRole(response.role);
 
     const urlParams = new URLSearchParams(window.location.search);
     const nextParam = urlParams.get("next");
