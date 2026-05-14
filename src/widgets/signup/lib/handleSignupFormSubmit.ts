@@ -1,13 +1,11 @@
-import { toast } from "sonner";
-import { authFormState } from "@/entities/user/lib/authFormState";
+import { AuthFormState } from "@/entities/user/lib/AuthFormState";
 import { SignUpFormValues, signUpSchema } from "@/entities/user/model/schema";
 import { signUp } from "@/entities/user/api/signup";
-import { ZodError } from "zod";
 
 export const handleSignupFormSubmit = async (
-  _previousState: authFormState,
+  _previousState: AuthFormState,
   formData: FormData,
-): Promise<authFormState> => {
+): Promise<AuthFormState> => {
   const values: SignUpFormValues = {
     phoneNumber: formData.get("phoneNumber")?.toString() || "",
     verificationCode: formData.get("verificationCode")?.toString() || "",
@@ -18,17 +16,15 @@ export const handleSignupFormSubmit = async (
   const result = signUpSchema.safeParse(values);
 
   if (!result.success) {
-    result.error.errors.forEach((err: ZodError["errors"][0]) => toast.error(err.message));
     return {
       values,
       isValid: false,
       submitted: true,
-      error: "입력값이 올바르지 않습니다.",
+      error: result.error.errors.map(e => e.message),
     };
   }
 
   if (values.password !== values.passwordConfirm) {
-    toast.error("비밀번호가 일치하지 않습니다.");
     return {
       values,
       isValid: false,
@@ -55,8 +51,6 @@ export const handleSignupFormSubmit = async (
     };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "회원가입에 실패했습니다.";
-    toast.error(errorMessage);
-
     return {
       values,
       isValid: false,
