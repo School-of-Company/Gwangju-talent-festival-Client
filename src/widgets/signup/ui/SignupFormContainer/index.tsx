@@ -5,7 +5,7 @@ import Button from "@/shared/ui/Button";
 import { cn } from "@/shared/utils/cn";
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { authFormState } from "@/entities/user/lib/authFormState";
+import { AuthFormState } from "@/entities/user/lib/AuthFormState";
 import SubmitButton from "@/entities/user/ui/SubmitButton";
 import { handleSignupFormSubmit } from "@/widgets/signup/lib/handleSignupFormSubmit";
 import { useState, useRef } from "react";
@@ -19,7 +19,7 @@ const SignupFormContainer = () => {
   const [isCodeSending, setIsCodeSending] = useState(false);
   const phoneInputRef = useRef<HTMLInputElement>(null);
 
-  const initialState: authFormState = {
+  const initialState: AuthFormState = {
     values: { phoneNumber: "", verificationCode: "", password: "" },
     isValid: false,
     submitted: false,
@@ -29,8 +29,8 @@ const SignupFormContainer = () => {
 
   useEffect(() => {
     if (state.error) {
-      const errors = Array.isArray(state.error) ? state.error : [state.error];
-      errors.forEach(error => toast.error(error));
+      const firstError = Array.isArray(state.error) ? state.error[0] : state.error;
+      toast.error(firstError);
     } else if (state.isValid) {
       toast.success("회원가입 성공");
     }
@@ -79,7 +79,7 @@ const SignupFormContainer = () => {
         <div className={cn("space-y-16")}>
           <div className={cn("flex flex-col gap-2")}>
             <label className={cn("text-body3b")}>전화번호</label>
-            <div className={cn("flex items-end gap-8")}>
+            <div className={cn("flex items-center gap-8")}>
               <div className={cn("w-full")}>
                 <Input
                   type="text"
@@ -88,6 +88,7 @@ const SignupFormContainer = () => {
                   ref={phoneInputRef}
                   disabled={isPending || isCodeSending}
                   defaultValue={state.values.phoneNumber}
+                  hideErrorSpace
                 />
               </div>
               <Button
