@@ -5,13 +5,13 @@ import { cn } from "@/shared/utils/cn";
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SubmitButton from "@/entities/user/ui/SubmitButton";
-import { authFormState } from "@/entities/user/lib/authFormState";
+import { AuthFormState } from "@/entities/user/lib/AuthFormState";
 import { handleSigninFormSubmit } from "@/widgets/signin/lib/handleSigninFormSubmit";
 import { toast } from "sonner";
 
 const SigninFormContainer = () => {
   const router = useRouter();
-  const initialState: authFormState = {
+  const initialState: AuthFormState = {
     values: { phoneNumber: "", password: "" },
     isValid: false,
     submitted: false,
@@ -21,8 +21,8 @@ const SigninFormContainer = () => {
 
   useEffect(() => {
     if (state.error) {
-      const errors = Array.isArray(state.error) ? state.error : [state.error];
-      errors.forEach(error => toast.error(error));
+      const firstError = Array.isArray(state.error) ? state.error[0] : state.error;
+      toast.error(firstError);
     } else if (state.isValid) {
       toast.success("로그인 성공");
     }
