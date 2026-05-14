@@ -6,7 +6,6 @@ export const setTokens = (
   refreshToken: string,
   refreshTokenExpiredAt: string,
 ) => {
-  // const accessExpiry = new Date(accessTokenExpiredAt);
   const accessExpiry = new Date(accessTokenExpiredAt);
   const refreshExpiry = new Date(refreshTokenExpiredAt);
 
@@ -17,6 +16,14 @@ export const setTokens = (
 export const clearTokens = () => {
   document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+};
+
+export const setRole = (role: string) => {
+  document.cookie = `role=${role}; path=/;`;
+};
+
+export const clearRole = () => {
+  document.cookie = "role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 };
 
 export const getTokenFromCookie = (name: string): string | null => {
