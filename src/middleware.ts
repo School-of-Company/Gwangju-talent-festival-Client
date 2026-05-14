@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publicPages, publicIn27 } from "@/shared/config/authConfig";
-// TODO: 테스트 완료 후 sloganStartDate, sloganEndDate 주석 해제
 import { festivalDate } from "@/shared/config/dateConfig";
 
 export const config = {
@@ -33,7 +32,6 @@ export function middleware(request: NextRequest) {
 
   const accessToken = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
-
 
   if (pathname === "/signin" && accessToken && refreshToken) {
     const nextParam = searchParams.get("next");
