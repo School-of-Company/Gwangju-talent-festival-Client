@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback, useMemo } from "react";
+import { useReducer, useCallback, useMemo, useState, useEffect } from "react";
 import { formReducer, initialFormState } from "./formReducer";
 import { sloganSchema, SloganFormValues } from "../model/schema";
 import { handleSloganFormSubmit } from "./handleSloganFormSubmit";
@@ -18,8 +18,18 @@ const parseSchoolApiResponse = (data: SchoolInfoResponse | undefined) => {
   return data.schoolInfo[1].row ?? [];
 };
 
+const SLOGAN_PERIOD_CHECK_INTERVAL = 60000;
+
 export const useSloganForm = (): UseSloganFormReturn => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
+  const [isSloganPeriod, setIsSloganPeriod] = useState(checkSloganPeriod);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIsSloganPeriod(checkSloganPeriod());
+    }, SLOGAN_PERIOD_CHECK_INTERVAL);
+    return () => clearInterval(timer);
+  }, []);
 
   const schema = state.isOutOfSchool ? outOfSchoolSloganSchema : sloganSchema;
 
@@ -131,7 +141,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
   return {
     state,
     isValid,
-    isSloganPeriod: checkSloganPeriod(),
+    isSloganPeriod,
     isOutOfSchool: state.isOutOfSchool,
     fieldErrors,
     handlers: {
