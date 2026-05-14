@@ -30,7 +30,7 @@ const SignupFormContainer = () => {
   useEffect(() => {
     if (state.error) {
       const firstError = Array.isArray(state.error) ? state.error[0] : state.error;
-      toast.error(firstError);
+      if (firstError) toast.error(firstError);
     } else if (state.isValid) {
       toast.success("회원가입 성공");
     }
