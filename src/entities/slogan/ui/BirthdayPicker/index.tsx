@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { DayPicker } from "react-day-picker";
 import { ko } from "react-day-picker/locale";
 import "react-day-picker/style.css";
@@ -25,6 +25,14 @@ const BirthdayPicker = ({ value, onSelect, onBlur, error }: BirthdayPickerProps)
   }, [open]);
 
   const selectedDate = value ? new Date(value) : undefined;
+
+  const { fromDate, toDate } = useMemo(() => {
+    const today = new Date();
+    return {
+      fromDate: new Date(today.getFullYear() - 19, today.getMonth(), today.getDate() + 1),
+      toDate: new Date(today.getFullYear() - 10, today.getMonth(), today.getDate()),
+    };
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -67,7 +75,10 @@ const BirthdayPicker = ({ value, onSelect, onBlur, error }: BirthdayPickerProps)
             onSelect={handleSelect}
             locale={ko}
             captionLayout="dropdown"
-            defaultMonth={selectedDate ?? new Date()}
+            defaultMonth={selectedDate ?? toDate}
+            startMonth={fromDate}
+            endMonth={toDate}
+            disabled={[{ before: fromDate }, { after: toDate }]}
             style={{ "--rdp-accent-color": "#FF9644" } as React.CSSProperties}
           />
         </div>

@@ -7,3 +7,7 @@ export const sloganStartDate = new Date(
 export const sloganEndDate = new Date(
   process.env.NEXT_PUBLIC_SLOGAN_END_DATE ?? "2026-05-28T18:00:00+09:00",
 );
+export const isSloganPeriod = () => {
+  const now = new Date();
+  return now >= sloganStartDate && now <= sloganEndDate;
+};

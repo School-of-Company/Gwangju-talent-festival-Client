@@ -53,6 +53,23 @@ describe("gradeSchema", () => {
     expect(result.success).toBe(false);
     expect(result.error?.errors[0].message).toBe("학년은 숫자만 입력할 수 있습니다.");
   });
+
+  it("0이면 실패한다", () => {
+    const result = gradeSchema.safeParse("0");
+    expect(result.success).toBe(false);
+    expect(result.error?.errors[0].message).toBe("학년은 1학년 이상 입력해주세요.");
+  });
+
+  it("4~6이면 유효하다", () => {
+    expect(gradeSchema.safeParse("4").success).toBe(true);
+    expect(gradeSchema.safeParse("6").success).toBe(true);
+  });
+
+  it("7 이상이면 실패한다", () => {
+    const result = gradeSchema.safeParse("7");
+    expect(result.success).toBe(false);
+    expect(result.error?.errors[0].message).toBe("학년은 6학년까지 입력할 수 있습니다.");
+  });
 });
 
 describe("classroomSchema", () => {
@@ -68,6 +85,16 @@ describe("classroomSchema", () => {
     const result = classroomSchema.safeParse("5반");
     expect(result.success).toBe(false);
     expect(result.error?.errors[0].message).toBe("반은 숫자만 입력할 수 있습니다.");
+  });
+
+  it("0이면 실패한다", () => {
+    const result = classroomSchema.safeParse("0");
+    expect(result.success).toBe(false);
+    expect(result.error?.errors[0].message).toBe("반은 1반 이상 입력해주세요.");
+  });
+
+  it("100 이상이면 실패한다", () => {
+    expect(classroomSchema.safeParse("100").success).toBe(false);
   });
 });
 
@@ -101,4 +128,39 @@ describe("sloganSchema", () => {
   it("전화번호 형식이 잘못되면 실패한다", () => {
     expect(sloganSchema.safeParse({ ...valid, phone_number: "010-1234-5678" }).success).toBe(false);
   });
+
+  it("초등학교이고 4학년 이상이면 유효하다", () => {
+    expect(sloganSchema.safeParse({ ...valid, school: "광주초등학교", grade: "4" }).success).toBe(true);
+    expect(sloganSchema.safeParse({ ...valid, school: "광주초등학교", grade: "6" }).success).toBe(true);
+  });
+
+  it("초등학교이고 3학년 이하면 실패한다", () => {
+    const result = sloganSchema.safeParse({ ...valid, school: "광주초등학교", grade: "3" });
+    expect(result.success).toBe(false);
+    const gradeError = result.error?.issues.find(i => i.path[0] === "grade");
+    expect(gradeError?.message).toBe("초등학생은 4학년 이상만 참가 가능합니다.");
+  });
+
+  it("중학교이고 3학년 이하면 유효하다", () => {
+    expect(sloganSchema.safeParse({ ...valid, school: "광주중학교", grade: "3" }).success).toBe(true);
+  });
+
+  it("중학교이고 4학년 이상이면 실패한다", () => {
+    const result = sloganSchema.safeParse({ ...valid, school: "광주중학교", grade: "4" });
+    expect(result.success).toBe(false);
+    const gradeError = result.error?.issues.find(i => i.path[0] === "grade");
+    expect(gradeError?.message).toBe("학년은 3학년까지 입력할 수 있습니다.");
+  });
+
+  it("고등학교이고 3학년 이하면 유효하다", () => {
+    expect(sloganSchema.safeParse({ ...valid, school: "광주고등학교", grade: "3" }).success).toBe(true);
+  });
+
+  it("고등학교이고 4학년 이상이면 실패한다", () => {
+    const result = sloganSchema.safeParse({ ...valid, school: "광주고등학교", grade: "4" });
+    expect(result.success).toBe(false);
+    const gradeError = result.error?.issues.find(i => i.path[0] === "grade");
+    expect(gradeError?.message).toBe("학년은 3학년까지 입력할 수 있습니다.");
+  });
 });
+
