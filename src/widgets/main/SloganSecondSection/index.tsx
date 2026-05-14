@@ -1,7 +1,6 @@
 "use client";
 
-// TODO: 테스트 완료 후 useState, useEffect 주석 해제
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 // import PrizeItem from "@/entities/home/ui/PrizeItem";
 import SloganMarquee from "@/entities/home/ui/SloganMarquee";
@@ -18,18 +17,17 @@ const submissionPeriodText = `공모기간 : ${SLOGAN_YEAR}.${formatDate(sloganS
 const SloganSecondSection = () => {
   const router = useRouter();
 
-  // TODO: 테스트 완료 후 아래 슬로건 기간 체크 로직 주석 해제
-  // const [isSloganPeriod, setIsSloganPeriod] = useState(() => {
-  //   const now = new Date();
-  //   return now >= sloganStartDate && now <= sloganEndDate;
-  // });
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     const now = new Date();
-  //     setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
-  //   }, 60000);
-  //   return () => clearInterval(timer);
-  // }, []);
+  const [isSloganPeriod, setIsSloganPeriod] = useState(() => {
+    const now = new Date();
+    return now >= sloganStartDate && now <= sloganEndDate;
+  });
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date();
+      setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
+    }, 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section id="SloganSecondSection" className={cn("w-full mt-[3.5rem] mobile:mt-20 text-center")}>
@@ -60,11 +58,11 @@ const SloganSecondSection = () => {
         type="button"
         onClick={() => router.push("/slogan")}
         className={cn("mobile:mb-[12px] px-28 mt-[54px] mb-[10px] rounded-lg")}
-        disabled={false /* TODO: 테스트 완료 후 !isSloganPeriod 로 복구 */}
+        disabled={!isSloganPeriod}
       >
         <span className={cn("text-body3b px-[60px] mobile:text-body3b flex items-center gap-10")}>
-          {"슬로건 공모하러가기" /* TODO: 테스트 완료 후 isSloganPeriod ? "슬로건 공모하러가기" : "공모기간이 아닙니다" 로 복구 */}{" "}
-          <ArrowBack color={"white" /* TODO: 테스트 완료 후 isSloganPeriod ? "white" : "#1F2937" 로 복구 */} />
+          {isSloganPeriod ? "슬로건 공모하러가기" : "공모기간이 아닙니다"}{" "}
+          <ArrowBack color={isSloganPeriod ? "white" : "#1F2937"} />
         </span>
       </Button>
 
