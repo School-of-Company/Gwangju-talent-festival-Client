@@ -9,15 +9,10 @@ export default function MainYoutubeVideo() {
         <video
           className={cn(
             "absolute",
-            "top-1/2",
-            "left-1/2",
-            "-translate-x-1/2",
-            "-translate-y-1/2",
-            "w-[177.78vh]",
-            "h-[56.25vw]",
-            "min-w-full",
-            "min-h-full",
-            "scale-[1.15]",
+            "inset-0",
+            "w-full",
+            "h-full",
+            "object-cover",
             "pointer-events-none",
           )}
           src={videoSrc}
