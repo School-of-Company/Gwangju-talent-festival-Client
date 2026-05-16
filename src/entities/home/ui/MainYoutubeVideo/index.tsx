@@ -1,6 +1,6 @@
 import { cn } from "@/shared/utils/cn";
 
-const videoSrc = process.env.NEXT_PUBLIC_INTRO_VIDEO_URL ?? "/videos/광탈페 소개.mp4";
+const videoSrc = process.env.NEXT_PUBLIC_INTRO_VIDEO_URL ?? "/videos/intro-video.mp4";
 
 export default function MainYoutubeVideo() {
   return (
