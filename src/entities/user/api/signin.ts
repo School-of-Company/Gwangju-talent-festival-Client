@@ -1,5 +1,3 @@
-"use client";
-
 import { SignInRequest, SignInResponse } from "../model/schema";
 
 export const signin = async (data: SignInRequest): Promise<SignInResponse> => {

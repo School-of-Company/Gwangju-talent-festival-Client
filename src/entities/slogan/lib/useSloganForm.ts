@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback, useMemo } from "react";
+import { useReducer, useCallback, useMemo, useState, useEffect } from "react";
 import { formReducer, initialFormState } from "./formReducer";
 import { sloganSchema, SloganFormValues } from "../model/schema";
 import { handleSloganFormSubmit } from "./handleSloganFormSubmit";
@@ -9,6 +9,7 @@ import { useGetSchool } from "../api/useGetSchool";
 import { SchoolInfoResponse } from "../model/school";
 import { UseSloganFormReturn } from "./types";
 import { outOfSchoolSloganSchema } from "../model/schema";
+import { isSloganPeriod as checkSloganPeriod } from "@/shared/config/dateConfig";
 
 const SCHOOL_SEARCH_DELAY = 200;
 
@@ -17,12 +18,20 @@ const parseSchoolApiResponse = (data: SchoolInfoResponse | undefined) => {
   return data.schoolInfo[1].row ?? [];
 };
 
+const SLOGAN_PERIOD_CHECK_INTERVAL = 60000;
+
 export const useSloganForm = (): UseSloganFormReturn => {
   const [state, dispatch] = useReducer(formReducer, initialFormState);
+  const [isSloganPeriod, setIsSloganPeriod] = useState(checkSloganPeriod);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIsSloganPeriod(checkSloganPeriod());
+    }, SLOGAN_PERIOD_CHECK_INTERVAL);
+    return () => clearInterval(timer);
+  }, []);
 
   const schema = state.isOutOfSchool ? outOfSchoolSloganSchema : sloganSchema;
-
-  const debouncedFormValues = useDebounce(state.formValues, 500);
 
   const normalizedSchoolName = useMemo(
     () => state.formValues.school.replace(/\s+/g, ""),
@@ -44,8 +53,8 @@ export const useSloganForm = (): UseSloganFormReturn => {
     schema.safeParse(state.formValues).success &&
     (state.isOutOfSchool || isSchoolValid);
 
-  const fieldErrors = useMemo(() => {
-    const result = schema.safeParse(debouncedFormValues);
+  const rawErrors = useMemo(() => {
+    const result = schema.safeParse(state.formValues);
     const errors: Partial<Record<keyof SloganFormValues, string>> = {};
     if (!result.success) {
       for (const issue of result.error.issues) {
@@ -59,12 +68,14 @@ export const useSloganForm = (): UseSloganFormReturn => {
       !state.isOutOfSchool &&
       !isSchoolValid &&
       state.touchedFields.school &&
-      debouncedFormValues.school
+      state.formValues.school
     ) {
       errors.school = "학교를 목록에서 선택해주세요.";
     }
     return errors;
-  }, [debouncedFormValues, state.touchedFields, isSchoolValid, state.isOutOfSchool, schema]);
+  }, [state.formValues, state.touchedFields, isSchoolValid, state.isOutOfSchool, schema]);
+
+  const fieldErrors = useDebounce(rawErrors, 500);
 
   const filteredSchools = useMemo(
     () => schoolList.filter(school => school.SCHUL_NM !== normalizedSchoolName),
@@ -130,6 +141,7 @@ export const useSloganForm = (): UseSloganFormReturn => {
   return {
     state,
     isValid,
+    isSloganPeriod,
     isOutOfSchool: state.isOutOfSchool,
     fieldErrors,
     handlers: {

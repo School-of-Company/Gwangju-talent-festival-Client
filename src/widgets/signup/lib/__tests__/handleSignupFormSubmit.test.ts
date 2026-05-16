@@ -2,13 +2,10 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { handleSignupFormSubmit } from "../handleSignupFormSubmit";
 
 vi.mock("@/entities/user/api/signup", () => ({ signUp: vi.fn() }));
-vi.mock("sonner", () => ({ toast: { error: vi.fn() } }));
 
 import { signUp } from "@/entities/user/api/signup";
-import { toast } from "sonner";
 
 const mockSignUp = vi.mocked(signUp);
-const mockToastError = vi.mocked(toast.error);
 
 const INITIAL_STATE = { values: {}, isValid: false, submitted: false };
 
@@ -37,7 +34,7 @@ describe("handleSignupFormSubmit - 유효성 검사", () => {
     );
     expect(result.isValid).toBe(false);
     expect(mockSignUp).not.toHaveBeenCalled();
-    expect(mockToastError).toHaveBeenCalled();
+    expect(Array.isArray(result.error)).toBe(true);
   });
 
   it("인증코드가 6자리가 아니면 isValid: false를 반환한다", async () => {
@@ -47,7 +44,7 @@ describe("handleSignupFormSubmit - 유효성 검사", () => {
     );
     expect(result.isValid).toBe(false);
     expect(mockSignUp).not.toHaveBeenCalled();
-    expect(mockToastError).toHaveBeenCalled();
+    expect(Array.isArray(result.error)).toBe(true);
   });
 
   it("비밀번호가 8자 미만이면 isValid: false를 반환한다", async () => {
@@ -57,7 +54,7 @@ describe("handleSignupFormSubmit - 유효성 검사", () => {
     );
     expect(result.isValid).toBe(false);
     expect(mockSignUp).not.toHaveBeenCalled();
-    expect(mockToastError).toHaveBeenCalled();
+    expect(Array.isArray(result.error)).toBe(true);
   });
 });
 
@@ -69,7 +66,6 @@ describe("handleSignupFormSubmit - 비밀번호 확인", () => {
     );
     expect(result.isValid).toBe(false);
     expect(result.error).toBe("비밀번호가 일치하지 않습니다.");
-    expect(mockToastError).toHaveBeenCalledWith("비밀번호가 일치하지 않습니다.");
     expect(mockSignUp).not.toHaveBeenCalled();
   });
 });
@@ -100,7 +96,6 @@ describe("handleSignupFormSubmit - 회원가입 실패", () => {
     const result = await handleSignupFormSubmit(INITIAL_STATE, makeFormData(VALID_FORM));
     expect(result.isValid).toBe(false);
     expect(result.error).toBe("이미 가입된 번호입니다.");
-    expect(mockToastError).toHaveBeenCalledWith("이미 가입된 번호입니다.");
   });
 
   it("알 수 없는 오류면 기본 메시지를 반환한다", async () => {

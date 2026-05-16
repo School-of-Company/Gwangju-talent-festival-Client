@@ -11,7 +11,7 @@ import PersonalInfoInputs from "@/entities/slogan/ui/PersonalInfoInputs";
 import { useSloganForm } from "@/entities/slogan/lib/useSloganForm";
 
 export default function SloganFormContainer() {
-  const { state, isValid, isOutOfSchool, fieldErrors, handlers, schoolData } = useSloganForm();
+  const { state, isValid, isSloganPeriod, isOutOfSchool, fieldErrors, handlers, schoolData } = useSloganForm();
 
   if (state.isSubmitted) {
     return <SloganFormSuccess />;
@@ -66,7 +66,10 @@ export default function SloganFormContainer() {
           </div>
         </div>
       </div>
-      <Button type="submit" disabled={!isValid || state.isSubmitting}>
+      {!isSloganPeriod && (
+        <p className="text-center text-body3r text-gray-400">신청 기간이 아닙니다.</p>
+      )}
+      <Button type="submit" disabled={!isValid || state.isSubmitting || !isSloganPeriod}>
         응모하기
       </Button>
     </form>

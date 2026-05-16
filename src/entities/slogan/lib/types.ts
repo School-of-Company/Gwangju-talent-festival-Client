@@ -24,6 +24,7 @@ export interface SloganFormSchoolData {
 export interface UseSloganFormReturn {
   state: FormState;
   isValid: boolean;
+  isSloganPeriod: boolean;
   isOutOfSchool: boolean;
   fieldErrors: Partial<Record<keyof SloganFormValues, string>>;
   handlers: SloganFormHandlers;
