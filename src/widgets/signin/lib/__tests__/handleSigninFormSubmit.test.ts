@@ -2,13 +2,14 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { handleSigninFormSubmit } from "../handleSigninFormSubmit";
 
 vi.mock("@/entities/user/api/signin", () => ({ signin: vi.fn() }));
-vi.mock("@/shared/utils/auth", () => ({ setTokens: vi.fn() }));
+vi.mock("@/shared/utils/auth", () => ({ setTokens: vi.fn(), setRole: vi.fn() }));
 
 import { signin } from "@/entities/user/api/signin";
-import { setTokens } from "@/shared/utils/auth";
+import { setTokens, setRole } from "@/shared/utils/auth";
 
 const mockSignin = vi.mocked(signin);
 const mockSetTokens = vi.mocked(setTokens);
+const mockSetRole = vi.mocked(setRole);
 
 const MOCK_RESPONSE = {
   access_token: "access-abc",
@@ -81,7 +82,7 @@ describe("handleSigninFormSubmit - 로그인 성공", () => {
       MOCK_RESPONSE.refresh_token,
       MOCK_RESPONSE.refresh_token_expired_at,
     );
-    expect(document.cookie).toContain(`role=${MOCK_RESPONSE.role}`);
+    expect(mockSetRole).toHaveBeenCalledWith(MOCK_RESPONSE.role);
   });
 
   it("next 파라미터 없으면 /home으로 리다이렉트한다", async () => {

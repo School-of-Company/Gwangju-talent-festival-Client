@@ -1,5 +1,3 @@
-"use client";
-
 import { PhoneVerificationRequest, PhoneVerificationResponse } from "../model/schema";
 
 export const sendVerificationCode = async (

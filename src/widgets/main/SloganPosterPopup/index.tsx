@@ -24,6 +24,8 @@ export default function SloganPosterPopup() {
     }
   }, []);
 
+  if (process.env.NEXT_PUBLIC_APP_ENV !== "production") return null;
+
   const handleClose = () => {
     if (doNotShow) {
       localStorage.setItem(STORAGE_KEY, "true");

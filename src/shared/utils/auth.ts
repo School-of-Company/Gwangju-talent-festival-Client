@@ -1,22 +1,28 @@
 "use client";
 
+import { clearCookie, setCookie } from "./cookie";
+
 export const setTokens = (
   accessToken: string,
   accessTokenExpiredAt: string,
   refreshToken: string,
   refreshTokenExpiredAt: string,
 ) => {
-  // const accessExpiry = new Date(accessTokenExpiredAt);
-  const accessExpiry = new Date(accessTokenExpiredAt);
-  const refreshExpiry = new Date(refreshTokenExpiredAt);
-
-  document.cookie = `accessToken=${accessToken}; expires=${accessExpiry.toUTCString()}; path=/;`;
-  document.cookie = `refreshToken=${refreshToken}; expires=${refreshExpiry.toUTCString()}; path=/;`;
+  setCookie("accessToken", accessToken, new Date(accessTokenExpiredAt));
+  setCookie("refreshToken", refreshToken, new Date(refreshTokenExpiredAt));
 };
 
 export const clearTokens = () => {
-  document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  clearCookie("accessToken");
+  clearCookie("refreshToken");
+};
+
+export const setRole = (role: string) => {
+  setCookie("role", role);
+};
+
+export const clearRole = () => {
+  clearCookie("role");
 };
 
 export const getTokenFromCookie = (name: string): string | null => {

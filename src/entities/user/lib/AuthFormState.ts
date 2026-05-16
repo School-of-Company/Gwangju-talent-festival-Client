@@ -1,6 +1,6 @@
 import { SignInFormValues, SignUpFormValues } from "../model/schema";
 
-export interface authFormState {
+export interface AuthFormState {
   values: Record<string, string>;
   isValid: boolean;
   submitted: boolean;
@@ -9,4 +9,4 @@ export interface authFormState {
   redirectTo?: string;
 }
 
-export type authFormValues = SignInFormValues | SignUpFormValues;
+export type AuthFormValues = SignInFormValues | SignUpFormValues;

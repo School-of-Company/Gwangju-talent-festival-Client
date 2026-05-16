@@ -53,6 +53,7 @@ export interface PhoneVerificationResponse {
 
 export interface SignUpRequest {
   phone_number: string;
+  code: string;
   password: string;
 }
 
