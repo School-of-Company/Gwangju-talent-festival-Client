@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# large media files (serve locally or via CDN)
+/public/videos/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
