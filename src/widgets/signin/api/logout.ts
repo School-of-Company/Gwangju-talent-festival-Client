@@ -1,22 +1,20 @@
 import { getTokenFromCookie } from "@/shared/utils/auth";
 
 export const logout = async () => {
-  try {
-    const response = await fetch("/api/logout", {
-      method: "DELETE",
-      headers: {
-        "Refresh-Token": "Bearer " + getTokenFromCookie("refreshToken"),
-      },
-    });
+  const refreshToken = getTokenFromCookie("refreshToken");
 
-    const result = await response.json();
+  const response = await fetch("/api/logout", {
+    method: "DELETE",
+    headers: {
+      "Refresh-Token": `Bearer ${refreshToken ?? ""}`,
+    },
+  });
 
-    if (!response.ok) {
-      throw new Error(result.message || "로그아웃에 실패했습니다.");
-    }
+  const result = await response.json();
 
-    return { data: result };
-  } catch (error) {
-    throw error;
+  if (!response.ok) {
+    throw new Error(result.message || "로그아웃에 실패했습니다.");
   }
+
+  return result;
 };
