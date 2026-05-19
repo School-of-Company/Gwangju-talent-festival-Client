@@ -1,12 +1,12 @@
 "use client";
 
-const isSecureContext = () =>
+const isHttps = () =>
   typeof window !== "undefined" && window.location.protocol === "https:";
 
 const buildAttributes = (expires?: Date) => {
   const parts = ["path=/", "SameSite=Lax"];
   if (expires) parts.push(`expires=${expires.toUTCString()}`);
-  if (isSecureContext()) parts.push("Secure");
+  if (isHttps()) parts.push("Secure");
   return parts.join("; ");
 };
 

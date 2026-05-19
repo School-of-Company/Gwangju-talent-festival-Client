@@ -41,8 +41,7 @@ const redirectToSignin = () => {
 };
 
 const setAuthHeader = (config: InternalAxiosRequestConfig, token: string) => {
-  config.headers = config.headers ?? {};
-  (config.headers as Record<string, string>).Authorization = `Bearer ${token}`;
+  config.headers.set("Authorization", `Bearer ${token}`);
 };
 
 instance.interceptors.request.use(
