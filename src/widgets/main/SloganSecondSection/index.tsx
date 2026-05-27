@@ -21,12 +21,11 @@ const SloganSecondSection = () => {
     const now = new Date();
     return now >= sloganStartDate && now <= sloganEndDate;
   });
-  const [sloganEnded, setSloganEnded] = useState(isSloganEnded);
+  const sloganEnded = isSloganEnded();
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
       setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
-      setSloganEnded(isSloganEnded());
     }, 60000);
     return () => clearInterval(timer);
   }, []);
