@@ -11,3 +11,4 @@ export const isSloganPeriod = () => {
   const now = new Date();
   return now >= sloganStartDate && now <= sloganEndDate;
 };
+export const isSloganEnded = () => new Date() > sloganEndDate;
