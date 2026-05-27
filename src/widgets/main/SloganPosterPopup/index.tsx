@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Modal from "@/shared/ui/Modal";
 import Button from "@/shared/ui/Button";
 import { RightArrow } from "@/shared/asset/svg/RightArrow";
+import { isSloganEnded } from "@/shared/config/dateConfig";
 
 const STORAGE_KEY = "sloganPosterHidden";
 
@@ -21,7 +22,7 @@ export default function SloganPosterPopup() {
     }
   }, []);
 
-  if (process.env.NEXT_PUBLIC_APP_ENV !== "production") return null;
+  if (isSloganEnded()) return null;
 
   const handleClose = () => {
     if (doNotShow) {
