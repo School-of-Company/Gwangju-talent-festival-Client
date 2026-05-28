@@ -54,13 +54,15 @@ export const DownloadButton = ({ filePath, label, className = "", iconColor }: D
 
   return (
     <div>
-      <span
-        className={`cursor-pointer text-main-600 underline text-body2b flex items-center gap-2 ${isLoading ? "opacity-50" : ""} ${className}`}
+      <button
+        type="button"
+        className={`${isLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} text-main-600 underline text-body2b flex items-center gap-2 ${className}`}
         onClick={handleDownload}
+        disabled={isLoading}
       >
         {label}
         <DownloadIcon color={iconColor ?? colors.main[600]} />
-      </span>
+      </button>
     </div>
   );
 };

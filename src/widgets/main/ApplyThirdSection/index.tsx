@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "@/shared/ui/Button";
 import { DownloadButton } from "@/entities/apply/ui/DownloadButton";
 import { cn } from "@/shared/utils/cn";
-import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
+import { RightArrow } from "@/shared/asset/svg/RightArrow";
 import { colors } from "@/shared/utils/color";
 import { isApplyPeriod } from "@/shared/config/dateConfig";
 
@@ -15,10 +15,7 @@ const FLOW_TEXT =
 const ApplyThirdSection = () => {
   const router = useRouter();
 
-  const [isApplyOpen, setIsApplyOpen] = useState(() => {
-    const now = new Date();
-    return now >= applyStartDate && now <= applyEndDate;
-  });
+  const [isApplyOpen, setIsApplyOpen] = useState(false);
 
   useEffect(() => {
     const check = () => {
@@ -107,7 +104,7 @@ const ApplyThirdSection = () => {
         >
           <span className="text-body3b flex items-center justify-center gap-10 px-[60px] mobile:px-0 mobile:w-full">
             {isApplyOpen ? "신청하러 가기" : "신청기간이 아닙니다"}
-            {isApplyOpen && <ArrowBack color="white" />}
+            {isApplyOpen && <RightArrow color="white" />}
           </span>
         </Button>
 
