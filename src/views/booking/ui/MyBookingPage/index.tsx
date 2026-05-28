@@ -14,6 +14,7 @@ import { cancelPerformerSeats } from "@/entities/booking/api/cancelPerformerSeat
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { Seat } from "@/entities/booking/model/types";
+import { seatQueryKeys } from "@/entities/booking/lib/useSeatState";
 
 const MyBookingPage = () => {
   const { seats, isMultiple, isLoading, error } = useMyBookedSeats();
@@ -55,6 +56,7 @@ const MyBookingPage = () => {
 
         queryClient.invalidateQueries({ queryKey: ["mySeat"] });
         queryClient.invalidateQueries({ queryKey: ["mySeats"] });
+        queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(seat.section) });
 
         if (updatedSeats.length === 0) {
           router.push("/home");
@@ -93,6 +95,9 @@ const MyBookingPage = () => {
 
       queryClient.invalidateQueries({ queryKey: ["mySeat"] });
       queryClient.invalidateQueries({ queryKey: ["mySeats"] });
+      [...new Set(seats.map(s => s.section))].forEach(section => {
+        queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(section) });
+      });
     } catch (error) {
       queryClient.setQueryData(["mySeats"], originalSeats);
       if (originalSeats.length > 0) {
