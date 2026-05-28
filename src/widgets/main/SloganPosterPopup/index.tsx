@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Modal from "@/shared/ui/Modal";
 import Button from "@/shared/ui/Button";
 import { RightArrow } from "@/shared/asset/svg/RightArrow";
+import { isSloganEnded } from "@/shared/config/dateConfig";
 
 const STORAGE_KEY = "sloganPosterHidden";
 
@@ -15,13 +16,10 @@ export default function SloganPosterPopup() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hidden = localStorage.getItem(STORAGE_KEY);
-      if (!hidden) setIsOpen(true);
-    }
+    if (isSloganEnded()) return;
+    const hidden = localStorage.getItem(STORAGE_KEY);
+    if (!hidden) setIsOpen(true);
   }, []);
-
-  if (process.env.NEXT_PUBLIC_APP_ENV !== "production") return null;
 
   const handleClose = () => {
     if (doNotShow) {
