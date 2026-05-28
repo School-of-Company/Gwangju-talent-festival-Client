@@ -57,6 +57,10 @@ export const useBookingStore = create<BookingStore>((set, get) => ({
       selectedSeats: state.selectedSeats.filter(
         s => !(s.section === section && s.seatNumber === seatNumber),
       ),
+      selectedSeat:
+        state.selectedSeat?.section === section && state.selectedSeat?.seatNumber === seatNumber
+          ? null
+          : state.selectedSeat,
     })),
 
   setPerformerMode: isPerformer => set({ isPerformerMode: isPerformer }),
