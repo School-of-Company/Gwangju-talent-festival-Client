@@ -16,13 +16,10 @@ export default function SloganPosterPopup() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hidden = localStorage.getItem(STORAGE_KEY);
-      if (!hidden) setIsOpen(true);
-    }
+    if (isSloganEnded()) return;
+    const hidden = localStorage.getItem(STORAGE_KEY);
+    if (!hidden) setIsOpen(true);
   }, []);
-
-  if (isSloganEnded()) return null;
 
   const handleClose = () => {
     if (doNotShow) {
