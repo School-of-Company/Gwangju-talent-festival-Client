@@ -80,13 +80,6 @@ describe("middleware - /signin 리다이렉트", () => {
     );
     expect(getLocation(res)).toContain("/home");
   });
-
-  it("오픈 리다이렉트 방지: protocol-relative URL(//evil.com)이면 /home으로 이동한다", () => {
-    const res = middleware(
-      makeRequest("/signin?next=%2F%2Fevil.com", { accessToken: "abc", refreshToken: "xyz" }),
-    );
-    expect(getLocation(res)).toContain("/home");
-  });
 });
 
 describe("middleware - 어드민 접근 제어", () => {

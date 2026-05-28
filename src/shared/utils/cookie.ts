@@ -1,19 +1,10 @@
 "use client";
 
-const isHttps = () =>
-  typeof window !== "undefined" && window.location.protocol === "https:";
-
-const buildAttributes = (expires?: Date) => {
-  const parts = ["path=/", "SameSite=Lax"];
-  if (expires) parts.push(`expires=${expires.toUTCString()}`);
-  if (isHttps()) parts.push("Secure");
-  return parts.join("; ");
-};
-
 export const setCookie = (name: string, value: string, expires?: Date) => {
-  document.cookie = `${name}=${value}; ${buildAttributes(expires)}`;
+  const expiry = expires ? `; expires=${expires.toUTCString()}` : "";
+  document.cookie = `${name}=${value}${expiry}; path=/;`;
 };
 
 export const clearCookie = (name: string) => {
-  document.cookie = `${name}=; ${buildAttributes(new Date(0))}`;
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 };
