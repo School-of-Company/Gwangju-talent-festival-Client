@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { Seat, SelectedSeatInfo, SEAT_STATUS } from "@/entities/booking/model/types";
 import { useBookingStore } from "@/entities/booking/model/bookingStore";
 
@@ -18,7 +18,7 @@ export const useSeatSelection = () => {
     [selectedSection, selectedSeat],
   );
 
-  const canSelectSeat = (seat: Seat) => seat.status === SEAT_STATUS.AVAILABLE;
+  const canSelectSeat = useCallback((seat: Seat) => seat.status === SEAT_STATUS.AVAILABLE, []);
 
   return { selectedSection, selectedSeat, selectedSeatInfo, setSelectedSection, selectSeat, canSelectSeat, isComplete };
 };

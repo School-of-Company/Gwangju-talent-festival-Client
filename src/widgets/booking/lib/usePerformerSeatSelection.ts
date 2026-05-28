@@ -32,7 +32,7 @@ export const usePerformerSeatSelection = (existingSeatsCount: number = 0) => {
     [selectedSeats.length, maxSelectableSeats],
   );
 
-  const canSelectSeat = (seat: Seat) => seat.status === SEAT_STATUS.AVAILABLE;
+  const canSelectSeat = useCallback((seat: Seat) => seat.status === SEAT_STATUS.AVAILABLE, []);
 
   return {
     selectedSection,

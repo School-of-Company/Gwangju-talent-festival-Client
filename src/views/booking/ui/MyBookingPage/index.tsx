@@ -95,7 +95,7 @@ const MyBookingPage = () => {
 
       queryClient.invalidateQueries({ queryKey: ["mySeat"] });
       queryClient.invalidateQueries({ queryKey: ["mySeats"] });
-      [...new Set(seats.map(s => s.section))].forEach(section => {
+      [...new Set(seats?.map(s => s.section) ?? [])].forEach(section => {
         queryClient.invalidateQueries({ queryKey: seatQueryKeys.seatState(section) });
       });
     } catch (error) {
