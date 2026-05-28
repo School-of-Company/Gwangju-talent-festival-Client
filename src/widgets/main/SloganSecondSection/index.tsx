@@ -21,11 +21,13 @@ const SloganSecondSection = () => {
     const now = new Date();
     return now >= sloganStartDate && now <= sloganEndDate;
   });
-  const sloganEnded = isSloganEnded();
+  const [sloganEnded, setSloganEnded] = useState(false);
   useEffect(() => {
+    setSloganEnded(isSloganEnded());
     const timer = setInterval(() => {
       const now = new Date();
       setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
+      setSloganEnded(isSloganEnded());
     }, 60000);
     return () => clearInterval(timer);
   }, []);
@@ -33,7 +35,11 @@ const SloganSecondSection = () => {
   return (
     <section id="SloganSecondSection" className={cn("w-full mt-[3.5rem] mobile:mt-20 text-center")}>
       <SectionTitle
-        title={sloganEnded ? `${SLOGAN_YEAR} 광탈페 슬로건 접수마감 되었습니다` : `${SLOGAN_YEAR} 광탈페 슬로건 공모예정`}
+        title={
+          sloganEnded
+            ? `${SLOGAN_YEAR} 광탈페 슬로건 접수마감 되었습니다`
+            : `${SLOGAN_YEAR} 광탈페 슬로건 공모예정`
+        }
         description={
           <>
             <span className="text-black text-body2b">
@@ -62,7 +68,7 @@ const SloganSecondSection = () => {
         disabled={!isSloganPeriod}
       >
         <span className={cn("text-body3b px-[60px] mobile:text-body3b flex items-center gap-10")}>
-          {isSloganPeriod ? "슬로건 공모하러가기" : sloganEnded ? "슬로건 접수가 마감되었습니다" : "공모기간이 아닙니다"}{" "}
+          {isSloganPeriod ? "슬로건 공모하러가기" : "공모기간이 아닙니다"}{" "}
           <ArrowBack color={isSloganPeriod ? "white" : "#1F2937"} />
         </span>
       </Button>
