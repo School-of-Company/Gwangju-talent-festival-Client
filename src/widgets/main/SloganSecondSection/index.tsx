@@ -2,13 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// import PrizeItem from "@/entities/home/ui/PrizeItem";
 import SloganMarquee from "@/entities/home/ui/SloganMarquee";
 import Button from "@/shared/ui/Button";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { formatDate } from "@/shared/utils/formatDate";
-import { sloganStartDate, sloganEndDate } from "@/shared/config/dateConfig";
+import { sloganStartDate, sloganEndDate, isSloganEnded } from "@/shared/config/dateConfig";
 import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
 
 const SLOGAN_YEAR = sloganStartDate.getFullYear();
@@ -21,10 +20,13 @@ const SloganSecondSection = () => {
     const now = new Date();
     return now >= sloganStartDate && now <= sloganEndDate;
   });
+  const [sloganEnded, setSloganEnded] = useState(false);
   useEffect(() => {
+    setSloganEnded(isSloganEnded());
     const timer = setInterval(() => {
       const now = new Date();
       setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
+      setSloganEnded(isSloganEnded());
     }, 60000);
     return () => clearInterval(timer);
   }, []);
@@ -32,7 +34,11 @@ const SloganSecondSection = () => {
   return (
     <section id="SloganSecondSection" className={cn("w-full mt-[3.5rem] mobile:mt-20 text-center")}>
       <SectionTitle
-        title={`${SLOGAN_YEAR} 광탈페 슬로건 공모예정`}
+        title={
+          sloganEnded
+            ? `${SLOGAN_YEAR} 광탈페 슬로건 접수마감 되었습니다`
+            : `${SLOGAN_YEAR} 광탈페 슬로건 ${isSloganPeriod ? "공모중" : "공모예정"}`
+        }
         description={
           <>
             <span className="text-black text-body2b">
@@ -47,13 +53,6 @@ const SloganSecondSection = () => {
 
       <SloganMarquee />
 
-      {/* <div className={cn("flex flex-col items-center p-6 bg-white my-30")}>
-        <div className={cn("flex justify-center items-center gap-[40px]")}>
-          <PrizeItem key={PRIZES[1].rank} {...PRIZES[1]} />
-          <PrizeItem key={PRIZES[0].rank} {...PRIZES[0]} />
-          <PrizeItem key={PRIZES[2].rank} {...PRIZES[2]} />
-        </div>
-      </div> */}
       <Button
         type="button"
         onClick={() => router.push("/slogan")}
