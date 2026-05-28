@@ -7,7 +7,7 @@ import { DownloadButton } from "@/entities/apply/ui/DownloadButton";
 import { cn } from "@/shared/utils/cn";
 import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
 import { colors } from "@/shared/utils/color";
-import { applyStartDate, applyEndDate } from "@/shared/config/dateConfig";
+import { isApplyPeriod } from "@/shared/config/dateConfig";
 
 const FLOW_TEXT =
   "온·오프라인 참여 홍보 및 신청 접수 → 1차 영상 심사 및 光트로(예선) 참가팀 선정 → 光트로 참가팀 사전 협의 및 안내 → 이메일 신청";
@@ -22,8 +22,7 @@ const ApplyThirdSection = () => {
 
   useEffect(() => {
     const check = () => {
-      const now = new Date();
-      setIsApplyOpen(now >= applyStartDate && now <= applyEndDate);
+      setIsApplyOpen(isApplyPeriod());
     };
     check();
     const timer = setInterval(check, 60000);
