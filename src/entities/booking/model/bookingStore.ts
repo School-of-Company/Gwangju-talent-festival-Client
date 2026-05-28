@@ -38,6 +38,7 @@ export const useBookingStore = create<BookingStore>((set, get) => ({
           ),
         });
       } else {
+        if (maxSelectableSeats <= 0) return;
         const next =
           selectedSeats.length >= maxSelectableSeats
             ? [...selectedSeats.slice(1), seat]
