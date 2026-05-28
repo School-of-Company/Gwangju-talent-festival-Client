@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Modal from "@/shared/ui/Modal";
 import Button from "@/shared/ui/Button";
 import { RightArrow } from "@/shared/asset/svg/RightArrow";
-import { isSloganEnded } from "@/shared/config/dateConfig";
+// import { isSloganEnded } from "@/shared/config/dateConfig";
 
 const STORAGE_KEY = "sloganPosterHidden";
 
@@ -16,7 +16,7 @@ export default function SloganPosterPopup() {
   const router = useRouter();
 
   useEffect(() => {
-    if (isSloganEnded()) return;
+    // if (isSloganEnded()) return;
     const hidden = localStorage.getItem(STORAGE_KEY);
     if (!hidden) setIsOpen(true);
   }, []);
@@ -30,7 +30,7 @@ export default function SloganPosterPopup() {
 
   const handleGoSlogan = () => {
     handleClose();
-    router.push("/slogan");
+    router.push("/apply");
   };
 
   return (
@@ -48,7 +48,7 @@ export default function SloganPosterPopup() {
             onClick={handleGoSlogan}
           >
             <span className="text-body3b flex items-center justify-center gap-10">
-              슬로건 공모하러가기
+              신청하러 가기
               <RightArrow color="white" width={16} height={16} />
             </span>
           </Button>
@@ -71,7 +71,7 @@ export default function SloganPosterPopup() {
       }
     >
       <Image
-        src="/images/slogan-poster.png"
+        src="/images/신청.png"
         alt="2026 광탈페 슬로건 공모전 안내"
         width={485}
         height={708}
