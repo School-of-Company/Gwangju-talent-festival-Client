@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { ApplyPage } from "@/views/apply/ui/ApplyPage";
 
 export default function Apply() {
-  redirect("/home");
+  return <ApplyPage />;
 }

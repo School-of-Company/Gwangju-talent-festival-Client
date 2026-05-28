@@ -2,7 +2,9 @@ import { FC } from "react";
 import Arrow from "@/shared/asset/svg/Arrow";
 import { colors } from "@/shared/utils/color";
 
-type ArrowColor = (typeof colors.main)[keyof typeof colors.main];
+type ArrowColor =
+  | (typeof colors.main)[keyof typeof colors.main]
+  | (typeof colors.orange)[keyof typeof colors.orange];
 
 interface ArrowData {
   color: ArrowColor;
@@ -14,10 +16,10 @@ interface ArrowStepsProps {
 }
 
 const ARROWS_DATA: readonly ArrowData[] = [
-  { color: colors.main[100], text: "참가 신청서 n작성" },
-  { color: colors.main[200], text: "개인정보수집이용 n활용동의서 작성" },
-  { color: colors.main[300], text: "공연영상제작 n3분 내외, MP4 파일" },
-  { color: colors.main[400], text: "이메일 제출" },
+  { color: colors.orange[200], text: "참가 신청서 n작성" },
+  { color: colors.orange[300], text: "개인정보수집이용 n활용동의서 작성" },
+  { color: colors.orange[400], text: "공연영상제작 n3분 내외, MP4 파일" },
+  { color: colors.orange[500], text: "이메일 제출" },
 ] as const;
 
 export const ArrowSteps: FC<ArrowStepsProps> = ({ className = "" }) => {

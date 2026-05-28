@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publicPages, publicIn27 } from "@/shared/config/authConfig";
-import { festivalDate, sloganStartDate, sloganEndDate } from "@/shared/config/dateConfig";
+import { festivalDate, sloganStartDate, sloganEndDate, applyStartDate, applyEndDate } from "@/shared/config/dateConfig";
 
 export const config = {
   matcher: [
@@ -35,6 +35,10 @@ export function middleware(request: NextRequest) {
 
   const now = new Date();
   if (pathname === "/slogan" && (now < sloganStartDate || now > sloganEndDate)) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
+
+  if (pathname === "/apply" && (now < applyStartDate || now > applyEndDate)) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
