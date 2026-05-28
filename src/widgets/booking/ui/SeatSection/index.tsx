@@ -28,8 +28,8 @@ export const SeatSection = memo<SeatSectionProps>(({ className }) => {
   const selectSeat = useBookingStore(s => s.selectSeat);
   const removeOccupiedSeat = useBookingStore(s => s.removeOccupiedSeat);
 
-  const { seats: myBookedSeats } = useMyBookedSeats();
-  const maxSelectableSeats = Math.max(0, 3 - (myBookedSeats?.length ?? 0));
+  const { seats: myBookedSeats = [] } = useMyBookedSeats();
+  const maxSelectableSeats = Math.max(0, 3 - myBookedSeats.length);
 
   const { data: sectionSeats, isLoading, error } = useSectionSeatState(selectedSection!);
   const { data: allSeats, isLoading: isAllSeatsLoading } = useAllSectionsSeatState();
