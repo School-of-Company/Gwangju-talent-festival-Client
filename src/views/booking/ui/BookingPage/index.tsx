@@ -10,7 +10,6 @@ import { usePerformerSeatSelection } from "@/widgets/booking/lib/usePerformerSea
 import { useSeatBooking, useMultipleSeatBooking } from "@/widgets/booking/lib/useSeatBooking";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { getTokenFromCookie } from "@/shared/utils/auth";
 import { useMyBookedSeats } from "@/entities/booking/lib/useMySeat";
 import { useBookingStore } from "@/entities/booking/model/bookingStore";
 
@@ -18,7 +17,6 @@ const BookingPage = () => {
   const router = useRouter();
   const { seats: myBookedSeats } = useMyBookedSeats();
 
-  const setPerformerMode = useBookingStore(s => s.setPerformerMode);
   const setSelectedSection = useBookingStore(s => s.setSelectedSection);
   const isPerformer = useBookingStore(s => s.isPerformerMode);
   const selectedSection = useBookingStore(s => s.selectedSection);
@@ -26,10 +24,8 @@ const BookingPage = () => {
   const reset = useBookingStore(s => s.reset);
 
   useEffect(() => {
-    const role = getTokenFromCookie("role");
-    setPerformerMode(role === "ROLE_PERFORMER");
     return () => reset();
-  }, [setPerformerMode, reset]);
+  }, [reset]);
 
   const { selectedSeatInfo, isComplete } = useSeatSelection();
   const { selectedSeats, canBook, maxSelectableSeats } = usePerformerSeatSelection(

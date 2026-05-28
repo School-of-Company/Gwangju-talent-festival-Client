@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { Seat, SEAT_STATUS } from "@/entities/booking/model/types";
 import { useBookingStore } from "@/entities/booking/model/bookingStore";
+import { MAX_PERFORMER_SEATS } from "@/entities/booking/model/constants";
 
 export const usePerformerSeatSelection = (existingSeatsCount: number = 0) => {
   const selectedSection = useBookingStore(s => s.selectedSection);
@@ -9,7 +10,7 @@ export const usePerformerSeatSelection = (existingSeatsCount: number = 0) => {
   const selectSeat = useBookingStore(s => s.selectSeat);
   const removeOccupiedSeat = useBookingStore(s => s.removeOccupiedSeat);
 
-  const maxSelectableSeats = Math.max(0, 3 - existingSeatsCount);
+  const maxSelectableSeats = Math.max(0, MAX_PERFORMER_SEATS - existingSeatsCount);
 
   const handleSelectSeat = useCallback(
     (seat: Seat) => selectSeat(seat, maxSelectableSeats),

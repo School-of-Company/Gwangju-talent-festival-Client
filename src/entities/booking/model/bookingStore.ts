@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { Section, Seat, SEAT_STATUS } from "./types";
+import { MAX_PERFORMER_SEATS } from "./constants";
+import { getTokenFromCookie } from "@/shared/utils/auth";
 
 interface BookingStore {
   selectedSection: Section | null;
@@ -18,12 +20,12 @@ export const useBookingStore = create<BookingStore>((set, get) => ({
   selectedSection: null,
   selectedSeat: null,
   selectedSeats: [],
-  isPerformerMode: false,
+  isPerformerMode: getTokenFromCookie("role") === "ROLE_PERFORMER",
 
   setSelectedSection: section =>
     set({ selectedSection: section, selectedSeat: null, selectedSeats: [] }),
 
-  selectSeat: (seat, maxSelectableSeats = 3) => {
+  selectSeat: (seat, maxSelectableSeats = MAX_PERFORMER_SEATS) => {
     if (seat.status === SEAT_STATUS.OCCUPIED) return;
     const { isPerformerMode, selectedSeats, selectedSeat } = get();
 

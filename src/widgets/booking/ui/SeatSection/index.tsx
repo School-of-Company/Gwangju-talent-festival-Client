@@ -14,6 +14,7 @@ import { useSeatChangeSSE } from "@/entities/booking/lib/useSeatChangeSSE";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 import { useQueryClient } from "@tanstack/react-query";
 import { useBookingStore } from "@/entities/booking/model/bookingStore";
+import { MAX_PERFORMER_SEATS } from "@/entities/booking/model/constants";
 import { useMyBookedSeats } from "@/entities/booking/lib/useMySeat";
 
 interface SeatSectionProps {
@@ -28,8 +29,8 @@ export const SeatSection = memo<SeatSectionProps>(({ className }) => {
   const selectSeat = useBookingStore(s => s.selectSeat);
   const removeOccupiedSeat = useBookingStore(s => s.removeOccupiedSeat);
 
-  const { seats: myBookedSeats = [] } = useMyBookedSeats();
-  const maxSelectableSeats = Math.max(0, 3 - myBookedSeats.length);
+  const { seats: myBookedSeats = [], isLoading: isMySeatsLoading } = useMyBookedSeats();
+  const maxSelectableSeats = Math.max(0, MAX_PERFORMER_SEATS - myBookedSeats.length);
 
   const { data: sectionSeats, isLoading, error } = useSectionSeatState(selectedSection!);
   const { data: allSeats, isLoading: isAllSeatsLoading } = useAllSectionsSeatState();
@@ -140,7 +141,7 @@ export const SeatSection = memo<SeatSectionProps>(({ className }) => {
         <SeatGrid
           layout={getLayout()}
           selectedSeat={selectedSeat}
-          onSeatSelect={isLoading || !!error ? () => {} : handleSeatSelect}
+          onSeatSelect={isLoading || !!error || isMySeatsLoading ? () => {} : handleSeatSelect}
           allSeats={realTimeSeats}
           selectedSeats={selectedSeats}
           isSeatSelected={isSeatSelected}
