@@ -1,76 +1,43 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import SelectSection from "@/widgets/booking/ui/SelectSection";
 import SeatSection from "@/widgets/booking/ui/SeatSection";
 import Button from "@/shared/ui/Button";
 import BackHeader from "@/shared/ui/BackHeader";
 import { useSeatSelection } from "@/widgets/booking/lib/useSeatSelection";
 import { usePerformerSeatSelection } from "@/widgets/booking/lib/usePerformerSeatSelection";
-import { SectionType, Seat } from "@/entities/booking/model/types";
 import { useSeatBooking, useMultipleSeatBooking } from "@/widgets/booking/lib/useSeatBooking";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getTokenFromCookie } from "@/shared/utils/auth";
 import { useMyBookedSeats } from "@/entities/booking/lib/useMySeat";
+import { useBookingStore } from "@/entities/booking/model/bookingStore";
 
 const BookingPage = () => {
-  const [userRole, setUserRole] = useState<string | null>(null);
   const router = useRouter();
   const { seats: myBookedSeats } = useMyBookedSeats();
 
-  const {
-    selectedSection,
-    selectedSeat,
-    selectedSeatInfo,
-    setSelectedSection,
-    selectSeat,
-    isComplete,
-  } = useSeatSelection();
-
-  const {
-    selectedSection: performerSelectedSection,
-    selectedSeats,
-    setSelectedSection: setPerformerSelectedSection,
-    selectSeat: selectPerformerSeat,
-    isSeatSelected,
-    canBook,
-    maxSelectableSeats,
-    removeOccupiedSeat,
-  } = usePerformerSeatSelection(myBookedSeats?.length || 0);
-
-  const seatBookingMutation = useSeatBooking();
-  const multipleSeatBookingMutation = useMultipleSeatBooking();
+  const setPerformerMode = useBookingStore(s => s.setPerformerMode);
+  const setSelectedSection = useBookingStore(s => s.setSelectedSection);
+  const isPerformer = useBookingStore(s => s.isPerformerMode);
+  const selectedSection = useBookingStore(s => s.selectedSection);
+  const selectedSeat = useBookingStore(s => s.selectedSeat);
+  const reset = useBookingStore(s => s.reset);
 
   useEffect(() => {
     const role = getTokenFromCookie("role");
-    setUserRole(role);
-  }, []);
+    setPerformerMode(role === "ROLE_PERFORMER");
+    return () => reset();
+  }, [setPerformerMode, reset]);
 
-  const isPerformer = userRole === "ROLE_PERFORMER";
-  const handleSectionSelect = useCallback(
-    (section: SectionType) => {
-      if (isPerformer) {
-        setPerformerSelectedSection(section);
-      } else {
-        setSelectedSection(section);
-      }
-    },
-    [isPerformer, setPerformerSelectedSection, setSelectedSection],
+  const { selectedSeatInfo, isComplete } = useSeatSelection();
+  const { selectedSeats, canBook, maxSelectableSeats } = usePerformerSeatSelection(
+    myBookedSeats?.length ?? 0,
   );
 
-  const handleSeatSelect = useCallback(
-    (seat: Seat | null) => {
-      if (seat) {
-        if (isPerformer) {
-          selectPerformerSeat(seat);
-        } else {
-          selectSeat(seat);
-        }
-      }
-    },
-    [isPerformer, selectPerformerSeat, selectSeat],
-  );
+  const seatBookingMutation = useSeatBooking();
+  const multipleSeatBookingMutation = useMultipleSeatBooking();
 
   const handleBookingClick = useCallback(() => {
     if (isPerformer) {
@@ -101,30 +68,17 @@ const BookingPage = () => {
 
   const getButtonText = () => {
     if (isPerformer) {
-      if (multipleSeatBookingMutation.isPending) {
-        return "예매 중...";
-      }
-      if (!performerSelectedSection) {
-        return "구역을 선택해주세요";
-      }
+      if (multipleSeatBookingMutation.isPending) return "예매 중...";
+      if (!selectedSection) return "구역을 선택해주세요";
       if (selectedSeats.length === 0) {
-        const remainingSlots = maxSelectableSeats;
-        if (remainingSlots === 0) {
-          return "최대 예매 가능 좌석 수 도달";
-        }
-        return `좌석을 선택해주세요 (최대 ${remainingSlots}개 추가 가능)`;
+        if (maxSelectableSeats === 0) return "최대 예매 가능 좌석 수 도달";
+        return `좌석을 선택해주세요 (최대 ${maxSelectableSeats}개 추가 가능)`;
       }
       return `${selectedSeats.length}개 좌석 예매하기`;
     } else {
-      if (seatBookingMutation.isPending) {
-        return "예매 중...";
-      }
-      if (!selectedSection) {
-        return "구역을 선택해주세요";
-      }
-      if (!selectedSeat) {
-        return "좌석을 선택해주세요";
-      }
+      if (seatBookingMutation.isPending) return "예매 중...";
+      if (!selectedSection) return "구역을 선택해주세요";
+      if (!selectedSeat) return "좌석을 선택해주세요";
       return "예매하기";
     }
   };
@@ -135,20 +89,10 @@ const BookingPage = () => {
 
       <div className="flex-1 flex flex-col p-4 gap-8 min-h-0">
         <div className="flex-shrink-0">
-          <SelectSection onSectionSelect={handleSectionSelect} />
+          <SelectSection onSectionSelect={setSelectedSection} />
         </div>
         <div className="flex-shrink-0 overflow-hidden">
-          <SeatSection
-            selectedSection={isPerformer ? performerSelectedSection : selectedSection}
-            selectedSeat={isPerformer ? null : selectedSeat}
-            onSeatSelect={handleSeatSelect}
-            selectedSeatInfo={isPerformer ? null : selectedSeatInfo}
-            selectedSeats={isPerformer ? selectedSeats : undefined}
-            isSeatSelected={isPerformer ? isSeatSelected : undefined}
-            isPerformerMode={isPerformer}
-            myBookedSeats={isPerformer ? myBookedSeats : undefined}
-            removeOccupiedSeat={isPerformer ? removeOccupiedSeat : undefined}
-          />
+          <SeatSection />
         </div>
         <Button
           className="fixed bottom-[48px] w-[375px] h-[48px]"

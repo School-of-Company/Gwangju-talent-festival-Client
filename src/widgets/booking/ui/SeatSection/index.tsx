@@ -2,7 +2,7 @@
 
 import { memo, useCallback, useEffect, useState } from "react";
 import { cn } from "@/shared/utils/cn";
-import { Section, Seat, SelectedSeatInfo, SEAT_STATUS } from "@/entities/booking/model/types";
+import { Section, Seat, SEAT_STATUS } from "@/entities/booking/model/types";
 import { SeatGrid } from "@/entities/booking/ui/SeatGrid";
 import { SelectedSeatDisplay } from "@/entities/booking/ui/SelectedSeatDisplay";
 import {
@@ -13,177 +13,154 @@ import {
 import { useSeatChangeSSE } from "@/entities/booking/lib/useSeatChangeSSE";
 import { getSeatLayout } from "@/entities/booking/model/seatLayouts";
 import { useQueryClient } from "@tanstack/react-query";
+import { useBookingStore } from "@/entities/booking/model/bookingStore";
+import { useMyBookedSeats } from "@/entities/booking/lib/useMySeat";
 
 interface SeatSectionProps {
-  selectedSection: Section | null;
-  selectedSeat: Seat | null;
-  onSeatSelect: (seat: Seat | null) => void;
-  selectedSeatInfo: SelectedSeatInfo | null;
   className?: string;
-  selectedSeats?: Seat[];
-  isSeatSelected?: (seat: Seat) => boolean;
-  isPerformerMode?: boolean;
-  myBookedSeats?: Seat[];
-  removeOccupiedSeat?: (section: Section, seatNumber: string) => void;
 }
 
-export const SeatSection = memo<SeatSectionProps>(
-  ({
-    selectedSection,
-    selectedSeat,
-    onSeatSelect,
-    selectedSeatInfo,
-    className,
-    selectedSeats,
-    isSeatSelected,
-    isPerformerMode = false,
-    myBookedSeats,
-    removeOccupiedSeat,
-  }) => {
-    const { data: sectionSeats, isLoading, error } = useSectionSeatState(selectedSection!);
-    const { data: allSeats, isLoading: isAllSeatsLoading } = useAllSectionsSeatState();
-    const [realTimeSeats, setRealTimeSeats] = useState<Seat[] | null>(null);
-    const queryClient = useQueryClient();
+export const SeatSection = memo<SeatSectionProps>(({ className }) => {
+  const selectedSection = useBookingStore(s => s.selectedSection);
+  const selectedSeat = useBookingStore(s => s.selectedSeat);
+  const selectedSeats = useBookingStore(s => s.selectedSeats);
+  const isPerformerMode = useBookingStore(s => s.isPerformerMode);
+  const selectSeat = useBookingStore(s => s.selectSeat);
+  const removeOccupiedSeat = useBookingStore(s => s.removeOccupiedSeat);
 
-    const handleSeatChange = useCallback(
-      (event: { seat_section: Section; seat_number: number; is_available: boolean }) => {
-        if (event.seat_section !== selectedSection) return;
+  const { seats: myBookedSeats } = useMyBookedSeats();
+  const maxSelectableSeats = Math.max(0, 3 - (myBookedSeats?.length ?? 0));
 
-        if (!event.is_available && isPerformerMode && removeOccupiedSeat) {
-          removeOccupiedSeat(event.seat_section, event.seat_number.toString());
-        }
+  const { data: sectionSeats, isLoading, error } = useSectionSeatState(selectedSection!);
+  const { data: allSeats, isLoading: isAllSeatsLoading } = useAllSectionsSeatState();
+  const [realTimeSeats, setRealTimeSeats] = useState<Seat[] | null>(null);
+  const queryClient = useQueryClient();
 
-        setRealTimeSeats(prevSeats => {
-          if (!prevSeats) return prevSeats;
+  const isSeatSelected = useCallback(
+    (seat: Seat) =>
+      selectedSeats.some(s => s.seatNumber === seat.seatNumber && s.section === seat.section),
+    [selectedSeats],
+  );
 
-          return prevSeats.map(seat => {
-            if (seat.seatNumber === event.seat_number.toString()) {
-              return {
-                ...seat,
-                status: event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED,
-              };
-            }
-            return seat;
-          });
-        });
+  const selectedSeatInfo =
+    selectedSeat && selectedSection ? { seat: selectedSeat, section: selectedSection } : null;
 
-        const sectionCache = queryClient.getQueryData<Seat[]>(
-          seatQueryKeys.seatState(event.seat_section),
+  const handleSeatChange = useCallback(
+    (event: { seat_section: Section; seat_number: number; is_available: boolean }) => {
+      if (event.seat_section !== selectedSection) return;
+
+      if (!event.is_available && isPerformerMode) {
+        removeOccupiedSeat(event.seat_section, event.seat_number.toString());
+      }
+
+      setRealTimeSeats(prevSeats => {
+        if (!prevSeats) return prevSeats;
+        return prevSeats.map(seat =>
+          seat.seatNumber === event.seat_number.toString()
+            ? { ...seat, status: event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED }
+            : seat,
         );
-        if (sectionCache) {
-          const updatedSeats = sectionCache.map(seat => {
-            if (seat.seatNumber === event.seat_number.toString()) {
-              return {
-                ...seat,
-                status: event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED,
-              };
-            }
-            return seat;
-          });
-          queryClient.setQueryData(seatQueryKeys.seatState(event.seat_section), updatedSeats);
-        }
+      });
 
-        const allSeatsCache = queryClient.getQueryData<Seat[]>(["allSectionsSeatState"]);
-        if (allSeatsCache) {
-          const updatedAllSeats = allSeatsCache.map(seat => {
-            if (
-              seat.section === event.seat_section &&
-              seat.seatNumber === event.seat_number.toString()
-            ) {
-              const newStatus = event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED;
-              return {
-                ...seat,
-                status: newStatus,
-              };
-            }
-            return seat;
-          });
-          queryClient.setQueryData(["allSectionsSeatState"], updatedAllSeats);
-        }
-      },
-      [selectedSection, queryClient, isPerformerMode, removeOccupiedSeat],
-    );
-
-    useSeatChangeSSE({
-      onSeatChange: handleSeatChange,
-      enabled: !!selectedSection,
-    });
-
-    useEffect(() => {
-      if (!selectedSection) {
-        if (allSeats && allSeats.length > 0) {
-          setRealTimeSeats(allSeats);
-        }
-        return;
+      const sectionCache = queryClient.getQueryData<Seat[]>(
+        seatQueryKeys.seatState(event.seat_section),
+      );
+      if (sectionCache) {
+        queryClient.setQueryData(
+          seatQueryKeys.seatState(event.seat_section),
+          sectionCache.map(seat =>
+            seat.seatNumber === event.seat_number.toString()
+              ? {
+                  ...seat,
+                  status: event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED,
+                }
+              : seat,
+          ),
+        );
       }
 
-      const allSectionSeats = allSeats?.filter(seat => seat.section === selectedSection);
-
-      const dataToUse =
-        allSectionSeats && allSectionSeats.length > 0 ? allSectionSeats : sectionSeats;
-
-      if (dataToUse) {
-        setRealTimeSeats(dataToUse);
+      const allSeatsCache = queryClient.getQueryData<Seat[]>(["allSectionsSeatState"]);
+      if (allSeatsCache) {
+        queryClient.setQueryData(
+          ["allSectionsSeatState"],
+          allSeatsCache.map(seat =>
+            seat.section === event.seat_section &&
+            seat.seatNumber === event.seat_number.toString()
+              ? {
+                  ...seat,
+                  status: event.is_available ? SEAT_STATUS.AVAILABLE : SEAT_STATUS.OCCUPIED,
+                }
+              : seat,
+          ),
+        );
       }
-    }, [allSeats, sectionSeats, selectedSection, isAllSeatsLoading]);
+    },
+    [selectedSection, queryClient, isPerformerMode, removeOccupiedSeat],
+  );
 
-    const getLayout = () => {
-      if (selectedSection) {
-        const getFallbackSeats = () => {
-          const layout = getSeatLayout(selectedSection);
-          return layout.seats.map(seat => ({
-            ...seat,
-            status: SEAT_STATUS.OCCUPIED,
-          }));
-        };
+  useSeatChangeSSE({ onSeatChange: handleSeatChange, enabled: !!selectedSection });
 
-        const allSectionSeats = allSeats?.filter(seat => seat.section === selectedSection);
+  useEffect(() => {
+    if (!selectedSection) {
+      if (allSeats && allSeats.length > 0) setRealTimeSeats(allSeats);
+      return;
+    }
+    const allSectionSeats = allSeats?.filter(seat => seat.section === selectedSection);
+    const dataToUse =
+      allSectionSeats && allSectionSeats.length > 0 ? allSectionSeats : sectionSeats;
+    if (dataToUse) setRealTimeSeats(dataToUse);
+  }, [allSeats, sectionSeats, selectedSection, isAllSeatsLoading]);
 
-        const seatsToUse =
-          realTimeSeats ||
-          (allSectionSeats && allSectionSeats.length > 0 ? allSectionSeats : null) ||
-          sectionSeats ||
-          getFallbackSeats();
+  const getLayout = () => {
+    if (!selectedSection) return null;
 
-        return {
-          section: selectedSection,
-          seats: seatsToUse,
-        };
-      } else {
-        return null;
-      }
-    };
+    const getFallbackSeats = () =>
+      getSeatLayout(selectedSection).seats.map(seat => ({ ...seat, status: SEAT_STATUS.OCCUPIED }));
 
-    const layout = getLayout();
+    const allSectionSeats = allSeats?.filter(seat => seat.section === selectedSection);
+    const seatsToUse =
+      realTimeSeats ||
+      (allSectionSeats && allSectionSeats.length > 0 ? allSectionSeats : null) ||
+      sectionSeats ||
+      getFallbackSeats();
 
-    return (
-      <div className={cn("pb-20", className)}>
-        <div className="h-80">
-          <SeatGrid
-            layout={layout}
-            selectedSeat={selectedSeat}
-            onSeatSelect={isLoading || !!error ? () => {} : onSeatSelect}
-            allSeats={realTimeSeats}
-            selectedSeats={selectedSeats}
-            isSeatSelected={isSeatSelected}
-            isPerformerMode={isPerformerMode}
-            myAllSeats={myBookedSeats}
-          />
-        </div>
+    return { section: selectedSection, seats: seatsToUse };
+  };
 
-        <div className="h-28"></div>
+  const handleSeatSelect = useCallback(
+    (seat: Seat | null) => {
+      if (seat) selectSeat(seat, maxSelectableSeats);
+    },
+    [selectSeat, maxSelectableSeats],
+  );
 
-        <div className="h-24">
-          <SelectedSeatDisplay
-            selectedSeat={!isPerformerMode ? selectedSeatInfo : null}
-            selectedSection={selectedSection}
-            selectedSeats={isPerformerMode ? selectedSeats : undefined}
-          />
-        </div>
+  return (
+    <div className={cn("pb-20", className)}>
+      <div className="h-80">
+        <SeatGrid
+          layout={getLayout()}
+          selectedSeat={selectedSeat}
+          onSeatSelect={isLoading || !!error ? () => {} : handleSeatSelect}
+          allSeats={realTimeSeats}
+          selectedSeats={selectedSeats}
+          isSeatSelected={isSeatSelected}
+          isPerformerMode={isPerformerMode}
+          myAllSeats={myBookedSeats}
+        />
       </div>
-    );
-  },
-);
+
+      <div className="h-28" />
+
+      <div className="h-24">
+        <SelectedSeatDisplay
+          selectedSeat={!isPerformerMode ? selectedSeatInfo : null}
+          selectedSection={selectedSection}
+          selectedSeats={isPerformerMode ? selectedSeats : undefined}
+        />
+      </div>
+    </div>
+  );
+});
 
 SeatSection.displayName = "SeatSection";
 
