@@ -25,6 +25,7 @@ const ApplyThirdSection = () => {
       const now = new Date();
       setIsApplyOpen(now >= applyStartDate && now <= applyEndDate);
     };
+    check();
     const timer = setInterval(check, 60000);
     return () => clearInterval(timer);
   }, []);
