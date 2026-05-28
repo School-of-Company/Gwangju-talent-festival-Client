@@ -32,7 +32,7 @@ const SloganSecondSection = () => {
   }, []);
 
   return (
-    <section id="SloganSecondSection" className={cn("w-full mt-[3.5rem] mobile:mt-20 text-center")}>
+    <section id="SloganSecondSection" className={cn("w-full mt-[3.5rem] mobile:mt-20 pb-[40px] mobile:pb-[24px] text-center")}>
       <SectionTitle
         title={
           sloganEnded
