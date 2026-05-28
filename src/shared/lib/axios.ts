@@ -28,18 +28,28 @@ const processQueue = (error: unknown, token: string | null = null) => {
   failedQueue = [];
 };
 
+const redirectToSignin = () => {
+  if (typeof window === "undefined") return;
+
+  const currentPath = window.location.pathname;
+  if (currentPath === "/signin") return;
+
+  const search = window.location.search;
+  const isPublic = publicPages.some(p => currentPath.startsWith(p));
+  const nextParam = isPublic ? "" : `?next=${encodeURIComponent(currentPath + search)}`;
+  window.location.href = `/signin${nextParam}`;
+};
+
+const setAuthHeader = (config: InternalAxiosRequestConfig, token: string) => {
+  config.headers.set("Authorization", `Bearer ${token}`);
+};
+
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    if (typeof window !== "undefined") {
-      const isAuthPage = ["/signin", "/signup"].includes(window.location.pathname);
-      config.withCredentials = !isAuthPage;
+    if (typeof window === "undefined") return config;
 
-      const accessToken = getTokenFromCookie("accessToken");
-      if (accessToken) {
-        config.headers = config.headers ?? {};
-        (config.headers as Record<string, string>).Authorization = `Bearer ${accessToken}`;
-      }
-    }
+    const accessToken = getTokenFromCookie("accessToken");
+    if (accessToken) setAuthHeader(config, accessToken);
     return config;
   },
   (error: AxiosError) => Promise.reject(error),
@@ -51,37 +61,17 @@ instance.interceptors.response.use(
     if (typeof window === "undefined") return Promise.reject(error);
 
     const originalRequest = error.config as
-      | (InternalAxiosRequestConfig & {
-          _retry?: boolean;
-        })
+      | (InternalAxiosRequestConfig & { _retry?: boolean })
       | undefined;
-
     if (!originalRequest) return Promise.reject(error);
 
     const status = error.response?.status;
-
-    if (status === 403 || status === 401) {
-      clearTokens();
-      const currentPath = window.location.pathname;
-      const search = window.location.search;
-
-      if (currentPath !== "/signin") {
-        const shouldSaveNext = !publicPages.some((p: string) => currentPath.startsWith(p));
-        const nextParam = shouldSaveNext ? `?next=${encodeURIComponent(currentPath + search)}` : "";
-        window.location.href = `/signin${nextParam}`;
-      }
-
-      return Promise.reject(error);
-    }
-
     if (status !== 401 && status !== 403) return Promise.reject(error);
 
-    const url = originalRequest.url ?? "";
-    if (publicPages.some(p => url.includes(p))) {
-      return Promise.reject(error);
-    }
-
-    if (originalRequest._retry) {
+    const refreshToken = getTokenFromCookie("refreshToken");
+    if (!refreshToken || originalRequest._retry) {
+      clearTokens();
+      redirectToSignin();
       return Promise.reject(error);
     }
     originalRequest._retry = true;
@@ -90,11 +80,10 @@ instance.interceptors.response.use(
       return new Promise((resolve, reject) => {
         failedQueue.push({
           resolve: (token: string) => {
-            originalRequest.headers = originalRequest.headers ?? {};
-            (originalRequest.headers as Record<string, string>).Authorization = `Bearer ${token}`;
+            setAuthHeader(originalRequest, token);
             resolve(instance(originalRequest) as Promise<AxiosResponse>);
           },
-          reject: reject,
+          reject,
         });
       });
     }
@@ -105,33 +94,19 @@ instance.interceptors.response.use(
       const {
         access_token: accessToken,
         access_token_expired_at: accessTokenExpiredAt,
-        refresh_token: refreshToken,
+        refresh_token: newRefreshToken,
         refresh_token_expired_at: refreshTokenExpiredAt,
-      } = await refresh(getTokenFromCookie("refreshToken") ?? "");
+      } = await refresh(refreshToken);
 
-      setTokens(accessToken, accessTokenExpiredAt, refreshToken, refreshTokenExpiredAt);
-
+      setTokens(accessToken, accessTokenExpiredAt, newRefreshToken, refreshTokenExpiredAt);
       processQueue(null, accessToken);
-
-      originalRequest.headers = originalRequest.headers ?? {};
-      (originalRequest.headers as Record<string, string>).Authorization = `Bearer ${accessToken}`;
+      setAuthHeader(originalRequest, accessToken);
 
       return instance(originalRequest);
     } catch (refreshErr) {
       processQueue(refreshErr, null);
-
       clearTokens();
-
-      const currentPath = window.location.pathname;
-      const search = window.location.search;
-
-      if (!publicPages.some((p: string) => currentPath.startsWith(p))) {
-        const nextParam = `?next=${encodeURIComponent(currentPath + search)}`;
-        window.location.href = `/signin${nextParam}`;
-      } else {
-        window.location.href = "/signin";
-      }
-
+      redirectToSignin();
       return Promise.reject(refreshErr);
     } finally {
       isRefreshing = false;

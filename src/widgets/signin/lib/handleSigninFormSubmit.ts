@@ -2,6 +2,7 @@ import { signinSchema, SignInFormValues } from "@/entities/user/model/schema";
 import { AuthFormState } from "@/entities/user/lib/AuthFormState";
 import { signin } from "@/entities/user/api/signin";
 import { setTokens, setRole } from "@/shared/utils/auth";
+import { isSafeRedirectPath } from "@/shared/utils/safeRedirect";
 
 export const handleSigninFormSubmit = async (
   _previousState: AuthFormState,
@@ -39,11 +40,8 @@ export const handleSigninFormSubmit = async (
 
     setRole(response.role);
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const nextParam = urlParams.get("next");
-
-    const redirectTo =
-      nextParam && nextParam.startsWith("/") && nextParam !== "/signin" ? nextParam : "/home";
+    const nextParam = new URLSearchParams(window.location.search).get("next");
+    const redirectTo = isSafeRedirectPath(nextParam) ? nextParam : "/home";
 
     return {
       values,
