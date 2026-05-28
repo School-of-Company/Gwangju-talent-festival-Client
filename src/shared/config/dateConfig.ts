@@ -12,3 +12,14 @@ export const isSloganPeriod = () => {
   return now >= sloganStartDate && now <= sloganEndDate;
 };
 export const isSloganEnded = () => new Date() > sloganEndDate;
+
+export const applyStartDate = new Date(
+  process.env.NEXT_PUBLIC_APPLY_START_DATE ?? "2026-06-15T00:00:00+09:00",
+);
+export const applyEndDate = new Date(
+  process.env.NEXT_PUBLIC_APPLY_END_DATE ?? "2026-06-22T18:00:00+09:00",
+);
+export const isApplyPeriod = () => {
+  const now = new Date();
+  return now >= applyStartDate && now <= applyEndDate;
+};

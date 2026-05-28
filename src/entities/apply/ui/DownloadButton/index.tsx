@@ -6,9 +6,11 @@ import { useState } from "react";
 interface DownloadButtonProps {
   filePath: string;
   label: string;
+  className?: string;
+  iconColor?: string;
 }
 
-export const DownloadButton = ({ filePath, label }: DownloadButtonProps) => {
+export const DownloadButton = ({ filePath, label, className = "", iconColor }: DownloadButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDownload = async () => {
@@ -53,11 +55,11 @@ export const DownloadButton = ({ filePath, label }: DownloadButtonProps) => {
   return (
     <div>
       <span
-        className={`cursor-pointer text-main-600 underline text-body2b flex items-center gap-2 ${isLoading ? "opacity-50" : ""}`}
+        className={`cursor-pointer text-main-600 underline text-body2b flex items-center gap-2 ${isLoading ? "opacity-50" : ""} ${className}`}
         onClick={handleDownload}
       >
         {label}
-        <DownloadIcon color={colors.main[600]} />
+        <DownloadIcon color={iconColor ?? colors.main[600]} />
       </span>
     </div>
   );
