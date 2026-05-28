@@ -49,7 +49,7 @@ export const SeatSection = memo<SeatSectionProps>(({ className }) => {
     (event: { seat_section: Section; seat_number: number; is_available: boolean }) => {
       if (event.seat_section !== selectedSection) return;
 
-      if (!event.is_available && isPerformerMode) {
+      if (!event.is_available) {
         removeOccupiedSeat(event.seat_section, event.seat_number.toString());
       }
 
@@ -95,7 +95,7 @@ export const SeatSection = memo<SeatSectionProps>(({ className }) => {
         );
       }
     },
-    [selectedSection, queryClient, isPerformerMode, removeOccupiedSeat],
+    [selectedSection, queryClient, removeOccupiedSeat],
   );
 
   useSeatChangeSSE({ onSeatChange: handleSeatChange, enabled: !!selectedSection });
