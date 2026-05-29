@@ -2,9 +2,16 @@
 
 import { useState, useEffect } from "react";
 import SloganMarquee from "@/entities/home/ui/SloganMarquee";
+import PrizeItem from "@/entities/home/ui/PrizeItem";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
 import { sloganStartDate, sloganEndDate, isSloganEnded } from "@/shared/config/dateConfig";
+
+const PRIZE_LIST = [
+  { rank: "2등", bg: "bg-gray-400", emoji: "🍗", desc: "치킨 세트" },
+  { rank: "1등", bg: "bg-[#E8B84B]", emoji: "🎁", desc: "수상자 해당 학습 간식" },
+  { rank: "3등", bg: "bg-[#9B5E3B]", emoji: "🍔", desc: "햄버거 세트" },
+];
 
 // import { formatDate } from "@/shared/utils/formatDate";
 // import Button from "@/shared/ui/Button";
@@ -74,6 +81,11 @@ const SloganSecondSection = () => {
       </div> */}
 
       <div className={cn("mt-[54px] mb-[10px] flex flex-col items-center gap-8")}>
+        <div className={cn("w-full flex justify-center gap-[60px] mobile:gap-[24px] mb-[24px]")}>
+          {PRIZE_LIST.map((item) => (
+            <PrizeItem key={item.rank} {...item} />
+          ))}
+        </div>
         <p className={cn("text-body2b mobile:text-body3b text-gray-700")}>
           공모 접수내용에 대해 심사중입니다.
         </p>
