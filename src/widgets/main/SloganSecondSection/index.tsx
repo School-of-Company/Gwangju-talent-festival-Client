@@ -1,20 +1,28 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import SloganMarquee from "@/entities/home/ui/SloganMarquee";
-import Button from "@/shared/ui/Button";
+import PrizeItem from "@/entities/home/ui/PrizeItem";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
-import { formatDate } from "@/shared/utils/formatDate";
 import { sloganStartDate, sloganEndDate, isSloganEnded } from "@/shared/config/dateConfig";
-import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
+
+const PRIZE_LIST = [
+  { rank: "2등", bg: "bg-gray-400", emoji: "🍗", desc: "치킨 세트" },
+  { rank: "1등", bg: "bg-[#E8B84B]", emoji: "🎁", desc: "수상자 해당 학습 간식" },
+  { rank: "3등", bg: "bg-[#9B5E3B]", emoji: "🍔", desc: "햄버거 세트" },
+];
+
+// import { formatDate } from "@/shared/utils/formatDate";
+// import Button from "@/shared/ui/Button";
+// import { useRouter } from "next/navigation";
+// import { ArrowBack } from "@/shared/asset/svg/ArrowBack";
 
 const SLOGAN_YEAR = sloganStartDate.getFullYear();
-const submissionPeriodText = `공모기간 : ${SLOGAN_YEAR}.${formatDate(sloganStartDate)}~${formatDate(sloganEndDate)}`;
+// const submissionPeriodText = `공모기간 : ${SLOGAN_YEAR}.${formatDate(sloganStartDate)}~${formatDate(sloganEndDate)}`;
 
 const SloganSecondSection = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
   const [isSloganPeriod, setIsSloganPeriod] = useState(() => {
     const now = new Date();
@@ -32,7 +40,10 @@ const SloganSecondSection = () => {
   }, []);
 
   return (
-    <section id="SloganSecondSection" className={cn("w-full mt-[3.5rem] mobile:mt-20 pb-[40px] mobile:pb-[24px] text-center")}>
+    <section
+      id="SloganSecondSection"
+      className={cn("w-full mt-[3.5rem] mobile:mt-20 pb-[40px] mobile:pb-[24px] text-center")}
+    >
       <SectionTitle
         title={
           sloganEnded
@@ -53,7 +64,7 @@ const SloganSecondSection = () => {
 
       <SloganMarquee />
 
-      <Button
+      {/* <Button
         type="button"
         onClick={() => router.push("/slogan")}
         className={cn("mobile:mb-[12px] px-28 mt-[54px] mb-[10px] rounded-lg")}
@@ -67,6 +78,18 @@ const SloganSecondSection = () => {
 
       <div className={cn("text-caption1r mobile:text-caption2r text-gray-400")}>
         {submissionPeriodText}
+      </div> */}
+
+      <div className={cn("mt-[54px] mb-[10px] flex flex-col items-center gap-8")}>
+        <div className={cn("w-full flex justify-center gap-[60px] mobile:gap-[24px] mb-[24px]")}>
+          {PRIZE_LIST.map((item) => (
+            <PrizeItem key={item.rank} {...item} />
+          ))}
+        </div>
+        <p className={cn("text-body2b mobile:text-body3b text-gray-700")}>
+          공모 접수내용에 대해 심사중입니다.
+        </p>
+        <p className={cn("text-body3r text-gray-700")}>결과발표 : 2026. 6. 9.(예정)</p>
       </div>
     </section>
   );

@@ -3,10 +3,9 @@ type PrizeItemProps = Readonly<{
   bg: string;
   emoji: string;
   desc: string;
-  slogan: string;
 }>;
 
-const PrizeItem: React.FC<PrizeItemProps> = ({ rank, bg, emoji, desc, slogan }) => {
+const PrizeItem: React.FC<PrizeItemProps> = ({ rank, bg, emoji, desc }) => {
   return (
     <div key={rank} className="flex flex-col items-center gap-[16px]">
       <div
@@ -14,10 +13,9 @@ const PrizeItem: React.FC<PrizeItemProps> = ({ rank, bg, emoji, desc, slogan }) 
       >
         {rank}
       </div>
-      <div className="flex flex-col gap-[2px]">
-        <div className="text-lg mobile:text-caption1b text-gray-400">{emoji}</div>
-        <div className="text-lg mobile:text-caption1b">{desc}</div>
-        <div className={`text-lg mobile:text-caption1b `}>{slogan}</div>
+      <div className="flex items-center gap-[6px] text-lg mobile:text-caption1b font-semibold">
+        <span>{emoji}</span>
+        <span>{desc}</span>
       </div>
     </div>
   );
