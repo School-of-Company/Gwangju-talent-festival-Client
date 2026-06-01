@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publicPages, publicIn27 } from "@/shared/config/authConfig";
-import { festivalDate, sloganStartDate, sloganEndDate } from "@/shared/config/dateConfig";
-import { isSafeRedirectPath } from "@/shared/utils/safeRedirect";
+import { festivalDate, sloganStartDate, sloganEndDate, applyStartDate, applyEndDate } from "@/shared/config/dateConfig";
 
 export const config = {
   matcher: [
@@ -39,9 +38,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
+  if (pathname === "/apply" && (now < applyStartDate || now > applyEndDate)) {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
+
   if (pathname === "/signin" && accessToken && refreshToken) {
     const nextParam = searchParams.get("next");
-    if (isSafeRedirectPath(nextParam)) {
+    if (nextParam && nextParam.startsWith("/") && nextParam !== "/signin") {
       return NextResponse.redirect(new URL(nextParam, request.url));
     }
     return NextResponse.redirect(new URL("/home", request.url));

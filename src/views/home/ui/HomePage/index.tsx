@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import IntroFirstSection from "@/widgets/main/IntroFirstSection";
 import SloganSecondSection from "@/widgets/main/SloganSecondSection";
+import ApplyThirdSection from "@/widgets/main/ApplyThirdSection";
 import LazySection from "@/shared/ui/LazySection";
 import SloganPosterPopup from "@/widgets/main/SloganPosterPopup";
 
@@ -50,6 +51,8 @@ const HomePage = () => {
       <SloganPosterPopup />
       <IntroFirstSection />
       <SloganSecondSection />
+
+      <ApplyThirdSection />
 
       <LazySection fallback={<SectionPlaceholder height="600px" />} rootMargin="200px">
         <PreliminaryFourthSection />

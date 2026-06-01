@@ -26,7 +26,7 @@ const INFORM_ITEMS: InformItem[] = [
   "참가팀원(전원)은 1인 1팀으로만 신청 가능하며, 중복 참여는 불가",
   "참가팀원(전원)은 광주 관내 거주자(주민등록)이거나 광주소재 교육기관 소속인자만 신청 가능",
   "영상 심사 곡, 예선, 본선 경연곡은 동일할 필요는 없으며, 단, 영상 심사 곡과 예선 곡은 동일한 곡을 사용하는 것을 권장합니다.",
-  "'光트로' 예선 진출 팀은 7월 2일(수) 광탈페.kr 홈페이지에 공지됩니다.",
+  "'光트로' 예선 진출 팀은 7월 3일(금) 광탈페.kr 홈페이지에 공지됩니다.",
 ];
 
 const METHOD_ITEMS: MethodItem[] = [
@@ -66,18 +66,22 @@ export const ApplyPage: FC = () => {
         <div className="flex items-center gap-2 ml-2 py-10">
           <Inform color={colors.gray[500]} />
           <p className="text-gray-500">
-            제출 기간: 2025. 6. 16.(월) ~ 6. 20.(금) 18:00까지 접수분에 한함
+            제출 기간: 2026. 6. 15.(월) ~ 6. 22.(월) 18:00까지 접수분에 한함
           </p>
         </div>
 
         <div className="flex gap-20 mt-4 justify-start pb-28 mobile:flex-col">
           <DownloadButton
-            filePath="/files/2025 광탈페 참가 신청서(팀이름).hwp"
+            filePath="/files/2026 광탈페 참가 신청서(서식)_v1.hwp"
             label="참가 신청서"
+            className="!text-orange-500"
+            iconColor={colors.orange[500]}
           />
           <DownloadButton
-            filePath="/files/2025 광탈페 참가신청 개인정보제공활용 동의서(팀이름).pdf"
-            label="개인정보 제공, 활용 동의서"
+            filePath="/files/2026 광탈페 참가신청 개인정보제공활용 동의서_v1.pdf"
+            label="개인정보제공활용동의서"
+            className="!text-orange-500"
+            iconColor={colors.orange[500]}
           />
         </div>
 

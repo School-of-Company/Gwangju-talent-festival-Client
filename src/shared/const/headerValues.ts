@@ -8,10 +8,21 @@ export const isHiddenPath = (pathname: string): boolean => {
   return HIDDEN_PREFIXES.some(prefix => matchesSegment(pathname, prefix));
 };
 
-export const links = [
+export type SectionId =
+  | "SloganSecondSection"
+  | "ApplyThirdSection"
+  | "PreliminaryFourthSection"
+  | "FinalsSixthSection";
+
+export interface HeaderLink {
+  section: SectionId;
+  label: string;
+}
+
+export const links: HeaderLink[] = [
   { section: "SloganSecondSection", label: "2026 광탈페 슬로건" },
   // { section: "section3", label: "FaQ" },
-  { section: "PreliminaryFourthSection", label: "2025 광탈페 예선 다시보기" },
-  { section: "FinalsSixthSection", label: "2025 광탈페 본선 다시보기" },
+  { section: "ApplyThirdSection", label: "2026 광탈페 참가신청" },
+  { section: "PreliminaryFourthSection", label: "2025 광탈페 다시보기" },
   // { section: "ReservationFifthSection", label: "본선 수상팀 명단" },
 ];

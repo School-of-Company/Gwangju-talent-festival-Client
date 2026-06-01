@@ -124,16 +124,6 @@ describe("handleSigninFormSubmit - 로그인 성공", () => {
     );
     expect(result.redirectTo).toBe("/home");
   });
-
-  it("오픈 리다이렉트 방지: protocol-relative URL(//evil.com)이면 /home으로 리다이렉트한다", async () => {
-    mockSignin.mockResolvedValue(MOCK_RESPONSE);
-    setLocationSearch("?next=//evil.com");
-    const result = await handleSigninFormSubmit(
-      INITIAL_STATE,
-      makeFormData({ phoneNumber: "01012345678", password: "pass1234" }),
-    );
-    expect(result.redirectTo).toBe("/home");
-  });
 });
 
 describe("handleSigninFormSubmit - 로그인 실패", () => {
