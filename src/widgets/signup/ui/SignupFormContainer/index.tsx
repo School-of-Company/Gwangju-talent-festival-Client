@@ -56,7 +56,7 @@ const SignupFormContainer = () => {
 
     try {
       const response = await sendVerificationCode({
-        phone_number: phoneNumber,
+        phoneNumber: phoneNumber,
       });
 
       if (response.success) {

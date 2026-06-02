@@ -43,7 +43,7 @@ export interface SignInResponse {
 }
 
 export interface PhoneVerificationRequest {
-  phone_number: string;
+  phoneNumber: string;
 }
 
 export interface PhoneVerificationResponse {
