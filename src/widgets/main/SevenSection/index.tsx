@@ -9,7 +9,7 @@ export default function SevenSection() {
   // const totalWidth = 18.4375 * GITHUB_ID.length;
   return (
     <section id="SevenSection" className={cn("flex flex-col items-center mt-20 mb-120 mobile:mb-60")}>
-      <div className={cn("w-[75%] mobile:w-full mobile:px-10")}>
+      <div className={cn("w-[75%] mobile:w-full mobile:px-16")}>
         <SectionTitle
           title="광탈페 운영진 소개"
           description="로고 클릭 시 인스타로 이동합니다"

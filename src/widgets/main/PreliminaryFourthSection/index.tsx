@@ -34,17 +34,17 @@ const PreliminaryFourthSection = () => {
             <div
               key={videoId}
               className={cn(
-                "flex w-full flex-col items-start gap-10 justify-between mb-90 mobile:mb-38",
+                "flex w-full flex-col items-start gap-10 justify-between mb-90 mobile:mb-38 mobile:px-16",
               )}
             >
               <h2
                 className={cn(
-                  "text-body2b mobile:text-body3b place-self-start mb-8 mobile:mb-0 mobile:ml-12",
+                  "text-body2b mobile:text-body3b place-self-start mb-8 mobile:mb-0",
                 )}
               >
                 {title}
               </h2>
-              <div className={cn("w-full mobile:mt-16 mobile:px-16")}>
+              <div className={cn("w-full mobile:mt-16")}>
                 <YouTubeLazyEmbed videoId={videoId} title={title} />
               </div>
             </div>

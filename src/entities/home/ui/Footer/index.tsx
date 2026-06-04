@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="py-24 bg-gray-100 flex items-center justify-center gap-[5%] text-black mobile:pr-[70px]">
-      <ul className="flex items-center sm:text-body3r text-caption2r gap-5 mobile:flex-col mobile:gap-0">
+    <footer className="py-24 bg-gray-100 flex items-center justify-center gap-[5%] text-black mobile:flex-col mobile:gap-12 mobile:py-20 mobile:px-16">
+      <ul className="flex items-center sm:text-body3r text-caption2r gap-5 mobile:flex-col mobile:gap-4 mobile:items-center mobile:text-center">
         <p>&copy; 2026 光탈페. All rights reserved. </p>
         <a
           className="pr-8 underline underline-offset-4"
