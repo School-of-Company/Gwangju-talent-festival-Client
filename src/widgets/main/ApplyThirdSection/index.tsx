@@ -86,7 +86,7 @@ const ApplyThirdSection = () => {
 
       {/* 본문 */}
       <div className="relative z-10 flex flex-col items-center text-center py-[80px] mobile:py-[52px] px-[80px] tablet:px-[40px] mobile:px-16 gap-24 mobile:gap-16">
-        <h2 className="text-title2b tablet:text-title4b mobile:text-h4b text-black">2026 광탈페 참가신청</h2>
+        <h2 className="text-title2b tablet:text-title4b mobile:text-body1b text-black">2026 광탈페 참가신청</h2>
 
         <p className="text-body3r tablet:text-body3r mobile:text-body3r text-gray-700">
           신청기간 : 2026.6.15(월) ~ 6.22(월) 18:00

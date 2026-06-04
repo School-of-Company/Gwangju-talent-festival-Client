@@ -52,7 +52,7 @@ const SloganSecondSection = () => {
         }
         description={
           <>
-            <span className="text-black text-body2b">
+            <span className="text-black text-body2b mobile:text-body3b">
               세상의 무대 위, 광탈페! 너의 꿈이 시작되는 순간!
             </span>
             <span className={cn("block")}>
