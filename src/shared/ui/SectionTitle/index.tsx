@@ -10,7 +10,7 @@ type SectionTitleProps = Readonly<{
 export const SectionTitle = ({ title, description, className }: SectionTitleProps) => {
   return (
     <div className={cn("w-full text-center", className)}>
-      <p className={cn("text-title1b mobile:text-body2b break-keep")}>{title}</p>
+      <h2 className={cn("text-title1b mobile:text-body2b break-keep")}>{title}</h2>
       {description && (
         <p
           className={cn(
