@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Footer() {
   return (
     <footer className="py-24 bg-gray-100 flex items-center justify-center gap-[5%] text-black mobile:flex-col mobile:gap-12 mobile:py-20 mobile:px-16">
-      <ul className="flex items-center sm:text-body3r text-caption2r gap-5 mobile:flex-col mobile:gap-4 mobile:items-center mobile:text-center">
+      <div className="flex items-center sm:text-body3r text-caption2r gap-5 mobile:flex-col mobile:gap-4 mobile:items-center mobile:text-center">
         <p>&copy; 2026 光탈페. All rights reserved. </p>
         <a
           className="pr-8 underline underline-offset-4"
@@ -17,7 +17,7 @@ export default function Footer() {
         <li className="pl-8 border-l border-white/40 underline underline-offset-4">
           저작권신고 및 보호규정
         </li> */}
-      </ul>
+      </div>
       <div className="flex items-center gap-10">
         <Image
           src="/images/gwanglogo.jpg"
