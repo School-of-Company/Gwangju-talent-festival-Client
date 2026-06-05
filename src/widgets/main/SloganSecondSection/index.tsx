@@ -5,7 +5,7 @@ import SloganMarquee from "@/entities/home/ui/SloganMarquee";
 import PrizeItem from "@/entities/home/ui/PrizeItem";
 import { cn } from "@/shared/utils/cn";
 import { SectionTitle } from "@/shared/ui/SectionTitle";
-import { sloganStartDate, sloganEndDate, isSloganEnded } from "@/shared/config/dateConfig";
+import { sloganStartDate, sloganEndDate } from "@/shared/config/dateConfig";
 
 const PRIZE_LIST = [
   { rank: "2등", bg: "bg-gray-400", emoji: "🍗", desc: "치킨 세트" },
@@ -24,18 +24,18 @@ const SLOGAN_YEAR = sloganStartDate.getFullYear();
 const SloganSecondSection = () => {
   // const router = useRouter();
 
-  const [isSloganPeriod, setIsSloganPeriod] = useState(() => {
-    const now = new Date();
-    return now >= sloganStartDate && now <= sloganEndDate;
-  });
+  const [isSloganPeriod, setIsSloganPeriod] = useState(false);
   const [sloganEnded, setSloganEnded] = useState(false);
   useEffect(() => {
-    setSloganEnded(isSloganEnded());
-    const timer = setInterval(() => {
+    const updateSloganStatus = () => {
       const now = new Date();
       setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
-      setSloganEnded(isSloganEnded());
-    }, 60000);
+      setSloganEnded(now > sloganEndDate);
+    };
+
+    updateSloganStatus();
+
+    const timer = setInterval(updateSloganStatus, 60000);
     return () => clearInterval(timer);
   }, []);
 
