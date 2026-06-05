@@ -32,7 +32,7 @@ const IntroFirstSection = () => {
         )}
       >
         <div className={cn("w-full", "max-w-[1060px]", "mx-auto", "px-4", "text-white", "tablet:px-8", "mobile:px-6")}>
-          <h1 className={cn("text-[clamp(0.875rem,calc(-1.982rem+7.14vw),2.75rem)]", "tablet:text-[clamp(0.875rem,calc(-1.5rem+6vw),2rem)]", "mobile:text-[clamp(0.875rem,calc(-1.5rem+6vw),2rem)]", "font-bold", "leading-[120%]")}>
+          <h1 className={cn("text-[clamp(0.875rem,calc(-1.982rem+7.14vw),2.75rem)]", "tablet:text-[clamp(0.875rem,calc(-1.5rem+6vw),2rem)]", "mobile:text-[clamp(1.125rem,5.3vw,2rem)]", "font-bold", "leading-[120%]")}>
             光탈페 (광주학생탈렌트페스티벌)
           </h1>
           <p
@@ -40,7 +40,7 @@ const IntroFirstSection = () => {
               "mt-[clamp(0.5rem,calc(-0.5rem+2.5vw),1.5rem)]",
               "text-[clamp(0.6875rem,calc(-1.3125rem+5vw),2rem)]",
               "tablet:text-[clamp(0.6875rem,calc(-0.8125rem+4vw),1.5rem)]",
-              "mobile:text-[clamp(0.6875rem,calc(-0.8125rem+4vw),1.5rem)]",
+              "mobile:text-[clamp(0.875rem,3.8vw,1.5rem)]",
               "leading-[130%]",
               "break-keep",
             )}
