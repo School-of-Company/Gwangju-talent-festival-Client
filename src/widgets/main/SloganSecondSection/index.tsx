@@ -24,16 +24,17 @@ const SLOGAN_YEAR = sloganStartDate.getFullYear();
 const SloganSecondSection = () => {
   // const router = useRouter();
 
-  const [isSloganPeriod, setIsSloganPeriod] = useState(() => {
-    const now = new Date();
-    return now >= sloganStartDate && now <= sloganEndDate;
-  });
+  const [isSloganPeriod, setIsSloganPeriod] = useState(false);
   const [sloganEnded, setSloganEnded] = useState(false);
   useEffect(() => {
-    setSloganEnded(isSloganEnded());
-    const timer = setInterval(() => {
+    const checkSloganPeriod = () => {
       const now = new Date();
       setIsSloganPeriod(now >= sloganStartDate && now <= sloganEndDate);
+    };
+    checkSloganPeriod();
+    setSloganEnded(isSloganEnded());
+    const timer = setInterval(() => {
+      checkSloganPeriod();
       setSloganEnded(isSloganEnded());
     }, 60000);
     return () => clearInterval(timer);
