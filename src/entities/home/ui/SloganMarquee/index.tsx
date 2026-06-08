@@ -18,21 +18,32 @@ const assignFonts = (slogans1: ReadonlyArray<string>, slogans2: ReadonlyArray<st
   return [fonts1, fonts2] as const;
 };
 
-const SloganMarquee = (): React.ReactElement => {
+type SloganMarqueeProps = Readonly<{
+  extraSlogans?: ReadonlyArray<string>;
+}>;
+
+const SloganMarquee = ({ extraSlogans }: SloganMarqueeProps): React.ReactElement => {
   const [slogans1, setSlogans1] = useState<ReadonlyArray<string>>([]);
   const [slogans2, setSlogans2] = useState<ReadonlyArray<string>>([]);
   const [fonts1, setFonts1] = useState<ReadonlyArray<FontType>>([]);
   const [fonts2, setFonts2] = useState<ReadonlyArray<FontType>>([]);
 
   const initializeSlogans = useCallback(() => {
-    let firstSlogans: ReadonlyArray<string>;
-    let secondSlogans: ReadonlyArray<string>;
+    let firstSlogans: string[];
+    let secondSlogans: string[];
 
     try {
-      [firstSlogans, secondSlogans] = getRandomSubset(slogansMock, 8);
+      const [s1, s2] = getRandomSubset(slogansMock, 8);
+      firstSlogans = [...s1];
+      secondSlogans = [...s2];
     } catch {
-      firstSlogans = slogansMock.slice(0, 4);
-      secondSlogans = slogansMock.slice(4, 8);
+      firstSlogans = [...slogansMock.slice(0, 4)];
+      secondSlogans = [...slogansMock.slice(4, 8)];
+    }
+
+    if (extraSlogans && extraSlogans.length > 0) {
+      firstSlogans = [...firstSlogans, ...extraSlogans].sort(() => Math.random() - 0.5);
+      secondSlogans = [...secondSlogans, ...extraSlogans].sort(() => Math.random() - 0.5);
     }
 
     const [f1, f2] = assignFonts(firstSlogans, secondSlogans);
@@ -40,7 +51,7 @@ const SloganMarquee = (): React.ReactElement => {
     setSlogans2(secondSlogans);
     setFonts1(f1);
     setFonts2(f2);
-  }, []);
+  }, [extraSlogans]);
 
   useEffect(() => {
     initializeSlogans();
