@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, vi } from "vitest"
 import { renderHook, act } from "@testing-library/react"
 import { usePerformerSeatSelection } from "../usePerformerSeatSelection"
 import { Seat, Section, SeatStatus, SEAT_STATUS } from "@/entities/booking/model/types"
+import { useBookingStore } from "@/entities/booking/model/bookingStore"
 
 const makeSeat = (seatNumber: string, section: Section = "A", status: SeatStatus = SEAT_STATUS.AVAILABLE): Seat => ({
   seatNumber,
@@ -11,6 +12,12 @@ const makeSeat = (seatNumber: string, section: Section = "A", status: SeatStatus
 
 beforeEach(() => {
   vi.clearAllMocks()
+  useBookingStore.setState({
+    selectedSection: null,
+    selectedSeat: null,
+    selectedSeats: [],
+    isPerformerMode: true,
+  })
 })
 
 describe("usePerformerSeatSelection - 초기 상태", () => {
