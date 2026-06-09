@@ -84,6 +84,26 @@ const ApplyThirdSection = () => {
         />
       </div>
 
+      {/* 모바일 좌상단 데코 */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/apply-deco-left.png"
+        alt=""
+        width={120}
+        height={120}
+        className="absolute left-0 top-0 pointer-events-none select-none hidden mobile:block w-[120px] h-auto"
+      />
+
+      {/* 모바일 우하단 데코 */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/apply-deco-right.png"
+        alt=""
+        width={120}
+        height={120}
+        className="absolute right-0 bottom-0 pointer-events-none select-none hidden mobile:block w-[120px] h-auto"
+      />
+
       {/* 본문 */}
       <div className="relative z-10 flex flex-col items-center text-center py-[80px] mobile:py-[52px] px-[80px] tablet:px-[40px] mobile:px-16 gap-24 mobile:gap-16">
         <h2 className="text-title2b tablet:text-title4b mobile:text-body1b text-black">2026 광탈페 참가신청</h2>
@@ -110,13 +130,13 @@ const ApplyThirdSection = () => {
 
         <div className="flex gap-40 mobile:flex-col mobile:gap-12 mobile:items-center">
           <DownloadButton
-            filePath="/files/2026 광탈페 참가 신청서(서식)_v1.hwp"
+            filePath="/files/2026 광탈페 참가 신청서(서식).hwp"
             label="참가 신청서"
             className="!text-orange-500 text-body3b tablet:text-body3b mobile:text-caption1b"
             iconColor={colors.orange[500]}
           />
           <DownloadButton
-            filePath="/files/2026 광탈페 참가신청 개인정보제공활용 동의서_v1.pdf"
+            filePath="/files/2026 광탈페 참가신청 개인정보제공활용 동의서.pdf"
             label="개인정보제공활용동의서"
             className="!text-orange-500 text-body3b tablet:text-body3b mobile:text-caption1b"
             iconColor={colors.orange[500]}
