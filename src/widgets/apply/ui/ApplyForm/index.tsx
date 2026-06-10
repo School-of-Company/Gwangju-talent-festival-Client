@@ -114,7 +114,7 @@ export const ApplyForm: FC = () => {
   const validateAndSetFile = (
     acceptedExt: string,
     setter: (state: FileState) => void,
-    e: ChangeEvent<HTMLInputElement>
+    e: ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -191,6 +191,41 @@ export const ApplyForm: FC = () => {
       </Modal>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-40 pb-28">
+        <div className="flex flex-col gap-16">
+          <h2 className="text-body2b border-b border-gray-100 pb-3">서식 다운로드</h2>
+          <p className="text-caption1r text-gray-400">
+            아래 서식을 먼저 다운로드하여 작성한 후 파일 첨부 항목에 업로드해주세요.
+          </p>
+          <div className="flex flex-col gap-12">
+            <div className="flex items-center justify-between px-16 py-14 rounded-xl border border-gray-100 bg-gray-50">
+              <div className="flex flex-col gap-2">
+                <span className="text-body3b">참가신청서</span>
+                <span className="text-caption1r text-gray-400">작성 후 PDF로 변환하여 제출</span>
+              </div>
+              <DownloadButton
+                filePath="/files/2026 광탈페 참가 신청서(서식).hwp"
+                label="다운로드"
+                className="!text-caption1r !text-orange-500"
+                iconColor={colors.orange[500]}
+              />
+            </div>
+            <div className="flex items-center justify-between px-16 py-14 rounded-xl border border-gray-100 bg-gray-50">
+              <div className="flex flex-col gap-2">
+                <span className="text-body3b">개인정보활용동의서</span>
+                <span className="text-caption1r text-gray-400">
+                  팀원 전체 서명 후 PDF로 통합하여 제출
+                </span>
+              </div>
+              <DownloadButton
+                filePath="/files/2026 광탈페 참가신청 개인정보제공활용 동의서.pdf"
+                label="다운로드"
+                className="!text-caption1r !text-orange-500"
+                iconColor={colors.orange[500]}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="flex flex-col gap-24">
           <h2 className="text-body2b border-b border-gray-100 pb-3">참가 정보 입력</h2>
           {FIELD_CONFIG.map(({ name, label, placeholder }) => (
@@ -210,7 +245,6 @@ export const ApplyForm: FC = () => {
 
         <div className="flex flex-col gap-24">
           <h2 className="text-body2b border-b border-gray-100 pb-3">파일 첨부</h2>
-
           {/* 참가신청서 */}
           <div className="flex flex-col gap-8">
             <div className="flex flex-wrap items-center gap-2">
@@ -218,19 +252,18 @@ export const ApplyForm: FC = () => {
               <span className="text-caption1r bg-orange-100 text-orange-500 px-8 py-2 rounded-md font-medium">
                 PDF만 가능
               </span>
-              <DownloadButton
-                filePath="/files/2026 광탈페 참가 신청서(서식).hwp"
-                label="참가신청서 다운로드"
-                className="!text-caption1r !text-orange-500"
-                iconColor={colors.orange[500]}
-              />
             </div>
             {applicationFile.file ? (
               <div className="w-full h-[50px] rounded-md border border-orange-500 bg-orange-50 px-16 flex items-center gap-8">
-                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">✓ {applicationFile.file.name}</span>
+                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
+                  ✓ {applicationFile.file.name}
+                </span>
                 <FileActionButtons
                   onPreview={() => handlePreview(applicationFile.file!)}
-                  onDelete={() => { setApplicationFile(INITIAL_FILE); if (appFileRef.current) appFileRef.current.value = ""; }}
+                  onDelete={() => {
+                    setApplicationFile(INITIAL_FILE);
+                    if (appFileRef.current) appFileRef.current.value = "";
+                  }}
                 />
               </div>
             ) : (
@@ -261,19 +294,18 @@ export const ApplyForm: FC = () => {
               <span className="text-caption1r bg-orange-100 text-orange-500 px-8 py-2 rounded-md font-medium">
                 PDF만 가능
               </span>
-              <DownloadButton
-                filePath="/files/2026 광탈페 참가신청 개인정보제공활용 동의서.pdf"
-                label="개인정보활용동의서 다운로드"
-                className="!text-caption1r !text-orange-500"
-                iconColor={colors.orange[500]}
-              />
             </div>
             {privacyFile.file ? (
               <div className="w-full h-[50px] rounded-md border border-orange-500 bg-orange-50 px-16 flex items-center gap-8">
-                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">✓ {privacyFile.file.name}</span>
+                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
+                  ✓ {privacyFile.file.name}
+                </span>
                 <FileActionButtons
                   onPreview={() => handlePreview(privacyFile.file!)}
-                  onDelete={() => { setPrivacyFile(INITIAL_FILE); if (privFileRef.current) privFileRef.current.value = ""; }}
+                  onDelete={() => {
+                    setPrivacyFile(INITIAL_FILE);
+                    if (privFileRef.current) privFileRef.current.value = "";
+                  }}
                 />
               </div>
             ) : (
@@ -310,10 +342,15 @@ export const ApplyForm: FC = () => {
             </p>
             {videoFile.file ? (
               <div className="w-full h-[50px] rounded-md border border-orange-500 bg-orange-50 px-16 flex items-center gap-8">
-                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">✓ {videoFile.file.name}</span>
+                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
+                  ✓ {videoFile.file.name}
+                </span>
                 <FileActionButtons
                   onPreview={() => handlePreview(videoFile.file!)}
-                  onDelete={() => { setVideoFile(INITIAL_FILE); if (vidFileRef.current) vidFileRef.current.value = ""; }}
+                  onDelete={() => {
+                    setVideoFile(INITIAL_FILE);
+                    if (vidFileRef.current) vidFileRef.current.value = "";
+                  }}
                 />
               </div>
             ) : (
@@ -325,9 +362,7 @@ export const ApplyForm: FC = () => {
                 클릭하여 MP4 파일 선택
               </button>
             )}
-            {videoFile.error && (
-              <p className="text-caption1r text-red-500">{videoFile.error}</p>
-            )}
+            {videoFile.error && <p className="text-caption1r text-red-500">{videoFile.error}</p>}
             <input
               ref={vidFileRef}
               type="file"

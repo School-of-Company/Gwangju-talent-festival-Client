@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const fileName = `${field}_${teamName}_${school}_${representative}_${contact}`;
+    const fileName = `${field}_${representative}_${school}_${teamName}_${contact}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
           contentType: "application/pdf",
         },
         {
-          filename: videoFile.name,
+          filename: `${fileName}.mp4`,
           content: vidBuffer,
           contentType: "video/mp4",
         },
