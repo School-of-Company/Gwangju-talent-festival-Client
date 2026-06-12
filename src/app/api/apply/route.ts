@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
 
+    const applyId = formData.get("applyId") as string;
     const field = formData.get("field") as string;
     const teamName = formData.get("teamName") as string;
     const school = formData.get("school") as string;
@@ -16,19 +17,17 @@ export async function POST(req: NextRequest) {
 
     const applicationFile = formData.get("applicationFile") as File | null;
     const privacyFile = formData.get("privacyFile") as File | null;
-    const videoFile = formData.get("videoFile") as File | null;
 
-    if (!field || !teamName || !school || !representative || !contact) {
+    if (!applyId || !field || !teamName || !school || !representative || !contact) {
       return NextResponse.json({ message: "모든 항목을 입력해주세요." }, { status: 400 });
     }
 
-    if (!applicationFile || !privacyFile || !videoFile) {
+    if (!applicationFile || !privacyFile) {
       return NextResponse.json({ message: "모든 파일을 첨부해주세요." }, { status: 400 });
     }
 
     const appExt = applicationFile.name.split(".").pop()?.toLowerCase();
     const privExt = privacyFile.name.split(".").pop()?.toLowerCase();
-    const vidExt = videoFile.name.split(".").pop()?.toLowerCase();
 
     if (appExt !== "pdf") {
       return NextResponse.json(
@@ -42,36 +41,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    if (vidExt !== "mp4") {
-      return NextResponse.json(
-        { message: "공연 영상은 MP4 파일만 제출 가능합니다." },
-        { status: 400 }
-      );
-    }
 
     const fileName = `${field}_${teamName}_${school}_${representative}_${contact}`;
-
-    const videoFormData = new FormData();
-    videoFormData.append("file", videoFile);
-
-    const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/apply`;
-    console.error("[apply] 영상 업로드 요청:", backendUrl);
-
-    const uploadRes = await fetch(backendUrl, {
-      method: "POST",
-      body: videoFormData,
-    });
-
-    if (!uploadRes.ok) {
-      const errBody = await uploadRes.text().catch(() => "");
-      console.error(`[apply] 백엔드 업로드 실패 status=${uploadRes.status}`, errBody);
-      return NextResponse.json(
-        { message: "영상 업로드에 실패했습니다. 잠시 후 다시 시도해주세요." },
-        { status: 500 }
-      );
-    }
-
-    const { applyId } = (await uploadRes.json()) as { applyId: number; videoUrl: string };
 
     const origin = req.nextUrl.origin;
     const downloadUrl = `${origin}/admin/apply/${applyId}?key=${process.env.ADMIN_DOWNLOAD_KEY}&name=${encodeURIComponent(fileName)}`;

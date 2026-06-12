@@ -70,6 +70,7 @@ export const ApplyForm: FC = () => {
   const [videoFile, setVideoFile] = useState<FileState>(INITIAL_FILE);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewType, setPreviewType] = useState<"pdf" | "video">("pdf");
 
@@ -156,21 +157,25 @@ export const ApplyForm: FC = () => {
 
     try {
       setIsSubmitting(true);
-      await postApply({
-        field,
-        teamName,
-        school,
-        representative,
-        contact,
-        applicationFile: applicationFile.file,
-        privacyFile: privacyFile.file,
-        videoFile: videoFile.file,
-      });
+      await postApply(
+        {
+          field,
+          teamName,
+          school,
+          representative,
+          contact,
+          applicationFile: applicationFile.file,
+          privacyFile: privacyFile.file,
+          videoFile: videoFile.file,
+        },
+        setUploadProgress
+      );
       setIsSubmitted(true);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "전송 중 오류가 발생했습니다.");
     } finally {
       setIsSubmitting(false);
+      setUploadProgress(null);
     }
   };
 
@@ -258,13 +263,15 @@ export const ApplyForm: FC = () => {
                 <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
                   ✓ {applicationFile.file.name}
                 </span>
-                <FileActionButtons
-                  onPreview={() => handlePreview(applicationFile.file!)}
-                  onDelete={() => {
-                    setApplicationFile(INITIAL_FILE);
-                    if (appFileRef.current) appFileRef.current.value = "";
-                  }}
-                />
+                {!isSubmitting && (
+                  <FileActionButtons
+                    onPreview={() => handlePreview(applicationFile.file!)}
+                    onDelete={() => {
+                      setApplicationFile(INITIAL_FILE);
+                      if (appFileRef.current) appFileRef.current.value = "";
+                    }}
+                  />
+                )}
               </div>
             ) : (
               <button
@@ -300,13 +307,15 @@ export const ApplyForm: FC = () => {
                 <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
                   ✓ {privacyFile.file.name}
                 </span>
-                <FileActionButtons
-                  onPreview={() => handlePreview(privacyFile.file!)}
-                  onDelete={() => {
-                    setPrivacyFile(INITIAL_FILE);
-                    if (privFileRef.current) privFileRef.current.value = "";
-                  }}
-                />
+                {!isSubmitting && (
+                  <FileActionButtons
+                    onPreview={() => handlePreview(privacyFile.file!)}
+                    onDelete={() => {
+                      setPrivacyFile(INITIAL_FILE);
+                      if (privFileRef.current) privFileRef.current.value = "";
+                    }}
+                  />
+                )}
               </div>
             ) : (
               <button
@@ -345,13 +354,15 @@ export const ApplyForm: FC = () => {
                 <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
                   ✓ {videoFile.file.name}
                 </span>
-                <FileActionButtons
-                  onPreview={() => handlePreview(videoFile.file!)}
-                  onDelete={() => {
-                    setVideoFile(INITIAL_FILE);
-                    if (vidFileRef.current) vidFileRef.current.value = "";
-                  }}
-                />
+                {!isSubmitting && (
+                  <FileActionButtons
+                    onPreview={() => handlePreview(videoFile.file!)}
+                    onDelete={() => {
+                      setVideoFile(INITIAL_FILE);
+                      if (vidFileRef.current) vidFileRef.current.value = "";
+                    }}
+                  />
+                )}
               </div>
             ) : (
               <button
@@ -373,6 +384,20 @@ export const ApplyForm: FC = () => {
           </div>
         </div>
 
+        {uploadProgress !== null && (
+          <div className="flex flex-col gap-6">
+            <div className="flex justify-between text-caption1r text-gray-500">
+              <span>{uploadProgress < 100 ? "영상 업로드 중..." : "영상 처리 중..."}</span>
+              <span>{uploadProgress}%</span>
+            </div>
+            <div className="w-full h-6 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-orange-400 rounded-full transition-all duration-300 ease-out"
+                style={{ width: `${uploadProgress}%` }}
+              />
+            </div>
+          </div>
+        )}
         <Button type="submit" disabled={isSubmitting} className="w-full mt-4">
           {isSubmitting ? "접수 중..." : "참여 신청하기"}
         </Button>
