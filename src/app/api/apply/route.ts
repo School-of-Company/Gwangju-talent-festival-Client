@@ -49,7 +49,27 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const fileName = `${field}_${representative}_${school}_${teamName}_${contact}`;
+    const fileName = `${field}_${teamName}_${school}_${representative}_${contact}`;
+
+    const videoFormData = new FormData();
+    videoFormData.append("file", videoFile);
+
+    const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/apply`, {
+      method: "POST",
+      body: videoFormData,
+    });
+
+    if (!uploadRes.ok) {
+      return NextResponse.json(
+        { message: "영상 업로드에 실패했습니다. 잠시 후 다시 시도해주세요." },
+        { status: 500 }
+      );
+    }
+
+    const { applyId } = (await uploadRes.json()) as { applyId: number; videoUrl: string };
+
+    const origin = req.nextUrl.origin;
+    const downloadUrl = `${origin}/admin/apply/${applyId}?key=${process.env.ADMIN_DOWNLOAD_KEY}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -59,10 +79,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const [appBuffer, privBuffer, vidBuffer] = await Promise.all([
-      applicationFile.arrayBuffer().then(ab => Buffer.from(ab)),
-      privacyFile.arrayBuffer().then(ab => Buffer.from(ab)),
-      videoFile.arrayBuffer().then(ab => Buffer.from(ab)),
+    const [appBuffer, privBuffer] = await Promise.all([
+      applicationFile.arrayBuffer().then((ab) => Buffer.from(ab)),
+      privacyFile.arrayBuffer().then((ab) => Buffer.from(ab)),
     ]);
 
     await transporter.sendMail({
@@ -79,6 +98,8 @@ export async function POST(req: NextRequest) {
         `연락처: ${contact}`,
         "",
         `파일명: ${fileName}`,
+        "",
+        `공연 영상 다운로드: ${downloadUrl}`,
       ].join("\n"),
       attachments: [
         {
@@ -90,11 +111,6 @@ export async function POST(req: NextRequest) {
           filename: privacyFile.name,
           content: privBuffer,
           contentType: "application/pdf",
-        },
-        {
-          filename: `${fileName}.mp4`,
-          content: vidBuffer,
-          contentType: "video/mp4",
         },
       ],
     });
