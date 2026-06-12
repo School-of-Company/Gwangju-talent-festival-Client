@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 export async function POST(req: NextRequest) {
   try {
@@ -54,12 +54,17 @@ export async function POST(req: NextRequest) {
     const videoFormData = new FormData();
     videoFormData.append("file", videoFile);
 
-    const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/apply`, {
+    const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/apply`;
+    console.error("[apply] 영상 업로드 요청:", backendUrl);
+
+    const uploadRes = await fetch(backendUrl, {
       method: "POST",
       body: videoFormData,
     });
 
     if (!uploadRes.ok) {
+      const errBody = await uploadRes.text().catch(() => "");
+      console.error(`[apply] 백엔드 업로드 실패 status=${uploadRes.status}`, errBody);
       return NextResponse.json(
         { message: "영상 업로드에 실패했습니다. 잠시 후 다시 시도해주세요." },
         { status: 500 }
@@ -117,7 +122,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: "접수가 완료되었습니다." });
   } catch (error) {
-    console.error("[apply] 이메일 전송 오류:", error);
+    console.error("[apply] 처리 중 예외 발생:", error);
     return NextResponse.json(
       { message: "전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요." },
       { status: 500 }
