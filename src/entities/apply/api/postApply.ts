@@ -59,10 +59,11 @@ export const postApply = async (
   await uploadToS3WithProgress(uploadUrl, data.videoFile, onProgress);
 
   // 3단계: 백엔드에 업로드 확정
+  const videoFileName = `${data.field}_${data.teamName}_${data.school}_${data.representative}_${data.contact}.mp4`;
   const applyRes = await fetch(`${apiUrl}/apply`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ key, filename: data.videoFile.name }),
+    body: JSON.stringify({ key, filename: videoFileName }),
   });
   if (!applyRes.ok) {
     const err = (await applyRes.json().catch(() => ({}))) as { message?: string };
