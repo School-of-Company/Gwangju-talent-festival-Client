@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     const { applyId } = (await uploadRes.json()) as { applyId: number; videoUrl: string };
 
     const origin = req.nextUrl.origin;
-    const downloadUrl = `${origin}/admin/apply/${applyId}?key=${process.env.ADMIN_DOWNLOAD_KEY}`;
+    const downloadUrl = `${origin}/admin/apply/${applyId}?key=${process.env.ADMIN_DOWNLOAD_KEY}&name=${encodeURIComponent(fileName)}`;
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
