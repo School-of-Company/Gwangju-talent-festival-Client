@@ -5,6 +5,7 @@ const matchesSegment = (pathname: string, prefix: string): boolean => {
 const HIDDEN_PREFIXES = ["/signin", "/signup", "/vote", "/admin"];
 
 export const isHiddenPath = (pathname: string): boolean => {
+  if (matchesSegment(pathname, "/admin/apply")) return false;
   return HIDDEN_PREFIXES.some(prefix => matchesSegment(pathname, prefix));
 };
 
