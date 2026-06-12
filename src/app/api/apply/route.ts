@@ -92,8 +92,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ message: "접수가 완료되었습니다." });
-  } catch (error) {
-    console.error("[apply] 처리 중 예외 발생:", error);
+  } catch {
     return NextResponse.json(
       { message: "전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요." },
       { status: 500 }

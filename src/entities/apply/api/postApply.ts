@@ -38,7 +38,7 @@ const uploadToS3WithProgress = (
     );
 
     xhr.open("PUT", uploadUrl);
-    xhr.setRequestHeader("Content-Type", "video/mp4");
+    xhr.setRequestHeader("Content-Type", file.type || "video/mp4");
     xhr.send(file);
   });
 
@@ -70,7 +70,7 @@ export const postApply = async (
   }
   const { applyId } = (await applyRes.json()) as { applyId: number };
 
-  // 4단계: 나머지 폼 데이터 + applyId로 이메일 전송
+  // 4단계: 나머지 폼 데이터 + applyId로 이메일 전송 (SMTP는 서버에서만 가능하므로 Next.js API Route 경유)
   const formData = new FormData();
   formData.append("applyId", String(applyId));
   formData.append("field", data.field);

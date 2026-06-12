@@ -37,6 +37,67 @@ const FileActionButtons = ({ onPreview, onDelete }: FileActionButtonsProps) => (
   </div>
 );
 
+interface FileUploadFieldProps {
+  label: string;
+  badge: string;
+  description?: string;
+  accept: string;
+  fileState: FileState;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  isSubmitting: boolean;
+  placeholder: string;
+  onPreview: (file: File) => void;
+  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onDelete: () => void;
+}
+
+const FileUploadField = ({
+  label,
+  badge,
+  description,
+  accept,
+  fileState,
+  inputRef,
+  isSubmitting,
+  placeholder,
+  onPreview,
+  onFileChange,
+  onDelete,
+}: FileUploadFieldProps) => (
+  <div className="flex flex-col gap-8">
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="text-body3b">{label}</span>
+      <span className="text-caption1r bg-orange-100 text-orange-500 px-8 py-2 rounded-md font-medium">
+        {badge}
+      </span>
+    </div>
+    {description && <p className="text-caption1r text-gray-400">{description}</p>}
+    {fileState.file ? (
+      <div className="w-full h-[50px] rounded-md border border-orange-500 bg-orange-50 px-16 flex items-center gap-8">
+        <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
+          ✓ {fileState.file.name}
+        </span>
+        {!isSubmitting && (
+          <FileActionButtons
+            onPreview={() => onPreview(fileState.file!)}
+            onDelete={onDelete}
+          />
+        )}
+      </div>
+    ) : (
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        className="w-full h-[50px] rounded-md border border-dashed border-gray-200 text-body3r text-gray-400 cursor-pointer hover:border-orange-300 transition-colors"
+      >
+        {placeholder}
+      </button>
+    )}
+    {fileState.error && <p className="text-caption1r text-red-500">{fileState.error}</p>}
+    <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={onFileChange} />
+  </div>
+);
+
 interface FormFields {
   field: string;
   teamName: string;
@@ -250,138 +311,52 @@ export const ApplyForm: FC = () => {
 
         <div className="flex flex-col gap-24">
           <h2 className="text-body2b border-b border-gray-100 pb-3">파일 첨부</h2>
-          {/* 참가신청서 */}
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-body3b">참가신청서</span>
-              <span className="text-caption1r bg-orange-100 text-orange-500 px-8 py-2 rounded-md font-medium">
-                PDF만 가능
-              </span>
-            </div>
-            {applicationFile.file ? (
-              <div className="w-full h-[50px] rounded-md border border-orange-500 bg-orange-50 px-16 flex items-center gap-8">
-                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
-                  ✓ {applicationFile.file.name}
-                </span>
-                {!isSubmitting && (
-                  <FileActionButtons
-                    onPreview={() => handlePreview(applicationFile.file!)}
-                    onDelete={() => {
-                      setApplicationFile(INITIAL_FILE);
-                      if (appFileRef.current) appFileRef.current.value = "";
-                    }}
-                  />
-                )}
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => appFileRef.current?.click()}
-                className="w-full h-[50px] rounded-md border border-dashed border-gray-200 text-body3r text-gray-400 cursor-pointer hover:border-orange-300 transition-colors"
-              >
-                클릭하여 PDF 파일 선택
-              </button>
-            )}
-            {applicationFile.error && (
-              <p className="text-caption1r text-red-500">{applicationFile.error}</p>
-            )}
-            <input
-              ref={appFileRef}
-              type="file"
-              accept=".pdf"
-              className="hidden"
-              onChange={e => validateAndSetFile("pdf", setApplicationFile, e)}
-            />
-          </div>
-
-          {/* 개인정보활용동의서 */}
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-body3b">개인정보활용동의서</span>
-              <span className="text-caption1r bg-orange-100 text-orange-500 px-8 py-2 rounded-md font-medium">
-                PDF만 가능
-              </span>
-            </div>
-            {privacyFile.file ? (
-              <div className="w-full h-[50px] rounded-md border border-orange-500 bg-orange-50 px-16 flex items-center gap-8">
-                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
-                  ✓ {privacyFile.file.name}
-                </span>
-                {!isSubmitting && (
-                  <FileActionButtons
-                    onPreview={() => handlePreview(privacyFile.file!)}
-                    onDelete={() => {
-                      setPrivacyFile(INITIAL_FILE);
-                      if (privFileRef.current) privFileRef.current.value = "";
-                    }}
-                  />
-                )}
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => privFileRef.current?.click()}
-                className="w-full h-[50px] rounded-md border border-dashed border-gray-200 text-body3r text-gray-400 cursor-pointer hover:border-orange-300 transition-colors"
-              >
-                클릭하여 PDF 파일 선택
-              </button>
-            )}
-            {privacyFile.error && (
-              <p className="text-caption1r text-red-500">{privacyFile.error}</p>
-            )}
-            <input
-              ref={privFileRef}
-              type="file"
-              accept=".pdf"
-              className="hidden"
-              onChange={e => validateAndSetFile("pdf", setPrivacyFile, e)}
-            />
-          </div>
-
-          {/* 공연 영상 */}
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-body3b">공연 영상</span>
-              <span className="text-caption1r bg-orange-100 text-orange-500 px-8 py-2 rounded-md font-medium">
-                MP4만 가능
-              </span>
-            </div>
-            <p className="text-caption1r text-gray-400">
-              3분 내외로 편집하여 제출 · MOV 등 다른 형식은 접수 불가
-            </p>
-            {videoFile.file ? (
-              <div className="w-full h-[50px] rounded-md border border-orange-500 bg-orange-50 px-16 flex items-center gap-8">
-                <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
-                  ✓ {videoFile.file.name}
-                </span>
-                {!isSubmitting && (
-                  <FileActionButtons
-                    onPreview={() => handlePreview(videoFile.file!)}
-                    onDelete={() => {
-                      setVideoFile(INITIAL_FILE);
-                      if (vidFileRef.current) vidFileRef.current.value = "";
-                    }}
-                  />
-                )}
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => vidFileRef.current?.click()}
-                className="w-full h-[50px] rounded-md border border-dashed border-gray-200 text-body3r text-gray-400 cursor-pointer hover:border-orange-300 transition-colors"
-              >
-                클릭하여 MP4 파일 선택
-              </button>
-            )}
-            {videoFile.error && <p className="text-caption1r text-red-500">{videoFile.error}</p>}
-            <input
-              ref={vidFileRef}
-              type="file"
-              accept=".mp4,video/mp4"
-              className="hidden"
-              onChange={e => validateAndSetFile("mp4", setVideoFile, e)}
-            />
-          </div>
+          <FileUploadField
+            label="참가신청서"
+            badge="PDF만 가능"
+            accept=".pdf"
+            fileState={applicationFile}
+            inputRef={appFileRef}
+            isSubmitting={isSubmitting}
+            placeholder="클릭하여 PDF 파일 선택"
+            onPreview={handlePreview}
+            onFileChange={e => validateAndSetFile("pdf", setApplicationFile, e)}
+            onDelete={() => {
+              setApplicationFile(INITIAL_FILE);
+              if (appFileRef.current) appFileRef.current.value = "";
+            }}
+          />
+          <FileUploadField
+            label="개인정보활용동의서"
+            badge="PDF만 가능"
+            accept=".pdf"
+            fileState={privacyFile}
+            inputRef={privFileRef}
+            isSubmitting={isSubmitting}
+            placeholder="클릭하여 PDF 파일 선택"
+            onPreview={handlePreview}
+            onFileChange={e => validateAndSetFile("pdf", setPrivacyFile, e)}
+            onDelete={() => {
+              setPrivacyFile(INITIAL_FILE);
+              if (privFileRef.current) privFileRef.current.value = "";
+            }}
+          />
+          <FileUploadField
+            label="공연 영상"
+            badge="MP4만 가능"
+            description="3분 내외로 편집하여 제출 · MOV 등 다른 형식은 접수 불가"
+            accept=".mp4,video/mp4"
+            fileState={videoFile}
+            inputRef={vidFileRef}
+            isSubmitting={isSubmitting}
+            placeholder="클릭하여 MP4 파일 선택"
+            onPreview={handlePreview}
+            onFileChange={e => validateAndSetFile("mp4", setVideoFile, e)}
+            onDelete={() => {
+              setVideoFile(INITIAL_FILE);
+              if (vidFileRef.current) vidFileRef.current.value = "";
+            }}
+          />
         </div>
 
         {uploadProgress !== null && (
