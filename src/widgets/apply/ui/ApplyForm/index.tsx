@@ -359,18 +359,26 @@ export const ApplyForm: FC = () => {
           />
         </div>
 
-        {uploadProgress !== null && (
-          <div className="flex flex-col gap-6">
-            <div className="flex justify-between text-caption1r text-gray-500">
-              <span>{uploadProgress < 100 ? "영상 업로드 중..." : "영상 처리 중..."}</span>
-              <span>{uploadProgress}%</span>
-            </div>
-            <div className="w-full h-6 bg-gray-100 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-orange-400 rounded-full transition-all duration-300 ease-out"
-                style={{ width: `${uploadProgress}%` }}
-              />
-            </div>
+        {isSubmitting && (
+          <div className="flex flex-col gap-10 rounded-xl border border-orange-300 bg-orange-50 px-16 py-14">
+            <p className="text-body3b text-orange-500">⚠️ 업로드가 완료될 때까지 이 페이지를 닫거나 나가지 마세요!</p>
+            <p className="text-caption1r text-orange-400">
+              영상 길이에 따라 업로드에 수 분이 걸릴 수 있어요. 페이지를 벗어나면 처음부터 다시 제출해야 해요.
+            </p>
+            {uploadProgress !== null && (
+              <div className="flex flex-col gap-6">
+                <div className="flex justify-between text-caption1r text-gray-500">
+                  <span>{uploadProgress < 100 ? "영상 업로드 중..." : "영상 처리 중..."}</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <div className="w-full h-6 bg-gray-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-orange-400 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         )}
         <Button type="submit" disabled={isSubmitting} className="w-full mt-4">
