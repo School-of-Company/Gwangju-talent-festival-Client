@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import Modal from "@/shared/ui/Modal";
 import Button from "@/shared/ui/Button";
 import { RightArrow } from "@/shared/asset/svg/RightArrow";
+import { scrollToElement } from "@/shared/utils/scroll";
 // import { isSloganEnded } from "@/shared/config/dateConfig";
 
 const STORAGE_KEY = "sloganPosterHidden";
@@ -13,7 +13,6 @@ const STORAGE_KEY = "sloganPosterHidden";
 export default function SloganPosterPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [doNotShow, setDoNotShow] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     // if (isSloganEnded()) return;
@@ -30,7 +29,7 @@ export default function SloganPosterPopup() {
 
   const handleGoSlogan = () => {
     handleClose();
-    router.push("/apply");
+    setTimeout(() => scrollToElement("ApplyThirdSection"), 100);
   };
 
   return (
