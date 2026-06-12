@@ -109,7 +109,7 @@ const ApplyThirdSection = () => {
         <h2 className="text-title2b tablet:text-title4b mobile:text-body1b text-black">2026 광탈페 참가신청</h2>
 
         <p className="text-body3r tablet:text-body3r mobile:text-body3r text-gray-700">
-          신청기간 : 2026.6.15(월) ~ 6.22(월) 18:00
+          신청기간 : 2026.6.15(월) 08:00 ~ 6.22(월) 18:00
         </p>
 
         <p className="text-caption1r mobile:text-caption1r text-gray-700 w-full leading-[180%] break-keep">

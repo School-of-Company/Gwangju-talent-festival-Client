@@ -66,7 +66,7 @@ export const ApplyPage: FC = () => {
           <div className="flex items-center gap-8">
             <Inform color={colors.gray[500]} width={16} height={16} />
             <p className="text-caption1r text-gray-500">
-              제출 기간: 2026. 6. 15.(월) ~ 6. 22.(월) 18:00까지 접수분에 한함
+              신청 기간: 2026. 6. 15.(월) 08:00 ~ 6. 22.(월) 18:00까지 접수분에 한함
             </p>
           </div>
 
