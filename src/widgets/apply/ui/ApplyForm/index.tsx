@@ -78,10 +78,7 @@ const FileUploadField = ({
           ✓ {fileState.file.name}
         </span>
         {!isSubmitting && (
-          <FileActionButtons
-            onPreview={() => onPreview(fileState.file!)}
-            onDelete={onDelete}
-          />
+          <FileActionButtons onPreview={() => onPreview(fileState.file!)} onDelete={onDelete} />
         )}
       </div>
     ) : (
@@ -229,7 +226,7 @@ export const ApplyForm: FC = () => {
           privacyFile: privacyFile.file,
           videoFile: videoFile.file,
         },
-        setUploadProgress
+        setUploadProgress,
       );
       setIsSubmitted(true);
     } catch (error) {
@@ -361,9 +358,12 @@ export const ApplyForm: FC = () => {
 
         {isSubmitting && (
           <div className="flex flex-col gap-10 rounded-xl border border-orange-300 bg-orange-50 px-16 py-14">
-            <p className="text-body3b text-orange-500">⚠️ 업로드가 완료될 때까지 이 페이지를 닫거나 나가지 마세요!</p>
+            <p className="text-body3b text-orange-500">
+              업로드가 완료될 때까지 이 페이지를 닫거나 나가지 마세요!
+            </p>
             <p className="text-caption1r text-orange-400">
-              영상 길이에 따라 업로드에 수 분이 걸릴 수 있어요. 페이지를 벗어나면 처음부터 다시 제출해야 해요.
+              영상 길이에 따라 업로드에 수 분이 걸릴 수 있어요. 페이지를 벗어나면 처음부터 다시
+              제출해야 해요.
             </p>
             {uploadProgress !== null && (
               <div className="flex flex-col gap-6">

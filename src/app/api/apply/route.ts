@@ -116,16 +116,21 @@ export async function POST(req: NextRequest) {
             </div>
 
             <!-- 영상 다운로드 섹션 -->
-            <div style="background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%); padding: 28px 40px; text-align: center;">
-              <p style="margin: 0 0 6px; color: #93c5fd; font-size: 12px; letter-spacing: 0.5px;">공연 영상이 업로드되었습니다</p>
-              <p style="margin: 0 0 20px; color: #ffffff; font-size: 15px; font-weight: 600;">${fileName}.mp4</p>
-              <a href="${downloadUrl}" style="display: inline-block; background: #ffffff; color: #1d4ed8; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 14px; font-weight: 700; letter-spacing: -0.3px;">▶&nbsp; 영상 다운로드</a>
-              <p style="margin: 16px 0 0; color: #60a5fa; font-size: 11px; word-break: break-all;">${downloadUrl}</p>
+            <div style="background: #18181b; padding: 36px 48px; text-align: center;">
+              <p style="margin: 0 0 10px; color: #71717a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">공연 영상</p>
+              <div style="background: #27272a; border-radius: 12px; padding: 14px 20px; margin-bottom: 28px; display: inline-block; min-width: 280px;">
+                <p style="margin: 0; color: #e4e4e7; font-size: 13px; font-weight: 600; word-break: break-all;">${fileName}.mp4</p>
+              </div>
+              <br/>
+              <a href="${downloadUrl}" style="display: inline-block; background: #f97316; color: #ffffff; text-decoration: none; padding: 16px 44px; border-radius: 100px; font-size: 15px; font-weight: 700; letter-spacing: -0.3px;">영상 다운로드</a>
+              <p style="margin: 20px 0 0;">
+                <a href="${downloadUrl}" style="color: #52525b; font-size: 12px; text-decoration: underline;">버튼이 작동하지 않으면 여기를 클릭하세요</a>
+              </p>
             </div>
 
             <!-- 푸터 -->
             <div style="padding: 20px 40px 0; text-align: center;">
-              <p style="margin: 0; color: #a1a1aa; font-size: 12px; font-weight: 700; letter-spacing: -0.3px;">2026 光광탈페</p>
+              <p style="margin: 0; color: #a1a1aa; font-size: 12px;">© 2026 光탈페. All rights reserved.</p>
             </div>
 
           </div>
