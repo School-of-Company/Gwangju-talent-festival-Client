@@ -45,11 +45,11 @@ export const ApplyForm: FC = () => {
         className="w-[90vw] max-w-4xl"
         contentClassName="h-[70vh]"
       >
-        {previewType === "video" ? (
-          previewUrl && <video src={previewUrl} className="w-full h-full rounded bg-black" controls />
-        ) : (
-          previewUrl && <iframe src={previewUrl} className="w-full h-full rounded" />
-        )}
+        {previewType === "video"
+          ? previewUrl && (
+              <video src={previewUrl} className="w-full h-full rounded bg-black" controls />
+            )
+          : previewUrl && <iframe src={previewUrl} className="w-full h-full rounded" />}
       </Modal>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-40 pb-28">
@@ -140,7 +140,7 @@ export const ApplyForm: FC = () => {
           <FileUploadField
             label="공연 영상"
             badge="MP4만 가능"
-            description="3분 내외로 편집하여 제출 · MOV 등 다른 형식은 접수 불가"
+            description="3분 내외로 편집하여 제출 · 최대 500MB · MOV 등 다른 형식은 접수 불가"
             accept=".mp4,video/mp4"
             fileState={videoFile}
             inputRef={vidFileRef}
