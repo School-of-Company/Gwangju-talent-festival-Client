@@ -1,241 +1,40 @@
 "use client";
 
-import { FC, useRef, useState, ChangeEvent, FormEvent } from "react";
+import { FC } from "react";
 import { DownloadButton } from "@/entities/apply/ui/DownloadButton";
-import { postApply } from "@/entities/apply/api/postApply";
 import ApplyFormSuccess from "@/entities/apply/ui/ApplyFormSuccess";
 import { Input, Button, Modal } from "@/shared/ui";
 import { colors } from "@/shared/utils/color";
-import { toast } from "sonner";
-
-interface FileState {
-  file: File | null;
-  error: string;
-}
-
-interface FileActionButtonsProps {
-  onPreview: () => void;
-  onDelete: () => void;
-}
-
-const FileActionButtons = ({ onPreview, onDelete }: FileActionButtonsProps) => (
-  <div className="flex gap-8">
-    <button
-      type="button"
-      onClick={onPreview}
-      className="border-0 text-caption1r text-white bg-orange-400 rounded-md px-12 py-6 cursor-pointer hover:bg-orange-500 transition-colors shrink-0"
-    >
-      미리보기
-    </button>
-    <button
-      type="button"
-      onClick={onDelete}
-      className="border-0 text-caption1r text-gray-500 bg-white rounded-md px-12 py-6 cursor-pointer hover:bg-gray-50 transition-colors shrink-0"
-    >
-      삭제
-    </button>
-  </div>
-);
-
-interface FileUploadFieldProps {
-  label: string;
-  badge: string;
-  description?: string;
-  accept: string;
-  fileState: FileState;
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  isSubmitting: boolean;
-  placeholder: string;
-  onPreview: (file: File) => void;
-  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onDelete: () => void;
-}
-
-const FileUploadField = ({
-  label,
-  badge,
-  description,
-  accept,
-  fileState,
-  inputRef,
-  isSubmitting,
-  placeholder,
-  onPreview,
-  onFileChange,
-  onDelete,
-}: FileUploadFieldProps) => (
-  <div className="flex flex-col gap-8">
-    <div className="flex flex-wrap items-center gap-2">
-      <span className="text-body3b">{label}</span>
-      <span className="text-caption1r bg-orange-100 text-orange-500 px-8 py-2 rounded-md font-medium">
-        {badge}
-      </span>
-    </div>
-    {description && <p className="text-caption1r text-gray-400">{description}</p>}
-    {fileState.file ? (
-      <div className="w-full h-[50px] rounded-md border border-orange-500 bg-orange-50 px-16 flex items-center gap-8">
-        <span className="text-body3r text-orange-500 flex-1 truncate min-w-0">
-          ✓ {fileState.file.name}
-        </span>
-        {!isSubmitting && (
-          <FileActionButtons onPreview={() => onPreview(fileState.file!)} onDelete={onDelete} />
-        )}
-      </div>
-    ) : (
-      <button
-        type="button"
-        onClick={() => inputRef.current?.click()}
-        className="w-full h-[50px] rounded-md border border-dashed border-gray-200 text-body3r text-gray-400 cursor-pointer hover:border-orange-300 transition-colors"
-      >
-        {placeholder}
-      </button>
-    )}
-    {fileState.error && <p className="text-caption1r text-red-500">{fileState.error}</p>}
-    <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={onFileChange} />
-  </div>
-);
-
-interface FormFields {
-  field: string;
-  teamName: string;
-  school: string;
-  representative: string;
-  contact: string;
-}
-
-const FIELD_CONFIG: readonly { name: keyof FormFields; label: string; placeholder: string }[] = [
-  { name: "field", label: "분야 (댄스, 보컬, 밴드, 연주, 국악 등)", placeholder: "예: 댄스" },
-  { name: "teamName", label: "팀명", placeholder: "예: 빛나라" },
-  { name: "school", label: "대표자 학교", placeholder: "예: 한국중" },
-  { name: "representative", label: "대표자 이름", placeholder: "예: 홍길동" },
-  { name: "contact", label: "연락처", placeholder: "예: 01012345678" },
-] as const;
-
-const INITIAL_FIELDS: FormFields = {
-  field: "",
-  teamName: "",
-  school: "",
-  representative: "",
-  contact: "",
-};
-
-const INITIAL_FILE: FileState = { file: null, error: "" };
+import { FileUploadField } from "@/widgets/apply/ui/FileUploadField";
+import { useApplyForm, FIELD_CONFIG, INITIAL_FILE } from "@/widgets/apply/model/useApplyForm";
 
 export const ApplyForm: FC = () => {
-  const [fields, setFields] = useState<FormFields>(INITIAL_FIELDS);
-  const [applicationFile, setApplicationFile] = useState<FileState>(INITIAL_FILE);
-  const [privacyFile, setPrivacyFile] = useState<FileState>(INITIAL_FILE);
-  const [videoFile, setVideoFile] = useState<FileState>(INITIAL_FILE);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [previewType, setPreviewType] = useState<"pdf" | "video">("pdf");
-
-  const handlePreview = (file: File) => {
-    const url = URL.createObjectURL(file);
-    const type = file.type.startsWith("video/") ? "video" : "pdf";
-    if (window.matchMedia("(max-width: 640px)").matches) {
-      window.open(url, "_blank");
-      setTimeout(() => URL.revokeObjectURL(url), 10000);
-    } else {
-      setPreviewType(type);
-      setPreviewUrl(url);
-    }
-  };
-
-  const handleClosePreview = () => {
-    if (previewUrl) URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
-  };
-
-  const appFileRef = useRef<HTMLInputElement>(null);
-  const privFileRef = useRef<HTMLInputElement>(null);
-  const vidFileRef = useRef<HTMLInputElement>(null);
+  const {
+    fields,
+    applicationFile,
+    privacyFile,
+    videoFile,
+    isSubmitting,
+    isSubmitted,
+    uploadProgress,
+    previewUrl,
+    previewType,
+    appFileRef,
+    privFileRef,
+    vidFileRef,
+    setApplicationFile,
+    setPrivacyFile,
+    setVideoFile,
+    handleFieldChange,
+    validateAndSetFile,
+    handlePreview,
+    handleClosePreview,
+    handleSubmit,
+  } = useApplyForm();
 
   if (isSubmitted) {
     return <ApplyFormSuccess />;
   }
-
-  const handleFieldChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    let sanitized = value;
-
-    if (name === "representative") {
-      sanitized = value.replace(/[0-9]/g, "");
-    } else if (name === "contact") {
-      sanitized = value.replace(/[^0-9]/g, "").slice(0, 11);
-    }
-
-    setFields(prev => ({ ...prev, [name]: sanitized }));
-  };
-
-  const validateAndSetFile = (
-    acceptedExt: string,
-    setter: (state: FileState) => void,
-    e: ChangeEvent<HTMLInputElement>,
-  ) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
-    if (ext !== acceptedExt) {
-      setter({ file: null, error: `${acceptedExt.toUpperCase()} 파일만 제출 가능합니다.` });
-      e.target.value = "";
-      return;
-    }
-    setter({ file, error: "" });
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    const { field, teamName, school, representative, contact } = fields;
-
-    if (!field || !teamName || !school || !representative || !contact) {
-      toast.error("모든 항목을 입력해주세요.");
-      return;
-    }
-    if (!/^01[0-9]{9}$/.test(contact)) {
-      toast.error("연락처는 하이픈 없이 11자리 숫자로 입력해주세요. 예: 01012341234");
-      return;
-    }
-    if (!applicationFile.file) {
-      toast.error("참가신청서를 첨부해주세요.");
-      return;
-    }
-    if (!privacyFile.file) {
-      toast.error("개인정보활용동의서를 첨부해주세요.");
-      return;
-    }
-    if (!videoFile.file) {
-      toast.error("공연 영상을 첨부해주세요.");
-      return;
-    }
-
-    try {
-      setIsSubmitting(true);
-      await postApply(
-        {
-          field,
-          teamName,
-          school,
-          representative,
-          contact,
-          applicationFile: applicationFile.file,
-          privacyFile: privacyFile.file,
-          videoFile: videoFile.file,
-        },
-        setUploadProgress,
-      );
-      setIsSubmitted(true);
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "전송 중 오류가 발생했습니다.");
-    } finally {
-      setIsSubmitting(false);
-      setUploadProgress(null);
-    }
-  };
 
   return (
     <>
@@ -317,7 +116,7 @@ export const ApplyForm: FC = () => {
             isSubmitting={isSubmitting}
             placeholder="클릭하여 PDF 파일 선택"
             onPreview={handlePreview}
-            onFileChange={e => validateAndSetFile("pdf", setApplicationFile, e)}
+            onFileChange={e => validateAndSetFile("pdf", setApplicationFile, e, 4)}
             onDelete={() => {
               setApplicationFile(INITIAL_FILE);
               if (appFileRef.current) appFileRef.current.value = "";
@@ -332,7 +131,7 @@ export const ApplyForm: FC = () => {
             isSubmitting={isSubmitting}
             placeholder="클릭하여 PDF 파일 선택"
             onPreview={handlePreview}
-            onFileChange={e => validateAndSetFile("pdf", setPrivacyFile, e)}
+            onFileChange={e => validateAndSetFile("pdf", setPrivacyFile, e, 4)}
             onDelete={() => {
               setPrivacyFile(INITIAL_FILE);
               if (privFileRef.current) privFileRef.current.value = "";
