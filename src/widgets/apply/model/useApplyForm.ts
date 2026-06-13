@@ -94,6 +94,7 @@ export const useApplyForm = () => {
       window.open(url, "_blank");
       setTimeout(() => URL.revokeObjectURL(url), 10000);
     } else {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
       setPreviewType(type);
       setPreviewUrl(url);
     }

@@ -1,3 +1,11 @@
+const escapeHtml = (str: string): string =>
+  str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+
 interface EmailTemplateParams {
   teamName: string;
   field: string;
@@ -16,7 +24,16 @@ export const buildEmailHtml = ({
   contact,
   fileName,
   downloadUrl,
-}: EmailTemplateParams): string => `
+}: EmailTemplateParams): string => {
+  const t = escapeHtml(teamName);
+  const f = escapeHtml(field);
+  const sc = escapeHtml(school);
+  const rep = escapeHtml(representative);
+  const con = escapeHtml(contact);
+  const fn = escapeHtml(fileName);
+  const dl = escapeHtml(downloadUrl);
+
+  return `
   <div style="background: #f4f4f5; padding: 40px 16px; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;">
     <div style="max-width: 560px; margin: 0 auto;">
 
@@ -37,31 +54,31 @@ export const buildEmailHtml = ({
             <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; width: 110px;">
               <span style="display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.3px;">팀명</span>
             </td>
-            <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; color: #111827; font-size: 14px;">${teamName}</td>
+            <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; color: #111827; font-size: 14px;">${t}</td>
           </tr>
           <tr>
             <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6;">
               <span style="display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.3px;">분야</span>
             </td>
-            <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; color: #111827; font-size: 14px;">${field}</td>
+            <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; color: #111827; font-size: 14px;">${f}</td>
           </tr>
           <tr>
             <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6;">
               <span style="display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.3px;">대표자 학교</span>
             </td>
-            <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; color: #111827; font-size: 14px;">${school}</td>
+            <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; color: #111827; font-size: 14px;">${sc}</td>
           </tr>
           <tr>
             <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6;">
               <span style="display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.3px;">대표자명</span>
             </td>
-            <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; color: #111827; font-size: 14px;">${representative}</td>
+            <td style="padding: 11px 0; border-bottom: 1px solid #f3f4f6; color: #111827; font-size: 14px;">${rep}</td>
           </tr>
           <tr>
             <td style="padding: 11px 0;">
               <span style="display: inline-block; background: #f3f4f6; color: #6b7280; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; letter-spacing: 0.3px;">연락처</span>
             </td>
-            <td style="padding: 11px 0; color: #111827; font-size: 14px;">${contact}</td>
+            <td style="padding: 11px 0; color: #111827; font-size: 14px;">${con}</td>
           </tr>
         </table>
       </div>
@@ -70,12 +87,12 @@ export const buildEmailHtml = ({
       <div style="background: #18181b; padding: 36px 48px; text-align: center;">
         <p style="margin: 0 0 10px; color: #71717a; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">공연 영상</p>
         <div style="background: #27272a; border-radius: 12px; padding: 14px 20px; margin-bottom: 28px; display: inline-block; min-width: 280px;">
-          <p style="margin: 0; color: #e4e4e7; font-size: 13px; font-weight: 600; word-break: break-all;">${fileName}.mp4</p>
+          <p style="margin: 0; color: #e4e4e7; font-size: 13px; font-weight: 600; word-break: break-all;">${fn}.mp4</p>
         </div>
         <br/>
-        <a href="${downloadUrl}" style="display: inline-block; background: #f97316; color: #ffffff; text-decoration: none; padding: 16px 44px; border-radius: 100px; font-size: 15px; font-weight: 700; letter-spacing: -0.3px;">영상 다운로드</a>
+        <a href="${dl}" style="display: inline-block; background: #f97316; color: #ffffff; text-decoration: none; padding: 16px 44px; border-radius: 100px; font-size: 15px; font-weight: 700; letter-spacing: -0.3px;">영상 다운로드</a>
         <p style="margin: 20px 0 0;">
-          <a href="${downloadUrl}" style="color: #52525b; font-size: 12px; text-decoration: underline;">버튼이 작동하지 않으면 여기를 클릭하세요</a>
+          <a href="${dl}" style="color: #52525b; font-size: 12px; text-decoration: underline;">버튼이 작동하지 않으면 여기를 클릭하세요</a>
         </p>
       </div>
 
@@ -87,3 +104,4 @@ export const buildEmailHtml = ({
     </div>
   </div>
 `;
+};

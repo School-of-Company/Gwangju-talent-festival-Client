@@ -20,7 +20,13 @@ export default function VideoDownload({ applyId, downloadKey }: Props) {
       const res = await fetch(url);
       if (!res.ok) throw new Error();
       const { videoUrl } = (await res.json()) as { videoUrl: string };
-      window.open(videoUrl, "_blank");
+      const a = document.createElement("a");
+      a.href = videoUrl;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     } catch {
       setError("다운로드 링크 생성에 실패했습니다. 다시 시도해주세요.");
     } finally {

@@ -46,9 +46,9 @@ export const ApplyForm: FC = () => {
         contentClassName="h-[70vh]"
       >
         {previewType === "video" ? (
-          <video src={previewUrl ?? ""} className="w-full h-full rounded bg-black" controls />
+          previewUrl && <video src={previewUrl} className="w-full h-full rounded bg-black" controls />
         ) : (
-          <iframe src={previewUrl ?? ""} className="w-full h-full rounded" />
+          previewUrl && <iframe src={previewUrl} className="w-full h-full rounded" />
         )}
       </Modal>
 
