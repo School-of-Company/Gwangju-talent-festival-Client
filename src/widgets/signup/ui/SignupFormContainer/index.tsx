@@ -55,16 +55,9 @@ const SignupFormContainer = () => {
     setIsCodeSending(true);
 
     try {
-      const response = await sendVerificationCode({
-        phoneNumber: phoneNumber,
-      });
-
-      if (response.success) {
-        toast.success("인증번호가 전송되었습니다.");
-        setCodeSent(true);
-      } else {
-        throw new Error(response.message);
-      }
+      await sendVerificationCode({ phoneNumber });
+      toast.success("인증번호가 전송되었습니다.");
+      setCodeSent(true);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "인증번호 전송에 실패했습니다.");
     } finally {

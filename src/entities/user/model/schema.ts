@@ -46,24 +46,10 @@ export interface PhoneVerificationRequest {
   phoneNumber: string;
 }
 
-export interface PhoneVerificationResponse {
-  success?: boolean;
-  message?: string;
-}
-
 export interface SignUpRequest {
   phoneNumber: string;
   code: string;
   password: string;
-}
-
-export interface SignUpResponse {
-  success: boolean;
-  message: string;
-  user?: {
-    id: string;
-    phone_number: string;
-  };
 }
 
 export interface ApiError {
