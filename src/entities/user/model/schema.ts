@@ -52,7 +52,7 @@ export interface PhoneVerificationResponse {
 }
 
 export interface SignUpRequest {
-  phone_number: string;
+  phoneNumber: string;
   code: string;
   password: string;
 }
