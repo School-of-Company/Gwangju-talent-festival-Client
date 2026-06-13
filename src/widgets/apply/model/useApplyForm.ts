@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useRef, useState, ChangeEvent, FormEvent } from "react";
 import { postApply } from "@/entities/apply/api/postApply";
 import { toast } from "sonner";
 
@@ -99,6 +99,12 @@ export const useApplyForm = () => {
       setPreviewUrl(url);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
 
   const handleClosePreview = () => {
     if (previewUrl) URL.revokeObjectURL(previewUrl);
