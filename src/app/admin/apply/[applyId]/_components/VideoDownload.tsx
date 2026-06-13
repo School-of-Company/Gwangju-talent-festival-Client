@@ -5,9 +5,10 @@ import { DownloadIcon } from "@/shared/asset/svg/DownloadIcon";
 
 interface Props {
   applyId: string;
+  downloadKey?: string;
 }
 
-export default function VideoDownload({ applyId }: Props) {
+export default function VideoDownload({ applyId, downloadKey }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,7 +16,8 @@ export default function VideoDownload({ applyId }: Props) {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/server/apply/${applyId}/video`);
+      const url = `/api/server/apply/${applyId}/video${downloadKey ? `?key=${downloadKey}` : ""}`;
+      const res = await fetch(url);
       if (!res.ok) throw new Error();
       const { videoUrl } = (await res.json()) as { videoUrl: string };
       window.open(videoUrl, "_blank");

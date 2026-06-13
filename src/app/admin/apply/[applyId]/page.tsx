@@ -41,7 +41,7 @@ export default async function AdminApplyDownloadPage({ params, searchParams }: P
           </div>
         </div>
 
-        <VideoDownload applyId={applyId} />
+        <VideoDownload applyId={applyId} downloadKey={key} />
       </div>
     </div>
   );
