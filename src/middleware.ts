@@ -15,7 +15,9 @@ export function middleware(request: NextRequest) {
   const role = request.cookies.get("role")?.value;
 
   const isPublicAdminPath =
-    pathname.match(/^\/admin\/lottery\/[^/]+$/) || pathname.match(/^\/admin\/score\/[^/]+$/);
+    pathname.match(/^\/admin\/lottery\/[^/]+$/) ||
+    pathname.match(/^\/admin\/score\/[^/]+$/) ||
+    pathname.match(/^\/admin\/apply\/[^/]+$/);
   if (role !== "ROLE_ADMIN" && pathname.startsWith("/admin") && !isPublicAdminPath) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
@@ -63,7 +65,8 @@ export function middleware(request: NextRequest) {
     !pathname.startsWith("/test") &&
     !publicPages.includes(pathname) &&
     !pathname.startsWith("/admin/lottery/") &&
-    !pathname.startsWith("/admin/score/");
+    !pathname.startsWith("/admin/score/") &&
+    !pathname.startsWith("/admin/apply/");
 
   if (isProtectedRoute && !accessToken && !refreshToken) {
     const signinUrl = new URL("/signin", request.url);
