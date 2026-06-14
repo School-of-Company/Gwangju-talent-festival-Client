@@ -83,31 +83,31 @@ describe("middleware - /signin 리다이렉트", () => {
 });
 
 describe("middleware - 어드민 접근 제어", () => {
-  it("ROLE_ADMIN이 아니면 /admin 접근 시 /home으로 리다이렉트한다", () => {
+  it("ADMIN이 아니면 /admin 접근 시 /home으로 리다이렉트한다", () => {
     const res = middleware(
-      makeRequest("/admin/dashboard", { accessToken: "abc", refreshToken: "xyz", role: "ROLE_USER" }),
+      makeRequest("/admin/dashboard", { accessToken: "abc", refreshToken: "xyz", role: "USER" }),
     );
     expect(res.status).toBe(307);
     expect(getLocation(res)).toContain("/home");
   });
 
-  it("ROLE_ADMIN이면 /admin 접근이 허용된다", () => {
+  it("ADMIN이면 /admin 접근이 허용된다", () => {
     const res = middleware(
-      makeRequest("/admin/dashboard", { accessToken: "abc", refreshToken: "xyz", role: "ROLE_ADMIN" }),
+      makeRequest("/admin/dashboard", { accessToken: "abc", refreshToken: "xyz", role: "ADMIN" }),
     );
     expect(res.status).toBe(200);
   });
 
   it("/admin/lottery/:id는 비어드민도 접근 가능하다", () => {
     const res = middleware(
-      makeRequest("/admin/lottery/123", { accessToken: "abc", refreshToken: "xyz", role: "ROLE_USER" }),
+      makeRequest("/admin/lottery/123", { accessToken: "abc", refreshToken: "xyz", role: "USER" }),
     );
     expect(res.status).toBe(200);
   });
 
   it("/admin/score/:id는 비어드민도 접근 가능하다", () => {
     const res = middleware(
-      makeRequest("/admin/score/456", { accessToken: "abc", refreshToken: "xyz", role: "ROLE_USER" }),
+      makeRequest("/admin/score/456", { accessToken: "abc", refreshToken: "xyz", role: "USER" }),
     );
     expect(res.status).toBe(200);
   });
@@ -120,20 +120,20 @@ describe("middleware - publicIn27 (축제 날짜 접근 제한)", () => {
 
   it("축제 이전에는 비어드민의 /vote 접근을 /home으로 리다이렉트한다", () => {
     vi.setSystemTime(new Date("2025-09-20T00:00:00"));
-    const res = middleware(makeRequest("/vote", { role: "ROLE_USER" }));
+    const res = middleware(makeRequest("/vote", { role: "USER" }));
     expect(res.status).toBe(307);
     expect(getLocation(res)).toContain("/home");
   });
 
   it("축제 이후에는 비어드민도 /vote 접근이 허용된다", () => {
     vi.setSystemTime(new Date("2025-09-28T00:00:00"));
-    const res = middleware(makeRequest("/vote", { role: "ROLE_USER" }));
+    const res = middleware(makeRequest("/vote", { role: "USER" }));
     expect(res.status).toBe(200);
   });
 
   it("어드민은 축제 이전에도 /vote 접근이 허용된다", () => {
     vi.setSystemTime(new Date("2025-09-20T00:00:00"));
-    const res = middleware(makeRequest("/vote", { accessToken: "abc", refreshToken: "xyz", role: "ROLE_ADMIN" }));
+    const res = middleware(makeRequest("/vote", { accessToken: "abc", refreshToken: "xyz", role: "ADMIN" }));
     expect(res.status).toBe(200);
   });
 });

@@ -12,11 +12,11 @@ const mockSetTokens = vi.mocked(setTokens);
 const mockSetRole = vi.mocked(setRole);
 
 const MOCK_RESPONSE = {
-  access_token: "access-abc",
-  access_token_expired_at: new Date(Date.now() + 3_600_000).toISOString(),
-  refresh_token: "refresh-xyz",
-  refresh_token_expired_at: new Date(Date.now() + 86_400_000).toISOString(),
-  role: "ROLE_USER" as const,
+  accessToken: "access-abc",
+  accessTokenExpiresAt: new Date(Date.now() + 3_600_000).toISOString(),
+  refreshToken: "refresh-xyz",
+  refreshTokenExpiresAt: new Date(Date.now() + 86_400_000).toISOString(),
+  role: "USER" as const,
 };
 
 const INITIAL_STATE = { values: {}, isValid: false, submitted: false };
@@ -77,10 +77,10 @@ describe("handleSigninFormSubmit - 로그인 성공", () => {
       makeFormData({ phoneNumber: "01012345678", password: "pass1234" }),
     );
     expect(mockSetTokens).toHaveBeenCalledWith(
-      MOCK_RESPONSE.access_token,
-      MOCK_RESPONSE.access_token_expired_at,
-      MOCK_RESPONSE.refresh_token,
-      MOCK_RESPONSE.refresh_token_expired_at,
+      MOCK_RESPONSE.accessToken,
+      MOCK_RESPONSE.accessTokenExpiresAt,
+      MOCK_RESPONSE.refreshToken,
+      MOCK_RESPONSE.refreshTokenExpiresAt,
     );
     expect(mockSetRole).toHaveBeenCalledWith(MOCK_RESPONSE.role);
   });
