@@ -1,4 +1,4 @@
-import { PhoneVerificationRequest } from "../model/schema";
+import { PhoneVerificationRequest, ApiError } from "../model/schema";
 
 export const sendVerificationCode = async (data: PhoneVerificationRequest): Promise<void> => {
   const response = await fetch("/api/verify", {
@@ -8,7 +8,7 @@ export const sendVerificationCode = async (data: PhoneVerificationRequest): Prom
   });
 
   if (!response.ok) {
-    const result = await response.json().catch(() => ({}));
+    const result = (await response.json().catch(() => ({}))) as Partial<ApiError>;
     throw new Error(result.message || "인증번호 전송에 실패했습니다.");
   }
 };

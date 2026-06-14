@@ -1,4 +1,4 @@
-import { SignUpRequest } from "../model/schema";
+import { SignUpRequest, ApiError } from "../model/schema";
 
 export const signUp = async (data: SignUpRequest): Promise<void> => {
   const response = await fetch("/api/signup", {
@@ -8,7 +8,7 @@ export const signUp = async (data: SignUpRequest): Promise<void> => {
   });
 
   if (!response.ok) {
-    const result = await response.json().catch(() => ({}));
+    const result = (await response.json().catch(() => ({}))) as Partial<ApiError>;
     throw new Error(result.message || "회원가입에 실패했습니다.");
   }
 };
