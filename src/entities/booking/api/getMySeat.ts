@@ -35,11 +35,11 @@ export const getMySeat = async (): Promise<Seat | null> => {
   try {
     const role = getTokenFromCookie("role");
 
-    const endpoint = role === "ROLE_PERFORMER" ? "/api/seat/myself/performer" : "/api/seat/myself";
+    const endpoint = role === "PERFORMER" ? "/api/seat/myself/performer" : "/api/seat/myself";
 
     const response = await axios.get<MySeatApiResponse | PerformerSeatsApiResponse>(endpoint);
 
-    if (role === "ROLE_PERFORMER") {
+    if (role === "PERFORMER") {
       const data = response.data as PerformerSeatsApiResponse;
       if (data.length === 0) {
         return null;

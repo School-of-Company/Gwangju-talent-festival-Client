@@ -84,7 +84,7 @@ export const useMyBookedSeats = () => {
     }
   }, []);
 
-  const isPerformer = role === "ROLE_PERFORMER";
+  const isPerformer = role === "PERFORMER";
 
   const singleSeatQueryWithCondition = useQuery<Seat | null, Error, Seat | null>({
     queryKey: ["mySeat"],

@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
     pathname.match(/^\/admin\/lottery\/[^/]+$/) ||
     pathname.match(/^\/admin\/score\/[^/]+$/) ||
     pathname.match(/^\/admin\/apply\/[^/]+$/);
-  if (role !== "ROLE_ADMIN" && pathname.startsWith("/admin") && !isPublicAdminPath) {
+  if (role !== "ADMIN" && pathname.startsWith("/admin") && !isPublicAdminPath) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
@@ -53,7 +53,7 @@ export function middleware(request: NextRequest) {
   }
 
   if (publicIn27.includes(pathname)) {
-    if (role !== "ROLE_ADMIN" && new Date() < festivalDate) {
+    if (role !== "ADMIN" && new Date() < festivalDate) {
       return NextResponse.redirect(new URL("/home", request.url));
     }
   }
