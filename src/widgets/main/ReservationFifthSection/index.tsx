@@ -66,7 +66,7 @@ const ReservationFifthSection = () => {
   //   const calculateTimeLeft = () => {
   //     const now = new Date();
   //     const relevantTicketOpenDate =
-  //       userRole === "ROLE_PERFORMER" ? performerTicketOpenDate : ticketOpenDate;
+  //       userRole === "PERFORMER" ? performerTicketOpenDate : ticketOpenDate;
   //     const difference = relevantTicketOpenDate.getTime() - now.getTime();
   //     setTimeLeft(difference > 0 ? difference : 0);
   //   };
@@ -118,7 +118,7 @@ const ReservationFifthSection = () => {
           {/* <div className={cn("text-title1b text-main-600 mobile:text-body1b")}>
             {/* {timeLeft > 0 ? (
               formatDateLeft(timeLeft)
-            ) : mySeat && userRole === "ROLE_PERFORMER" ? (
+            ) : mySeat && userRole === "PERFORMER" ? (
               <div className="flex gap-2 w-full">
                 <Button
                   className="flex-1"
@@ -153,7 +153,7 @@ const ReservationFifthSection = () => {
           {/* <div className={cn("flex justify-center gap-4 items-center")}>
             <span className={cn("text-body2r mobile:text-caption2r")}>티켓오픈</span>
             <span className={cn("text-body2r text-gray-500 mobile:text-caption2r")}>
-              {(userRole === "ROLE_PERFORMER"
+              {(userRole === "PERFORMER"
                 ? performerTicketOpenDate
                 : ticketOpenDate
               ).toLocaleString("ko-KR", {

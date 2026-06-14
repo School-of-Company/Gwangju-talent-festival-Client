@@ -47,7 +47,7 @@ const BookingPage = () => {
     setUserRole(role);
   }, []);
 
-  const isPerformer = userRole === "ROLE_PERFORMER";
+  const isPerformer = userRole === "PERFORMER";
   const handleSectionSelect = useCallback(
     (section: SectionType) => {
       if (isPerformer) {

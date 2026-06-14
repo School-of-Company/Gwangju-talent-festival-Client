@@ -84,14 +84,14 @@ export const useMyBookedSeats = () => {
     }
   }, []);
 
-  const isPerformer = role === "ROLE_PERFORMER";
+  const isPerformer = role === "PERFORMER";
 
   const singleSeatQueryWithCondition = useQuery<Seat | null, Error, Seat | null>({
     queryKey: ["mySeat"],
     queryFn: () => getMySeat(),
     staleTime: 0,
     gcTime: 1000 * 60 * 10,
-    enabled: isClient && !isPerformer,
+    enabled: isClient && !!role && !isPerformer,
   });
 
   const multiSeatsQueryWithCondition = useQuery<Seat[], Error, Seat[]>({
@@ -99,7 +99,7 @@ export const useMyBookedSeats = () => {
     queryFn: () => getMySeats(),
     staleTime: 0,
     gcTime: 1000 * 60 * 10,
-    enabled: isClient && isPerformer,
+    enabled: isClient && !!role && isPerformer,
   });
 
   if (!isClient) {
