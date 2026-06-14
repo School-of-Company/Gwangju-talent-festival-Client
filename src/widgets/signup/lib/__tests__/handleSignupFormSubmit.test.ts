@@ -72,7 +72,7 @@ describe("handleSignupFormSubmit - 비밀번호 확인", () => {
 
 describe("handleSignupFormSubmit - 회원가입 성공", () => {
   it("/signin으로 리다이렉트한다", async () => {
-    mockSignUp.mockResolvedValue({ success: true, message: "가입 완료" });
+    mockSignUp.mockResolvedValue(undefined);
     const result = await handleSignupFormSubmit(INITIAL_STATE, makeFormData(VALID_FORM));
     expect(result.isValid).toBe(true);
     expect(result.shouldRedirect).toBe(true);
@@ -80,10 +80,10 @@ describe("handleSignupFormSubmit - 회원가입 성공", () => {
   });
 
   it("signUp API에 올바른 데이터를 전달한다", async () => {
-    mockSignUp.mockResolvedValue({ success: true, message: "가입 완료" });
+    mockSignUp.mockResolvedValue(undefined);
     await handleSignupFormSubmit(INITIAL_STATE, makeFormData(VALID_FORM));
     expect(mockSignUp).toHaveBeenCalledWith({
-      phone_number: "01012345678",
+      phoneNumber: "01012345678",
       code: "123456",
       password: "pass1234",
     });

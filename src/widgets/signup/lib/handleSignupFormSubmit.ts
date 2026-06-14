@@ -35,7 +35,7 @@ export const handleSignupFormSubmit = async (
 
   try {
     const requestData = {
-      phone_number: values.phoneNumber,
+      phoneNumber: values.phoneNumber,
       code: values.verificationCode,
       password: values.password,
     };
