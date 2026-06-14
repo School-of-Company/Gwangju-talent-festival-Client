@@ -23,18 +23,13 @@ export const handleSigninFormSubmit = async (
   }
 
   try {
-    const requestData = {
-      phone_number: values.phoneNumber,
-      password: values.password,
-    };
-
-    const response = await signin(requestData);
+    const response = await signin(values);
 
     setTokens(
-      response.access_token,
-      response.access_token_expired_at,
-      response.refresh_token,
-      response.refresh_token_expired_at,
+      response.accessToken,
+      response.accessTokenExpiresAt,
+      response.refreshToken,
+      response.refreshTokenExpiresAt,
     );
 
     setRole(response.role);

@@ -28,17 +28,17 @@ export const phoneVerificationRequestSchema = z.object({
 });
 
 export interface SignInRequest {
-  phone_number: string;
+  phoneNumber: string;
   password: string;
 }
 
-export type Role = "ROLE_USER" | "ROLE_ADMIN" | "ROLE_PERFORMER";
+export type Role = "USER" | "ADMIN" | "PERFORMER";
 
 export interface SignInResponse {
-  access_token: string;
-  access_token_expired_at: string;
-  refresh_token: string;
-  refresh_token_expired_at: string;
+  accessToken: string;
+  accessTokenExpiresAt: string;
+  refreshToken: string;
+  refreshTokenExpiresAt: string;
   role: Role;
 }
 
@@ -46,24 +46,10 @@ export interface PhoneVerificationRequest {
   phoneNumber: string;
 }
 
-export interface PhoneVerificationResponse {
-  success?: boolean;
-  message?: string;
-}
-
 export interface SignUpRequest {
-  phone_number: string;
+  phoneNumber: string;
   code: string;
   password: string;
-}
-
-export interface SignUpResponse {
-  success: boolean;
-  message: string;
-  user?: {
-    id: string;
-    phone_number: string;
-  };
 }
 
 export interface ApiError {
