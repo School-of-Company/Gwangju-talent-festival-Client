@@ -66,8 +66,8 @@ export const postApply = async (
   if (!partUrlsRes.ok) {
     throw new Error("업로드 URL 발급에 실패했습니다. 잠시 후 다시 시도해주세요.");
   }
-  const { partUrls } = (await partUrlsRes.json()) as {
-    partUrls: { partNumber: number; uploadUrl: string }[];
+  const { parts: presignedParts } = (await partUrlsRes.json()) as {
+    parts: { partNumber: number; url: string }[];
   };
 
   // 3단계: 파트별 순차 업로드 (진행률 추적)
@@ -75,12 +75,12 @@ export const postApply = async (
   let uploadedBytes = 0;
 
   try {
-    for (const { partNumber, uploadUrl } of partUrls) {
+    for (const { partNumber, url } of presignedParts) {
       const start = (partNumber - 1) * PART_SIZE;
       const end = Math.min(start + PART_SIZE, data.videoFile.size);
       const chunk = data.videoFile.slice(start, end);
 
-      const etag = await uploadPart(chunk, uploadUrl, (loaded) => {
+      const etag = await uploadPart(chunk, url, (loaded) => {
         if (onProgress) {
           onProgress(Math.round(((uploadedBytes + loaded) / data.videoFile.size) * 100));
         }
