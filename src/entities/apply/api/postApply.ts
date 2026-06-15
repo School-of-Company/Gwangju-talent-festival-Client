@@ -9,25 +9,26 @@ export interface ApplyFormData {
   videoFile: File;
 }
 
-const uploadVideoWithProgress = (
+const PART_SIZE = 5 * 1024 * 1024; // 5MB
+
+const uploadPart = (
+  chunk: Blob,
   uploadUrl: string,
-  file: File,
-  onProgress?: (percent: number) => void
-): Promise<void> =>
+  onProgress?: (loaded: number) => void
+): Promise<string> =>
   new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
 
     if (onProgress) {
       xhr.upload.addEventListener("progress", (e) => {
-        if (e.lengthComputable) {
-          onProgress(Math.round((e.loaded / e.total) * 100));
-        }
+        if (e.lengthComputable) onProgress(e.loaded);
       });
     }
 
     xhr.addEventListener("load", () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve();
+        const etag = xhr.getResponseHeader("ETag") ?? xhr.getResponseHeader("etag") ?? "";
+        resolve(etag);
       } else {
         reject(new Error("영상 업로드에 실패했습니다. 잠시 후 다시 시도해주세요."));
       }
@@ -38,8 +39,7 @@ const uploadVideoWithProgress = (
     );
 
     xhr.open("PUT", uploadUrl);
-    xhr.setRequestHeader("Content-Type", file.type || "video/mp4");
-    xhr.send(file);
+    xhr.send(chunk);
   });
 
 export const postApply = async (
@@ -48,22 +48,62 @@ export const postApply = async (
 ): Promise<void> => {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  // 1단계: presigned upload URL 발급
-  const uploadUrlRes = await fetch(`${apiUrl}/apply/upload-url`, { method: "POST" });
-  if (!uploadUrlRes.ok) {
+  // 1단계: 멀티파트 업로드 시작
+  const initiateRes = await fetch(`${apiUrl}/apply/upload/initiate`, { method: "POST" });
+  if (!initiateRes.ok) {
+    throw new Error("업로드 초기화에 실패했습니다. 잠시 후 다시 시도해주세요.");
+  }
+  const { key, uploadId } = (await initiateRes.json()) as { key: string; uploadId: string };
+
+  const partCount = Math.max(1, Math.ceil(data.videoFile.size / PART_SIZE));
+
+  // 2단계: 파트별 presigned URL 발급
+  const partUrlsRes = await fetch(`${apiUrl}/apply/upload/part-urls`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ key, uploadId, partCount }),
+  });
+  if (!partUrlsRes.ok) {
     throw new Error("업로드 URL 발급에 실패했습니다. 잠시 후 다시 시도해주세요.");
   }
-  const { key, uploadUrl } = (await uploadUrlRes.json()) as { key: string; uploadUrl: string };
+  const { parts: presignedParts } = (await partUrlsRes.json()) as {
+    parts: { partNumber: number; url: string }[];
+  };
 
-  // 2단계: R2 직접 업로드 (presigned PUT)
-  await uploadVideoWithProgress(uploadUrl, data.videoFile, onProgress);
+  // 3단계: 파트별 순차 업로드 (진행률 추적)
+  const parts: { partNumber: number; etag: string }[] = [];
+  let uploadedBytes = 0;
 
-  // 3단계: 백엔드에 업로드 확정
+  try {
+    for (const { partNumber, url } of presignedParts) {
+      const start = (partNumber - 1) * PART_SIZE;
+      const end = Math.min(start + PART_SIZE, data.videoFile.size);
+      const chunk = data.videoFile.slice(start, end);
+
+      const etag = await uploadPart(chunk, url, (loaded) => {
+        if (onProgress) {
+          onProgress(Math.round(((uploadedBytes + loaded) / data.videoFile.size) * 100));
+        }
+      });
+
+      uploadedBytes += end - start;
+      parts.push({ partNumber, etag });
+    }
+  } catch (err) {
+    await fetch(`${apiUrl}/apply/upload/abort`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key, uploadId }),
+    }).catch(() => {});
+    throw err;
+  }
+
+  // 4단계: 업로드 완료 및 신청 확정
   const videoFileName = `${data.field}_${data.teamName}_${data.school}_${data.representative}_${data.contact}.mp4`;
   const applyRes = await fetch(`${apiUrl}/apply`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ key, filename: videoFileName }),
+    body: JSON.stringify({ key, uploadId, filename: videoFileName, parts }),
   });
   if (!applyRes.ok) {
     const err = (await applyRes.json().catch(() => ({}))) as { message?: string };
@@ -71,7 +111,7 @@ export const postApply = async (
   }
   const { applyId } = (await applyRes.json()) as { applyId: number };
 
-  // 4단계: 나머지 폼 데이터 + applyId로 이메일 전송 (SMTP는 서버에서만 가능하므로 Next.js API Route 경유)
+  // 5단계: 이메일 전송 (Next.js API Route 경유)
   const formData = new FormData();
   formData.append("applyId", String(applyId));
   formData.append("field", data.field);

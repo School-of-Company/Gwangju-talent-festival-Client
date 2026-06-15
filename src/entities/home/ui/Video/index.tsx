@@ -10,7 +10,7 @@ export interface VideoProps {
 }
 
 const Video = ({
-  link = process.env.NEXT_PUBLIC_HOME_VIDEO_URL ?? "",
+  link = "https://kr.object.ncloudstorage.com/gwangju-talent-festival-bucket/video%20(2).mp4",
   className,
   visibleCaption = true,
 }: VideoProps) => {
