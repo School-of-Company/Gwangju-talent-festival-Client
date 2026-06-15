@@ -9,7 +9,7 @@ export interface ApplyFormData {
   videoFile: File;
 }
 
-const uploadVideoWithProgress = (
+const uploadToS3WithProgress = (
   uploadUrl: string,
   file: File,
   onProgress?: (percent: number) => void
@@ -55,8 +55,8 @@ export const postApply = async (
   }
   const { key, uploadUrl } = (await uploadUrlRes.json()) as { key: string; uploadUrl: string };
 
-  // 2단계: R2 직접 업로드 (presigned PUT)
-  await uploadVideoWithProgress(uploadUrl, data.videoFile, onProgress);
+  // 2단계: S3 직접 업로드 (presigned PUT)
+  await uploadToS3WithProgress(uploadUrl, data.videoFile, onProgress);
 
   // 3단계: 백엔드에 업로드 확정
   const videoFileName = `${data.field}_${data.teamName}_${data.school}_${data.representative}_${data.contact}.mp4`;
