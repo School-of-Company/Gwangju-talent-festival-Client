@@ -3,11 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/shared/ui/Button";
-import { DownloadButton } from "@/entities/apply/ui/DownloadButton";
 import { cn } from "@/shared/utils/cn";
 import { RightArrow } from "@/shared/asset/svg/RightArrow";
-import { colors } from "@/shared/utils/color";
-import { isApplyPeriod } from "@/shared/config/dateConfig";
+import { isApplyPeriod, isApplyEnded } from "@/shared/config/dateConfig";
 
 const FLOW_TEXT =
   "온·오프라인 참여 홍보 및 신청 접수 → 1차 영상 심사 및 光트로(예선) 참가팀 선정 → 光트로 참가팀 사전 협의 및 안내";
@@ -16,10 +14,12 @@ const ApplyThirdSection = () => {
   const router = useRouter();
 
   const [isApplyOpen, setIsApplyOpen] = useState(false);
+  const [applyEnded, setApplyEnded] = useState(false);
 
   useEffect(() => {
     const check = () => {
       setIsApplyOpen(isApplyPeriod());
+      setApplyEnded(isApplyEnded());
     };
     check();
     const timer = setInterval(check, 60000);
@@ -116,32 +116,42 @@ const ApplyThirdSection = () => {
           {FLOW_TEXT}
         </p>
 
-        <Button
-          type="button"
-          onClick={() => router.push("/apply")}
-          disabled={!isApplyOpen}
-          className="px-28 rounded-lg mobile:w-full"
-        >
-          <span className="text-body3b flex items-center justify-center gap-10 px-[60px] mobile:px-0 mobile:w-full">
-            {isApplyOpen ? "신청하러 가기" : "신청기간이 아닙니다"}
-            {isApplyOpen && <RightArrow color="white" />}
-          </span>
-        </Button>
+        {applyEnded ? (
+          <div className="flex flex-col items-center gap-12 bg-white/70 backdrop-blur-sm rounded-2xl px-40 py-28 mobile:px-20 mobile:py-20 w-full max-w-[480px]">
+            <span className="inline-flex items-center gap-6 bg-orange-500 text-white text-caption1b rounded-full px-14 py-4">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <circle cx="6" cy="6" r="5.5" stroke="white" />
+                <path d="M6 3.5V6.5" stroke="white" strokeWidth="1.2" strokeLinecap="round" />
+                <circle cx="6" cy="8.5" r="0.75" fill="white" />
+              </svg>
+              신청 마감
+            </span>
+            <p className="text-body2b mobile:text-body3b text-gray-900 leading-snug text-center break-keep">
+              신청이 마감되었습니다
+            </p>
+            <div className="flex flex-col gap-6 items-center">
+              <p className="text-body3r mobile:text-caption1r text-gray-700 text-center">
+                현재 영상 심사가 진행 중입니다
+              </p>
+              <p className="text-body3r mobile:text-caption1r text-orange-500 font-semibold text-center break-keep">
+                7월 3일(금) 예선 진출팀 발표 예정
+              </p>
+            </div>
+          </div>
+        ) : (
+          <Button
+            type="button"
+            onClick={() => router.push("/apply")}
+            disabled={!isApplyOpen}
+            className="px-28 rounded-lg mobile:w-full"
+          >
+            <span className="text-body3b flex items-center justify-center gap-10 px-[60px] mobile:px-0 mobile:w-full">
+              {isApplyOpen ? "신청하러 가기" : "신청기간이 아닙니다"}
+              {isApplyOpen && <RightArrow color="white" />}
+            </span>
+          </Button>
+        )}
 
-        <div className="flex gap-40 mobile:flex-col mobile:gap-12 mobile:items-center">
-          <DownloadButton
-            filePath="/files/2026 광탈페 참가 신청서(서식).hwp"
-            label="참가 신청서"
-            className="!text-orange-500 text-body3b tablet:text-body3b mobile:text-caption1b"
-            iconColor={colors.orange[500]}
-          />
-          <DownloadButton
-            filePath="/files/2026 광탈페 참가신청 개인정보제공활용 동의서.pdf"
-            label="개인정보제공활용동의서"
-            className="!text-orange-500 text-body3b tablet:text-body3b mobile:text-caption1b"
-            iconColor={colors.orange[500]}
-          />
-        </div>
       </div>
     </section>
   );
