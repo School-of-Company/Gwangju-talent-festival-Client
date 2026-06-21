@@ -25,3 +25,4 @@ export const isApplyPeriod = () => {
   const now = new Date();
   return now >= applyStartDate && now <= applyEndDate;
 };
+export const isApplyEnded = () => new Date() > applyEndDate;
