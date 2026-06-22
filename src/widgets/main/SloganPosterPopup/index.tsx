@@ -6,7 +6,7 @@ import Modal from "@/shared/ui/Modal";
 import Button from "@/shared/ui/Button";
 import { RightArrow } from "@/shared/asset/svg/RightArrow";
 import { scrollToElement } from "@/shared/utils/scroll";
-// import { isSloganEnded } from "@/shared/config/dateConfig";
+import { isApplyEnded } from "@/shared/config/dateConfig";
 
 const STORAGE_KEY = "sloganPosterHidden";
 
@@ -15,7 +15,7 @@ export default function SloganPosterPopup() {
   const [doNotShow, setDoNotShow] = useState(false);
 
   useEffect(() => {
-    // if (isSloganEnded()) return;
+    if (isApplyEnded()) return;
     const hidden = localStorage.getItem(STORAGE_KEY);
     if (!hidden) setIsOpen(true);
   }, []);
