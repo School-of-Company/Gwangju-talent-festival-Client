@@ -137,6 +137,12 @@ export const useApplyForm = () => {
       return;
     }
 
+    const totalPdfSize = (applicationFile.file?.size ?? 0) + (privacyFile.file?.size ?? 0);
+    if (totalPdfSize > 4 * 1024 * 1024) {
+      toast.error("참가신청서와 동의서 합계는 4MB 이하여야 합니다.");
+      return;
+    }
+
     try {
       setIsSubmitting(true);
       await postApply(
