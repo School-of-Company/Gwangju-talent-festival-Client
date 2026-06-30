@@ -11,7 +11,7 @@ export const isHiddenPath = (pathname: string): boolean => {
 
 export type SectionId =
   | "SloganSecondSection"
-  | "ApplyThirdSection"
+  | "PreliminaryResultSection"
   | "PreliminaryFourthSection"
   | "FinalsSixthSection";
 
@@ -22,8 +22,6 @@ export interface HeaderLink {
 
 export const links: HeaderLink[] = [
   { section: "SloganSecondSection", label: "2026 광탈페 슬로건" },
-  // { section: "section3", label: "FaQ" },
-  { section: "ApplyThirdSection", label: "2026 광탈페 참가신청" },
+  { section: "PreliminaryResultSection", label: "2026 광탈페 예선 결과" },
   { section: "PreliminaryFourthSection", label: "2025 광탈페 다시보기" },
-  // { section: "ReservationFifthSection", label: "본선 수상팀 명단" },
 ];

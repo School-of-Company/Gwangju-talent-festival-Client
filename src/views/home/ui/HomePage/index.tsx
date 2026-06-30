@@ -3,9 +3,14 @@
 import dynamic from "next/dynamic";
 import IntroFirstSection from "@/widgets/main/IntroFirstSection";
 import SloganSecondSection from "@/widgets/main/SloganSecondSection";
-import ApplyThirdSection from "@/widgets/main/ApplyThirdSection";
+
 import LazySection from "@/shared/ui/LazySection";
 import SloganPosterPopup from "@/widgets/main/SloganPosterPopup";
+
+const PreliminaryResultSection = dynamic(
+  () => import("@/widgets/main/PreliminaryResultSection"),
+  { loading: () => <SectionPlaceholder height="400px" />, ssr: false },
+);
 
 const PreliminaryFourthSection = dynamic(() => import("@/widgets/main/PreliminaryFourthSection"), {
   loading: () => <SectionPlaceholder />,
@@ -52,7 +57,9 @@ const HomePage = () => {
       <IntroFirstSection />
       <SloganSecondSection />
 
-      <ApplyThirdSection />
+      <LazySection fallback={<SectionPlaceholder height="400px" />} rootMargin="200px">
+        <PreliminaryResultSection />
+      </LazySection>
 
       <LazySection fallback={<SectionPlaceholder height="600px" />} rootMargin="200px">
         <PreliminaryFourthSection />

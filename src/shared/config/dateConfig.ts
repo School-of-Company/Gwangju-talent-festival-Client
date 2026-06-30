@@ -26,3 +26,9 @@ export const isApplyPeriod = () => {
   return now >= applyStartDate && now <= applyEndDate;
 };
 export const isApplyEnded = () => new Date() > applyEndDate;
+
+export const preliminaryResultOpenDate = process.env.NEXT_PUBLIC_PRELIMINARY_RESULT_OPEN_DATE
+  ? new Date(process.env.NEXT_PUBLIC_PRELIMINARY_RESULT_OPEN_DATE)
+  : null;
+export const isPreliminaryResultOpen = () =>
+  preliminaryResultOpenDate !== null && new Date() >= preliminaryResultOpenDate;
