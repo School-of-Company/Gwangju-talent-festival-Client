@@ -44,7 +44,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
-  if (pathname === "/preliminary-result" && (!preliminaryResultOpenDate || now < preliminaryResultOpenDate)) {
+  if (pathname === "/preliminary-result" && now < preliminaryResultOpenDate) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
