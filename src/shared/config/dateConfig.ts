@@ -26,3 +26,12 @@ export const isApplyPeriod = () => {
   return now >= applyStartDate && now <= applyEndDate;
 };
 export const isApplyEnded = () => new Date() > applyEndDate;
+
+const PRELIMINARY_RESULT_OPEN_DATE_FALLBACK = "2026-07-03T10:00:00+09:00";
+const parsedPreliminaryResultOpenDate = new Date(
+  process.env.NEXT_PUBLIC_PRELIMINARY_RESULT_OPEN_DATE ?? PRELIMINARY_RESULT_OPEN_DATE_FALLBACK,
+);
+export const preliminaryResultOpenDate = Number.isNaN(parsedPreliminaryResultOpenDate.getTime())
+  ? new Date(PRELIMINARY_RESULT_OPEN_DATE_FALLBACK)
+  : parsedPreliminaryResultOpenDate;
+export const isPreliminaryResultOpen = () => new Date() >= preliminaryResultOpenDate;
