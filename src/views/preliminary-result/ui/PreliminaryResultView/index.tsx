@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { cn } from "@/shared/utils/cn";
 import BackHeader from "@/shared/ui/BackHeader";
 
@@ -63,6 +64,8 @@ const MEETING_AGENDA = [
 ];
 
 const PreliminaryResultView = () => {
+  const meetingGuideRef = useRef<HTMLElement>(null);
+
   return (
     <main className={cn("min-h-screen bg-white")}>
       <div className={cn("max-w-[900px] mx-auto px-[5%] pb-80 mobile:pb-52")}>
@@ -82,7 +85,7 @@ const PreliminaryResultView = () => {
             href="#meeting-guide"
             onClick={(e) => {
               e.preventDefault();
-              document.getElementById("meeting-guide")?.scrollIntoView({ behavior: "smooth" });
+              meetingGuideRef.current?.scrollIntoView({ behavior: "smooth" });
             }}
             className={cn(
               "inline-flex items-center gap-4 text-body3b mobile:text-caption1b text-orange-500",
@@ -140,7 +143,11 @@ const PreliminaryResultView = () => {
         <div className="w-full h-[1px] bg-gray-100 my-40 mobile:my-28" />
 
         {/* 사전 협의회 참석 안내 */}
-        <section id="meeting-guide" className={cn("flex flex-col gap-24 mobile:gap-16 scroll-mt-80")}>
+        <section
+          id="meeting-guide"
+          ref={meetingGuideRef}
+          className={cn("flex flex-col gap-24 mobile:gap-16 scroll-mt-80")}
+        >
           <h2 className={cn("text-title4b mobile:text-body1b text-black")}>
             예선진출팀 사전 협의회 참석 안내
           </h2>
